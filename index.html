@@ -3,58 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Debug — Aba SALDO</title>
+<title>Debug — Aba SALDO v2</title>
 <style>
 :root {
-  --bg:#F7F5F0; --bg2:#FFFFFF; --bg3:#F2EFE9;
-  --border:#DDD9D0; --border2:#C8C3B8;
-  --text:#1C1C1A; --text2:#5A574F; --text3:#9C9888;
-  --accent:#1B5C7A; --green:#2D7D46; --red:#B83232;
-  --radius:10px; --radius-sm:6px;
+  --bg:#F7F5F0;--bg2:#FFFFFF;--bg3:#F2EFE9;
+  --border:#DDD9D0;--border2:#C8C3B8;
+  --text:#1C1C1A;--text2:#5A574F;--text3:#9C9888;
+  --accent:#1B5C7A;--green:#2D7D46;--red:#B83232;
+  --radius:10px;--radius-sm:6px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);padding:24px;font-size:13px}
 h1{font-size:18px;font-weight:700;color:var(--accent);margin-bottom:4px}
 .sub{font-size:11px;color:var(--text3);margin-bottom:20px}
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
-.card-head{padding:10px 16px;background:var(--bg3);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;justify-content:space-between}
+.card-head{padding:10px 16px;background:var(--bg3);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .card-body{padding:14px 16px}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .15s}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .15s}
 .btn:hover{opacity:.85}
-.btn-sec{background:var(--bg3);color:var(--text2);border-color:var(--border2)}
-.btn-sec:hover{background:var(--bg);opacity:1}
+.btn-sec{background:var(--bg3);color:var(--text2);border:1px solid var(--border2)}
+.btn-sec:hover{opacity:1;background:var(--bg)}
 .badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
 .badge-ok{background:#E8F5ED;color:var(--green);border:1px solid #A8D5B5}
 .badge-err{background:#FDEAEA;color:var(--red);border:1px solid #F0A8A8}
 .badge-neu{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
-input[type=text]{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:6px 10px;color:var(--text);font-size:12px;outline:none;width:280px}
+input[type=text]{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:6px 10px;color:var(--text);font-size:12px;outline:none}
 input[type=text]:focus{border-color:var(--accent)}
 .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.info-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;font-size:11px;color:var(--text2);margin-bottom:14px;word-break:break-all;line-height:1.7}
+.info-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;font-size:11px;color:var(--text2);margin-bottom:14px;line-height:1.8}
 .info-box b{color:var(--text);font-weight:700}
-.msg{font-size:12px;color:var(--text3);padding:8px 0}
+.msg{font-size:12px;color:var(--text3);padding:4px 0}
 .err{font-size:12px;color:var(--red);background:#FDEAEA;border:1px solid #F0A8A8;border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px}
-.tbl-wrap{overflow-x:auto;max-height:520px;overflow-y:auto}
+.tbl-wrap{overflow-x:auto;max-height:540px;overflow-y:auto}
 table{width:100%;border-collapse:collapse;font-size:11px}
 th{position:sticky;top:0;background:var(--bg3);padding:7px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border2);white-space:nowrap}
-td{padding:7px 12px;border-bottom:1px solid var(--border);white-space:nowrap;color:var(--text)}
+td{padding:7px 12px;border-bottom:1px solid var(--border);white-space:nowrap}
 tr:hover td{background:var(--bg3)}
 .num{text-align:right;font-variant-numeric:tabular-nums}
-.raw-box{font-family:monospace;font-size:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;max-height:180px;overflow:auto;white-space:pre;color:var(--text2);margin-top:10px;display:none}
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
-.stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px}
-.stat-n{font-size:26px;font-weight:700;color:var(--accent);line-height:1}
-.stat-l{font-size:10px;color:var(--text3);margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
+.raw-box{font-family:monospace;font-size:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;max-height:160px;overflow:auto;white-space:pre;color:var(--text2);margin-top:10px;display:none}
+.warn{background:#FFF8E1;border:1px solid #FFD966;border-radius:var(--radius-sm);padding:10px 14px;font-size:11px;color:#8A6A00;margin-bottom:12px;display:none}
 </style>
 </head>
 <body>
 
 <h1>🔍 Debug — Aba SALDO</h1>
-<div class="sub">SHEET ID: 1_jTVohMskSRguXpHF8n5ym7WPHfjasvl92PXAPSrat8</div>
+<div class="sub">URL publicada: 2PACX-1vQGfdtD-xfGJ8w9e_mbCwC7_oRfQy35X4uiEPfVZE5N_m_F0Ctp2zZflWA96cjRHN5ZVOyIOijNdf5u</div>
 
 <div class="card">
   <div class="card-head">
-    Status da Conexão
+    Conexão
     <span class="badge badge-neu" id="badge-status">aguardando</span>
   </div>
   <div class="card-body">
@@ -63,116 +60,174 @@ tr:hover td{background:var(--bg3)}
       <span class="msg" id="msg-status">Clique para buscar os dados.</span>
     </div>
     <div id="err-box" class="err" style="display:none"></div>
-    <div id="info-cols" class="info-box" style="display:none">
-      <b>Colunas detectadas:</b><br><span id="cols-txt">—</span><br><br>
-      <b>Total de linhas:</b> <span id="total-linhas">—</span><br>
-      <b>Primeira linha:</b> <span id="primeira-linha">—</span>
+    <div id="warn-box" class="warn"></div>
+    <div id="info-box" class="info-box" style="display:none">
+      <b>Total de linhas:</b> <span id="info-linhas">—</span><br>
+      <b>Colunas detectadas (cabeçalho bruto):</b><br>
+      <span id="info-cols">—</span><br><br>
+      <b>Colunas mapeadas (por posição):</b><br>
+      <span id="info-map">—</span>
     </div>
-    <button class="btn btn-sec" id="btn-raw" onclick="toggleRaw()" style="display:none">📄 Ver CSV bruto</button>
+    <button class="btn btn-sec" id="btn-raw" onclick="toggleRaw()" style="display:none">📄 Ver CSV bruto (primeiras linhas)</button>
     <div class="raw-box" id="raw-box"></div>
-  </div>
-</div>
-
-<div id="stats-card" class="card" style="display:none">
-  <div class="card-head">Estatísticas dos Campos Numéricos</div>
-  <div class="card-body">
-    <div class="stat-grid" id="stat-grid"></div>
   </div>
 </div>
 
 <div id="tabela-card" class="card" style="display:none">
   <div class="card-head">
-    Dados — Aba SALDO
+    Dados Mapeados — SALDO
     <div style="display:flex;align-items:center;gap:8px">
-      <input type="text" id="busca" placeholder="Filtrar..." oninput="filtrar()">
+      <input type="text" id="busca" placeholder="Filtrar código ou descrição..." oninput="filtrar()" style="width:240px">
       <span class="badge badge-neu" id="badge-cnt">0 linhas</span>
     </div>
   </div>
   <div class="tbl-wrap">
     <table>
-      <thead id="thead"></thead>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Descrição</th>
+          <th class="num">Almox 3</th>
+          <th class="num">Almox 30</th>
+          <th class="num">Almox 4</th>
+          <th class="num">Col F (bruta)</th>
+          <th class="num">Saldo Total</th>
+        </tr>
+      </thead>
       <tbody id="tbody"></tbody>
     </table>
   </div>
 </div>
 
 <script>
-var SHEET_ID = "1_jTVohMskSRguXpHF8n5ym7WPHfjasvl92PXAPSrat8";
+// URL publicada — formato correto para CSV
+var PUB_ID = "2PACX-1vQGfdtD-xfGJ8w9e_mbCwC7_oRfQy35X4uiEPfVZE5N_m_F0Ctp2zZflWA96cjRHN5ZVOyIOijNdf5u";
 var todosRows = [];
-var csvBruto = '';
 var rawVisivel = false;
+
+// Mapeamento por POSIÇÃO (0-indexed):
+// A=0 Código, B=1 Descrição, C=2 Almox3, D=3 Almox30, E=4 Almox4, F=5 (col dinâmica), G=6 SaldoTotal
+var COL = { codigo:0, descricao:1, almox3:2, almox30:3, almox4:4, colF:5, saldoTotal:6 };
 
 function carregar() {
   setStatus('carregando...', 'neu');
-  document.getElementById('msg-status').textContent = 'Buscando dados do Google Sheets...';
+  document.getElementById('msg-status').textContent = 'Buscando dados...';
   document.getElementById('err-box').style.display = 'none';
-  document.getElementById('info-cols').style.display = 'none';
+  document.getElementById('warn-box').style.display = 'none';
+  document.getElementById('info-box').style.display = 'none';
   document.getElementById('btn-raw').style.display = 'none';
   document.getElementById('tabela-card').style.display = 'none';
-  document.getElementById('stats-card').style.display = 'none';
 
-  var url = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&sheet=SALDO";
-
-  fetch(url)
-    .then(function(r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status + ' — verifique se a planilha é pública e o nome da aba está correto');
-      return r.text();
-    })
+  // Tenta buscar a aba pelo nome primeiro, depois pelo gid=0
+  buscarAba('SALDO')
+    .catch(function() { return buscarAba(''); })
     .then(function(csv) {
-      csvBruto = csv;
-      var rows = parseCSV(csv);
-      todosRows = rows;
-
-      if (rows.length === 0) {
-        setStatus('sem dados', 'err');
-        document.getElementById('msg-status').textContent = 'Aba retornou 0 linhas.';
-        showErr('A aba SALDO existe mas não retornou linhas. Verifique se o nome da aba está exatamente "SALDO" (maiúsculas).');
-        return;
-      }
-
-      setStatus('✅ OK — ' + rows.length + ' linhas', 'ok');
-      document.getElementById('msg-status').textContent = 'Dados recebidos com sucesso!';
-
-      // Colunas
-      var cols = Object.keys(rows[0]);
-      document.getElementById('cols-txt').textContent = cols.join(' · ');
-      document.getElementById('total-linhas').textContent = rows.length;
-      document.getElementById('primeira-linha').textContent = JSON.stringify(rows[0]);
-      document.getElementById('info-cols').style.display = 'block';
-      document.getElementById('btn-raw').style.display = 'inline-flex';
-      document.getElementById('raw-box').textContent = csv.slice(0, 3000) + (csv.length > 3000 ? '\n...(truncado)' : '');
-
-      // Stats numéricas
-      renderStats(rows, cols);
-
-      // Tabela
-      renderTabela(rows);
+      processar(csv);
     })
     .catch(function(e) {
       setStatus('erro', 'err');
-      document.getElementById('msg-status').textContent = 'Falha ao carregar.';
-      showErr(e.message);
+      document.getElementById('msg-status').textContent = 'Falha.';
+      document.getElementById('err-box').textContent = 'Erro: ' + e.message + '\n\nVerifique se a planilha foi publicada via Arquivo → Compartilhar → Publicar na web.';
+      document.getElementById('err-box').style.display = 'block';
     });
 }
 
-function parseCSV(csv) {
-  var linhas = csv.split('\n');
-  if (!linhas.length) return [];
-  var cols = splitLinha(linhas[0]);
+function buscarAba(nome) {
+  var url = nome
+    ? "https://docs.google.com/spreadsheets/d/e/" + PUB_ID + "/pub?output=csv&sheet=" + encodeURIComponent(nome)
+    : "https://docs.google.com/spreadsheets/d/e/" + PUB_ID + "/pub?output=csv";
+  return fetch(url).then(function(r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.text();
+  });
+}
+
+function processar(csv) {
+  var linhas = csv.split('\n').filter(function(l) { return l.trim(); });
+  if (linhas.length < 2) {
+    setStatus('sem dados', 'err');
+    document.getElementById('err-box').textContent = 'A aba retornou 0 linhas de dados.';
+    document.getElementById('err-box').style.display = 'block';
+    return;
+  }
+
+  // Cabeçalho bruto
+  var header = splitLinha(linhas[0]);
+  document.getElementById('info-cols').textContent =
+    header.map(function(c, i) { return i + ': "' + c + '"'; }).join(' | ');
+
+  // Aviso se col F tem data (nome dinâmico)
+  var colFNome = header[COL.colF] || '';
+  if (colFNome && colFNome.toLowerCase().includes('atualiz')) {
+    var wb = document.getElementById('warn-box');
+    wb.textContent = '⚠️ Coluna F detectada com nome dinâmico: "' + colFNome + '" — o app lê pelo índice, então funciona normalmente.';
+    wb.style.display = 'block';
+  }
+
+  document.getElementById('info-map').innerHTML =
+    'A(0)=Código · B(1)=Descrição · C(2)=Almox 3 · D(3)=Almox 30 · E(4)=Almox 4 · F(5)="' + colFNome + '" · G(6)=Saldo Total';
+
+  // Parsear linhas de dados
   var rows = [];
   for (var i = 1; i < linhas.length; i++) {
-    var l = linhas[i].trim();
-    if (!l) continue;
-    var vals = splitLinha(l);
-    var obj = {};
-    cols.forEach(function(c, ci) {
-      var key = c.trim().replace(/^"|"$/g, '');
-      var val = (vals[ci] || '').trim().replace(/^"|"$/g, '');
-      obj[key] = val;
+    var vals = splitLinha(linhas[i]);
+    var cod = limpar(vals[COL.codigo]);
+    if (!cod) continue;
+    rows.push({
+      Codigo:     cod,
+      Descricao:  limpar(vals[COL.descricao]),
+      Almox3:     toNum(vals[COL.almox3]),
+      Almox30:    toNum(vals[COL.almox30]),
+      Almox4:     toNum(vals[COL.almox4]),
+      ColF:       limpar(vals[COL.colF]),
+      SaldoTotal: toNum(vals[COL.saldoTotal])
     });
-    rows.push(obj);
   }
-  return rows;
+
+  todosRows = rows;
+  document.getElementById('info-linhas').textContent = rows.length;
+  document.getElementById('info-box').style.display = 'block';
+  document.getElementById('btn-raw').style.display = 'inline-flex';
+  document.getElementById('raw-box').textContent = linhas.slice(0, 6).join('\n');
+
+  setStatus('✅ ' + rows.length + ' itens', 'ok');
+  document.getElementById('msg-status').textContent = 'Dados carregados com sucesso!';
+
+  renderTabela(rows);
+}
+
+function renderTabela(rows) {
+  var tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="padding:20px;text-align:center;color:var(--text3)">Nenhum item</td></tr>';
+    document.getElementById('tabela-card').style.display = 'block';
+    document.getElementById('badge-cnt').textContent = '0 linhas';
+    return;
+  }
+  rows.forEach(function(r) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><b style="color:var(--accent)">' + r.Codigo + '</b></td>' +
+      '<td style="max-width:260px;overflow:hidden;text-overflow:ellipsis">' + r.Descricao + '</td>' +
+      '<td class="num">' + fN(r.Almox3) + '</td>' +
+      '<td class="num">' + fN(r.Almox30) + '</td>' +
+      '<td class="num">' + fN(r.Almox4) + '</td>' +
+      '<td class="num" style="color:var(--text3);font-size:10px">' + r.ColF + '</td>' +
+      '<td class="num"><b>' + fN(r.SaldoTotal) + '</b></td>';
+    tbody.appendChild(tr);
+  });
+  document.getElementById('badge-cnt').textContent = rows.length + ' linhas';
+  document.getElementById('tabela-card').style.display = 'block';
+}
+
+function filtrar() {
+  var q = document.getElementById('busca').value.toLowerCase();
+  var f = q ? todosRows.filter(function(r) {
+    return r.Codigo.toLowerCase().includes(q) || r.Descricao.toLowerCase().includes(q);
+  }) : todosRows;
+  document.getElementById('badge-cnt').textContent = f.length + ' linhas';
+  renderTabela(f);
 }
 
 function splitLinha(line) {
@@ -187,99 +242,22 @@ function splitLinha(line) {
   return result;
 }
 
+function limpar(v) { return v ? String(v).trim().replace(/^"|"$/g, '') : ''; }
 function toNum(v) {
-  var str = String(v).replace(/\./g, '').replace(',', '.');
-  var f = parseFloat(str);
-  return isNaN(f) ? null : f;
+  var s = limpar(v).replace(/\./g, '').replace(',', '.');
+  var f = parseFloat(s);
+  return isNaN(f) ? 0 : f;
 }
-
-function fN(v) {
-  return v.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-}
-
-function renderStats(rows, cols) {
-  var numCols = cols.filter(function(c) {
-    var vals = rows.slice(0, 20).map(function(r) { return toNum(r[c]); }).filter(function(v) { return v !== null; });
-    return vals.length > 5;
-  });
-
-  if (!numCols.length) return;
-
-  var html = '';
-  numCols.forEach(function(c) {
-    var vals = rows.map(function(r) { return toNum(r[c]); }).filter(function(v) { return v !== null; });
-    var soma = vals.reduce(function(a, b) { return a + b; }, 0);
-    html += '<div class="stat"><div class="stat-n">' + fN(soma) + '</div><div class="stat-l">Σ ' + c + '</div></div>';
-  });
-  document.getElementById('stat-grid').innerHTML = html;
-  document.getElementById('stats-card').style.display = 'block';
-}
-
-function renderTabela(rows) {
-  if (!rows.length) return;
-  var cols = Object.keys(rows[0]);
-
-  // Detecta cols numéricas
-  var numCols = {};
-  cols.forEach(function(c) {
-    var vals = rows.slice(0, 20).map(function(r) { return toNum(r[c]); }).filter(function(v) { return v !== null; });
-    numCols[c] = vals.length > 5;
-  });
-
-  document.getElementById('thead').innerHTML =
-    '<tr>' + cols.map(function(c) { return '<th>' + c + '</th>'; }).join('') + '</tr>';
-
-  preencherCorpo(rows, cols, numCols);
-  document.getElementById('badge-cnt').textContent = rows.length + ' linhas';
-  document.getElementById('tabela-card').style.display = 'block';
-}
-
-function preencherCorpo(rows, cols, numCols) {
-  var tbody = document.getElementById('tbody');
-  tbody.innerHTML = '';
-  rows.slice(0, 500).forEach(function(r) {
-    var tr = document.createElement('tr');
-    tr.innerHTML = cols.map(function(c) {
-      var v = r[c] || '';
-      return '<td class="' + (numCols[c] ? 'num' : '') + '">' + v + '</td>';
-    }).join('');
-    tbody.appendChild(tr);
-  });
-}
-
-function filtrar() {
-  var q = document.getElementById('busca').value.toLowerCase();
-  var filtrados = q
-    ? todosRows.filter(function(r) {
-        return Object.values(r).some(function(v) { return v.toLowerCase().includes(q); });
-      })
-    : todosRows;
-  document.getElementById('badge-cnt').textContent = filtrados.length + ' linhas';
-  var cols = Object.keys(todosRows[0]);
-  var numCols = {};
-  cols.forEach(function(c) {
-    var vals = todosRows.slice(0, 20).map(function(r) { return toNum(r[c]); }).filter(function(v) { return v !== null; });
-    numCols[c] = vals.length > 5;
-  });
-  preencherCorpo(filtrados, cols, numCols);
-}
-
-function toggleRaw() {
-  rawVisivel = !rawVisivel;
-  document.getElementById('raw-box').style.display = rawVisivel ? 'block' : 'none';
-  document.getElementById('btn-raw').textContent = rawVisivel ? '📄 Esconder CSV bruto' : '📄 Ver CSV bruto';
-}
-
+function fN(v) { return (v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 2 }); }
 function setStatus(txt, tipo) {
   var el = document.getElementById('badge-status');
   el.textContent = txt;
   el.className = 'badge badge-' + tipo;
 }
-
-function showErr(msg) {
-  var el = document.getElementById('err-box');
-  el.textContent = msg;
-  el.style.display = 'block';
+function toggleRaw() {
+  rawVisivel = !rawVisivel;
+  document.getElementById('raw-box').style.display = rawVisivel ? 'block' : 'none';
+  document.getElementById('btn-raw').textContent = rawVisivel ? '📄 Esconder CSV bruto' : '📄 Ver CSV bruto (primeiras linhas)';
 }
 </script>
 </body>
