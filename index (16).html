@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COLFIX · PCP Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0f1117;
+  --surface:  #181c27;
+  --surface2: #1e2335;
+  --border:   #2a2f45;
+  --border2:  #363d58;
+  --accent:   #e63946;
+  --ok:       #06d6a0;
+  --warn:     #ffd166;
+  --danger:   #ef233c;
+  --text:     #e8eaf0;
+  --text2:    #9399b2;
+  --text3:    #5a6080;
+  --mono:     'DM Mono', monospace;
+  --sans:     'DM Sans', sans-serif;
+  --display:  'Syne', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 13px; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
+
+/* LOADING */
+#loading {
+  position: fixed; inset: 0; background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 9999; gap: 16px;
+}
+.loader-logo { font-family: var(--display); font-size: 48px; font-weight: 900; color: var(--accent); letter-spacing: -2px; }
+.loader-bar  { width: 220px; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.loader-fill { height: 100%; background: var(--accent); animation: ld 1.6s ease-in-out infinite; }
+@keyframes ld { 0%{width:0;margin-left:0} 50%{width:100%;margin-left:0} 100%{width:0;margin-left:100%} }
+.loader-txt  { font-family: var(--mono); font-size: 11px; color: var(--text3); letter-spacing: 2px; }
+.loader-sub  { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+
+/* APP */
+#app { display: none; flex-direction: column; min-height: 100vh; }
+#app.ready { display: flex; }
+
+/* HEADER */
+.hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 52px;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.hdr-brand { display: flex; align-items: center; gap: 10px; }
+.hdr-logo  { font-family: var(--display); font-size: 22px; font-weight: 900; color: var(--accent); letter-spacing: -1px; }
+.hdr-sep   { width: 1px; height: 20px; background: var(--border2); }
+.hdr-sub   { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: 2px; }
+.hdr-right { display: flex; align-items: center; gap: 16px; }
+.hdr-ts    { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+.hdr-live  { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 10px; color: var(--ok); }
+.live-dot  { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.btn-refresh {
+  padding: 5px 12px; border-radius: 4px; border: 1px solid var(--border2);
+  background: transparent; color: var(--text3); font-family: var(--mono); font-size: 10px;
+  cursor: pointer; transition: all .15s;
+}
+.btn-refresh:hover { background: var(--surface2); color: var(--text); }
+
+/* NAV */
+.nav { display: flex; gap: 2px; padding: 0 24px; height: 40px; align-items: flex-end; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; }
+.nav-tab {
+  padding: 7px 16px; border-radius: 4px 4px 0 0; font-size: 11px; font-weight: 600;
+  color: var(--text3); cursor: pointer; transition: all .15s;
+  border: 1px solid transparent; border-bottom: none;
+  font-family: var(--mono); letter-spacing: .3px;
+  position: relative; top: 1px; white-space: nowrap;
+}
+.nav-tab:hover { color: var(--text); background: var(--surface2); }
+.nav-tab.active { color: var(--text); background: var(--bg); border-color: var(--border); }
+
+/* FILTER BAR */
+.fbar {
+  display: none; align-items: center; gap: 14px; padding: 8px 24px;
+  background: linear-gradient(90deg,#1a0a2e,#0d1f3c);
+  border-bottom: 1px solid #3d2070;
+}
+.fbar.on { display: flex; }
+.fbar-label { font-family: var(--mono); font-size: 10px; color: #9b7fd4; letter-spacing: 1px; }
+.fbar-cod   { font-family: var(--display); font-size: 20px; font-weight: 800; color: #c084fc; }
+.fbar-desc  { font-size: 11px; color: #a78bda; flex: 1; }
+.fbar-clear { padding: 4px 10px; border-radius: 4px; border: 1px solid #3d2070; background: transparent; color: #9b7fd4; font-size: 11px; cursor: pointer; font-family: var(--mono); }
+.fbar-clear:hover { background: #3d2070; color: white; }
+
+/* CONTENT */
+.content { flex: 1; padding: 20px 24px; overflow-x: hidden; }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* STAT CARDS */
+.stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+.scard {
+  padding: 16px 18px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface); cursor: pointer; transition: transform .15s;
+}
+.scard:hover { transform: translateY(-2px); }
+.scard-icon { font-size: 20px; margin-bottom: 6px; }
+.scard-num  { font-family: var(--display); font-size: 40px; font-weight: 900; line-height: 1; }
+.scard-lbl  { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; margin-top: 4px; }
+.scard.total { border-color: #1e3a5c; } .scard.total .scard-num { color: #60a5fa; }
+.scard.falta { border-color: #5c1a1a; } .scard.falta .scard-num { color: var(--danger); }
+.scard.risco { border-color: #5c4a0a; } .scard.risco .scard-num { color: var(--warn); }
+.scard.ok    { border-color: #0a4a2a; } .scard.ok    .scard-num { color: var(--ok); }
+
+/* GRID */
+.main-grid { display: grid; grid-template-columns: 1fr 290px; gap: 16px; }
+@media(max-width:900px){ .main-grid { grid-template-columns: 1fr; } .side { display:none; } }
+
+/* PANEL */
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+.panel-hd {
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  font-family: var(--mono); font-size: 10px; color: var(--text2);
+  letter-spacing: 1px; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-hd .cnt { background: var(--border); border-radius: 20px; padding: 1px 8px; font-size: 10px; }
+
+/* CONTROLS */
+.ctrl-row { display: flex; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; align-items: center; }
+.ctrl-lbl { font-family: var(--mono); font-size: 10px; color: var(--text3); white-space: nowrap; }
+.sinput {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+  padding: 6px 10px; color: var(--text); font-family: var(--mono); font-size: 11px;
+  outline: none; transition: border-color .15s; min-width: 0;
+}
+.sinput:focus { border-color: var(--ok); }
+.sinput::placeholder { color: var(--text3); }
+.sinput.grow { flex: 1; }
+select.sinput { cursor: pointer; }
+
+/* TABLE */
+.tbl-wrap { overflow: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 11px; }
+th {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--surface2); padding: 7px 10px;
+  text-align: left; font-family: var(--mono); font-size: 10px;
+  color: var(--text3); letter-spacing: .5px; text-transform: uppercase;
+  border-bottom: 1px solid var(--border2); white-space: nowrap;
+  cursor: pointer; user-select: none;
+}
+th:hover { color: var(--text); }
+td { padding: 6px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+tr { cursor: pointer; transition: background .08s; }
+tr:hover td { background: var(--surface2); }
+tr.sel td   { background: #1a2a4a !important; color: #90c8ff; font-weight: 700; }
+tr.r-falta td { color: #fca5a5; }
+tr.r-risco td { color: #fde68a; }
+tr.r-ok    td { color: #86efac; }
+
+/* BADGE */
+.bdg { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 3px; font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .3px; }
+.bdg-ok    { background: #062a1a; color: var(--ok);     border: 1px solid #0a5a2a; }
+.bdg-risco { background: #2a1e02; color: var(--warn);   border: 1px solid #5a3e04; }
+.bdg-falta { background: #2a0a0a; color: var(--danger); border: 1px solid #5a1a1a; }
+.bdg-def   { background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
+
+/* MINI CARDS */
+.mini-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 12px; border-bottom: 1px solid var(--border); font-size: 11px; }
+.mini-cod { font-family: var(--mono); font-weight: 700; font-size: 11px; }
+.mini-val { font-family: var(--mono); font-size: 11px; font-weight: 700; color: #2ec4b6; background: rgba(46,196,182,.1); border-radius: 3px; padding: 1px 6px; }
+.mini-dt  { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+
+/* SUG CARD */
+.sugcard { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--border); border-left: 3px solid transparent; transition: background .1s; cursor: pointer; }
+.sugcard:hover { background: var(--surface2); }
+.sugcard.falta { border-left-color: var(--danger); }
+.sugcard.risco { border-left-color: var(--warn); }
+.sug-cod  { font-family: var(--mono); font-weight: 700; font-size: 12px; }
+.sug-info { font-size: 10px; color: var(--text3); margin-top: 2px; }
+.sug-qty  { font-family: var(--display); font-size: 22px; font-weight: 900; text-align: right; }
+.sug-lbl  { font-family: var(--mono); font-size: 9px; color: var(--text3); text-align: right; }
+.sugcard.falta .sug-qty { color: var(--danger); }
+.sugcard.risco .sug-qty { color: var(--warn); }
+
+/* METRIC ROW */
+.mrow { display: flex; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.mbox { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 6px 12px; min-width: 80px; }
+.mbox-l { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: .5px; text-transform: uppercase; }
+.mbox-v { font-family: var(--display); font-size: 20px; font-weight: 800; color: var(--text); line-height: 1.1; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+/* EMPTY */
+.empty { padding: 40px; text-align: center; color: var(--text3); font-family: var(--mono); font-size: 11px; }
+
+/* DL BTN */
+.dl-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 4px; border: 1px solid var(--border2); background: var(--surface2); color: var(--text2); font-size: 11px; font-family: var(--mono); cursor: pointer; transition: all .15s; }
+.dl-btn:hover { background: var(--border2); color: var(--text); }
+
+/* ERROR */
+.err-box { background: #1a0808; border: 1px solid #5a1010; border-radius: 8px; padding: 20px; margin: 20px 0; font-family: var(--mono); font-size: 12px; color: #fca5a5; }
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="loader-logo">Colafix</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <div class="loader-txt" id="load-txt">CARREGANDO DADOS PCP...</div>
+  <div class="loader-sub" id="load-sub"></div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header class="hdr">
+    <div class="hdr-brand">
+      <div class="hdr-logo">Colafix</div>
+      <div class="hdr-sep"></div>
+      <div class="hdr-sub">PCP · MONITOR</div>
+    </div>
+    <div class="hdr-right">
+      <span class="hdr-ts" id="hdr-ts">—</span>
+      <span class="hdr-live"><span class="live-dot"></span>Sheets</span>
+      <button class="btn-refresh" onclick="initLoad()">↺ Atualizar</button>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <div class="nav-tab active" data-tab="dash"     onclick="switchTab(this)">📊 Dashboard</div>
+    <div class="nav-tab"        data-tab="filtros"  onclick="switchTab(this)">🔍 Filtros</div>
+    <div class="nav-tab"        data-tab="estoques" onclick="switchTab(this)">📦 Estoques</div>
+    <div class="nav-tab"        data-tab="demandas" onclick="switchTab(this)">📋 Demandas</div>
+    <div class="nav-tab"        data-tab="sugestao" onclick="switchTab(this)">🏭 Sugestão</div>
+    <div class="nav-tab"        data-tab="perfil"   onclick="switchTab(this)">📈 Perfil</div>
+    <div class="nav-tab"        data-tab="ordens"   onclick="switchTab(this)">🔧 Ordens</div>
+  </nav>
+
+  <div class="fbar" id="fbar">
+    <div>
+      <div class="fbar-label">🔗 FILTRO ATIVO</div>
+      <div class="fbar-cod" id="fbar-cod">—</div>
+    </div>
+    <div class="fbar-desc" id="fbar-desc"></div>
+    <button class="fbar-clear" onclick="clearFilter()">✕ Limpar</button>
+  </div>
+
+  <div class="content">
+
+    <!-- ══ DASHBOARD ══ -->
+    <div class="tab-pane active" id="tab-dash">
+      <div class="stat-grid">
+        <div class="scard total" onclick="clearFilter()">
+          <div class="scard-icon">📦</div>
+          <div class="scard-num" id="s-tot">—</div>
+          <div class="scard-lbl">Total de Itens</div>
+        </div>
+        <div class="scard falta" onclick="setStFilter('FALTA')">
+          <div class="scard-icon">🔴</div>
+          <div class="scard-num" id="s-fal">—</div>
+          <div class="scard-lbl">Falta · Urgente</div>
+        </div>
+        <div class="scard risco" onclick="setStFilter('RISCO')">
+          <div class="scard-icon">🟡</div>
+          <div class="scard-num" id="s-ris">—</div>
+          <div class="scard-lbl">Risco · Atenção</div>
+        </div>
+        <div class="scard ok" onclick="setStFilter('OK')">
+          <div class="scard-icon">🟢</div>
+          <div class="scard-num" id="s-ok">—</div>
+          <div class="scard-lbl">OK · Normalizado</div>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <div>
+          <div class="panel">
+            <div class="panel-hd">Saldo vs Demanda <span class="cnt" id="dash-cnt">0</span></div>
+            <div class="ctrl-row">
+              <input  class="sinput grow" id="dash-q" placeholder="Buscar código ou descrição..." oninput="rDash()">
+              <select class="sinput" id="dash-st" onchange="rDash()">
+                <option value="">Todos</option>
+                <option value="FALTA">🔴 Falta</option>
+                <option value="RISCO">🟡 Risco</option>
+                <option value="OK">🟢 OK</option>
+              </select>
+            </div>
+            <div class="tbl-wrap" style="max-height:420px">
+              <table><thead><tr>
+                <th onclick="srt('dash','Codigo')">Código</th>
+                <th onclick="srt('dash','Descricao')">Descrição</th>
+                <th onclick="srt('dash','SaldoTotal')">Saldo Total</th>
+                <th onclick="srt('dash','Almox3')">Almox 3</th>
+                <th onclick="srt('dash','Almox30')">Almox 30</th>
+                <th onclick="srt('dash','DemandaDC')">Dem. DC</th>
+                <th onclick="srt('dash','Ordens')">Ordens</th>
+                <th>Status</th>
+              </tr></thead>
+              <tbody id="dash-body"></tbody></table>
+            </div>
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="panel">
+            <div class="panel-hd">📋 Pedidos DC Próximos</div>
+            <div id="ped-list" style="max-height:200px;overflow-y:auto"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-hd">🏭 Produzir Agora</div>
+            <div id="sug-quick" style="max-height:260px;overflow-y:auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FILTROS ══ -->
+    <div class="tab-pane" id="tab-filtros">
+      <div class="panel">
+        <div class="panel-hd">🔍 Análise Geral <span class="cnt" id="flt-cnt">0</span></div>
+        <div class="ctrl-row">
+          <span class="ctrl-lbl">Almox Dem:</span>
+          <select class="sinput" id="flt-dem" onchange="rFiltros()">
+            <option value="Almox3">Almox 3</option>
+            <option value="Almox30">Almox 30</option>
+            <option value="Almox4">Almox 4</option>
+            <option value="SaldoTotal">Total</option>
+          </select>
+          <span class="ctrl-lbl">Almox Seg:</span>
+          <select class="sinput" id="flt-seg" onchange="rFiltros()">
+            <option value="Almox30">Almox 30</option>
+            <option value="Almox3">Almox 3</option>
+            <option value="SaldoTotal">Total</option>
+          </select>
+          <input  class="sinput grow" id="flt-q" placeholder="Buscar..." oninput="rFiltros()">
+          <select class="sinput" id="flt-st" onchange="rFiltros()">
+            <option value="">Todos</option>
+            <option value="FALTA">🔴 Falta</option>
+            <option value="RISCO">🟡 Risco</option>
+            <option value="OK">🟢 OK</option>
+          </select>
+        </div>
+        <div class="tbl-wrap" style="max-height:520px">
+          <table><thead><tr>
+            <th>Código</th><th>Descrição</th><th>Saldo Total</th>
+            <th>Almox Dem</th><th>Almox Seg</th><th>Est. Seg</th>
+            <th>Dem. DC</th><th>Ordens</th><th>Saldo Real</th><th>Status</th>
+          </tr></thead>
+          <tbody id="flt-body"></tbody></table>
+        </div>
+        <div style="padding:10px 12px;border-top:1px solid var(--border)">
+          <button class="dl-btn" onclick="expCSV('flt')">📥 Exportar CSV</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ESTOQUES ══ -->
+    <div class="tab-pane" id="tab-estoques">
+      <div class="panel">
+        <div class="panel-hd">📦 Estoque de Segurança <span class="cnt" id="estq-cnt">0</span></div>
+        <div class="ctrl-row">
+          <span class="ctrl-lbl">Almox:</span>
+          <select class="sinput" id="estq-alm" onchange="rEstoques()">
+            <option value="Almox3">Almox 3</option>
+            <option value="Almox30">Almox 30</option>
+            <option value="Almox4">Almox 4</option>
+            <option value="Almox2">Almox 2</option>
+            <option value="SaldoTotal">Total</option>
+          </select>
+          <label style="display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;color:var(--text3);cursor:pointer">
+            <input type="checkbox" id="estq-ab" onchange="rEstoques()"> Só abaixo
+          </label>
+          <input class="sinput grow" id="estq-q" placeholder="Buscar..." oninput="rEstoques()">
+        </div>
+        <div class="mrow" id="estq-met"></div>
+        <div class="tbl-wrap" style="max-height:520px">
+          <table><thead><tr>
+            <th>Código</th><th>Descrição</th><th>Saldo Almox</th>
+            <th>Est. Seg</th><th>Diferença</th><th>Status</th>
+          </tr></thead>
+          <tbody id="estq-body"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ DEMANDAS ══ -->
+    <div class="tab-pane" id="tab-demandas">
+      <div class="panel">
+        <div class="panel-hd">📋 Análise de Demandas <span class="cnt" id="dem-cnt">0</span></div>
+        <div class="ctrl-row">
+          <span class="ctrl-lbl">Almox:</span>
+          <select class="sinput" id="dem-alm" onchange="rDemandas()">
+            <option value="Almox3">Almox 3</option>
+            <option value="Almox30">Almox 30</option>
+            <option value="SaldoTotal">Total</option>
+          </select>
+          <label style="display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;color:var(--text3);cursor:pointer">
+            <input type="checkbox" id="dem-ap" onchange="rDemandas()"> Só c/ demanda
+          </label>
+          <input  class="sinput grow" id="dem-q" placeholder="Buscar..." oninput="rDemandas()">
+          <select class="sinput" id="dem-st" onchange="rDemandas()">
+            <option value="">Todos</option>
+            <option value="FALTA">🔴 Falta</option>
+            <option value="OK">🟢 OK</option>
+          </select>
+        </div>
+        <div class="mrow" id="dem-met"></div>
+        <div class="tbl-wrap" style="max-height:520px">
+          <table><thead><tr>
+            <th>Código</th><th>Descrição</th><th>Saldo</th>
+            <th>Dem. DC</th><th>Ordens</th><th>Dem. Total</th>
+            <th>Saldo vs Dem</th><th>Cobertura %</th><th>Status</th>
+          </tr></thead>
+          <tbody id="dem-body"></tbody></table>
+        </div>
+        <div style="padding:10px 12px;border-top:1px solid var(--border)">
+          <button class="dl-btn" onclick="expCSV('dem')">📥 Exportar CSV</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SUGESTÃO ══ -->
+    <div class="tab-pane" id="tab-sugestao">
+      <div class="panel">
+        <div class="panel-hd">🏭 Sugestão de Produção</div>
+        <div class="ctrl-row">
+          <span class="ctrl-lbl">Almox ref:</span>
+          <select class="sinput" id="sug-alm" onchange="rSugestao()">
+            <option value="Almox3">Almox 3</option>
+            <option value="Almox30">Almox 30</option>
+            <option value="SaldoTotal">Total</option>
+          </select>
+          <label style="display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;color:var(--text3);cursor:pointer">
+            <input type="checkbox" id="sug-estq" checked onchange="rSugestao()"> + Est. Seg
+          </label>
+        </div>
+        <div class="mrow" id="sug-met"></div>
+        <div id="sug-list" style="max-height:600px;overflow-y:auto"></div>
+        <div style="padding:10px 12px;border-top:1px solid var(--border)">
+          <button class="dl-btn" onclick="expCSV('sug')">📥 Exportar CSV</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PERFIL ══ -->
+    <div class="tab-pane" id="tab-perfil">
+      <div class="panel">
+        <div class="panel-hd">📈 Perfil de Itens <span class="cnt" id="perf-cnt">0</span></div>
+        <div class="ctrl-row">
+          <input  class="sinput grow" id="perf-q" placeholder="Buscar item..." oninput="rPerfil()">
+          <select class="sinput" id="perf-tp" onchange="rPerfil()">
+            <option value="">Todos os tipos</option>
+            <option value="DC">DC</option>
+            <option value="DP">DP</option>
+            <option value="OFP">OFP</option>
+            <option value="OFA">OFA</option>
+            <option value="DD">DD</option>
+            <option value="OCP">OCP</option>
+          </select>
+        </div>
+        <div class="tbl-wrap" style="max-height:600px">
+          <table><thead><tr>
+            <th>Data</th><th>Item</th><th>Tipo</th><th>Referência</th>
+            <th>Data Início</th><th>Data Fim</th><th>Quantidade</th><th>Estq Proj.</th>
+          </tr></thead>
+          <tbody id="perf-body"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ORDENS ══ -->
+    <div class="tab-pane" id="tab-ordens">
+      <div class="panel">
+        <div class="panel-hd">🔧 Ordens Liberadas <span class="cnt" id="ord-cnt">0</span></div>
+        <div class="ctrl-row">
+          <input  class="sinput grow" id="ord-q" placeholder="Buscar ordem ou item..." oninput="rOrdens()">
+          <select class="sinput" id="ord-tp" onchange="rOrdens()">
+            <option value="">Todos os tipos</option>
+            <option value="OFP">OFP</option>
+            <option value="OFA">OFA</option>
+          </select>
+        </div>
+        <div class="tbl-wrap" style="max-height:600px">
+          <table><thead><tr>
+            <th>Ordem</th><th>Planejador</th><th>Tipo</th><th>Código</th>
+            <th>Descrição</th><th>UM</th><th>Dt. Início</th><th>Dt. Fim</th>
+            <th>Situação</th><th>Qtde</th><th>Qtde Pend.</th>
+          </tr></thead>
+          <tbody id="ord-body"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<script>
+// ════════════════════════════════════════════════
+// CONFIG
+// ════════════════════════════════════════════════
+var SHEET_ID = "1_jTVohMskSRguXpHF8n5ym7WPHfjasvl92PXAPSrat8";
+var ABAS = ["SALDO","PERFIL","PREVISAO","ORDENS","PARAMETROS"];
+var API  = "https://sheets.googleapis.com/v4/spreadsheets/";
+
+// ════════════════════════════════════════════════
+// ESTADO
+// ════════════════════════════════════════════════
+var G = {
+  itens: [], perfil: [], ordens: [], previsao: [],
+  saldoMap: {}, paramMap: {}, dcMap: {}, ordensMap: {},
+  codSel: null, descSel: '', stFilter: '',
+  _flt: [], _dem: [], _sug: [],
+  sort: {}
+};
+
+// ════════════════════════════════════════════════
+// LOAD via Sheets API (sem API Key — planilha pública)
+// Usa o endpoint público de CSV exportado
+// ════════════════════════════════════════════════
+function initLoad() {
+  document.getElementById('loading').style.display = 'flex';
+  document.getElementById('app').style.display     = 'none';
+  document.getElementById('load-txt').textContent  = 'CARREGANDO DADOS PCP...';
+  document.getElementById('load-sub').textContent  = '';
+
+  var promises = ABAS.map(function(aba) { return fetchAba(aba); });
+  Promise.all(promises).then(function(results) {
+    var dados = {};
+    ABAS.forEach(function(aba, i) { dados[aba] = results[i]; });
+    processar(dados);
+  }).catch(function(err) {
+    document.getElementById('load-txt').textContent = '⚠️ Erro ao carregar';
+    document.getElementById('load-sub').textContent = err.message || 'Verifique se a planilha está pública';
+  });
+}
+
+function fetchAba(aba) {
+  // Usa o export CSV público — não precisa de API Key
+  var url = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+            "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(aba);
+  document.getElementById('load-sub').textContent = 'Lendo: ' + aba + '...';
+  return fetch(url).then(function(r) {
+    if (!r.ok) throw new Error('Aba ' + aba + ' não encontrada (status ' + r.status + ')');
+    return r.text();
+  }).then(function(csv) {
+    return parseCSV(csv);
+  });
+}
+
+function parseCSV(csv) {
+  var linhas = csv.split('\n');
+  if (!linhas.length) return [];
+  var cols = splitCSVLine(linhas[0]);
+  var rows = [];
+  for (var i = 1; i < linhas.length; i++) {
+    var l = linhas[i].trim();
+    if (!l) continue;
+    var vals = splitCSVLine(l);
+    var obj  = {};
+    cols.forEach(function(c, ci) { obj[c.trim()] = (vals[ci] || '').trim(); });
+    rows.push(obj);
+  }
+  return rows;
+}
+
+function splitCSVLine(line) {
+  var result = [], cur = '', inQ = false;
+  for (var i = 0; i < line.length; i++) {
+    var ch = line[i];
+    if (ch === '"') { inQ = !inQ; }
+    else if (ch === ',' && !inQ) { result.push(cur); cur = ''; }
+    else { cur += ch; }
+  }
+  result.push(cur);
+  return result;
+}
+
+// ════════════════════════════════════════════════
+// PROCESSAR
+// ════════════════════════════════════════════════
+function processar(dados) {
+  var saldo      = dados['SALDO']      || [];
+  var perfil     = dados['PERFIL']     || [];
+  var previsao   = dados['PREVISAO']   || [];
+  var ordens     = dados['ORDENS']     || [];
+  var parametros = dados['PARAMETROS'] || [];
+
+  G.perfil   = perfil;
+  G.ordens   = ordens;
+  G.previsao = previsao;
+
+  // Lookup saldo
+  G.saldoMap = {};
+  saldo.forEach(function(r) {
+    var cod = s(r['Código'] || r['Codigo'] || r['COD ITEM'] || '');
+    if (cod) G.saldoMap[cod] = r;
+  });
+
+  // Lookup parâmetros
+  G.paramMap = {};
+  parametros.forEach(function(r) {
+    var cod = s(r['Cod. Item'] || r['Codigo'] || r['COD ITEM'] || '');
+    if (cod) G.paramMap[cod] = r;
+  });
+
+  // Agrega demanda DC
+  G.dcMap = {};
+  perfil.forEach(function(r) {
+    if (s(r['Tipo']).toUpperCase() === 'DC') {
+      var item = s(r['Item'] || '');
+      G.dcMap[item] = (G.dcMap[item] || 0) + n(r['Quantidade'] || 0);
+    }
+  });
+
+  // Agrega ordens abertas (qtde pendente)
+  G.ordensMap = {};
+  ordens.forEach(function(r) {
+    var cod = s(r['Cod. Item'] || r['Codigo'] || '');
+    var sit = s(r['Situacao'] || r['Situação'] || '').toUpperCase();
+    var qtd = n(r['Qtde. Pendente'] || r['Qtde Pendente'] || r['Qtde'] || 0);
+    if (cod && (sit === 'LIBERADA' || sit === 'LIBERADO' || sit === '')) {
+      G.ordensMap[cod] = (G.ordensMap[cod] || 0) + qtd;
+    }
+  });
+
+  // Monta itens consolidados
+  G.itens = saldo.map(function(r) {
+    var cod  = s(r['Código'] || r['Codigo'] || '');
+    var desc = s(r['Descrição'] || r['Descricao'] || '');
+    var p    = G.paramMap[cod] || {};
+    var it   = {
+      Codigo:    cod,
+      Descricao: desc,
+      SaldoTotal: n(r['Saldo Total'] || 0),
+      Almox3:     n(r['Almox 3']  || 0),
+      Almox30:    n(r['Almox 30'] || 0),
+      Almox4:     n(r['Almox 4']  || 0),
+      Almox2:     n(r['Almox 2']  || 0),
+      DemandaDC:  G.dcMap[cod]     || 0,
+      Ordens:     G.ordensMap[cod] || 0,
+      EstqSeg:    n(p['Estq. Seg'] || p['Estq Seg'] || p['ESTQ SEG'] || 0),
+    };
+    var saldoReal = it.Almox3 + it.Ordens - it.DemandaDC;
+    it.SaldoReal  = saldoReal;
+    it.Status = saldoReal < 0 ? 'FALTA'
+              : (it.Almox30 < it.EstqSeg ? 'RISCO'
+              : (it.DemandaDC >= it.Almox30 * 0.5 && it.DemandaDC > 0 ? 'RISCO' : 'OK'));
+    return it;
+  }).filter(function(it) { return it.Codigo; });
+
+  // Timestamp
+  document.getElementById('hdr-ts').textContent = new Date().toLocaleString('pt-BR');
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display     = 'flex';
+
+  renderAll();
+}
+
+// ════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════
+function renderAll() {
+  updateStats(); rDash(); rFiltros(); rEstoques(); rDemandas(); rSugestao(); rPerfil(); rOrdens();
+}
+
+function updateStats() {
+  var its = gFilt(G.itens);
+  set('s-tot', its.length);
+  set('s-fal', its.filter(function(x){ return x.Status==='FALTA'; }).length);
+  set('s-ris', its.filter(function(x){ return x.Status==='RISCO'; }).length);
+  set('s-ok',  its.filter(function(x){ return x.Status==='OK';    }).length);
+}
+
+function rDash() {
+  var q  = v('dash-q').toLowerCase();
+  var st = v('dash-st') || G.stFilter;
+  var its = gFilt(G.itens).filter(function(it) {
+    if (q  && !it.Codigo.toLowerCase().includes(q) && !it.Descricao.toLowerCase().includes(q)) return false;
+    if (st && it.Status !== st) return false;
+    return true;
+  });
+  set('dash-cnt', its.length);
+  var b = document.getElementById('dash-body');
+  b.innerHTML = '';
+  if (!its.length) { b.innerHTML = '<tr><td colspan="8" class="empty">Nenhum item</td></tr>'; }
+  its.forEach(function(it) {
+    var tr = mkTr(it);
+    tr.innerHTML =
+      '<td><b>' + it.Codigo + '</b></td>' +
+      '<td style="max-width:190px;overflow:hidden;text-overflow:ellipsis">' + it.Descricao + '</td>' +
+      '<td>' + fN(it.SaldoTotal) + '</td>' +
+      '<td>' + fN(it.Almox3)     + '</td>' +
+      '<td>' + fN(it.Almox30)    + '</td>' +
+      '<td>' + fN(it.DemandaDC)  + '</td>' +
+      '<td>' + fN(it.Ordens)     + '</td>' +
+      '<td>' + bdg(it.Status)    + '</td>';
+    b.appendChild(tr);
+  });
+
+  // Pedidos DC
+  var peds = G.perfil.filter(function(r){ return s(r['Tipo']).toUpperCase()==='DC' && (!G.codSel || s(r['Item'])===G.codSel); });
+  var pl = document.getElementById('ped-list');
+  pl.innerHTML = peds.length ? '' : '<div class="empty">—</div>';
+  peds.slice(0,10).forEach(function(r) {
+    pl.innerHTML += '<div class="mini-row"><div><div class="mini-cod">' + s(r['Item']||'') + '</div><div class="mini-dt">' + s(r['Data Fim']||'') + '</div></div><div class="mini-val">' + fN(n(r['Quantidade']||0)) + '</div></div>';
+  });
+
+  // Sugestão rápida
+  var sq = document.getElementById('sug-quick');
+  var sg = gFilt(G.itens).filter(function(x){ return x.Status!=='OK' && x.SaldoReal<0; });
+  sq.innerHTML = sg.length ? '' : '<div class="empty" style="color:var(--ok)">✅ Tudo OK</div>';
+  sg.slice(0,8).forEach(function(it) {
+    var qty = Math.max(it.DemandaDC - it.Almox3 - it.Ordens + it.EstqSeg, 0);
+    sq.innerHTML += '<div class="sugcard ' + it.Status.toLowerCase() + '" onclick="selItem(\'' + esc(it.Codigo) + '\',\'' + esc(it.Descricao) + '\')">' +
+      '<div><div class="sug-cod">' + (it.Status==='FALTA'?'🔴':'🟡') + ' ' + it.Codigo + '</div>' +
+      '<div class="sug-info">' + it.Descricao.substring(0,28) + '</div></div>' +
+      '<div><div class="sug-qty">' + fN(qty) + '</div><div class="sug-lbl">produzir</div></div></div>';
+  });
+}
+
+function rFiltros() {
+  var almD = v('flt-dem') || 'Almox3';
+  var almS = v('flt-seg') || 'Almox30';
+  var q    = v('flt-q').toLowerCase();
+  var st   = v('flt-st');
+  var its  = gFilt(G.itens).filter(function(it) {
+    if (q && !it.Codigo.toLowerCase().includes(q) && !it.Descricao.toLowerCase().includes(q)) return false;
+    var sR = it[almD] + it.Ordens - it.DemandaDC;
+    var status = sR < 0 ? 'FALTA' : (it[almS] < it.EstqSeg ? 'RISCO' : 'OK');
+    if (st && status !== st) return false;
+    it._fSt = status; it._fSR = sR; return true;
+  });
+  set('flt-cnt', its.length);
+  G._flt = its;
+  var b = document.getElementById('flt-body'); b.innerHTML = '';
+  its.forEach(function(it) {
+    var tr = mkTr(it, it._fSt);
+    var sRcol = it._fSR < 0 ? 'var(--danger)' : 'var(--ok)';
+    tr.innerHTML =
+      '<td><b>' + it.Codigo + '</b></td>' +
+      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">' + it.Descricao + '</td>' +
+      '<td>' + fN(it.SaldoTotal)  + '</td>' +
+      '<td>' + fN(it[almD])       + '</td>' +
+      '<td>' + fN(it[almS])       + '</td>' +
+      '<td>' + fN(it.EstqSeg)     + '</td>' +
+      '<td>' + fN(it.DemandaDC)   + '</td>' +
+      '<td>' + fN(it.Ordens)      + '</td>' +
+      '<td style="font-weight:700;color:' + sRcol + '">' + fN(it._fSR) + '</td>' +
+      '<td>' + bdg(it._fSt) + '</td>';
+    b.appendChild(tr);
+  });
+}
+
+function rEstoques() {
+  var alm   = v('estq-alm') || 'Almox3';
+  var apenas = document.getElementById('estq-ab').checked;
+  var q      = v('estq-q').toLowerCase();
+  var its    = gFilt(G.itens).filter(function(it) {
+    if (q && !it.Codigo.toLowerCase().includes(q) && !it.Descricao.toLowerCase().includes(q)) return false;
+    var dif = it[alm] - it.EstqSeg;
+    var st  = dif < 0 ? 'ABAIXO' : 'OK';
+    if (apenas && st !== 'ABAIXO') return false;
+    it._eSt = st; it._eDif = dif; return true;
+  });
+  its.sort(function(a,b){ return a._eDif - b._eDif; });
+  set('estq-cnt', its.length);
+  var nAb = its.filter(function(x){ return x._eSt==='ABAIXO'; }).length;
+  document.getElementById('estq-met').innerHTML = mbox('⬇ Abaixo', nAb) + mbox('✅ OK', its.length-nAb);
+  var b = document.getElementById('estq-body'); b.innerHTML = '';
+  its.forEach(function(it) {
+    var ab = it._eSt === 'ABAIXO';
+    var tr = mkTr(it, ab ? 'FALTA' : 'OK');
+    tr.innerHTML =
+      '<td><b>' + it.Codigo + '</b></td>' +
+      '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis">' + it.Descricao + '</td>' +
+      '<td>' + fN(it[alm])    + '</td>' +
+      '<td>' + fN(it.EstqSeg) + '</td>' +
+      '<td style="font-weight:700;color:' + (ab?'var(--danger)':'var(--ok)') + '">' + fN(it._eDif) + '</td>' +
+      '<td>' + bdg(it._eSt, ab?'falta':'ok') + '</td>';
+    b.appendChild(tr);
+  });
+}
+
+function rDemandas() {
+  var alm   = v('dem-alm') || 'Almox3';
+  var apenas = document.getElementById('dem-ap').checked;
+  var q      = v('dem-q').toLowerCase();
+  var st     = v('dem-st');
+  var its    = gFilt(G.itens).filter(function(it) {
+    if (q && !it.Codigo.toLowerCase().includes(q) && !it.Descricao.toLowerCase().includes(q)) return false;
+    var demT = it.DemandaDC + it.Ordens;
+    if (apenas && demT === 0) return false;
+    var svd  = it[alm] - demT;
+    var cob  = demT > 0 ? Math.round(it[alm]/demT*100) : 0;
+    var dSt  = svd < 0 ? 'FALTA' : 'OK';
+    if (st && dSt !== st) return false;
+    it._dT = demT; it._dSvd = svd; it._dCob = cob; it._dSt = dSt; return true;
+  });
+  its.sort(function(a,b){ return a._dSvd - b._dSvd; });
+  set('dem-cnt', its.length);
+  G._dem = its;
+  var sD = its.reduce(function(s,x){ return s+x._dT; },0);
+  var sS = its.reduce(function(s,x){ return s+x[alm]; },0);
+  document.getElementById('dem-met').innerHTML =
+    mbox('📦 Total', its.length) +
+    mbox('🔴 Falta', its.filter(function(x){ return x._dSt==='FALTA'; }).length) +
+    mbox('Dem. Total', fN(sD)) + mbox('Saldo', fN(sS));
+  var b = document.getElementById('dem-body'); b.innerHTML = '';
+  its.forEach(function(it) {
+    var tr = mkTr(it, it._dSt);
+    var c  = it._dSvd < 0 ? 'var(--danger)' : 'var(--ok)';
+    tr.innerHTML =
+      '<td><b>' + it.Codigo + '</b></td>' +
+      '<td style="max-width:150px;overflow:hidden;text-overflow:ellipsis">' + it.Descricao + '</td>' +
+      '<td>' + fN(it[alm])     + '</td>' +
+      '<td>' + fN(it.DemandaDC)+ '</td>' +
+      '<td>' + fN(it.Ordens)   + '</td>' +
+      '<td>' + fN(it._dT)      + '</td>' +
+      '<td style="font-weight:700;color:' + c + '">' + fN(it._dSvd) + '</td>' +
+      '<td>' + it._dCob + '%</td>' +
+      '<td>' + bdg(it._dSt) + '</td>';
+    b.appendChild(tr);
+  });
+}
+
+function rSugestao() {
+  var alm     = v('sug-alm') || 'Almox3';
+  var incEstq = document.getElementById('sug-estq').checked;
+  var its     = gFilt(G.itens).filter(function(x){ return x.Status !== 'OK'; });
+  its.forEach(function(it) {
+    it._sQty = Math.max(it.DemandaDC - it[alm] - it.Ordens + (incEstq ? it.EstqSeg : 0), 0);
+  });
+  its = its.filter(function(x){ return x._sQty > 0; });
+  its.sort(function(a,b){ return a.Status!==b.Status ? (a.Status==='FALTA'?-1:1) : b._sQty-a._sQty; });
+  G._sug = its;
+  var nF = its.filter(function(x){ return x.Status==='FALTA'; }).length;
+  document.getElementById('sug-met').innerHTML = mbox('🔴 Urgente', nF) + mbox('🟡 Atenção', its.length-nF) + mbox('Total', its.length);
+  var el = document.getElementById('sug-list');
+  if (!its.length) { el.innerHTML = '<div class="empty" style="color:var(--ok);padding:40px">✅ Nenhum item necessita produção</div>'; return; }
+  el.innerHTML = '';
+  its.forEach(function(it) {
+    el.innerHTML += '<div class="sugcard ' + it.Status.toLowerCase() + '" onclick="selItem(\'' + esc(it.Codigo) + '\',\'' + esc(it.Descricao) + '\')">' +
+      '<div>' +
+        '<div class="sug-cod">' + (it.Status==='FALTA'?'🔴':'🟡') + ' ' + it.Codigo + '</div>' +
+        '<div class="sug-info">' + it.Descricao.substring(0,50) + '</div>' +
+        '<div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:3px">Saldo: ' + fN(it[alm]) + ' · Dem: ' + fN(it.DemandaDC) + ' · Est.Seg: ' + fN(it.EstqSeg) + '</div>' +
+      '</div>' +
+      '<div><div class="sug-qty">' + fN(it._sQty) + '</div><div class="sug-lbl">produzir</div></div>' +
+    '</div>';
+  });
+}
+
+function rPerfil() {
+  var q  = v('perf-q').toLowerCase();
+  var tp = v('perf-tp').toUpperCase();
+  var rows = G.perfil.filter(function(r) {
+    var item = s(r['Item']||'');
+    var tipo = s(r['Tipo']||'').toUpperCase();
+    if (G.codSel && item !== G.codSel) return false;
+    if (q && !item.toLowerCase().includes(q)) return false;
+    if (tp && tipo !== tp) return false;
+    return true;
+  });
+  set('perf-cnt', rows.length);
+  var b = document.getElementById('perf-body'); b.innerHTML = '';
+  if (!rows.length) { b.innerHTML = '<tr><td colspan="8" class="empty">Nenhum registro</td></tr>'; return; }
+  rows.slice(0,500).forEach(function(r) {
+    var tp2 = s(r['Tipo']||'').toUpperCase();
+    var tr  = document.createElement('tr');
+    tr.innerHTML =
+      '<td class="mini-dt">' + s(r['Data Relatorio']||'') + '</td>' +
+      '<td><b>' + s(r['Item']||'') + '</b></td>' +
+      '<td>' + bdg(tp2, tp2==='DC'?'risco':(tp2==='OFP'||tp2==='OFA'?'ok':'def')) + '</td>' +
+      '<td class="mini-dt">' + s(r['Referencia']||'') + '</td>' +
+      '<td class="mini-dt">' + s(r['Data Inicio']||r['Data Início']||'') + '</td>' +
+      '<td class="mini-dt">' + s(r['Data Fim']||'') + '</td>' +
+      '<td style="font-family:var(--mono)">' + s(r['Quantidade']||'0') + '</td>' +
+      '<td style="font-family:var(--mono)">' + s(r['Estoque Projetado']||'0') + '</td>';
+    b.appendChild(tr);
+  });
+}
+
+function rOrdens() {
+  var q  = v('ord-q').toLowerCase();
+  var tp = v('ord-tp').toUpperCase();
+  var rows = G.ordens.filter(function(r) {
+    var cod = s(r['Cod. Item']||r['Codigo']||'');
+    var ord = s(r['Ordem']||'');
+    var tipo= s(r['Tipo']||'').toUpperCase();
+    if (G.codSel && cod !== G.codSel) return false;
+    if (q && !cod.toLowerCase().includes(q) && !ord.toLowerCase().includes(q)) return false;
+    if (tp && tipo !== tp) return false;
+    return true;
+  });
+  set('ord-cnt', rows.length);
+  var b = document.getElementById('ord-body'); b.innerHTML = '';
+  if (!rows.length) { b.innerHTML = '<tr><td colspan="11" class="empty">Nenhuma ordem</td></tr>'; return; }
+  rows.slice(0,500).forEach(function(r) {
+    var tr = document.createElement('tr');
+    var cod = s(r['Cod. Item']||r['Codigo']||'');
+    tr.onclick = function(){ selItem(cod, s(r['Descricao']||'')); };
+    tr.innerHTML =
+      '<td><b>' + s(r['Ordem']||'') + '</b></td>' +
+      '<td>' + s(r['Planejador']||'') + '</td>' +
+      '<td>' + s(r['Tipo']||'') + '</td>' +
+      '<td><b>' + cod + '</b></td>' +
+      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">' + s(r['Descricao']||'') + '</td>' +
+      '<td>' + s(r['UM']||'') + '</td>' +
+      '<td class="mini-dt">' + s(r['Dt. Inicio']||'') + '</td>' +
+      '<td class="mini-dt">' + s(r['Dt. Fim']||'') + '</td>' +
+      '<td>' + s(r['Situacao']||'') + '</td>' +
+      '<td style="font-family:var(--mono)">' + s(r['Qtde']||'0') + '</td>' +
+      '<td style="font-family:var(--mono)">' + s(r['Qtde. Pendente']||'0') + '</td>';
+    b.appendChild(tr);
+  });
+}
+
+// ════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════
+function s(v)   { return v === null || v === undefined ? '' : String(v).trim(); }
+function v(id)  { var el = document.getElementById(id); return el ? el.value : ''; }
+function set(id,val) { var el = document.getElementById(id); if(el) el.textContent = val; }
+function n(val) {
+  if (typeof val === 'number') return val;
+  var str = s(val).replace(/\./g,'').replace(',','.');
+  var f   = parseFloat(str);
+  return isNaN(f) ? 0 : f;
+}
+function fN(val) {
+  var num = typeof val === 'number' ? val : n(val);
+  return num.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+}
+function esc(v) { return s(v).replace(/'/g,"&#39;"); }
+function gFilt(its) {
+  if (!G.codSel) return its;
+  return its.filter(function(x){ return x.Codigo === G.codSel; });
+}
+function bdg(st, forceCls) {
+  var cls = forceCls || (st==='FALTA'||st==='ABAIXO'?'falta':(st==='RISCO'?'risco':(st==='OK'?'ok':'def')));
+  var em  = st==='FALTA'||st==='ABAIXO'?'🔴':(st==='RISCO'?'🟡':(st==='OK'?'🟢':''));
+  return '<span class="bdg bdg-'+cls+'">'+(em?em+' ':'')+st+'</span>';
+}
+function mbox(l,v2) { return '<div class="mbox"><div class="mbox-l">'+l+'</div><div class="mbox-v">'+v2+'</div></div>'; }
+function mkTr(it, stOvr) {
+  var tr = document.createElement('tr');
+  var st = stOvr || it.Status;
+  tr.className = (st==='FALTA'?'r-falta':(st==='RISCO'?'r-risco':(st==='OK'?'r-ok':''))) + (G.codSel===it.Codigo?' sel':'');
+  tr.onclick = function(){ selItem(it.Codigo, it.Descricao); };
+  return tr;
+}
+
+function selItem(cod, desc) {
+  if (G.codSel === cod) { clearFilter(); return; }
+  G.codSel = cod; G.descSel = desc; G.stFilter = '';
+  document.getElementById('fbar-cod').textContent  = cod;
+  document.getElementById('fbar-desc').textContent = desc;
+  document.getElementById('fbar').classList.add('on');
+  renderAll();
+}
+function clearFilter() {
+  G.codSel = null; G.descSel = ''; G.stFilter = '';
+  document.getElementById('fbar').classList.remove('on');
+  renderAll();
+}
+function setStFilter(st) {
+  G.stFilter = st; G.codSel = null;
+  document.getElementById('fbar').classList.remove('on');
+  document.getElementById('dash-st').value = st;
+  renderAll();
+}
+function switchTab(el) {
+  var id = el.dataset.tab;
+  document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.nav-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('tab-'+id).classList.add('active');
+  el.classList.add('active');
+}
+function srt(ctx, col) {
+  if (!G.sort[ctx]) G.sort[ctx] = { col: null, asc: true };
+  G.sort[ctx].asc = G.sort[ctx].col === col ? !G.sort[ctx].asc : true;
+  G.sort[ctx].col = col;
+  if (ctx === 'dash') rDash();
+}
+function expCSV(ctx) {
+  var data = ctx==='sug' ? G._sug : (ctx==='flt' ? G._flt : G._dem);
+  if (!data||!data.length) return;
+  var keys = ['Codigo','Descricao','SaldoTotal','Almox3','Almox30','DemandaDC','Ordens','EstqSeg','Status'];
+  var csv  = keys.join(';')+'\n'+data.map(function(r){ return keys.map(function(k){ return r[k]||''; }).join(';'); }).join('\n');
+  var a    = document.createElement('a');
+  a.href   = 'data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+  a.download = 'colfix_'+ctx+'_'+new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')+'.csv';
+  a.click();
+}
+
+// START
+window.onload = initLoad;
+</script>
+</body>
+</html>
