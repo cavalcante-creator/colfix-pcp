@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COLFIX · PCP Sistema Industrial</title>
+<title>COLFIX · PCP Operacional</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -15,9 +15,6 @@
   --green:#2D7D46; --green-dim:#E8F5ED; --green-mid:#A8D5B5;
   --yellow:#8A6A00; --yellow-dim:#FFF8E1; --yellow-mid:#FFD966;
   --red:#B83232; --red-dim:#FDEAEA; --red-mid:#F0A8A8;
-  --orange:#A0470A; --orange-dim:#FEF0E6;
-  --purple:#5B3FA6; --purple-dim:#EEE9FA;
-  --cyan:#0F6E6B; --cyan-dim:#E0F5F4;
   --font:'DM Sans',system-ui,sans-serif;
   --mono:'JetBrains Mono',monospace;
   --r:10px; --rsm:6px; --rlg:14px;
@@ -34,22 +31,21 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .brand{display:flex;align-items:center;gap:10px}
 .brand-mark{font-family:var(--mono);font-size:15px;font-weight:700;color:#fff;letter-spacing:1px}
 .brand-sep{width:1px;height:16px;background:rgba(255,255,255,.25)}
-.brand-tag{font-size:10px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:2px}
+.brand-tag{font-size:10px;font-weight:600;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:2px}
 .topbar-right{display:flex;align-items:center;gap:10px}
-.ts-chip{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.6);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:var(--rsm);padding:4px 10px}
-.status-pill{display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(255,255,255,.6);padding:4px 10px;border:1px solid rgba(255,255,255,.15);border-radius:var(--rsm);background:rgba(255,255,255,.08)}
+.ts-chip{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.65);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:var(--rsm);padding:4px 10px}
+.status-pill{display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(255,255,255,.65);padding:4px 10px;border:1px solid rgba(255,255,255,.15);border-radius:var(--rsm);background:rgba(255,255,255,.08)}
 .status-dot{width:6px;height:6px;border-radius:50%;background:#6EE7B7;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 .tbtn{display:flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid rgba(255,255,255,.2);border-radius:var(--rsm);background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
 .tbtn:hover{background:rgba(255,255,255,.2);color:#fff}
 
-/* LAYOUT */
 #app{display:flex;flex-direction:column;height:100vh}
 .app-body{flex:1;display:flex;overflow:hidden}
 
 /* SIDEBAR */
 .sidebar{width:var(--sidebar);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;box-shadow:2px 0 8px rgba(0,0,0,.04)}
-.sidebar-brand{padding:14px 16px 10px;border-bottom:1px solid var(--border)}
+.sidebar-brand{padding:14px 16px 12px;border-bottom:1px solid var(--border)}
 .sidebar-logo{width:32px;height:32px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:6px}
 .sidebar-logo svg{color:#fff;width:16px;height:16px}
 .sidebar-brand-name{font-size:12px;font-weight:700;color:var(--accent)}
@@ -62,42 +58,48 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .nav-item.active svg{opacity:1}
 .nav-badge{margin-left:auto;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;background:var(--red-dim);color:var(--red);border:1px solid var(--red-mid)}
 .nav-badge.warn{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-mid)}
-.nav-badge.info{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-mid)}
 .sidebar-footer{margin-top:auto;padding:12px 14px;border-top:1px solid var(--border);font-size:9px;color:var(--text3);font-family:var(--mono)}
 
-/* MAIN */
 .main-content{flex:1;overflow-y:auto;background:var(--bg)}
 .page{display:none;padding:20px;animation:fadeIn .18s ease}
 .page.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
 
-/* FILTER BAR */
-.filter-bar{display:none;align-items:center;gap:10px;padding:7px 12px;margin-bottom:14px;background:var(--accent-dim);border:1px solid var(--accent-mid);border-radius:var(--r);border-left:3px solid var(--accent)}
-.filter-bar.on{display:flex}
+/* FILTER */
+.fbar{display:none;align-items:center;gap:10px;padding:7px 12px;margin-bottom:14px;background:var(--accent-dim);border:1px solid var(--accent-mid);border-radius:var(--r);border-left:3px solid var(--accent)}
+.fbar.on{display:flex}
 .fbar-code{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent)}
 .fbar-desc{font-size:11px;color:var(--text2);flex:1}
 .btn-clear{padding:3px 10px;border-radius:20px;border:1px solid var(--accent-mid);background:transparent;color:var(--accent);font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;font-family:var(--font)}
 .btn-clear:hover{background:var(--accent);color:#fff}
 
 /* PAGE HEADER */
-.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
 .ph-title{font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
 .ph-title svg{color:var(--accent)}
 .ph-sub{font-size:11px;color:var(--text3);margin-top:2px}
 .ph-actions{display:flex;gap:8px;align-items:center}
 
 /* KPI */
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px}
-.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);padding:14px 16px;cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:all .15s}
-.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--rlg) var(--rlg) 0 0}
-.kpi.blue::after{background:var(--accent)}.kpi.green::after{background:var(--green)}.kpi.yellow::after{background:var(--yellow)}.kpi.red::after{background:var(--red)}.kpi.cyan::after{background:var(--cyan)}.kpi.orange::after{background:var(--orange)}.kpi.purple::after{background:var(--purple)}
-.kpi:hover{background:var(--bg3);border-color:var(--border2);box-shadow:var(--shadow-md);transform:translateY(-1px)}
-.kpi-icon{width:30px;height:30px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
-.kpi-icon svg{width:15px;height:15px}
-.kpi.blue .kpi-icon{background:var(--accent-dim);color:var(--accent)}.kpi.green .kpi-icon{background:var(--green-dim);color:var(--green)}.kpi.yellow .kpi-icon{background:var(--yellow-dim);color:var(--yellow)}.kpi.red .kpi-icon{background:var(--red-dim);color:var(--red)}.kpi.cyan .kpi-icon{background:var(--cyan-dim);color:var(--cyan)}.kpi.orange .kpi-icon{background:var(--orange-dim);color:var(--orange)}.kpi.purple .kpi-icon{background:var(--purple-dim);color:var(--purple)}
-.kpi-val{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1;margin-bottom:3px}
-.kpi.blue .kpi-val{color:var(--accent)}.kpi.green .kpi-val{color:var(--green)}.kpi.yellow .kpi-val{color:var(--yellow)}.kpi.red .kpi-val{color:var(--red)}.kpi.cyan .kpi-val{color:var(--cyan)}.kpi.orange .kpi-val{color:var(--orange)}.kpi.purple .kpi-val{color:var(--purple)}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);padding:14px 16px;cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:all .15s;border-top:3px solid}
+.kpi.blue{border-top-color:var(--accent)}.kpi.red{border-top-color:var(--red)}.kpi.yellow{border-top-color:var(--yellow-mid)}.kpi.green{border-top-color:var(--green)}
+.kpi:hover{background:var(--bg3);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.kpi-icon{width:28px;height:28px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.kpi-icon svg{width:14px;height:14px}
+.kpi.blue .kpi-icon{background:var(--accent-dim);color:var(--accent)}.kpi.green .kpi-icon{background:var(--green-dim);color:var(--green)}.kpi.yellow .kpi-icon{background:var(--yellow-dim);color:var(--yellow)}.kpi.red .kpi-icon{background:var(--red-dim);color:var(--red)}
+.kpi-val{font-family:var(--mono);font-size:26px;font-weight:700;line-height:1;margin-bottom:3px}
+.kpi.blue .kpi-val{color:var(--accent)}.kpi.green .kpi-val{color:var(--green)}.kpi.yellow .kpi-val{color:var(--yellow)}.kpi.red .kpi-val{color:var(--red)}
 .kpi-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+
+/* LEGEND */
+.legenda{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.leg-pill{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid}
+.leg-pill.g{background:var(--green-dim);border-color:var(--green-mid);color:var(--green)}
+.leg-pill.a{background:var(--yellow-dim);border-color:var(--yellow-mid);color:var(--yellow)}
+.leg-pill.r{background:var(--red-dim);border-color:var(--red-mid);color:var(--red)}
+.leg-dot{width:8px;height:8px;border-radius:50%}
+.leg-pill.g .leg-dot{background:var(--green)}.leg-pill.a .leg-dot{background:var(--yellow-mid)}.leg-pill.r .leg-dot{background:var(--red);animation:blink 1.5s infinite}
 
 /* CARD */
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
@@ -107,16 +109,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .card-actions{display:flex;gap:6px;align-items:center}
 .pill{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-mid)}
 
-/* SEARCH ROW */
+/* SEARCH */
 .srow{display:flex;gap:8px;padding:9px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center}
 .sinput{flex:1;min-width:130px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:6px 10px;color:var(--text);font-size:11px;font-family:var(--font);outline:none;transition:border .15s}
 .sinput:focus{border-color:var(--accent);background:var(--bg2)}
 .sinput::placeholder{color:var(--text4)}
 .ssel{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:6px 8px;color:var(--text2);font-size:11px;cursor:pointer;outline:none;font-family:var(--font)}
-.schk{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2);cursor:pointer;white-space:nowrap}
-.schk input{accent-color:var(--accent)}
 
-/* METRIC BOXES */
+/* MBOX */
 .mrow{display:flex;flex-wrap:wrap;gap:7px;padding:9px 14px;border-bottom:1px solid var(--border)}
 .mbox{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:7px 12px;min-width:82px}
 .mbox-l{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
@@ -132,16 +132,22 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .twrap tr{cursor:pointer;transition:background .07s}
 .twrap tr:hover td{background:var(--bg3)}
 .twrap tr.sel td{background:var(--accent-dim)!important}
-.twrap tr.rc{border-left:3px solid var(--red)}.twrap tr.rw{border-left:3px solid var(--yellow-mid)}.twrap tr.ro{border-left:3px solid var(--green)}
+.twrap tr.rc td:first-child{border-left:3px solid var(--red)}
+.twrap tr.rw td:first-child{border-left:3px solid var(--yellow-mid)}
+.twrap tr.ro td:first-child{border-left:3px solid var(--green)}
 .empty{padding:36px;text-align:center;color:var(--text3);font-size:12px}
 
 /* BADGES */
-.bdg{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:9px;font-weight:700;white-space:nowrap;border:1px solid}
+.bdg{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap;border:1px solid}
 .bdg-d{background:var(--red-dim);color:var(--red);border-color:var(--red-mid)}
 .bdg-w{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-mid)}
 .bdg-s{background:var(--green-dim);color:var(--green);border-color:var(--green-mid)}
 .bdg-i{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-mid)}
 .bdg-m{background:var(--bg3);color:var(--text3);border-color:var(--border2)}
+
+/* MOTIVO */
+.motivo{font-size:10px;color:var(--text2);max-width:220px;white-space:normal;line-height:1.4}
+.motivo.r{color:var(--red)}.motivo.a{color:var(--yellow)}.motivo.g{color:var(--green)}
 
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:var(--rsm);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);border:1px solid var(--border2);background:var(--bg2);color:var(--text2);transition:all .15s}
@@ -156,18 +162,20 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .alert-d{background:var(--red-dim);border-color:var(--red-mid);color:var(--red)}
 .alert-w{background:var(--yellow-dim);border-color:var(--yellow-mid);color:var(--yellow)}
 .alert-s{background:var(--green-dim);border-color:var(--green-mid);color:var(--green)}
-.alert-i{background:var(--accent-dim);border-color:var(--accent-mid);color:var(--accent)}
 .alert-title{font-weight:700;margin-bottom:1px}
 .alert-body{color:var(--text2)}
 
-/* GRIDS */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.grid-main{display:grid;grid-template-columns:1fr 290px;gap:14px}
-
-/* CHARTS */
+.grid-main{display:grid;grid-template-columns:1fr 280px;gap:14px}
 .chart-box{padding:14px;position:relative}
 
-/* SUGGESTION */
+/* MINI LIST */
+.mini-item{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;border-bottom:1px solid var(--border);font-size:11px}
+.mini-code{font-family:var(--mono);font-weight:700;color:var(--accent);font-size:11px}
+.mini-sub{font-size:10px;color:var(--text3)}
+.mini-val{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--text)}
+
+/* SUG ITEM */
 .sug-item{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);border-left:3px solid transparent;cursor:pointer;transition:background .08s}
 .sug-item:hover{background:var(--bg3)}
 .sug-item.c{border-left-color:var(--red)}.sug-item.w{border-left-color:var(--yellow-mid)}
@@ -177,61 +185,25 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .sug-qlbl{font-size:9px;color:var(--text3)}
 .sug-item.c .sug-qty{color:var(--red)}.sug-item.w .sug-qty{color:var(--yellow)}
 
-/* MINI */
-.mini-item{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;border-bottom:1px solid var(--border);font-size:11px}
-.mini-code{font-family:var(--mono);font-weight:700;color:var(--accent);font-size:11px}
-.mini-sub{font-size:10px;color:var(--text3)}
-.mini-val{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--text)}
-
-/* LINE CARDS */
-.lcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);padding:14px;box-shadow:var(--shadow);border-top:3px solid}
-.lcard.g{border-top-color:var(--green)}.lcard.a{border-top-color:var(--yellow-mid)}.lcard.r{border-top-color:var(--red)}.lcard.b{border-top-color:var(--accent)}
-.lcard-name{font-size:13px;font-weight:700;margin-bottom:2px}
-.lcard-sub{font-size:10px;color:var(--text3);margin-bottom:12px}
-.bar-track{height:7px;background:var(--bg4);border-radius:4px;overflow:hidden;margin-bottom:5px}
-.bar-fill{height:100%;border-radius:4px}
-.bar-meta{display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-bottom:10px}
-.lcard-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
-.lstat{background:var(--bg3);border-radius:var(--rsm);padding:6px 8px;border:1px solid var(--border)}
-.lstat-l{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-.lstat-v{font-size:13px;font-weight:700}
-
-/* ALMOX CARDS */
-.acard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);padding:18px;box-shadow:var(--shadow)}
-.acard-name{font-size:15px;font-weight:700;margin-bottom:3px}
-.acard-sub{font-size:11px;color:var(--text3);margin-bottom:16px}
-.abar-track{height:10px;background:var(--bg4);border-radius:5px;overflow:hidden;margin-bottom:6px}
-.abar-fill{height:100%;border-radius:5px;background:var(--green)}
-.abar-fill.warn{background:var(--yellow-mid)}.abar-fill.crit{background:var(--red)}
-.astats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
-.astat{background:var(--bg3);border-radius:var(--rsm);padding:8px 10px;border:1px solid var(--border)}
-.astat-l{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:3px}
-.astat-v{font-family:var(--mono);font-size:15px;font-weight:700}
-
-/* TIMELINE */
-.tl{padding:16px}
-.tl-item{display:flex;gap:12px;margin-bottom:16px;position:relative}
-.tl-item:not(:last-child)::before{content:'';position:absolute;left:14px;top:28px;bottom:-16px;width:1px;background:var(--border2)}
-.tl-icon{width:29px;height:29px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;font-size:13px;border:1px solid}
-.tl-icon.en{background:var(--green-dim);border-color:var(--green-mid);color:var(--green)}
-.tl-icon.sa{background:var(--red-dim);border-color:var(--red-mid);color:var(--red)}
-.tl-icon.pr{background:var(--accent-dim);border-color:var(--accent-mid);color:var(--accent)}
-.tl-icon.tr{background:var(--yellow-dim);border-color:var(--yellow-mid);color:var(--yellow)}
-.tl-body{flex:1}
-.tl-title{font-size:12px;font-weight:600}
-.tl-sub{font-size:10px;color:var(--text3);margin-top:1px}
-.tl-val{font-family:var(--mono);font-size:12px;font-weight:700;margin-top:4px}
-
-/* SIMULATOR */
+/* PERFIL, ORDENS */
 .sim-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
 .sim-field{display:flex;flex-direction:column;gap:5px}
 .sim-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
-.sim-input{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:7px 10px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;transition:border .15s}
+.sim-input{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:7px 10px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none}
 .sim-input:focus{border-color:var(--accent);background:var(--bg2)}
 .sim-res{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:9px 12px;margin-top:4px}
 .sim-res-l{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:4px}
 .sim-res-v{font-family:var(--mono);font-size:20px;font-weight:700}
 code{font-family:var(--mono);font-size:11px;color:var(--accent)}
+.schk{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2);cursor:pointer;white-space:nowrap}
+.schk input{accent-color:var(--accent)}
+
+/* NÚMERO GRANDE */
+.num-r{font-family:var(--mono);text-align:right}
+.num-green{color:var(--green);font-weight:700}
+.num-red{color:var(--red);font-weight:700}
+.num-yellow{color:var(--yellow);font-weight:700}
+
 @media(max-width:900px){.grid-main{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
 @media(max-width:640px){.sidebar{display:none}}
 </style>
@@ -242,13 +214,13 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
   <div class="brand">
     <div class="brand-mark">COLFIX</div>
     <div class="brand-sep"></div>
-    <div class="brand-tag">PCP Monitor Industrial</div>
+    <div class="brand-tag">PCP Operacional</div>
   </div>
   <div class="topbar-right">
-    <div class="status-pill"><div class="status-dot"></div>Sistema Online</div>
+    <div class="status-pill"><div class="status-dot"></div>Online</div>
     <span class="ts-chip" id="hdr-ts">--:--</span>
-    <button class="tbtn" onclick="initLoad()">&#x21BA; Atualizar</button>
-    <button class="tbtn" onclick="expCSVGlobal()">&#x2193; Exportar</button>
+    <button class="tbtn" onclick="initLoad()">&#8635; Atualizar</button>
+    <button class="tbtn" onclick="expCSVMain()">&#8595; Exportar</button>
   </div>
 </header>
 <div class="app-body">
@@ -256,267 +228,778 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
   <div class="sidebar-brand">
     <div class="sidebar-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
     <div class="sidebar-brand-name">COLFIX PCP</div>
-    <div class="sidebar-brand-sub">Monitor Industrial</div>
+    <div class="sidebar-brand-sub">Monitor Operacional</div>
   </div>
-  <div class="nav-section">Visão Geral</div>
-  <div class="nav-item active" data-page="dashboard" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard<span class="nav-badge" id="nb-crit">0</span></div>
-  <div class="nav-section">Planejamento</div>
-  <div class="nav-item" data-page="producao" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7-7H4a2 2 0 0 0-2 2v17"/><polyline points="14 2 14 8 20 8"/></svg>Producao<span class="nav-badge warn" id="nb-prod">0</span></div>
-  <div class="nav-item" data-page="estoques" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>Estoques<span class="nav-badge info" id="nb-est">0</span></div>
-  <div class="nav-item" data-page="sugestao" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Sugestao PCP<span class="nav-badge" id="nb-sug">0</span></div>
-  <div class="nav-section">Infraestrutura</div>
-  <div class="nav-item" data-page="linhas" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Linhas</div>
-  <div class="nav-item" data-page="almoxarifados" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Almoxarifados</div>
+  <div class="nav-section">Principal</div>
+  <div class="nav-item active" data-page="dashboard" onclick="goPage(this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    Dashboard <span class="nav-badge" id="nb-crit">0</span>
+  </div>
+  <div class="nav-item" data-page="pcp" onclick="goPage(this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7-7H4a2 2 0 0 0-2 2v17"/><polyline points="14 2 14 8 20 8"/></svg>
+    Tabela PCP <span class="nav-badge warn" id="nb-pcp">0</span>
+  </div>
   <div class="nav-section">Analise</div>
-  <div class="nav-item" data-page="comercial" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Comercial</div>
-  <div class="nav-item" data-page="previsao" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Previsoes</div>
-  <div class="nav-item" data-page="movimentacoes" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>Movimentacoes</div>
-  <div class="nav-item" data-page="perfil" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>Perfil Itens</div>
-  <div class="nav-item" data-page="ordens" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Ordens</div>
-  <div class="nav-section">Sistema</div>
-  <div class="nav-item" data-page="simulador" onclick="goPage(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>Simulador</div>
-  <div class="sidebar-footer">v2.0 · COLFIX PCP<br><span id="sf-ts" style="color:var(--text4)">--</span></div>
+  <div class="nav-item" data-page="estoque" onclick="goPage(this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+    Estoques
+  </div>
+  <div class="nav-item" data-page="producao" onclick="goPage(this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    Producao Real
+  </div>
+  <div class="nav-item" data-page="ordens" onclick="goPage(this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Ordens
+  </div>
+  <div class="nav-item" data-page="perfil" onclick="goPage(this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+    Perfil Itens
+  </div>
+  <div class="sidebar-footer">v3.0 · COLFIX PCP<br><span id="sf-ts" style="color:var(--text4)">--</span></div>
 </nav>
+
 <main class="main-content">
-  <div style="padding:12px 20px 0" id="fbwrap">
-    <div class="filter-bar" id="filter-bar">
-      <div><div style="font-size:9px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Filtro Ativo</div><div class="fbar-code" id="filt-cod">-</div></div>
+  <div style="padding:12px 20px 0">
+    <div class="fbar" id="filter-bar">
+      <div><div style="font-size:9px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Filtro</div><div class="fbar-code" id="filt-cod">-</div></div>
       <div class="fbar-desc" id="filt-desc"></div>
       <button class="btn-clear" onclick="clearFilter()">x Limpar</button>
     </div>
   </div>
 
-  <!-- DASHBOARD -->
+  <!-- ======= DASHBOARD ======= -->
   <div class="page active" id="page-dashboard">
-    <div class="ph"><div><div class="ph-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard Executivo</div><div class="ph-sub">Visao geral em tempo real - Planejamento e Controle de Producao</div></div></div>
-    <div class="kpi-grid">
-      <div class="kpi blue" onclick="clearFilter();document.getElementById('dash-st').value='';rDash()"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><div class="kpi-val" id="kpi-total">-</div><div class="kpi-label">Total de Itens</div></div>
-      <div class="kpi red" onclick="filterStatus('FALTA')"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="kpi-val" id="kpi-crit">-</div><div class="kpi-label">Critico - Falta</div></div>
-      <div class="kpi yellow" onclick="filterStatus('RISCO')"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="kpi-val" id="kpi-warn">-</div><div class="kpi-label">Atencao - Risco</div></div>
-      <div class="kpi green" onclick="filterStatus('OK')"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-val" id="kpi-ok">-</div><div class="kpi-label">Normal - OK</div></div>
-      <div class="kpi orange"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="kpi-val" id="kpi-pend">-</div><div class="kpi-label">Pedidos Pendentes</div></div>
-      <div class="kpi cyan"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><div class="kpi-val" id="kpi-ord">-</div><div class="kpi-label">Ordens Abertas</div></div>
-      <div class="kpi purple"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="kpi-val" id="kpi-prev">-</div><div class="kpi-label">Itens c/ Previsao</div></div>
-      <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="kpi-val" id="kpi-efic">-%</div><div class="kpi-label">Eficiencia Media</div></div>
+    <div class="ph">
+      <div>
+        <div class="ph-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard PCP</div>
+        <div class="ph-sub">Decisao rapida - Fluxo: Producao &#8594; Almox 30 &#8594; Almox 3 &#8594; Cliente</div>
+      </div>
     </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi blue" onclick="goPageId('pcp');clearFilter()"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><div class="kpi-val" id="kpi-total">-</div><div class="kpi-label">Total Itens</div></div>
+      <div class="kpi red" onclick="filterStatus('CRITICO')"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="kpi-val" id="kpi-crit">-</div><div class="kpi-label">Critico</div></div>
+      <div class="kpi yellow" onclick="filterStatus('RISCO')"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="kpi-val" id="kpi-warn">-</div><div class="kpi-label">Risco</div></div>
+      <div class="kpi green" onclick="filterStatus('NORMAL')"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-val" id="kpi-ok">-</div><div class="kpi-label">Normal</div></div>
+    </div>
+
+    <!-- Legenda fixa -->
+    <div class="legenda">
+      <div class="leg-pill g"><div class="leg-dot"></div><div><strong>NORMAL</strong> &mdash; Operacao saudavel</div></div>
+      <div class="leg-pill a"><div class="leg-dot"></div><div><strong>RISCO</strong> &mdash; Proximo estoque seguranca</div></div>
+      <div class="leg-pill r"><div class="leg-dot"></div><div><strong>CRITICO</strong> &mdash; Producao urgente</div></div>
+    </div>
+
+    <!-- Alertas -->
     <div class="alert-box" id="alert-box"></div>
+
     <div class="grid-main">
+      <!-- Lado esquerdo: tabela resumo + grafico -->
       <div>
         <div class="card">
-          <div class="card-header"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 6-6"/></svg>Saldo vs Demanda</div><div class="card-actions"><span class="pill" id="dash-cnt">0</span></div></div>
-          <div class="srow"><input class="sinput" id="dash-q" placeholder="Buscar codigo ou descricao..." oninput="rDash()"><select class="ssel" id="dash-st" onchange="rDash()"><option value="">Todos</option><option value="FALTA">Falta</option><option value="RISCO">Risco</option><option value="OK">OK</option></select></div>
-          <div class="twrap" style="max-height:340px"><table><thead><tr><th onclick="srt('dash','Codigo')">Codigo</th><th onclick="srt('dash','Descricao')">Descricao</th><th onclick="srt('dash','SaldoTotal')" style="text-align:right">Saldo</th><th onclick="srt('dash','Almox3')" style="text-align:right">Almox 3</th><th onclick="srt('dash','Almox30')" style="text-align:right">Almox 30</th><th onclick="srt('dash','DemandaDC')" style="text-align:right">Dem. DC</th><th onclick="srt('dash','Previsto')" style="text-align:right">Previsto</th><th onclick="srt('dash','Ordens')" style="text-align:right">Ordens</th><th>Status</th></tr></thead><tbody id="dash-body"></tbody></table></div>
-        </div>
-        <div class="card"><div class="card-header"><div class="card-title">Producao Diaria - Ultimos 14 dias</div></div><div class="chart-box" style="height:210px"><canvas id="chart-producao"></canvas></div></div>
-      </div>
-      <div>
-        <div class="card"><div class="card-header"><div class="card-title">Pedidos DC Proximos</div></div><div id="ped-list" style="max-height:190px;overflow-y:auto"></div></div>
-        <div class="card" style="margin-top:0"><div class="card-header"><div class="card-title">Produzir Agora</div></div><div id="sug-quick" style="max-height:230px;overflow-y:auto"></div></div>
-        <div class="card" style="margin-top:0"><div class="card-header"><div class="card-title">Almoxarifados</div></div><div id="almox-mini" style="padding:12px;display:flex;flex-direction:column;gap:10px"></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PRODUCAO -->
-  <div class="page" id="page-producao">
-    <div class="ph"><div><div class="ph-title">Programacao de Producao</div><div class="ph-sub">Sugestoes automaticas baseadas em estoque, demanda e capacidade</div></div><div class="ph-actions"><button class="btn" onclick="expCSV('prod')">Exportar CSV</button></div></div>
-    <div class="card">
-      <div class="card-header"><div class="card-title">Sugestao de Producao Automatica</div><div class="card-actions"><span class="pill" id="prod-cnt">0</span><select class="ssel" id="prod-alm" onchange="rProd()"><option value="Almox3">Almox 3</option><option value="Almox30">Almox 30</option><option value="SaldoTotal">Total</option></select><label class="schk"><input type="checkbox" id="prod-estq" checked onchange="rProd()"> +Est.Seg</label><label class="schk"><input type="checkbox" id="prod-prev" checked onchange="rProd()"> +Previsto</label></div></div>
-      <div class="mrow" id="prod-met"></div>
-      <div class="srow"><input class="sinput" id="prod-q" placeholder="Buscar produto..." oninput="rProd()"><select class="ssel" id="prod-pri" onchange="rProd()"><option value="">Todas prioridades</option><option value="URGENTE">Urgente</option><option value="ALTA">Alta</option></select></div>
-      <div class="twrap" style="max-height:480px"><table><thead><tr><th>Produto</th><th>Descricao</th><th style="text-align:right">Qtde Sugerida</th><th>Linha</th><th>Prioridade</th><th style="text-align:right">Saldo</th><th style="text-align:right">Demanda</th><th style="text-align:right">Est. Seg</th><th>Acao</th></tr></thead><tbody id="prod-body"></tbody></table></div>
-    </div>
-    <div class="grid2"><div class="card"><div class="card-header"><div class="card-title">Capacidade por Linha</div></div><div class="chart-box" style="height:200px"><canvas id="chart-linhas-cap"></canvas></div></div><div class="card"><div class="card-header"><div class="card-title">Volume Sugerido por Linha</div></div><div class="chart-box" style="height:200px"><canvas id="chart-linha-vol"></canvas></div></div></div>
-  </div>
-
-  <!-- ESTOQUES -->
-  <div class="page" id="page-estoques">
-    <div class="ph"><div><div class="ph-title">Controle de Estoques</div><div class="ph-sub">Saldo por almoxarifado vs estoque de seguranca</div></div><div class="ph-actions"><button class="btn" onclick="expCSV('estq')">Exportar</button></div></div>
-    <div class="grid2"><div class="card"><div class="card-header"><div class="card-title">Distribuicao de Status</div></div><div class="chart-box" style="height:175px"><canvas id="chart-estq-status"></canvas></div></div><div class="card"><div class="card-header"><div class="card-title">Cobertura de Estoque</div></div><div class="chart-box" style="height:175px"><canvas id="chart-cobertura"></canvas></div></div></div>
-    <div class="card"><div class="card-header"><div class="card-title">Tabela de Estoques</div><div class="card-actions"><span class="pill" id="estq-cnt">0</span></div></div><div class="srow"><input class="sinput" id="estq-q" placeholder="Buscar item..." oninput="rEstoques()"><select class="ssel" id="estq-alm" onchange="rEstoques()"><option value="Almox3">Almox 3</option><option value="Almox30">Almox 30</option><option value="Almox4">Almox 4</option><option value="SaldoTotal">Total</option></select><label class="schk"><input type="checkbox" id="estq-ab" onchange="rEstoques()"> So abaixo seg.</label></div><div class="mrow" id="estq-met"></div><div class="twrap" style="max-height:440px"><table><thead><tr><th>Codigo</th><th>Descricao</th><th style="text-align:right">Saldo</th><th style="text-align:right">Est. Seg.</th><th style="text-align:right">Diferenca</th><th style="text-align:right">Cobertura</th><th>Status</th></tr></thead><tbody id="estq-body"></tbody></table></div></div>
-  </div>
-
-  <!-- SUGESTAO -->
-  <div class="page" id="page-sugestao">
-    <div class="ph"><div><div class="ph-title">Sugestao PCP</div><div class="ph-sub">Recomendacoes automaticas de producao</div></div><div class="ph-actions"><select class="ssel" id="sug-alm" onchange="rSugestao()"><option value="Almox3">Almox 3</option><option value="Almox30">Almox 30</option><option value="SaldoTotal">Total</option></select><label class="schk"><input type="checkbox" id="sug-estq" checked onchange="rSugestao()"> +Est.Seg</label><label class="schk"><input type="checkbox" id="sug-prev" checked onchange="rSugestao()"> +Previsto</label><button class="btn" onclick="expCSV('sug')">Exportar</button></div></div>
-    <div class="card"><div class="card-header"><div class="card-title">Itens a Produzir</div><div class="card-actions"><span class="pill" id="sug-cnt">0</span></div></div><div class="mrow" id="sug-met"></div><div id="sug-list" style="max-height:580px;overflow-y:auto"></div></div>
-  </div>
-
-  <!-- LINHAS -->
-  <div class="page" id="page-linhas">
-    <div class="ph"><div><div class="ph-title">Gestao de Linhas</div><div class="ph-sub">Capacidade, utilizacao e eficiencia das linhas industriais</div></div></div>
-    <div id="linhas-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin-bottom:16px"></div>
-    <div class="card"><div class="card-header"><div class="card-title">Utilizacao das Linhas</div></div><div class="chart-box" style="height:250px"><canvas id="chart-linhas-util"></canvas></div></div>
-  </div>
-
-  <!-- ALMOXARIFADOS -->
-  <div class="page" id="page-almoxarifados">
-    <div class="ph"><div><div class="ph-title">Almoxarifados</div><div class="ph-sub">Capacidade e ocupacao dos armazens</div></div></div>
-    <div id="almox-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-bottom:16px"></div>
-    <div class="card"><div class="card-header"><div class="card-title">Historico de Ocupacao</div></div><div class="chart-box" style="height:230px"><canvas id="chart-almox-hist"></canvas></div></div>
-  </div>
-
-  <!-- COMERCIAL -->
-  <div class="page" id="page-comercial">
-    <div class="ph"><div><div class="ph-title">Analise Comercial</div><div class="ph-sub">Previsao vs Realizado - Curva ABC - Demanda futura</div></div></div>
-    <div class="kpi-grid" style="margin-bottom:14px">
-      <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div><div class="kpi-val" id="com-prev-tot">-</div><div class="kpi-label">Sigma Previsto</div></div>
-      <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="kpi-val" id="com-real-tot">-</div><div class="kpi-label">Sigma Realizado</div></div>
-      <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="kpi-val" id="com-ader">-%</div><div class="kpi-label">Aderencia</div></div>
-      <div class="kpi orange"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><div class="kpi-val" id="com-itens">-</div><div class="kpi-label">Itens c/ GAP</div></div>
-    </div>
-    <div class="grid2"><div class="card"><div class="card-header"><div class="card-title">Previsao vs Realizado</div></div><div class="chart-box" style="height:210px"><canvas id="chart-prev-real"></canvas></div></div><div class="card"><div class="card-header"><div class="card-title">Curva ABC</div></div><div class="chart-box" style="height:210px"><canvas id="chart-abc"></canvas></div></div></div>
-    <div class="card"><div class="card-header"><div class="card-title">Detalhamento Previsao</div><div class="card-actions"><span class="pill" id="prev-cnt">0</span></div></div><div class="srow"><input class="sinput" id="prev-q" placeholder="Buscar item..." oninput="rPrevisao()"><label class="schk"><input type="checkbox" id="prev-gap" onchange="rPrevisao()"> So com GAP</label></div><div class="mrow" id="prev-met"></div><div class="twrap" style="max-height:380px"><table><thead><tr><th>Item</th><th>UM</th><th style="text-align:right">Previsto</th><th style="text-align:right">Realizado</th><th style="text-align:right">Diferenca</th><th style="text-align:right">%</th><th>Status</th></tr></thead><tbody id="prev-body"></tbody></table></div></div>
-  </div>
-
-  <!-- PREVISOES -->
-  <div class="page" id="page-previsao">
-    <div class="ph"><div><div class="ph-title">Analise de Demandas</div><div class="ph-sub">Saldo vs demanda total por almoxarifado</div></div><div class="ph-actions"><button class="btn" onclick="expCSV('dem')">Exportar CSV</button></div></div>
-    <div class="card"><div class="card-header"><div class="card-title">Demanda Detalhada</div><div class="card-actions"><span class="pill" id="dem-cnt">0</span><select class="ssel" id="dem-alm" onchange="rDemandas()"><option value="Almox3">Almox 3</option><option value="Almox30">Almox 30</option><option value="SaldoTotal">Total</option></select><label class="schk"><input type="checkbox" id="dem-ap" onchange="rDemandas()"> So c/ demanda</label><select class="ssel" id="dem-st" onchange="rDemandas()"><option value="">Todos</option><option value="FALTA">Falta</option><option value="OK">OK</option></select></div></div><div class="srow"><input class="sinput" id="dem-q" placeholder="Buscar item..." oninput="rDemandas()"></div><div class="mrow" id="dem-met"></div><div class="twrap" style="max-height:520px"><table><thead><tr><th>Codigo</th><th>Descricao</th><th style="text-align:right">Saldo</th><th style="text-align:right">Dem.DC</th><th style="text-align:right">Previsto</th><th style="text-align:right">Ordens</th><th style="text-align:right">Dem.Total</th><th style="text-align:right">Saldo vs Dem</th><th style="text-align:right">Cob.%</th><th>Status</th></tr></thead><tbody id="dem-body"></tbody></table></div></div>
-  </div>
-
-  <!-- MOVIMENTACOES -->
-  <div class="page" id="page-movimentacoes">
-    <div class="ph"><div><div class="ph-title">Movimentacoes</div><div class="ph-sub">Historico de entradas, saidas, producoes e transferencias</div></div></div>
-    <div class="grid2"><div class="card"><div class="card-header"><div class="card-title">Volume por Tipo</div></div><div class="chart-box" style="height:195px"><canvas id="chart-mov-tipo"></canvas></div></div><div class="card"><div class="card-header"><div class="card-title">Tendencia Semanal</div></div><div class="chart-box" style="height:195px"><canvas id="chart-mov-tend"></canvas></div></div></div>
-    <div class="card"><div class="card-header"><div class="card-title">Timeline de Movimentacoes</div></div><div class="tl" id="tl-movs" style="max-height:500px;overflow-y:auto"></div></div>
-  </div>
-
-  <!-- PERFIL -->
-  <div class="page" id="page-perfil">
-    <div class="ph"><div><div class="ph-title">Perfil de Itens</div><div class="ph-sub">RPLA0300 - Planejamento detalhado por item</div></div></div>
-    <div class="card"><div class="card-header"><div class="card-title">Perfil de Itens</div><div class="card-actions"><span class="pill" id="perf-cnt">0</span></div></div><div class="srow"><input class="sinput" id="perf-q" placeholder="Buscar item..." oninput="rPerfil()"><select class="ssel" id="perf-tp" onchange="rPerfil()"><option value="">Todos os tipos</option><option value="DC">DC</option><option value="DP">DP</option><option value="OFP">OFP</option><option value="OFA">OFA</option><option value="DD">DD</option><option value="DE">DE</option><option value="OCP">OCP</option></select></div><div class="twrap" style="max-height:580px"><table><thead><tr><th>Data</th><th>Item</th><th>Tipo</th><th>Referencia</th><th>Dt. Inicio</th><th>Dt. Fim</th><th style="text-align:right">Quantidade</th><th style="text-align:right">Estq. Proj.</th></tr></thead><tbody id="perf-body"></tbody></table></div></div>
-  </div>
-
-  <!-- ORDENS -->
-  <div class="page" id="page-ordens">
-    <div class="ph"><div><div class="ph-title">Ordens Liberadas</div><div class="ph-sub">Ordens de fabricacao ativas e pendentes</div></div></div>
-    <div class="card"><div class="card-header"><div class="card-title">Ordens de Fabricacao</div><div class="card-actions"><span class="pill" id="ord-cnt">0</span></div></div><div class="srow"><input class="sinput" id="ord-q" placeholder="Buscar ordem ou item..." oninput="rOrdens()"><select class="ssel" id="ord-tp" onchange="rOrdens()"><option value="">Todos os tipos</option><option value="OFP">OFP</option><option value="OFA">OFA</option></select></div><div class="twrap" style="max-height:580px"><table><thead><tr><th>Ordem</th><th>Planejador</th><th>Tipo</th><th>Codigo</th><th>Descricao</th><th>UM</th><th>Dt. Inicio</th><th>Dt. Fim</th><th>Situacao</th><th style="text-align:right">Qtde</th><th style="text-align:right">Qtde Pend.</th></tr></thead><tbody id="ord-body"></tbody></table></div></div>
-  </div>
-
-  <!-- SIMULADOR -->
-  <div class="page" id="page-simulador">
-    <div class="ph"><div><div class="ph-title">Simulador PCP</div><div class="ph-sub">Altere parametros e veja o impacto em tempo real</div></div><div class="ph-actions"><button class="btn prim" onclick="runSim()">Executar</button><button class="btn" onclick="resetSim()">Reset</button></div></div>
-    <div class="grid2">
-      <div class="card"><div class="card-header"><div class="card-title">Parametros de Entrada</div></div>
-        <div class="sim-controls">
-          <div class="sim-field"><label class="sim-label">Demanda extra (%)</label><input class="sim-input" id="sim-dem" type="number" value="0" min="-50" max="200"><input type="range" min="-50" max="200" value="0" step="1" oninput="document.getElementById('sim-dem').value=this.value;runSim()" style="accent-color:var(--accent);width:100%"></div>
-          <div class="sim-field"><label class="sim-label">Capacidade diaria (ton)</label><input class="sim-input" id="sim-cap" type="number" value="800"><input type="range" min="0" max="2000" value="800" step="1" oninput="document.getElementById('sim-cap').value=this.value;runSim()" style="accent-color:var(--accent);width:100%"></div>
-          <div class="sim-field"><label class="sim-label">Estoque inicial almox 30</label><input class="sim-input" id="sim-est30" type="number" value="5000"></div>
-          <div class="sim-field"><label class="sim-label">Estoque inicial almox 3</label><input class="sim-input" id="sim-est3" type="number" value="3000"></div>
-          <div class="sim-field"><label class="sim-label">Capacidade almox 30 (ton)</label><input class="sim-input" id="sim-calm30" type="number" value="20000"><input type="range" min="5000" max="50000" value="20000" step="1" oninput="document.getElementById('sim-calm30').value=this.value;runSim()" style="accent-color:var(--accent);width:100%"></div>
-          <div class="sim-field"><label class="sim-label">Dias de simulacao</label><input class="sim-input" id="sim-dias" type="number" value="30" min="1" max="90"><input type="range" min="1" max="90" value="30" step="1" oninput="document.getElementById('sim-dias').value=this.value;runSim()" style="accent-color:var(--accent);width:100%"></div>
-        </div>
-        <div style="padding:10px 16px;border-top:1px solid var(--border)"><button class="btn prim" onclick="runSim()" style="width:100%">Executar Simulacao</button></div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div class="card"><div class="card-header"><div class="card-title">Resultado da Simulacao</div></div>
-          <div style="padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <div class="sim-res"><div class="sim-res-l">Necessidade Producao</div><div class="sim-res-v" id="sim-r-prod" style="color:var(--accent)">-</div></div>
-            <div class="sim-res"><div class="sim-res-l">Rupturas Previstas</div><div class="sim-res-v" id="sim-r-rupt" style="color:var(--red)">-</div></div>
-            <div class="sim-res"><div class="sim-res-l">Gargalo Identificado</div><div class="sim-res-v" id="sim-r-garg" style="color:var(--yellow);font-size:14px">-</div></div>
-            <div class="sim-res"><div class="sim-res-l">Cap. Almox Restante</div><div class="sim-res-v" id="sim-r-almox" style="color:var(--green)">-</div></div>
-            <div class="sim-res" style="grid-column:1/-1"><div class="sim-res-l">Diagnostico</div><div id="sim-r-diag" style="font-size:11px;color:var(--text2);margin-top:6px;line-height:1.6">Execute a simulacao para ver o diagnostico.</div></div>
+          <div class="card-header">
+            <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 6-6"/></svg>Resumo Criticos e em Risco</div>
+            <div class="card-actions"><span class="pill" id="dash-cnt">0</span></div>
+          </div>
+          <div class="srow">
+            <input class="sinput" id="dash-q" placeholder="Buscar codigo ou produto..." oninput="rDash()">
+            <select class="ssel" id="dash-st" onchange="rDash()"><option value="">Todos</option><option value="CRITICO">Critico</option><option value="RISCO">Risco</option><option value="NORMAL">Normal</option></select>
+            <select class="ssel" id="dash-grp" onchange="rDash()"><option value="">Todos grupos</option></select>
+          </div>
+          <div class="twrap" style="max-height:320px">
+            <table><thead><tr>
+              <th onclick="srt('dash','Codigo')">Codigo</th>
+              <th onclick="srt('dash','Produto')">Produto</th>
+              <th onclick="srt('dash','Grupo')">Grupo</th>
+              <th class="num-r" onclick="srt('dash','Almox3')">Almox 3</th>
+              <th class="num-r" onclick="srt('dash','Almox30')">Almox 30</th>
+              <th class="num-r" onclick="srt('dash','PedidoComercial')">Ped. Comerc.</th>
+              <th class="num-r" onclick="srt('dash','NecessidadeComercial')">Nec. Comerc.</th>
+              <th class="num-r" onclick="srt('dash','SaldoFuturo')">Saldo Futuro</th>
+              <th>Status</th>
+            </tr></thead><tbody id="dash-body"></tbody></table>
           </div>
         </div>
-        <div class="card"><div class="card-header"><div class="card-title">Projecao de Estoque</div></div><div class="chart-box" style="height:200px"><canvas id="chart-sim"></canvas></div></div>
+        <!-- Grafico producao diaria REAL (EPP) -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Producao Diaria Real (EPP) - Ultimos 14 dias</div>
+          </div>
+          <div class="chart-box" style="height:220px"><canvas id="chart-prod-real"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Lado direito: criticos urgentes -->
+      <div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Acoes Urgentes</div></div>
+          <div id="urgente-list" style="max-height:260px;overflow-y:auto"></div>
+        </div>
+        <div class="card" style="margin-top:0">
+          <div class="card-header"><div class="card-title">Pedidos Comerciais</div></div>
+          <div id="ped-list" style="max-height:240px;overflow-y:auto"></div>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- ======= TABELA PCP ======= -->
+  <div class="page" id="page-pcp">
+    <div class="ph">
+      <div>
+        <div class="ph-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7-7H4a2 2 0 0 0-2 2v17"/><polyline points="14 2 14 8 20 8"/></svg>Tabela PCP Completa</div>
+        <div class="ph-sub">Logica: Nec.Com = Pedido - Almox3 | Saldo Futuro = Almox30 - Nec.Com</div>
+      </div>
+      <div class="ph-actions"><button class="btn" onclick="expCSVMain()">Exportar CSV</button></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Planejamento e Controle de Producao</div>
+        <div class="card-actions">
+          <span class="pill" id="pcp-cnt">0</span>
+          <select class="ssel" id="pcp-st" onchange="rPCP()"><option value="">Todos</option><option value="CRITICO">Critico</option><option value="RISCO">Risco</option><option value="NORMAL">Normal</option></select>
+          <select class="ssel" id="pcp-grp" onchange="rPCP()"><option value="">Todos grupos</option></select>
+        </div>
+      </div>
+      <div class="mrow" id="pcp-met"></div>
+      <div class="srow"><input class="sinput" id="pcp-q" placeholder="Buscar codigo ou produto..." oninput="rPCP()"></div>
+      <div class="twrap" style="max-height:560px">
+        <table><thead><tr>
+          <th onclick="srtP('Codigo')">Codigo</th>
+          <th onclick="srtP('Produto')">Produto</th>
+          <th onclick="srtP('Grupo')">Grupo</th>
+          <th class="num-r" onclick="srtP('Almox3')">Almox 3</th>
+          <th class="num-r" onclick="srtP('Almox30')">Almox 30</th>
+          <th class="num-r" onclick="srtP('PedidoComercial')">Pedido Comercial</th>
+          <th class="num-r" onclick="srtP('NecessidadeComercial')">Nec. Comercial</th>
+          <th class="num-r" onclick="srtP('SaldoFuturo')">Saldo Futuro A30</th>
+          <th class="num-r" onclick="srtP('EstoqueSeguranca')">Est. Seguranca</th>
+          <th>Status</th>
+          <th>Motivo</th>
+        </tr></thead><tbody id="pcp-body"></tbody></table>
+      </div>
+    </div>
+    <!-- Legenda na tabela PCP -->
+    <div class="legenda">
+      <div class="leg-pill g"><div class="leg-dot"></div>NORMAL - Comercial atendido, Almox30 acima seguranca</div>
+      <div class="leg-pill a"><div class="leg-dot"></div>RISCO - Saldo futuro &lt;= Seguranca x 1.2</div>
+      <div class="leg-pill r"><div class="leg-dot"></div>CRITICO - Atender comercial rompe estoque seguranca</div>
+    </div>
+  </div>
+
+  <!-- ======= ESTOQUES ======= -->
+  <div class="page" id="page-estoque">
+    <div class="ph"><div><div class="ph-title">Estoques Reais</div><div class="ph-sub">Almox 3 e Almox 30 por produto</div></div><div class="ph-actions"><button class="btn" onclick="expCSVEst()">Exportar</button></div></div>
+    <div class="grid2">
+      <div class="card"><div class="card-header"><div class="card-title">Status dos Itens</div></div><div class="chart-box" style="height:175px"><canvas id="chart-status"></canvas></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">Saldo Futuro Almox 30 vs Seguranca</div></div><div class="chart-box" style="height:175px"><canvas id="chart-saldo"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Posicao de Estoques</div><div class="card-actions"><span class="pill" id="est-cnt">0</span></div></div>
+      <div class="srow">
+        <input class="sinput" id="est-q" placeholder="Buscar item..." oninput="rEstoque()">
+        <select class="ssel" id="est-grp" onchange="rEstoque()"><option value="">Todos grupos</option></select>
+        <select class="ssel" id="est-st" onchange="rEstoque()"><option value="">Todos</option><option value="CRITICO">Critico</option><option value="RISCO">Risco</option><option value="NORMAL">Normal</option></select>
+      </div>
+      <div class="mrow" id="est-met"></div>
+      <div class="twrap" style="max-height:440px">
+        <table><thead><tr>
+          <th>Codigo</th><th>Produto</th><th>Grupo</th>
+          <th class="num-r">Almox 3</th><th class="num-r">Almox 30</th>
+          <th class="num-r">Ped. Comerc.</th><th class="num-r">Nec. Comerc.</th>
+          <th class="num-r">Saldo Futuro</th><th class="num-r">Est. Seg.</th>
+          <th>Status</th>
+        </tr></thead><tbody id="est-body"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= PRODUCAO REAL ======= -->
+  <div class="page" id="page-producao">
+    <div class="ph"><div><div class="ph-title">Producao Real (EPP)</div><div class="ph-sub">Entradas de Producao - sigla EPP do EXTRATO</div></div></div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Producao Diaria - SIGLA = EPP</div></div>
+      <div class="chart-box" style="height:260px"><canvas id="chart-prod-detalhado"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Detalhamento Producao</div><div class="card-actions"><span class="pill" id="prod-cnt">0</span></div></div>
+      <div class="srow"><input class="sinput" id="prod-q" placeholder="Buscar produto..." oninput="rProdReal()"></div>
+      <div class="twrap" style="max-height:440px">
+        <table><thead><tr>
+          <th>Data</th><th>Codigo</th><th>Produto</th><th>Grupo</th>
+          <th class="num-r">Quantidade</th>
+        </tr></thead><tbody id="prod-body"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= ORDENS ======= -->
+  <div class="page" id="page-ordens">
+    <div class="ph"><div><div class="ph-title">Ordens Liberadas</div><div class="ph-sub">Ordens de fabricacao ativas e pendentes</div></div></div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Ordens de Fabricacao</div><div class="card-actions"><span class="pill" id="ord-cnt">0</span></div></div>
+      <div class="srow"><input class="sinput" id="ord-q" placeholder="Buscar ordem ou item..." oninput="rOrdens()"><select class="ssel" id="ord-tp" onchange="rOrdens()"><option value="">Todos os tipos</option><option value="OFP">OFP</option><option value="OFA">OFA</option></select></div>
+      <div class="twrap" style="max-height:580px"><table><thead><tr><th>Ordem</th><th>Planejador</th><th>Tipo</th><th>Codigo</th><th>Descricao</th><th>UM</th><th>Dt. Inicio</th><th>Dt. Fim</th><th>Situacao</th><th class="num-r">Qtde</th><th class="num-r">Qtde Pend.</th></tr></thead><tbody id="ord-body"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- ======= PERFIL ======= -->
+  <div class="page" id="page-perfil">
+    <div class="ph"><div><div class="ph-title">Perfil de Itens</div><div class="ph-sub">RPLA0300 - Planejamento detalhado</div></div></div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Perfil de Itens</div><div class="card-actions"><span class="pill" id="perf-cnt">0</span></div></div>
+      <div class="srow"><input class="sinput" id="perf-q" placeholder="Buscar item..." oninput="rPerfil()"><select class="ssel" id="perf-tp" onchange="rPerfil()"><option value="">Todos os tipos</option><option value="DC">DC</option><option value="DP">DP</option><option value="OFP">OFP</option><option value="OFA">OFA</option><option value="DD">DD</option><option value="DE">DE</option></select></div>
+      <div class="twrap" style="max-height:580px"><table><thead><tr><th>Data</th><th>Item</th><th>Tipo</th><th>Referencia</th><th>Dt. Inicio</th><th>Dt. Fim</th><th class="num-r">Quantidade</th></tr></thead><tbody id="perf-body"></tbody></table></div>
+    </div>
+  </div>
+
 </main>
 </div>
 </div>
+
 <script>
-var PUB_ID="1_jTVohMskSRguXpHF8n5ym7WPHfjasvl92PXAPSrat8";
-var ABAS=['SALDO','PERFIL','ORDENS','PARAMETROS','PREVISAO'];
-var G={itens:[],perfil:[],ordens:[],previsao:[],paramMap:{},dcMap:{},ordensMap:{},prevMap:{},codSel:null,descSel:'',stFilter:'',_dem:[],_sug:[],_prod:[],sort:{},charts:{},
-linhas:[{nome:'Linha 1',tipo:'Argamassa Grossa',capDia:300,util:78,efic:91,color:'g'},{nome:'Linha 2',tipo:'Argamassa Fina',capDia:250,util:62,efic:85,color:'g'},{nome:'Linha 3',tipo:'Rejunte',capDia:200,util:88,efic:93,color:'a'},{nome:'Maquina 1',tipo:'Ensacamento',capDia:400,util:45,efic:79,color:'b'},{nome:'Maquina 2',tipo:'Paletizacao',capDia:600,util:31,efic:95,color:'g'},{nome:'Area Liquida',tipo:'Liquidos',capDia:150,util:97,efic:72,color:'r'}],
-almoxes:[{nome:'Almox 30',desc:'Armazem Principal - Produto Acabado',cap:20000,ocp:12400,prev30d:16800},{nome:'Almox 3',desc:'Armazem Expedicao - PA Estoque',cap:8000,ocp:5100,prev30d:7200},{nome:'Almox 4',desc:'Armazem Materia Prima',cap:15000,ocp:9800,prev30d:11000}],
-movs:[{tipo:'pr',ico:'&#x1F3ED;',titulo:'Producao finalizada - ARG-G 20KG',sub:'Linha 1 - Lote #4521',val:'+8.400 KG',cor:'var(--accent)'},{tipo:'sa',ico:'&#x1F4E4;',titulo:'Saida para CD Sao Paulo - Pedido #9821',sub:'NF 91423 - 3 SKUs',val:'-12.200 KG',cor:'var(--red)'},{tipo:'en',ico:'&#x1F4E5;',titulo:'Recebimento MP - Cimento CP-II',sub:'Fornecedor Votorantim',val:'+25.000 KG',cor:'var(--green)'},{tipo:'tr',ico:'&#x21D4;',titulo:'Transferencia Almox 30 -> Almox 3',sub:'ARG-F 5KG - 500 sacos',val:'2.500 KG',cor:'var(--yellow)'},{tipo:'pr',ico:'&#x1F3ED;',titulo:'Producao finalizada - REJ-C CINZA',sub:'Linha 3 - Lote #4520',val:'+3.600 KG',cor:'var(--accent)'},{tipo:'sa',ico:'&#x1F4E4;',titulo:'Saida - Pedido Leroy #8830',sub:'NF 91400 - 5 SKUs',val:'-6.800 KG',cor:'var(--red)'},{tipo:'en',ico:'&#x1F4E5;',titulo:'Recebimento MP - Areia Industrial',sub:'Fornecedor Dunas',val:'+40.000 KG',cor:'var(--green)'},{tipo:'tr',ico:'&#x21D4;',titulo:'Transferencia entre almoxes',sub:'ARG-ACF -> Almox 3',val:'1.200 KG',cor:'var(--yellow)'}]};
-window.onload=initLoad;
-function initLoad(){Promise.all(ABAS.map(fetchAba)).then(function(r){var d={};ABAS.forEach(function(a,i){d[a]=r[i];});processar(d);}).catch(function(){processar({SALDO:[],PERFIL:[],ORDENS:[],PARAMETROS:[],PREVISAO:[]});});}
-function fetchAba(aba){var url="https://docs.google.com/spreadsheets/d/"+PUB_ID+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(aba);return fetch(url).then(function(r){return r.ok?r.text():Promise.reject(new Error(aba));}).then(parseCSV);}
-function parseCSV(csv){var ls=csv.split('\n');if(!ls.length)return[];var cols=splitL(ls[0]);var rows=[];for(var i=1;i<ls.length;i++){var l=ls[i].trim();if(!l)continue;var vals=splitL(l);var obj={};cols.forEach(function(c,ci){obj[limpC(c)]=limpV(vals[ci]);});vals.forEach(function(v,vi){obj['_col'+vi]=limpV(v);});rows.push(obj);}return rows;}
+/* === CONFIG === */
+var PUB_ID = "1_jTVohMskSRguXpHF8n5ym7WPHfjasvl92PXAPSrat8";
+/* Abas: SALDO=estoque, PARAMETROS=seguranca, PERFIL=pedidos comerciais (DC), ORDENS=ordens, EXTRATO=producao EPP */
+var ABAS = ['SALDO','PARAMETROS','PERFIL','ORDENS','EXTRATO'];
+
+var G = {
+  saldo:[], parametros:[], perfil:[], ordens:[], extrato:[],
+  itens:[], /* itens processados com logica PCP */
+  epp:[], /* linhas EPP do extrato */
+  prodDiaria:[], /* {data, qty} agrupado por dia */
+  codSel:null, stFilter:'',
+  sort:{dash:{col:'Status',asc:true}, pcp:{col:'Status',asc:true}},
+  charts:{}
+};
+
+window.onload = initLoad;
+
+function initLoad(){
+  Promise.all(ABAS.map(fetchAba))
+    .then(function(r){
+      var d={};
+      ABAS.forEach(function(a,i){d[a]=r[i];});
+      processar(d);
+    })
+    .catch(function(e){
+      console.warn('Erro ao carregar:', e);
+      processar({SALDO:[],PARAMETROS:[],PERFIL:[],ORDENS:[],EXTRATO:[]});
+    });
+}
+
+function fetchAba(aba){
+  var url="https://docs.google.com/spreadsheets/d/"+PUB_ID+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(aba);
+  return fetch(url).then(function(r){return r.ok?r.text():Promise.reject(new Error(aba));}).then(parseCSV);
+}
+
+function parseCSV(csv){
+  var ls=csv.split('\n'); if(!ls.length)return[];
+  var cols=splitL(ls[0]); var rows=[];
+  for(var i=1;i<ls.length;i++){var l=ls[i].trim();if(!l)continue;var vals=splitL(l);var obj={};cols.forEach(function(c,ci){obj[limpC(c)]=limpV(vals[ci]);});vals.forEach(function(v,vi){obj['_col'+vi]=limpV(v);});rows.push(obj);}
+  return rows;
+}
 function splitL(line){var r=[],cur='',inQ=false;for(var i=0;i<line.length;i++){var ch=line[i];if(ch==='"'){inQ=!inQ;}else if(ch===','&&!inQ){r.push(cur);cur='';}else{cur+=ch;}}r.push(cur);return r;}
 function limpC(c){return(c||'').trim().replace(/^"|"$/g,'');}
 function limpV(v){return(v===undefined||v===null)?'':String(v).trim().replace(/^"|"$/g,'');}
+
+/* === PROCESSAR === */
 function processar(dados){
-  var saldo=dados['SALDO']||[],perfil=dados['PERFIL']||[],ordens=dados['ORDENS']||[],parametros=dados['PARAMETROS']||[],previsao=dados['PREVISAO']||[];
-  G.perfil=perfil;G.ordens=ordens;G.previsao=previsao;
-  G.paramMap={};parametros.forEach(function(r){var c=s(r['Cod. Item']||r['_col0']||'');if(c)G.paramMap[c]=r;});
-  G.dcMap={};perfil.forEach(function(r){if(s(r['Tipo']||r['_col2']||'').toUpperCase()==='DC'){var it=s(r['Item']||r['_col1']||'');G.dcMap[it]=(G.dcMap[it]||0)+n(r['Quantidade']||r['_col6']||0);}});
-  G.ordensMap={};ordens.forEach(function(r){var c=s(r['Cod. Item']||r['_col3']||'');if(c&&s(r['Situacao']||r['_col8']||'').toLowerCase()==='liberada')G.ordensMap[c]=(G.ordensMap[c]||0)+n(r['Qtde. Pendente']||r['_col10']||0);});
-  G.prevMap={};previsao.forEach(function(r){var it=s(r['Item']||r['_col0']||'');if(it)G.prevMap[it]=n(r['Previsto']||r['_col2']||0);});
-  G.itens=saldo.map(function(r){
-    var cod=s(r['Codigo']||r['Código']||r['_col0']||''),desc=s(r['Descricao']||r['Descrição']||r['_col1']||'');if(!cod)return null;
-    var p=G.paramMap[cod]||{},estqSeg=n(p['Estq. Seg']||p['_col6']||0);
-    var a3=n(r['Almox 3']||r['_col2']||0),a30=n(r['Almox 30']||r['_col3']||0),a4=n(r['Almox 4']||r['_col4']||0),sT=n(r['Saldo Total']||r['_col6']||0);
-    var dDC=G.dcMap[cod]||0,ord=G.ordensMap[cod]||0,prev=G.prevMap[cod]||0;
-    var sR=a3+ord-dDC;
-    var status=sR<0?'FALTA':(estqSeg>0&&a30<estqSeg)?'RISCO':(dDC>0&&a30>0&&dDC>=a30*.5)?'RISCO':'OK';
-    return{Codigo:cod,Descricao:desc,Almox3:a3,Almox30:a30,Almox4:a4,SaldoTotal:sT,DemandaDC:dDC,Ordens:ord,Previsto:prev,EstqSeg:estqSeg,SaldoReal:sR,Status:status};
+  G.saldo    = dados['SALDO']    || [];
+  G.parametros = dados['PARAMETROS'] || [];
+  G.perfil   = dados['PERFIL']   || [];
+  G.ordens   = dados['ORDENS']   || [];
+  G.extrato  = dados['EXTRATO']  || [];
+
+  /* Mapa de estoque de seguranca por codigo */
+  var segMap = {};
+  G.parametros.forEach(function(r){
+    var cod = s(r['Cod. Item']||r['_col0']||'');
+    if(cod) segMap[cod] = n(r['Estq. Seg']||r['_col6']||0);
+  });
+
+  /* Mapa de pedido comercial por codigo (tipo DC do PERFIL) */
+  var dcMap = {};
+  G.perfil.forEach(function(r){
+    if(s(r['Tipo']||r['_col2']||'').toUpperCase()==='DC'){
+      var cod = s(r['Item']||r['_col1']||'');
+      dcMap[cod] = (dcMap[cod]||0) + n(r['Quantidade']||r['_col6']||0);
+    }
+  });
+
+  /* Processar EXTRATO: filtrar sigla EPP */
+  G.epp = G.extrato.filter(function(r){
+    var sigla = s(r['Sigla']||r['sigla']||r['SIGLA']||r['_col2']||'').toUpperCase();
+    return sigla === 'EPP';
+  });
+
+  /* Agrupar producao diaria */
+  var dpMap = {};
+  G.epp.forEach(function(r){
+    var data = s(r['Data']||r['data']||r['DATA']||r['_col0']||'');
+    var qty  = n(r['Quantidade']||r['quantidade']||r['QUANTIDADE']||r['_col4']||0);
+    if(data){
+      dpMap[data] = (dpMap[data]||0) + qty;
+    }
+  });
+  /* Converter para array e ordenar */
+  G.prodDiaria = Object.keys(dpMap).map(function(d){return{data:d,qty:dpMap[d]};});
+  G.prodDiaria.sort(function(a,b){return a.data.localeCompare(b.data);});
+
+  /* Processar itens SALDO com logica PCP */
+  G.itens = G.saldo.map(function(r){
+    var cod     = s(r['Codigo']||r['Código']||r['_col0']||'');
+    var produto = s(r['Descricao']||r['Descrição']||r['Produto']||r['_col1']||'');
+    var grupo   = s(r['Grupo']||r['_col5']||'');
+    if(!cod) return null;
+
+    var almox3  = n(r['Almox 3']||r['_col2']||0);
+    var almox30 = n(r['Almox 30']||r['_col3']||0);
+    var pedidoComercial = dcMap[cod] || 0;
+    var estSeg  = segMap[cod] || 0;
+
+    /* PASSO 1: Necessidade Comercial */
+    var necCom = pedidoComercial - almox3;
+    if(necCom < 0) necCom = 0;
+
+    /* PASSO 3: Saldo Futuro Almox 30 */
+    var saldoFuturo = almox30 - necCom;
+
+    /* PASSOS 4-6: Status e Motivo */
+    var status, motivo, motivoCls;
+    if(saldoFuturo < estSeg){
+      status = 'CRITICO';
+      motivo = 'Atender comercial rompe estoque seguranca.';
+      motivoCls = 'r';
+    } else if(estSeg > 0 && saldoFuturo <= estSeg * 1.2){
+      status = 'RISCO';
+      motivo = 'Estoque proximo limite seguranca.';
+      motivoCls = 'a';
+    } else {
+      status = 'NORMAL';
+      motivo = 'Comercial atendido. Almox 30 acima seguranca.';
+      motivoCls = 'g';
+    }
+
+    return {
+      Codigo:cod, Produto:produto, Grupo:grupo,
+      Almox3:almox3, Almox30:almox30,
+      PedidoComercial:pedidoComercial,
+      NecessidadeComercial:necCom,
+      SaldoFuturo:saldoFuturo,
+      EstoqueSeguranca:estSeg,
+      Status:status, Motivo:motivo, MotivoCls:motivoCls
+    };
   }).filter(Boolean);
-  var ts=new Date().toLocaleString('pt-BR');txt('hdr-ts',ts);txt('sf-ts',ts);
+
+  /* Preencher selects de grupo */
+  var grupos = [...new Set(G.itens.map(function(x){return x.Grupo;}).filter(Boolean))].sort();
+  ['dash-grp','pcp-grp','est-grp'].forEach(function(id){
+    var sel = el(id); if(!sel)return;
+    var cur = sel.value;
+    sel.innerHTML = '<option value="">Todos grupos</option>';
+    grupos.forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o);});
+    sel.value = cur;
+  });
+
+  var ts = new Date().toLocaleString('pt-BR');
+  txt('hdr-ts',ts); txt('sf-ts',ts);
   renderAll();
 }
-function renderAll(){updateKPIs();updateAlerts();rDash();rEstoques();rDemandas();rSugestao();rProd();rPerfil();rOrdens();rPrevisao();renderLinhas();renderAlmoxes();renderMovs();renderCharts();runSim();}
-function updateKPIs(){var its=gFilt(G.itens);var nC=its.filter(function(x){return x.Status==='FALTA';}).length;var nW=its.filter(function(x){return x.Status==='RISCO';}).length;var nO=its.filter(function(x){return x.Status==='OK';}).length;txt('kpi-total',its.length);txt('kpi-crit',nC);txt('kpi-warn',nW);txt('kpi-ok',nO);txt('kpi-pend',G.perfil.filter(function(r){return s(r['Tipo']||r['_col2']||'').toUpperCase()==='DC';}).length);txt('kpi-ord',G.ordens.filter(function(r){return s(r['Situacao']||r['_col8']||'').toLowerCase()==='liberada';}).length);txt('kpi-prev',G.previsao.length);txt('kpi-efic','87%');txt('nb-crit',nC);txt('nb-prod',nC+nW);txt('nb-est',its.length);txt('nb-sug',nC+nW);}
-function updateAlerts(){var its=gFilt(G.itens);var nC=its.filter(function(x){return x.Status==='FALTA';}).length;var nW=its.filter(function(x){return x.Status==='RISCO';}).length;var alerts=[];if(nC>0)alerts.push({cls:'alert-d',title:'Ruptura de Estoque',body:nC+' item(s) com saldo real negativo. Producao urgente necessaria.'});if(nW>0)alerts.push({cls:'alert-w',title:'Estoque Abaixo do Ponto de Seguranca',body:nW+' item(s) em risco. Programar producao nos proximos dias.'});var lA=G.linhas.find(function(l){return l.nome==='Area Liquida';});if(lA&&lA.util>95)alerts.push({cls:'alert-d',title:'Linha Sobrecarregada - Area Liquida',body:'Utilizacao em '+lA.util+'%. Risco de parada e atrasos.'});if(!alerts.length)alerts.push({cls:'alert-s',title:'Sistema Normalizado',body:'Todos os indicadores dentro dos parametros. Monitoramento continuo ativo.'});el('alert-box').innerHTML=alerts.map(function(a){return'<div class="alert '+a.cls+'"><div><div class="alert-title">'+a.title+'</div><div class="alert-body">'+a.body+'</div></div></div>';}).join('');}
-function rDash(){var q=v('dash-q').toLowerCase(),st=v('dash-st')||G.stFilter;var its=gFilt(G.itens).filter(function(it){if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Descricao.toLowerCase().includes(q))return false;if(st&&it.Status!==st)return false;return true;});sortArr(its,'dash');txt('dash-cnt',its.length);var b=el('dash-body');b.innerHTML='';if(!its.length){b.innerHTML='<tr><td colspan="9" class="empty">Nenhum item encontrado</td></tr>';}else its.forEach(function(it){var tr=mkTr(it);tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis">'+it.Descricao+'</td><td style="text-align:right">'+fN(it.SaldoTotal)+'</td><td style="text-align:right">'+fN(it.Almox3)+'</td><td style="text-align:right">'+fN(it.Almox30)+'</td><td style="text-align:right">'+fN(it.DemandaDC)+'</td><td style="text-align:right">'+fN(it.Previsto)+'</td><td style="text-align:right">'+fN(it.Ordens)+'</td><td>'+bdg(it.Status)+'</td>';b.appendChild(tr);});
-var peds=G.perfil.filter(function(r){return s(r['Tipo']||r['_col2']||'').toUpperCase()==='DC'&&(!G.codSel||s(r['Item']||r['_col1']||'')===G.codSel);}).sort(function(a,b2){return s(a['Data Fim']||a['_col5']||'').localeCompare(s(b2['Data Fim']||b2['_col5']||''));});
-var pl=el('ped-list');pl.innerHTML=peds.length?'':'<div class="empty">Nenhum pedido DC</div>';peds.slice(0,10).forEach(function(r){pl.innerHTML+='<div class="mini-item"><div><div class="mini-code">'+s(r['Item']||r['_col1']||'')+'</div><div class="mini-sub">'+s(r['Data Fim']||r['_col5']||'')+'</div></div><div class="mini-val">'+fN(n(r['Quantidade']||r['_col6']||0))+'</div></div>';});
-var sq=el('sug-quick');var sg=gFilt(G.itens).filter(function(x){return x.Status!=='OK'&&x.SaldoReal<0;});sq.innerHTML=sg.length?'':'<div class="empty" style="color:var(--green)">Todos os itens OK</div>';sg.slice(0,8).forEach(function(it){var qty=Math.max(it.DemandaDC-it.Almox3-it.Ordens+it.EstqSeg,0);var cls=it.Status==='FALTA'?'c':'w';sq.innerHTML+='<div class="sug-item '+cls+'" onclick="selItem(\''+esc(it.Codigo)+'\',\''+esc(it.Descricao)+'\')"><div><div class="sug-code">'+it.Codigo+'</div><div class="sug-desc">'+it.Descricao.substring(0,30)+'</div></div><div><div class="sug-qty">'+fN(qty)+'</div><div class="sug-qlbl">produzir</div></div></div>';});
-var am=el('almox-mini');am.innerHTML='';G.almoxes.forEach(function(a){var pct=Math.round(a.ocp/a.cap*100);var clr=pct>90?'var(--red)':pct>75?'var(--yellow)':'var(--green)';var bCls=pct>90?'crit':pct>75?'warn':'';am.innerHTML+='<div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;font-weight:600">'+a.nome+'</span><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:'+clr+'">'+pct+'%</span></div><div class="abar-track"><div class="abar-fill '+bCls+'" style="width:'+pct+'%"></div></div><div style="font-size:9px;color:var(--text3)">'+fN(a.ocp)+' / '+fN(a.cap)+' ton</div></div>';});}
-function rEstoques(){var alm=v('estq-alm')||'Almox3',apenas=el('estq-ab').checked,q=v('estq-q').toLowerCase();var its=gFilt(G.itens).filter(function(it){if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Descricao.toLowerCase().includes(q))return false;var dif=it[alm]-it.EstqSeg;it._eSt=dif<0?'ABAIXO':'OK';it._eDif=dif;it._eCob=it.DemandaDC>0?Math.round(it[alm]/it.DemandaDC*100):999;if(apenas&&it._eSt!=='ABAIXO')return false;return true;});its.sort(function(a,b){return a._eDif-b._eDif;});txt('estq-cnt',its.length);var nAb=its.filter(function(x){return x._eSt==='ABAIXO';}).length;el('estq-met').innerHTML=mbox('Abaixo Seg.',nAb,nAb>0?'r':'')+mbox('Normal',its.length-nAb,'g')+mbox('Total',its.length,'');var b=el('estq-body');b.innerHTML='';its.forEach(function(it){var ab=it._eSt==='ABAIXO';var tr=mkTr(it,ab?'FALTA':'OK');var c=ab?'var(--red)':'var(--green)';tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis">'+it.Descricao+'</td><td style="text-align:right">'+fN(it[alm])+'</td><td style="text-align:right">'+fN(it.EstqSeg)+'</td><td style="text-align:right;font-weight:700;color:'+c+'">'+fN(it._eDif)+'</td><td style="text-align:right">'+(it._eCob>=999?'inf':it._eCob+'%')+'</td><td>'+bdg(it._eSt==='ABAIXO'?'FALTA':'OK')+'</td>';tr.onclick=function(){selItem(it.Codigo,it.Descricao);};b.appendChild(tr);});}
-function rDemandas(){var alm=v('dem-alm')||'Almox3',apenas=el('dem-ap').checked,q=v('dem-q').toLowerCase(),st=v('dem-st');var its=gFilt(G.itens).filter(function(it){if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Descricao.toLowerCase().includes(q))return false;var dT=it.DemandaDC+it.Previsto+it.Ordens;if(apenas&&dT===0)return false;var svd=it[alm]-dT;var cob=dT>0?Math.round(it[alm]/dT*100):100;var dSt=svd<0?'FALTA':'OK';if(st&&dSt!==st)return false;it._dT=dT;it._dSvd=svd;it._dCob=cob;it._dSt=dSt;return true;});its.sort(function(a,b){return a._dSvd-b._dSvd;});txt('dem-cnt',its.length);G._dem=its;var sD=its.reduce(function(a,x){return a+x._dT;},0),sS=its.reduce(function(a,x){return a+x[alm];},0);el('dem-met').innerHTML=mbox('Total',its.length,'')+mbox('Falta',its.filter(function(x){return x._dSt==='FALTA';}).length,'r')+mbox('Dem.Total',fN(sD),'')+mbox('Saldo',fN(sS),'');var b=el('dem-body');b.innerHTML='';its.forEach(function(it){var tr=mkTr(it,it._dSt);var c=it._dSvd<0?'var(--red)':'var(--green)';tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td style="max-width:120px;overflow:hidden;text-overflow:ellipsis">'+it.Descricao+'</td><td style="text-align:right">'+fN(it[alm])+'</td><td style="text-align:right">'+fN(it.DemandaDC)+'</td><td style="text-align:right">'+fN(it.Previsto)+'</td><td style="text-align:right">'+fN(it.Ordens)+'</td><td style="text-align:right">'+fN(it._dT)+'</td><td style="text-align:right;font-weight:700;color:'+c+'">'+fN(it._dSvd)+'</td><td style="text-align:right">'+it._dCob+'%</td><td>'+bdg(it._dSt)+'</td>';tr.onclick=function(){selItem(it.Codigo,it.Descricao);};b.appendChild(tr);});}
-function rSugestao(){var alm=v('sug-alm')||'Almox3',incE=el('sug-estq').checked,incP=el('sug-prev').checked;var its=gFilt(G.itens).filter(function(x){return x.Status!=='OK';});its.forEach(function(it){var dem=it.DemandaDC+(incP?it.Previsto:0);it._sQty=Math.max(dem-it[alm]-it.Ordens+(incE?it.EstqSeg:0),0);});its=its.filter(function(x){return x._sQty>0;});its.sort(function(a,b){if(a.Status!==b.Status)return a.Status==='FALTA'?-1:1;return b._sQty-a._sQty;});G._sug=its;var nF=its.filter(function(x){return x.Status==='FALTA';}).length;txt('sug-cnt',its.length);el('sug-met').innerHTML=mbox('Urgente',nF,'r')+mbox('Atencao',its.length-nF,'a')+mbox('Total',its.length,'');var e2=el('sug-list');if(!its.length){e2.innerHTML='<div class="empty" style="color:var(--green)">Nenhum item necessita producao</div>';return;}e2.innerHTML='';its.forEach(function(it){var cls=it.Status==='FALTA'?'c':'w';e2.innerHTML+='<div class="sug-item '+cls+'" onclick="selItem(\''+esc(it.Codigo)+'\',\''+esc(it.Descricao)+'\')"><div><div class="sug-code">'+it.Codigo+'</div><div class="sug-desc">'+it.Descricao.substring(0,50)+'</div><div style="font-size:10px;color:var(--text3);margin-top:3px">Saldo: '+fN(it[alm])+' - DC: '+fN(it.DemandaDC)+' - Prev: '+fN(it.Previsto)+'</div></div><div><div class="sug-qty">'+fN(it._sQty)+'</div><div class="sug-qlbl">produzir</div></div></div>';});}
-function rProd(){var alm=v('prod-alm')||'Almox3',incE=el('prod-estq').checked,incP=el('prod-prev').checked,q=v('prod-q').toLowerCase(),pri=v('prod-pri');var LMAP={'ARG':'Linha 1','REJ':'Linha 3','LIQ':'Area Liquida','MAS':'Linha 2'};var its=gFilt(G.itens).filter(function(x){return x.Status!=='OK';});its.forEach(function(it){var dem=it.DemandaDC+(incP?it.Previsto:0);it._sQty=Math.max(dem-it[alm]-it.Ordens+(incE?it.EstqSeg:0),0);it._prioridade=it.Status==='FALTA'?'URGENTE':'ALTA';it._linhaSug=LMAP[it.Codigo.substring(0,3).toUpperCase()]||'Linha 1';});its=its.filter(function(x){if(x._sQty<=0)return false;if(q&&!x.Codigo.toLowerCase().includes(q)&&!x.Descricao.toLowerCase().includes(q))return false;if(pri&&x._prioridade!==pri)return false;return true;});its.sort(function(a,b){if(a.Status!==b.Status)return a.Status==='FALTA'?-1:1;return b._sQty-a._sQty;});G._prod=its;txt('prod-cnt',its.length);var nU=its.filter(function(x){return x._prioridade==='URGENTE';}).length;el('prod-met').innerHTML=mbox('Urgente',nU,'r')+mbox('Alta',its.length-nU,'a')+mbox('Total',its.length,'');var b=el('prod-body');b.innerHTML='';if(!its.length){b.innerHTML='<tr><td colspan="9" class="empty">Nenhuma sugestao de producao</td></tr>';return;}its.forEach(function(it){var tr=mkTr(it,it.Status);tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">'+it.Descricao+'</td><td style="text-align:right;font-weight:700;color:'+(it.Status==='FALTA'?'var(--red)':'var(--yellow)')+'">'+fN(it._sQty)+'</td><td><span class="bdg bdg-i">'+it._linhaSug+'</span></td><td>'+bdg(it._prioridade==='URGENTE'?'FALTA':'RISCO')+'</td><td style="text-align:right">'+fN(it[alm])+'</td><td style="text-align:right">'+fN(it.DemandaDC)+'</td><td style="text-align:right">'+fN(it.EstqSeg)+'</td><td><button class="btn" style="padding:2px 8px;font-size:10px" onclick="event.stopPropagation()">Programar</button></td>';tr.onclick=function(){selItem(it.Codigo,it.Descricao);};b.appendChild(tr);});}
-function rPerfil(){var q=v('perf-q').toLowerCase(),tp=v('perf-tp').toUpperCase();var rows=G.perfil.filter(function(r){var item=s(r['Item']||r['_col1']||''),tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();if(G.codSel&&item!==G.codSel)return false;if(q&&!item.toLowerCase().includes(q))return false;if(tp&&tipo!==tp)return false;return true;});txt('perf-cnt',rows.length);var b=el('perf-body');b.innerHTML='';if(!rows.length){b.innerHTML='<tr><td colspan="8" class="empty">Nenhum registro</td></tr>';return;}rows.slice(0,500).forEach(function(r){var tipo2=s(r['Tipo']||r['_col2']||'').toUpperCase();var tr=document.createElement('tr');tr.innerHTML='<td style="font-size:10px;color:var(--text3)">'+s(r['Data Relatorio']||r['_col0']||'')+'</td><td><code>'+s(r['Item']||r['_col1']||'')+'</code></td><td>'+bdg(tipo2,tipo2==='DC'?'w':(tipo2==='OFP'||tipo2==='OFA'?'s':'m'))+'</td><td style="font-size:10px;color:var(--text3)">'+s(r['Referencia']||r['_col3']||'')+'</td><td style="font-size:10px">'+s(r['Data Inicio']||r['_col4']||'')+'</td><td style="font-size:10px">'+s(r['Data Fim']||r['_col5']||'')+'</td><td style="text-align:right;font-weight:600">'+fN(n(r['Quantidade']||r['_col6']||0))+'</td><td style="text-align:right">'+fN(n(r['_col7']||0))+'</td>';b.appendChild(tr);});}
-function rOrdens(){var q=v('ord-q').toLowerCase(),tp=v('ord-tp').toUpperCase();var rows=G.ordens.filter(function(r){var cod=s(r['Cod. Item']||r['_col3']||''),ord=s(r['Ordem']||r['_col0']||''),tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();if(G.codSel&&cod!==G.codSel)return false;if(q&&!cod.toLowerCase().includes(q)&&!ord.toLowerCase().includes(q))return false;if(tp&&tipo!==tp)return false;return true;});txt('ord-cnt',rows.length);var b=el('ord-body');b.innerHTML='';if(!rows.length){b.innerHTML='<tr><td colspan="11" class="empty">Nenhuma ordem encontrada</td></tr>';return;}rows.forEach(function(r){var cod=s(r['Cod. Item']||r['_col3']||'');var tr=document.createElement('tr');tr.onclick=function(){selItem(cod,s(r['Descricao']||r['_col4']||''));};tr.innerHTML='<td><code>'+s(r['Ordem']||r['_col0']||'')+'</code></td><td>'+s(r['Planejador']||r['_col1']||'')+'</td><td><span class="bdg bdg-i">'+s(r['Tipo']||r['_col2']||'')+'</span></td><td><code>'+cod+'</code></td><td style="max-width:130px;overflow:hidden;text-overflow:ellipsis">'+s(r['Descricao']||r['_col4']||'')+'</td><td>'+s(r['UM']||r['_col5']||'')+'</td><td style="font-size:10px;color:var(--text3)">'+s(r['Dt. Inicio']||r['_col6']||'')+'</td><td style="font-size:10px;color:var(--text3)">'+s(r['Dt. Fim']||r['_col7']||'')+'</td><td>'+s(r['Situacao']||r['_col8']||'')+'</td><td style="text-align:right;font-weight:600">'+fN(n(r['Qtde']||r['_col9']||0))+'</td><td style="text-align:right;font-weight:600">'+fN(n(r['Qtde. Pendente']||r['_col10']||0))+'</td>';b.appendChild(tr);});}
-function rPrevisao(){var q=v('prev-q').toLowerCase(),gap=el('prev-gap').checked;var rows=G.previsao.filter(function(r){var item=s(r['Item']||r['_col0']||'');if(G.codSel&&item!==G.codSel)return false;if(q&&!item.toLowerCase().includes(q))return false;var prev=n(r['Previsto']||r['_col2']||0),real=n(r['Realizado']||r['_col3']||0),dif=n(r['Diferenca']||r['_col4']||0);if(gap&&Math.abs(dif)===0)return false;r._prev=prev;r._real=real;r._dif=dif;r._perc=n(r['Perc (%)']||r['_col5']||0);return true;});txt('prev-cnt',rows.length);var sP=rows.reduce(function(a,x){return a+x._prev;},0),sR=rows.reduce(function(a,x){return a+x._real;},0),ader=sP>0?Math.round(sR/sP*100):0;txt('com-prev-tot',fN(sP));txt('com-real-tot',fN(sR));txt('com-ader',ader+'%');txt('com-itens',rows.filter(function(x){return Math.abs(x._dif)>0;}).length);el('prev-met').innerHTML=mbox('Itens',rows.length,'')+mbox('Prev',fN(sP),'')+mbox('Real',fN(sR),'')+mbox('Aderencia',ader+'%',ader>=90?'g':ader>=70?'a':'r');var b=el('prev-body');b.innerHTML='';if(!rows.length){b.innerHTML='<tr><td colspan="7" class="empty">Nenhum registro</td></tr>';return;}rows.forEach(function(r){var item=s(r['Item']||r['_col0']||''),ok=r._dif>=0;var tr=document.createElement('tr');tr.onclick=function(){selItem(item,'');};tr.innerHTML='<td><code>'+item+'</code></td><td>'+s(r['UM']||r['_col1']||'')+'</td><td style="text-align:right">'+fN(r._prev)+'</td><td style="text-align:right">'+fN(r._real)+'</td><td style="text-align:right;font-weight:700;color:'+(ok?'var(--green)':'var(--red)')+'">'+fN(r._dif)+'</td><td style="text-align:right">'+fN(r._perc)+'%</td><td>'+bdg(ok?'OK':'FALTA')+'</td>';b.appendChild(tr);});}
-function renderLinhas(){var g=el('linhas-grid');g.innerHTML='';G.linhas.forEach(function(l){var clr=l.util>90?'var(--red)':l.util>75?'var(--yellow)':'var(--green)';var fc=l.util>90?'#B83232':l.util>75?'#D4A000':'#2D7D46';g.innerHTML+='<div class="lcard '+l.color+'"><div class="lcard-name">'+l.nome+'</div><div class="lcard-sub">'+l.tipo+'</div><div class="bar-track"><div class="bar-fill" style="width:'+l.util+'%;background:'+fc+'"></div></div><div class="bar-meta"><span>Utilizacao</span><strong style="color:'+clr+'">'+l.util+'%</strong></div><div class="lcard-stats"><div class="lstat"><div class="lstat-l">Cap/dia</div><div class="lstat-v">'+l.capDia+'t</div></div><div class="lstat"><div class="lstat-l">Eficiencia</div><div class="lstat-v">'+l.efic+'%</div></div><div class="lstat"><div class="lstat-l">Status</div><div class="lstat-v" style="font-size:11px;color:'+clr+'">'+(l.util>90?'Critico':l.util>75?'Atencao':'Livre')+'</div></div><div class="lstat"><div class="lstat-l">Tipo</div><div class="lstat-v" style="font-size:11px">'+l.tipo.substring(0,12)+'</div></div></div></div>';}); }
-function renderAlmoxes(){var g=el('almox-grid');g.innerHTML='';G.almoxes.forEach(function(a){var pct=Math.round(a.ocp/a.cap*100),p30=Math.round(a.prev30d/a.cap*100);var bCls=pct>90?'crit':pct>75?'warn':'';var clr=pct>90?'var(--red)':pct>75?'var(--yellow)':'var(--green)';g.innerHTML+='<div class="acard"><div class="acard-name">'+a.nome+'</div><div class="acard-sub">'+a.desc+'</div><div style="display:flex;align-items:center;gap:16px;margin-bottom:14px"><div><div style="font-size:28px;font-weight:700;color:'+clr+';font-family:var(--mono)">'+pct+'%</div><div style="font-size:10px;color:var(--text3)">Ocupacao atual</div></div><div style="flex:1"><div class="abar-track"><div class="abar-fill '+bCls+'" style="width:'+pct+'%"></div></div><div style="font-size:9px;color:var(--text3);margin-top:3px">Projecao 30d: '+p30+'%</div></div></div><div class="astats"><div class="astat"><div class="astat-l">Capacidade</div><div class="astat-v">'+fN(a.cap)+'</div></div><div class="astat"><div class="astat-l">Ocupado</div><div class="astat-v" style="color:'+clr+'">'+fN(a.ocp)+'</div></div><div class="astat"><div class="astat-l">Disponivel</div><div class="astat-v" style="color:var(--green)">'+fN(a.cap-a.ocp)+'</div></div></div></div>';}); }
-function renderMovs(){var tl2=el('tl-movs');tl2.innerHTML='';G.movs.forEach(function(m){tl2.innerHTML+='<div class="tl-item"><div class="tl-icon '+m.tipo+'">'+m.ico+'</div><div class="tl-body"><div class="tl-title">'+m.titulo+'</div><div class="tl-sub">'+m.sub+'</div><div class="tl-val" style="color:'+m.cor+'">'+m.val+'</div></div></div>';});}
-var CD={responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9C9888',font:{size:10},padding:10}}},scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#C4C0B4',font:{size:9}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#C4C0B4',font:{size:9}}}}};
-function mkChart(id,cfg){var ctx=document.getElementById(id);if(!ctx)return;if(G.charts[id])G.charts[id].destroy();cfg.options=Object.assign({},JSON.parse(JSON.stringify(CD)),cfg.options||{});if(cfg.options.plugins)cfg.options.plugins=Object.assign({},CD.plugins,cfg.options.plugins);if(cfg.options.scales)cfg.options.scales=Object.assign({},CD.scales,cfg.options.scales);G.charts[id]=new Chart(ctx,cfg);}
+
+function renderAll(){
+  updateKPIs();
+  updateAlerts();
+  rDash();
+  rPCP();
+  rEstoque();
+  rProdReal();
+  rOrdens();
+  rPerfil();
+  renderCharts();
+}
+
+/* === KPIs === */
+function updateKPIs(){
+  var its = gFilt(G.itens);
+  var nC = its.filter(function(x){return x.Status==='CRITICO';}).length;
+  var nW = its.filter(function(x){return x.Status==='RISCO';}).length;
+  var nO = its.filter(function(x){return x.Status==='NORMAL';}).length;
+  txt('kpi-total',its.length);
+  txt('kpi-crit',nC);
+  txt('kpi-warn',nW);
+  txt('kpi-ok',nO);
+  txt('nb-crit',nC);
+  txt('nb-pcp',nC+nW);
+}
+
+/* === ALERTAS === */
+function updateAlerts(){
+  var its = G.itens;
+  var nC = its.filter(function(x){return x.Status==='CRITICO';}).length;
+  var nW = its.filter(function(x){return x.Status==='RISCO';}).length;
+  var alerts = [];
+  if(nC>0) alerts.push({cls:'alert-d',title:''+nC+' item(s) CRITICO(S)',body:'Atender esses pedidos rompe o estoque de seguranca. Programar producao urgente.'});
+  if(nW>0) alerts.push({cls:'alert-w',title:''+nW+' item(s) em RISCO',body:'Saldo futuro proximo ao limite de seguranca. Monitorar e programar producao.'});
+  if(!alerts.length) alerts.push({cls:'alert-s',title:'Operacao Normal',body:'Todos os itens com pedidos comerciais atendidos e estoque de seguranca preservado.'});
+  el('alert-box').innerHTML = alerts.map(function(a){
+    return '<div class="alert '+a.cls+'"><div><div class="alert-title">'+a.title+'</div><div class="alert-body">'+a.body+'</div></div></div>';
+  }).join('');
+}
+
+/* === DASHBOARD === */
+function rDash(){
+  var q   = v('dash-q').toLowerCase();
+  var st  = v('dash-st') || G.stFilter;
+  var grp = v('dash-grp');
+  var its = gFilt(G.itens).filter(function(it){
+    if(q && !it.Codigo.toLowerCase().includes(q) && !it.Produto.toLowerCase().includes(q)) return false;
+    if(st && it.Status!==st) return false;
+    if(grp && it.Grupo!==grp) return false;
+    return true;
+  });
+  sortArr(its,'dash');
+  txt('dash-cnt',its.length);
+  var b = el('dash-body'); b.innerHTML='';
+  if(!its.length){b.innerHTML='<tr><td colspan="9" class="empty">Nenhum item</td></tr>';}
+  else its.forEach(function(it){
+    var tr = mkTr(it);
+    var sfCls = it.SaldoFuturo < 0 ? 'num-red' : it.Status==='RISCO' ? 'num-yellow' : 'num-green';
+    tr.innerHTML =
+      '<td><code>'+it.Codigo+'</code></td>'+
+      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'+
+      '<td><span class="bdg bdg-m">'+it.Grupo+'</span></td>'+
+      '<td class="num-r">'+fN(it.Almox3)+'</td>'+
+      '<td class="num-r">'+fN(it.Almox30)+'</td>'+
+      '<td class="num-r">'+fN(it.PedidoComercial)+'</td>'+
+      '<td class="num-r '+(it.NecessidadeComercial>0?'num-red':'')+'">'+fN(it.NecessidadeComercial)+'</td>'+
+      '<td class="num-r '+sfCls+'">'+fN(it.SaldoFuturo)+'</td>'+
+      '<td>'+bdg(it.Status)+'</td>';
+    b.appendChild(tr);
+  });
+
+  /* Lista urgente */
+  var urg = G.itens.filter(function(x){return x.Status==='CRITICO';}).slice(0,10);
+  var ul = el('urgente-list');
+  ul.innerHTML = urg.length ? '' : '<div class="empty" style="color:var(--green)">Nenhum item critico</div>';
+  urg.forEach(function(it){
+    ul.innerHTML += '<div class="sug-item c" onclick="selItem(\''+esc(it.Codigo)+'\',\''+esc(it.Produto)+'\')">'+
+      '<div><div class="sug-code">'+it.Codigo+'</div><div class="sug-desc">'+it.Produto.substring(0,30)+'</div></div>'+
+      '<div><div class="sug-qty">'+fN(it.NecessidadeComercial)+'</div><div class="sug-qlbl">nec. comerc.</div></div></div>';
+  });
+
+  /* Lista pedidos DC */
+  var peds = G.perfil.filter(function(r){
+    return s(r['Tipo']||r['_col2']||'').toUpperCase()==='DC';
+  }).sort(function(a,b){
+    return s(a['Data Fim']||a['_col5']||'').localeCompare(s(b['Data Fim']||b['_col5']||''));
+  });
+  var pl = el('ped-list');
+  pl.innerHTML = peds.length ? '' : '<div class="empty">Nenhum pedido DC</div>';
+  peds.slice(0,12).forEach(function(r){
+    pl.innerHTML += '<div class="mini-item"><div><div class="mini-code">'+s(r['Item']||r['_col1']||'')+'</div><div class="mini-sub">'+s(r['Data Fim']||r['_col5']||'')+'</div></div><div class="mini-val">'+fN(n(r['Quantidade']||r['_col6']||0))+'</div></div>';
+  });
+}
+
+/* === TABELA PCP === */
+function rPCP(){
+  var q   = v('pcp-q').toLowerCase();
+  var st  = v('pcp-st') || G.stFilter;
+  var grp = v('pcp-grp');
+  var its = gFilt(G.itens).filter(function(it){
+    if(q && !it.Codigo.toLowerCase().includes(q) && !it.Produto.toLowerCase().includes(q)) return false;
+    if(st && it.Status!==st) return false;
+    if(grp && it.Grupo!==grp) return false;
+    return true;
+  });
+  sortArr(its,'pcp');
+  txt('pcp-cnt',its.length);
+
+  var nC = its.filter(function(x){return x.Status==='CRITICO';}).length;
+  var nW = its.filter(function(x){return x.Status==='RISCO';}).length;
+  var nO = its.filter(function(x){return x.Status==='NORMAL';}).length;
+  el('pcp-met').innerHTML =
+    mbox('Critico',nC,'r') +
+    mbox('Risco',nW,'a') +
+    mbox('Normal',nO,'g') +
+    mbox('Total',its.length,'');
+
+  var b = el('pcp-body'); b.innerHTML='';
+  if(!its.length){b.innerHTML='<tr><td colspan="11" class="empty">Nenhum item</td></tr>';return;}
+  its.forEach(function(it){
+    var tr = mkTr(it);
+    var sfCls = it.SaldoFuturo < 0 ? 'num-red' : it.Status==='RISCO' ? 'num-yellow' : 'num-green';
+    tr.innerHTML =
+      '<td><code>'+it.Codigo+'</code></td>'+
+      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'+
+      '<td><span class="bdg bdg-m">'+it.Grupo+'</span></td>'+
+      '<td class="num-r">'+fN(it.Almox3)+'</td>'+
+      '<td class="num-r">'+fN(it.Almox30)+'</td>'+
+      '<td class="num-r">'+fN(it.PedidoComercial)+'</td>'+
+      '<td class="num-r '+(it.NecessidadeComercial>0?'num-red':'')+'">'+fN(it.NecessidadeComercial)+'</td>'+
+      '<td class="num-r '+sfCls+'">'+fN(it.SaldoFuturo)+'</td>'+
+      '<td class="num-r">'+fN(it.EstoqueSeguranca)+'</td>'+
+      '<td>'+bdg(it.Status)+'</td>'+
+      '<td><div class="motivo '+it.MotivoCls+'">'+it.Motivo+'</div></td>';
+    tr.onclick = function(){selItem(it.Codigo,it.Produto);};
+    b.appendChild(tr);
+  });
+}
+
+/* === ESTOQUE === */
+function rEstoque(){
+  var q   = v('est-q').toLowerCase();
+  var grp = v('est-grp');
+  var st  = v('est-st') || G.stFilter;
+  var its = gFilt(G.itens).filter(function(it){
+    if(q && !it.Codigo.toLowerCase().includes(q) && !it.Produto.toLowerCase().includes(q)) return false;
+    if(grp && it.Grupo!==grp) return false;
+    if(st && it.Status!==st) return false;
+    return true;
+  });
+  txt('est-cnt',its.length);
+  var nC = its.filter(function(x){return x.Status==='CRITICO';}).length;
+  var nW = its.filter(function(x){return x.Status==='RISCO';}).length;
+  el('est-met').innerHTML =
+    mbox('Critico',nC,'r') +
+    mbox('Risco',nW,'a') +
+    mbox('Normal',its.length-nC-nW,'g') +
+    mbox('Total',its.length,'');
+  var b = el('est-body'); b.innerHTML='';
+  its.forEach(function(it){
+    var tr = mkTr(it);
+    var sfCls = it.SaldoFuturo < 0 ? 'num-red' : it.Status==='RISCO' ? 'num-yellow' : 'num-green';
+    tr.innerHTML =
+      '<td><code>'+it.Codigo+'</code></td>'+
+      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'+
+      '<td>'+it.Grupo+'</td>'+
+      '<td class="num-r">'+fN(it.Almox3)+'</td>'+
+      '<td class="num-r">'+fN(it.Almox30)+'</td>'+
+      '<td class="num-r">'+fN(it.PedidoComercial)+'</td>'+
+      '<td class="num-r '+(it.NecessidadeComercial>0?'num-red':'')+'">'+fN(it.NecessidadeComercial)+'</td>'+
+      '<td class="num-r '+sfCls+'">'+fN(it.SaldoFuturo)+'</td>'+
+      '<td class="num-r">'+fN(it.EstoqueSeguranca)+'</td>'+
+      '<td>'+bdg(it.Status)+'</td>';
+    tr.onclick=function(){selItem(it.Codigo,it.Produto);};
+    b.appendChild(tr);
+  });
+}
+
+/* === PRODUCAO REAL === */
+function rProdReal(){
+  var q = v('prod-q').toLowerCase();
+  var rows = G.epp.filter(function(r){
+    var cod = s(r['Codigo']||r['_col1']||'');
+    var prod = s(r['Produto']||r['_col3']||'');
+    if(q && !cod.toLowerCase().includes(q) && !prod.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  txt('prod-cnt',rows.length);
+  var b = el('prod-body'); b.innerHTML='';
+  if(!rows.length){b.innerHTML='<tr><td colspan="5" class="empty">Nenhum registro EPP encontrado</td></tr>';return;}
+  rows.forEach(function(r){
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td style="font-size:10px;color:var(--text3)">'+s(r['Data']||r['data']||r['_col0']||'')+'</td>'+
+      '<td><code>'+s(r['Codigo']||r['_col1']||'')+'</code></td>'+
+      '<td>'+s(r['Produto']||r['_col3']||'')+'</td>'+
+      '<td>'+s(r['Grupo']||r['_col5']||'')+'</td>'+
+      '<td class="num-r num-green">'+fN(n(r['Quantidade']||r['quantidade']||r['_col4']||0))+'</td>';
+    b.appendChild(tr);
+  });
+}
+
+/* === ORDENS === */
+function rOrdens(){
+  var q=v('ord-q').toLowerCase(),tp=v('ord-tp').toUpperCase();
+  var rows=G.ordens.filter(function(r){
+    var cod=s(r['Cod. Item']||r['_col3']||''),ord=s(r['Ordem']||r['_col0']||''),tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();
+    if(G.codSel&&cod!==G.codSel)return false;
+    if(q&&!cod.toLowerCase().includes(q)&&!ord.toLowerCase().includes(q))return false;
+    if(tp&&tipo!==tp)return false;
+    return true;
+  });
+  txt('ord-cnt',rows.length);
+  var b=el('ord-body');b.innerHTML='';
+  if(!rows.length){b.innerHTML='<tr><td colspan="11" class="empty">Nenhuma ordem</td></tr>';return;}
+  rows.forEach(function(r){
+    var cod=s(r['Cod. Item']||r['_col3']||'');
+    var tr=document.createElement('tr');
+    tr.onclick=function(){selItem(cod,s(r['Descricao']||r['_col4']||''));};
+    tr.innerHTML='<td><code>'+s(r['Ordem']||r['_col0']||'')+'</code></td><td>'+s(r['Planejador']||r['_col1']||'')+'</td><td><span class="bdg bdg-i">'+s(r['Tipo']||r['_col2']||'')+'</span></td><td><code>'+cod+'</code></td><td style="max-width:130px;overflow:hidden;text-overflow:ellipsis">'+s(r['Descricao']||r['_col4']||'')+'</td><td>'+s(r['UM']||r['_col5']||'')+'</td><td style="font-size:10px;color:var(--text3)">'+s(r['Dt. Inicio']||r['_col6']||'')+'</td><td style="font-size:10px;color:var(--text3)">'+s(r['Dt. Fim']||r['_col7']||'')+'</td><td>'+s(r['Situacao']||r['_col8']||'')+'</td><td class="num-r">'+fN(n(r['Qtde']||r['_col9']||0))+'</td><td class="num-r">'+fN(n(r['Qtde. Pendente']||r['_col10']||0))+'</td>';
+    b.appendChild(tr);
+  });
+}
+
+/* === PERFIL === */
+function rPerfil(){
+  var q=v('perf-q').toLowerCase(),tp=v('perf-tp').toUpperCase();
+  var rows=G.perfil.filter(function(r){
+    var item=s(r['Item']||r['_col1']||''),tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();
+    if(G.codSel&&item!==G.codSel)return false;
+    if(q&&!item.toLowerCase().includes(q))return false;
+    if(tp&&tipo!==tp)return false;
+    return true;
+  });
+  txt('perf-cnt',rows.length);
+  var b=el('perf-body');b.innerHTML='';
+  if(!rows.length){b.innerHTML='<tr><td colspan="7" class="empty">Nenhum registro</td></tr>';return;}
+  rows.slice(0,500).forEach(function(r){
+    var tipo2=s(r['Tipo']||r['_col2']||'').toUpperCase();
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td style="font-size:10px;color:var(--text3)">'+s(r['Data Relatorio']||r['_col0']||'')+'</td><td><code>'+s(r['Item']||r['_col1']||'')+'</code></td><td>'+bdg(tipo2,tipo2==='DC'?'w':(tipo2==='OFP'||tipo2==='OFA'?'s':'m'))+'</td><td style="font-size:10px;color:var(--text3)">'+s(r['Referencia']||r['_col3']||'')+'</td><td style="font-size:10px">'+s(r['Data Inicio']||r['_col4']||'')+'</td><td style="font-size:10px">'+s(r['Data Fim']||r['_col5']||'')+'</td><td class="num-r">'+fN(n(r['Quantidade']||r['_col6']||0))+'</td>';
+    b.appendChild(tr);
+  });
+}
+
+/* === CHARTS === */
+var CD = {
+  responsive:true, maintainAspectRatio:false,
+  plugins:{legend:{labels:{color:'#9C9888',font:{size:10},padding:10}}},
+  scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#C4C0B4',font:{size:9}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#C4C0B4',font:{size:9}}}}
+};
+function mkChart(id,cfg){
+  var ctx=document.getElementById(id); if(!ctx)return;
+  if(G.charts[id])G.charts[id].destroy();
+  cfg.options=Object.assign({},JSON.parse(JSON.stringify(CD)),cfg.options||{});
+  if(cfg.options.plugins)cfg.options.plugins=Object.assign({},CD.plugins,cfg.options.plugins);
+  if(cfg.options.scales)cfg.options.scales=Object.assign({},CD.scales,cfg.options.scales);
+  G.charts[id]=new Chart(ctx,cfg);
+}
+
 function renderCharts(){
-var dias=['01/01','02/01','03/01','04/01','07/01','08/01','09/01','10/01','11/01','14/01','15/01','16/01','17/01','18/01'];
-var prod=[720,810,650,900,780,830,770,910,680,850,790,870,920,760],prev=[750,800,700,850,800,820,780,880,720,860,800,860,900,780];
-mkChart('chart-producao',{type:'bar',data:{labels:dias,datasets:[{label:'Realizado',data:prod,backgroundColor:'rgba(27,92,122,.45)',borderColor:'rgba(27,92,122,.7)',borderWidth:1,borderRadius:4},{label:'Previsto',data:prev,type:'line',borderColor:'#2D7D46',borderWidth:2,fill:false,tension:.4,pointRadius:2}]},options:{plugins:{legend:{position:'top'}}}});
-mkChart('chart-linhas-util',{type:'bar',data:{labels:G.linhas.map(function(l){return l.nome;}),datasets:[{label:'Utilizacao %',data:G.linhas.map(function(l){return l.util;}),backgroundColor:G.linhas.map(function(l){return l.util>90?'rgba(184,50,50,.6)':l.util>75?'rgba(212,160,0,.6)':'rgba(45,125,70,.6)';}),borderRadius:4},{label:'Eficiencia %',data:G.linhas.map(function(l){return l.efic;}),backgroundColor:'rgba(27,92,122,.3)',borderRadius:4}]},options:{plugins:{legend:{position:'top'}},scales:{y:{max:100}}}});
-mkChart('chart-linhas-cap',{type:'bar',data:{labels:G.linhas.map(function(l){return l.nome;}),datasets:[{label:'Disponivel',data:G.linhas.map(function(l){return Math.round(l.capDia*(1-l.util/100));}),backgroundColor:'rgba(45,125,70,.5)',borderRadius:3},{label:'Utilizada',data:G.linhas.map(function(l){return Math.round(l.capDia*l.util/100);}),backgroundColor:'rgba(27,92,122,.5)',borderRadius:3}]},options:{plugins:{legend:{position:'top'}}}});
-mkChart('chart-linha-vol',{type:'doughnut',data:{labels:G.linhas.map(function(l){return l.nome;}),datasets:[{data:[35,22,18,10,8,7],backgroundColor:['rgba(27,92,122,.75)','rgba(45,125,70,.75)','rgba(138,106,0,.75)','rgba(15,110,107,.75)','rgba(91,63,166,.75)','rgba(184,50,50,.75)'],borderWidth:0}]},options:{plugins:{legend:{position:'right',labels:{padding:8,font:{size:9}}}},scales:{x:{display:false},y:{display:false}}}});
-var nC=G.itens.filter(function(x){return x.Status==='FALTA';}).length,nW=G.itens.filter(function(x){return x.Status==='RISCO';}).length,nO=G.itens.filter(function(x){return x.Status==='OK';}).length;
-mkChart('chart-estq-status',{type:'doughnut',data:{labels:['Critico','Atencao','Normal'],datasets:[{data:[nC,nW,nO],backgroundColor:['rgba(184,50,50,.75)','rgba(212,160,0,.75)','rgba(45,125,70,.75)'],borderWidth:0}]},options:{plugins:{legend:{position:'right'}},scales:{x:{display:false},y:{display:false}}}});
-var cobs=G.itens.filter(function(x){return x.DemandaDC>0;}).map(function(x){return Math.round(x.Almox30/x.DemandaDC*100);}).filter(function(v){return v<500;}).slice(0,10);
-mkChart('chart-cobertura',{type:'bar',data:{labels:G.itens.filter(function(x){return x.DemandaDC>0;}).map(function(x){return x.Codigo;}).slice(0,10),datasets:[{label:'Cobertura %',data:cobs,backgroundColor:cobs.map(function(v){return v<80?'rgba(184,50,50,.6)':v<120?'rgba(212,160,0,.6)':'rgba(45,125,70,.6)';}),borderRadius:3}]},options:{scales:{y:{max:300}}}});
-var prvRows=G.previsao.slice(0,8);
-mkChart('chart-prev-real',{type:'bar',data:{labels:prvRows.map(function(r){return s(r['Item']||r['_col0']||'').substring(0,10);}),datasets:[{label:'Previsto',data:prvRows.map(function(r){return n(r['Previsto']||r['_col2']||0);}),backgroundColor:'rgba(27,92,122,.5)',borderRadius:3},{label:'Realizado',data:prvRows.map(function(r){return n(r['Realizado']||r['_col3']||0);}),backgroundColor:'rgba(45,125,70,.5)',borderRadius:3}]},options:{plugins:{legend:{position:'top'}}}});
-mkChart('chart-abc',{type:'pie',data:{labels:['Classe A (70%)','Classe B (20%)','Classe C (10%)'],datasets:[{data:[70,20,10],backgroundColor:['rgba(27,92,122,.75)','rgba(138,106,0,.7)','rgba(156,152,136,.5)'],borderWidth:0}]},options:{scales:{x:{display:false},y:{display:false}},plugins:{legend:{position:'right'}}}});
-mkChart('chart-mov-tipo',{type:'doughnut',data:{labels:['Producao','Saida','Entrada','Transferencia'],datasets:[{data:[42,28,22,8],backgroundColor:['rgba(27,92,122,.75)','rgba(184,50,50,.7)','rgba(45,125,70,.7)','rgba(138,106,0,.7)'],borderWidth:0}]},options:{scales:{x:{display:false},y:{display:false}},plugins:{legend:{position:'right'}}}});
-mkChart('chart-mov-tend',{type:'line',data:{labels:['Sem 1','Sem 2','Sem 3','Sem 4'],datasets:[{label:'Producao',data:[3200,4100,3800,4600],borderColor:'rgba(27,92,122,.85)',tension:.4,fill:false,pointRadius:3},{label:'Saida',data:[2900,3700,3200,4100],borderColor:'rgba(184,50,50,.85)',tension:.4,fill:false,pointRadius:3},{label:'Entrada',data:[4000,3500,4200,3800],borderColor:'rgba(45,125,70,.85)',tension:.4,fill:false,pointRadius:3}]},options:{plugins:{legend:{position:'top'}}}});
-mkChart('chart-almox-hist',{type:'line',data:{labels:['Set','Out','Nov','Dez','Jan','Fev'],datasets:[{label:'Almox 30 %',data:[55,61,70,68,62,62],borderColor:'rgba(27,92,122,.85)',tension:.4,fill:true,backgroundColor:'rgba(27,92,122,.06)',pointRadius:3},{label:'Almox 3 %',data:[70,72,65,80,75,64],borderColor:'rgba(45,125,70,.85)',tension:.4,fill:true,backgroundColor:'rgba(45,125,70,.06)',pointRadius:3},{label:'Almox 4 %',data:[60,58,65,70,68,65],borderColor:'rgba(138,106,0,.85)',tension:.4,fill:true,backgroundColor:'rgba(138,106,0,.04)',pointRadius:3}]},options:{plugins:{legend:{position:'top'}},scales:{y:{max:100,ticks:{callback:function(v){return v+'%';}}}}}}); }
-function runSim(){var demPct=parseFloat(el('sim-dem').value)||0,capDia=parseFloat(el('sim-cap').value)||800,est30=parseFloat(el('sim-est30').value)||5000,est3=parseFloat(el('sim-est3').value)||3000,calm30=parseFloat(el('sim-calm30').value)||20000,dias=parseInt(el('sim-dias').value)||30;var consDia=(est30+est3)*(1+demPct/100)/30,prodNec=Math.max(consDia*dias-(est30+est3),0),capTotal=capDia*dias;var gargalo=prodNec>capTotal?'CAPACIDADE':(est30+prodNec)>calm30?'ALMOX 30 CHEIO':'NENHUM';var almoxRest=calm30-est30-prodNec,rupturas=prodNec>capTotal?Math.ceil((prodNec-capTotal)/consDia)+' dias':'0 dias';txt('sim-r-prod',fN(Math.round(prodNec))+' t');txt('sim-r-rupt',rupturas);txt('sim-r-garg',gargalo);txt('sim-r-almox',fN(Math.max(Math.round(almoxRest),0))+' t');var diag=[];if(prodNec>capTotal)diag.push('Demanda supera capacidade produtiva. Considerar horas extras ou terceirizacao.');if((est30+prodNec)>calm30)diag.push('Almox 30 sera insuficiente. Redistribuir estoques.');if(almoxRest<0)diag.push('Capacidade de armazenamento excedida em '+fN(Math.abs(Math.round(almoxRest)))+' t.');if(!diag.length)diag.push('Cenario equilibrado. Producao, capacidade e armazenamento dentro dos limites.');el('sim-r-diag').innerHTML=diag.join('<br>');var estAtual=est30+est3,labels=[],estData=[],step=Math.max(1,Math.floor(dias/8));for(var d=0;d<=dias;d++){labels.push('D+'+d);estData.push(Math.max(Math.round(estAtual),0));if(d<dias)estAtual=estAtual+Math.min(capDia,Math.max(prodNec/dias,0))-consDia;}var fl=labels.filter(function(_,i){return i%step===0;}),fd=estData.filter(function(_,i){return i%step===0;});mkChart('chart-sim',{type:'line',data:{labels:fl,datasets:[{label:'Estoque Projetado',data:fd,borderColor:'rgba(27,92,122,.85)',tension:.4,fill:true,backgroundColor:'rgba(27,92,122,.07)',pointRadius:2},{label:'Cap. Almox 30',data:fl.map(function(){return calm30;}),borderColor:'rgba(184,50,50,.4)',borderDash:[5,5],pointRadius:0,fill:false}]},options:{plugins:{legend:{position:'top'}}}});}
-function resetSim(){el('sim-dem').value='0';el('sim-cap').value='800';el('sim-est30').value='5000';el('sim-est3').value='3000';el('sim-calm30').value='20000';el('sim-dias').value='30';runSim();}
-function goPage(navEl){var pageId=navEl.dataset.page;document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});document.querySelectorAll('.nav-item').forEach(function(n2){n2.classList.remove('active');});var pg=el('page-'+pageId);if(pg)pg.classList.add('active');navEl.classList.add('active');}
-function filterStatus(st){G.stFilter=st;G.codSel=null;el('filter-bar').classList.remove('on');var sel=el('dash-st');if(sel)sel.value=st;renderAll();var dn=document.querySelector('[data-page="dashboard"]');if(dn)goPage(dn);}
-function selItem(cod,desc){if(G.codSel===cod){clearFilter();return;}G.codSel=cod;G.descSel=desc;G.stFilter='';txt('filt-cod',cod);txt('filt-desc',desc);el('filter-bar').classList.add('on');renderAll();}
-function clearFilter(){G.codSel=null;G.descSel='';G.stFilter='';el('filter-bar').classList.remove('on');renderAll();}
-function srt(ctx,col){if(!G.sort[ctx])G.sort[ctx]={col:null,asc:true};G.sort[ctx].asc=G.sort[ctx].col===col?!G.sort[ctx].asc:true;G.sort[ctx].col=col;if(ctx==='dash')rDash();}
-function sortArr(arr,ctx){var sd=G.sort[ctx];if(!sd||!sd.col)return;arr.sort(function(a,b){var av=a[sd.col],bv=b[sd.col];if(typeof av==='number')return sd.asc?av-bv:bv-av;return sd.asc?String(av).localeCompare(String(bv)):String(bv).localeCompare(String(av));});}
-function expCSV(ctx){var data=ctx==='sug'?G._sug:ctx==='prod'?G._prod:G._dem;if(!data||!data.length)return;var keys=['Codigo','Descricao','SaldoTotal','Almox3','Almox30','DemandaDC','Previsto','Ordens','EstqSeg','Status'];var csv=keys.join(';')+'\n'+data.map(function(r){return keys.map(function(k){return r[k]===undefined?'':r[k];}).join(';');}).join('\n');var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);a.download='colfix_pcp_'+ctx+'_'+new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')+'.csv';a.click();}
-function expCSVGlobal(){expCSV('dem');}
+  /* Grafico producao diaria real (EPP) - ultimos 14 registros */
+  var pd = G.prodDiaria.slice(-14);
+  var labels = pd.map(function(x){return x.data;});
+  var qtys   = pd.map(function(x){return x.qty;});
+
+  var chartProdCfg = {
+    type:'bar',
+    data:{labels:labels,datasets:[{
+      label:'Producao EPP',
+      data:qtys,
+      backgroundColor:'rgba(27,92,122,.5)',
+      borderColor:'rgba(27,92,122,.8)',
+      borderWidth:1,
+      borderRadius:4
+    }]},
+    options:{plugins:{legend:{position:'top'}}}
+  };
+  mkChart('chart-prod-real', chartProdCfg);
+  mkChart('chart-prod-detalhado', JSON.parse(JSON.stringify(chartProdCfg)));
+
+  /* Status itens (donut) */
+  var nC=G.itens.filter(function(x){return x.Status==='CRITICO';}).length;
+  var nW=G.itens.filter(function(x){return x.Status==='RISCO';}).length;
+  var nO=G.itens.filter(function(x){return x.Status==='NORMAL';}).length;
+  mkChart('chart-status',{
+    type:'doughnut',
+    data:{labels:['Critico','Risco','Normal'],datasets:[{data:[nC,nW,nO],backgroundColor:['rgba(184,50,50,.75)','rgba(212,160,0,.75)','rgba(45,125,70,.75)'],borderWidth:0}]},
+    options:{plugins:{legend:{position:'right'}},scales:{x:{display:false},y:{display:false}}}
+  });
+
+  /* Saldo futuro vs seguranca (bar) */
+  var top = G.itens.filter(function(x){return x.Status!=='NORMAL';}).slice(0,10);
+  mkChart('chart-saldo',{
+    type:'bar',
+    data:{
+      labels:top.map(function(x){return x.Codigo;}),
+      datasets:[
+        {label:'Saldo Futuro',data:top.map(function(x){return Math.max(x.SaldoFuturo,0);}),backgroundColor:'rgba(27,92,122,.5)',borderRadius:3},
+        {label:'Est. Seguranca',data:top.map(function(x){return x.EstoqueSeguranca;}),backgroundColor:'rgba(184,50,50,.35)',borderRadius:3}
+      ]
+    },
+    options:{plugins:{legend:{position:'top'}}}
+  });
+}
+
+/* === SORTERS === */
+function srt(ctx,col){
+  var sd=G.sort[ctx];if(!sd)G.sort[ctx]=sd={col:null,asc:true};
+  sd.asc=(sd.col===col)?!sd.asc:true; sd.col=col;
+  if(ctx==='dash')rDash(); else if(ctx==='pcp')rPCP();
+}
+function srtP(col){srt('pcp',col);}
+function sortArr(arr,ctx){
+  var sd=G.sort[ctx]; if(!sd||!sd.col)return;
+  /* Ordenar CRITICO > RISCO > NORMAL por padrao */
+  var stOrd={CRITICO:0,RISCO:1,NORMAL:2};
+  arr.sort(function(a,b){
+    if(sd.col==='Status'){
+      var diff=(stOrd[a.Status]||0)-(stOrd[b.Status]||0);
+      return sd.asc?diff:-diff;
+    }
+    var av=a[sd.col],bv=b[sd.col];
+    if(typeof av==='number')return sd.asc?av-bv:bv-av;
+    return sd.asc?String(av).localeCompare(String(bv)):String(bv).localeCompare(String(av));
+  });
+}
+
+/* === EXPORTS === */
+function expCSVMain(){
+  var keys=['Codigo','Produto','Grupo','Almox3','Almox30','PedidoComercial','NecessidadeComercial','SaldoFuturo','EstoqueSeguranca','Status','Motivo'];
+  var csv=keys.join(';')+'\n'+G.itens.map(function(r){return keys.map(function(k){return r[k]===undefined?'':r[k];}).join(';');}).join('\n');
+  var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);a.download='colfix_pcp_'+new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')+'.csv';a.click();
+}
+function expCSVEst(){expCSVMain();}
+
+/* === NAV === */
+function goPage(navEl){
+  var pageId=navEl.dataset.page;
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n2){n2.classList.remove('active');});
+  var pg=el('page-'+pageId);if(pg)pg.classList.add('active');navEl.classList.add('active');
+}
+function goPageId(pid){
+  var navEl=document.querySelector('[data-page="'+pid+'"]');
+  if(navEl)goPage(navEl);
+}
+function filterStatus(st){
+  G.stFilter=st; G.codSel=null;
+  el('filter-bar').classList.remove('on');
+  ['dash-st','pcp-st','est-st'].forEach(function(id){var s2=el(id);if(s2)s2.value=st;});
+  renderAll();
+  goPageId('dashboard');
+}
+function selItem(cod,prod){
+  if(G.codSel===cod){clearFilter();return;}
+  G.codSel=cod;G.stFilter='';
+  txt('filt-cod',cod);txt('filt-desc',prod);
+  el('filter-bar').classList.add('on');
+  renderAll();
+}
+function clearFilter(){
+  G.codSel=null;G.stFilter='';
+  el('filter-bar').classList.remove('on');
+  ['dash-st','pcp-st','est-st'].forEach(function(id){var s2=el(id);if(s2)s2.value='';});
+  renderAll();
+}
+function gFilt(its){if(!G.codSel)return its;return its.filter(function(x){return x.Codigo===G.codSel;});}
+
+/* === HELPERS === */
 function el(id){return document.getElementById(id);}
 function txt(id,vv){var e=el(id);if(e)e.textContent=vv;}
 function v(id){var e=el(id);return e?e.value:'';}
 function s(val){return val===null||val===undefined?'':String(val).trim();}
 function n(val){if(typeof val==='number')return val;var str=s(val).replace(/\./g,'').replace(',','.');var f=parseFloat(str);return isNaN(f)?0:f;}
-function fN(val){var num=typeof val==='number'?val:n(val);return num.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:2});}
+function fN(val){var num=typeof val==='number'?val:n(val);return num.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});}
 function esc(v2){return s(v2).replace(/'/g,"&#39;");}
-function gFilt(its){if(!G.codSel)return its;return its.filter(function(x){return x.Codigo===G.codSel;});}
-function bdg(st,forceCls){var cls=forceCls||(st==='FALTA'||st==='ABAIXO'?'d':st==='RISCO'?'w':st==='OK'?'s':st==='URGENTE'?'d':st==='ALTA'?'w':'m');return'<span class="bdg bdg-'+cls+'">'+st+'</span>';}
+function bdg(st,cls){
+  var c=cls||(st==='CRITICO'?'d':st==='RISCO'?'w':st==='NORMAL'?'s':'m');
+  var ico=st==='CRITICO'?'&#128308; ':st==='RISCO'?'&#128993; ':st==='NORMAL'?'&#128994; ':'';
+  return '<span class="bdg bdg-'+c+'">'+ico+st+'</span>';
+}
 function mbox(label,val,valCls){return'<div class="mbox"><div class="mbox-l">'+label+'</div><div class="mbox-v '+(valCls||'')+'">'+val+'</div></div>';}
-function mkTr(it,stOvr){var tr=document.createElement('tr');var st=stOvr||it.Status;var rowCls=st==='FALTA'?'rc':st==='RISCO'?'rw':st==='OK'?'ro':'';if(G.codSel===it.Codigo)rowCls+=' sel';tr.className=rowCls;tr.onclick=function(){selItem(it.Codigo,it.Descricao);};return tr;}
+function mkTr(it,stOvr){
+  var tr=document.createElement('tr');
+  var st=stOvr||it.Status;
+  var rowCls=st==='CRITICO'?'rc':st==='RISCO'?'rw':st==='NORMAL'?'ro':'';
+  if(G.codSel===it.Codigo)rowCls+=' sel';
+  tr.className=rowCls;
+  return tr;
+}
 </script>
 </body>
 </html>
