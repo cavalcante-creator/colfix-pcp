@@ -542,48 +542,52 @@ function processar(dados){
      col0=LCTO, col1=Data, col2=NroDoc, col3=Sigla, col4=Ent/Sai,
      col5=Qtde, col6=Valor, col7=AlmoxSaida, col8=AlmoxEntrada,
      col9=CustoMed, col10=ValorMovto, col11=Planejador, col12=Cod.Item */
+  /* === EXTRATO PARSING ===
+     Header REAL (14 colunas, mas linhas tem 13):
+     [0]LCTO [1]Data [2]NroDoc [3]Sigla [4]Ent/Sai [5]Qtde [6]Valor
+     [7]AlmoxSaida [8]AlmoxEntrada [9]CustoMed [10]ValorMovto [11]Planejador [12]Cod.Item
+     Fonte: BASE_DE_DADOS_PCP.xlsx inspecionado diretamente */
   G.epp=[]; G.nfs=[];
   G.extrato.forEach(function(r){
-    /* === EXTRATO: LCTO | Data | NroDoc | Sigla | Ent/Sai | Qtde | Valor |
-       AlmoxSaida | AlmoxEntrada | CustoMed | ValorMovto | Planejador | Cod.Item | Atualizado
-       _col0   _col1  _col2    _col3   _col4    _col5  _col6   _col7       _col8          _col9   _col10      _col11       _col12   _col13 */
+    /* Ler pela chave nomeada (parseCSV mapeia header->campo) */
+    /* Se nao encontrar pelo nome, usa _colN conforme posicao confirmada */
+    var sigla = s(r['Sigla'] || r['_col3'] || '').toUpperCase();
+    if(sigla !== 'EPP' && sigla !== 'NFS') return;
 
-    /* Encontrar a coluna Sigla varrendo: procurar o _colN que vale EPP ou NFS */
-    var sigla=''; var siglaIdx=-1;
-    for(var ci=0;ci<=15;ci++){
-      var v=s(r['_col'+ci]||'').toUpperCase();
-      if(v==='EPP'||v==='NFS'){sigla=v;siglaIdx=ci;break;}
-    }
-    /* Fallback: header nomeado */
-    if(!sigla) sigla=s(r['Sigla']||'').toUpperCase();
-    if(sigla!=='EPP'&&sigla!=='NFS') return;
-
-    /* Data = coluna ANTES da sigla (siglaIdx-2) ou header 'Data' */
-    var dataVal=s(r['Data']||'');
-    if(!dataVal && siglaIdx>=2) dataVal=s(r['_col'+(siglaIdx-2)]||'');
-    if(dataVal && dataVal.includes('T')) dataVal=dataVal.substring(0,10);
-
-    /* Qtde = 2 colunas APOS a sigla (Ent/Sai é +1, Qtde é +2) */
-    /* Confirmado: Sigla=col3, Qtde=col5 => offset +2 */
-    var qtyVal=n(r['Qtde']||0);
-    if(qtyVal===0 && siglaIdx>=0) qtyVal=n(r['_col'+(siglaIdx+2)]||0);
-
-    /* Cod.Item = 9 colunas após a sigla (col3+9=col12) */
-    var codVal=s(r['Cod. Item']||'');
-    if(!codVal && siglaIdx>=0) codVal=s(r['_col'+(siglaIdx+9)]||'');
-
-    /* Validar: código deve parecer código de produto (ex: AC0005), não data */
-    /* Se codVal contem '/' ou '-' ou é numérico puro, está errado */
-    if(codVal && (codVal.includes('/')||codVal.includes('-')||(!isNaN(Number(codVal))&&codVal.length>6))){
-      /* Tentar próxima coluna */
-      codVal=s(r['_col'+(siglaIdx+10)]||'');
+    /* Data: col[1] */
+    var dataVal = s(r['Data'] || r['_col1'] || '');
+    /* Limpar formato ISO se necessario */
+    if(dataVal.includes('T')) dataVal = dataVal.substring(0, 10);
+    /* Converter formato dd/mm/yyyy para yyyy-mm-dd para ordenar */
+    if(dataVal.match(/^\d{2}\/\d{2}\/\d{4}$/)){
+      var dp = dataVal.split('/');
+      dataVal = dp[2]+'-'+dp[1]+'-'+dp[0];
     }
 
-    if(!codVal || !dataVal || qtyVal<=0) return;
+    /* Qtde: col[5] */
+    var qtyVal = n(r['Qtde'] || r['_col5'] || 0);
 
-    var obj={Data:dataVal,Codigo:codVal,Produto:'',Grupo:'',Quantidade:qtyVal};
-    if(sigla==='EPP') G.epp.push(obj);
-    else if(sigla==='NFS') G.nfs.push(obj);
+    /* Cod.Item: col[12] — chave nomeada tem espaco 'Cod. Item' */
+    var codVal = s(r['Cod. Item'] || r['_col12'] || '');
+
+    /* Se codVal parece data ou numero puro, esta' errado — tentar _col11 e _col12 */
+    function pareceData(v){ return v && (v.match(/\d{2}\/\d{2}\/\d{4}/) || v.match(/\d{4}-\d{2}-\d{2}/) || v.match(/^\d+\.\d+$/)); }
+    if(pareceData(codVal)){
+      /* Varrer do col8 ao col13 para achar algo que parece codigo de produto */
+      codVal = '';
+      for(var ci=8; ci<=13; ci++){
+        var cv = s(r['_col'+ci]||'');
+        if(cv && !pareceData(cv) && isNaN(Number(cv)) && cv !== 'EPP' && cv !== 'NFS' && cv.length > 2){
+          codVal = cv; break;
+        }
+      }
+    }
+
+    if(!codVal || qtyVal <= 0) return;
+
+    var obj = {Data: dataVal, Codigo: codVal, Produto: '', Grupo: '', Quantidade: qtyVal};
+    if(sigla === 'EPP') G.epp.push(obj);
+    else G.nfs.push(obj);
   });
 
   /* Enriquecer epp/nfs com nome do produto via saldo */
@@ -888,23 +892,18 @@ function rEstoque(){
 /* ===== PRODUCAO REAL ===== */
 function rProdReal(){
   var q=v('prod-q').toLowerCase();
-  /* Debug painel detalhado */
+  /* Debug painel */
   var dbg=el('extrato-debug');
   if(dbg){
     var h='<div style="background:var(--accent-dim);border:1px solid var(--accent-mid);border-radius:var(--rsm);padding:8px 12px;margin:8px 14px;font-size:10px">';
     h+='<span style="color:var(--accent);font-weight:700">EXTRATO</span>';
-    h+=' — Total: '+G.extrato.length+' | EPP: <strong>'+G.epp.length+'</strong> | NFS: <strong>'+G.nfs.length+'</strong>';
-    if(G.epp.length>0){
-      var ep=G.epp[0];
-      h+='<br><span style="color:var(--green)">&#10003; 1o EPP OK:</span> Data=<strong>'+ep.Data+'</strong> | Cod=<strong>'+ep.Codigo+'</strong> | Prod=<strong>'+(ep.Produto||'aguardando...')+'</strong> | Qty=<strong>'+ep.Quantidade+'</strong>';
-    } else {
-      /* Mostrar raw para debug */
-      var fr=G.extrato.length>0?G.extrato[0]:null;
-      if(fr){
-        var cols=[];
-        for(var ci=0;ci<=13;ci++){var v=s(fr['_col'+ci]||'');if(v)cols.push('<code>col'+ci+'='+v+'</code>');}
-        h+='<br><span style="color:var(--red)">&#10007; Nenhum EPP encontrado.</span> Raw: '+cols.join(' ');
-      }
+    h+=' Total: '+G.extrato.length+' | EPP: <strong style="color:var(--green)">'+G.epp.length+'</strong> | NFS: <strong style="color:var(--accent)">'+G.nfs.length+'</strong>';
+    if(G.epp.length>0){var ep=G.epp[0];h+=' &nbsp;|&nbsp; <span style="color:var(--green)">&#10003; EPP:</span> Data='+ep.Data+' Cod='+ep.Codigo+' Qty='+ep.Quantidade;}
+    if(G.nfs.length>0){var nf=G.nfs[0];h+=' &nbsp;|&nbsp; <span style="color:var(--accent)">&#10003; NFS:</span> Data='+nf.Data+' Cod='+nf.Codigo+' Qty='+nf.Quantidade;}
+    /* Se EPP=0 ou NFS=0, mostrar raw para diagnostico */
+    if(G.epp.length===0||G.nfs.length===0){
+      var fr=G.extrato.length>1?G.extrato[1]:G.extrato[0];
+      if(fr){var cols=[];for(var ci=0;ci<=13;ci++){var vv=s(fr['_col'+ci]||'');if(vv)cols.push('col'+ci+'='+vv);}h+='<br><span style="color:var(--red)">RAW:</span> '+cols.join(' | ');}
     }
     h+='</div>';
     dbg.innerHTML=h;
