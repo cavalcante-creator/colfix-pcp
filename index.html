@@ -495,11 +495,16 @@ function processar(dados){
   G.extrato=dados['EXTRATO']||[];
   G.previsao=dados['PREVISAO']||[];
 
-  /* === MAPA SEGURANCA === */
+  /* === MAPA SEGURANCA ===
+     PARAMETROS: col0=Cod.Item, col6=Estq.Seg */
   var segMap={};
-  G.parametros.forEach(function(r){var c=s(r['Cod. Item']||r['_col0']||'');if(c)segMap[c]=n(r['Estq. Seg']||r['_col6']||0);});
+  G.parametros.forEach(function(r){
+    var c=s(r['Cod. Item']||r['_col0']||'');
+    if(c) segMap[c]=n(r['Estq. Seg']||r['_col6']||0);
+  });
 
-  /* === MAPA DC (Pedido Comercial) === */
+  /* === MAPA DC (Pedido Comercial) ===
+     PERFIL: col1=Item, col2=Tipo, col6=Quantidade */
   var dcMap={};
   G.perfil.forEach(function(r){
     if(s(r['Tipo']||r['_col2']||'').toUpperCase()==='DC'){
@@ -508,86 +513,80 @@ function processar(dados){
     }
   });
 
-  /* === MAPA OFA PENDENTE === */
-  /* OFA pendente = soma das Qtde Pendente das ordens com tipo OFA/OFP abertas */
+  /* === MAPA OFA PENDENTE ===
+     ORDENS: col3=Cod.Item, col2=Tipo(OFA/OFP), col8=Situacao, col10=Qtde.Pendente */
   var ofaMap={};
   G.ordens.forEach(function(r){
     var cod=s(r['Cod. Item']||r['_col3']||'');
     var tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();
     var sit=s(r['Situacao']||r['_col8']||'').toLowerCase();
     var pend=n(r['Qtde. Pendente']||r['_col10']||0);
-    /* Considerar OFA e OFP com situacao liberada ou em aberto */
-    if(cod && (tipo==='OFA'||tipo==='OFP') && (sit==='liberada'||sit==='aberta'||sit==='em aberto'||sit==='parcial'||sit==='') && pend>0){
+    if(cod && (tipo==='OFA'||tipo==='OFP') &&
+       (sit==='liberada'||sit==='aberta'||sit==='em aberto'||sit==='parcial'||sit==='') &&
+       pend>0){
       ofaMap[cod]=(ofaMap[cod]||0)+pend;
     }
   });
 
-  /* === MAPA PREVISAO === */
+  /* === MAPA PREVISAO ===
+     PREVISAO: col0=Item, col2=Previsto, col3=Realizado */
   G.previsaoMap={};
   G.previsao.forEach(function(r){
-    var cod=s(r['Item']||r['Codigo']||r['_col0']||'');
+    var cod=s(r['Item']||r['_col0']||'');
     var prev=n(r['Previsto']||r['_col2']||0);
     if(cod&&prev>0) G.previsaoMap[cod]=(G.previsaoMap[cod]||0)+prev;
   });
 
-  /* === EXTRATO: EPP e NFS === */
+  /* === EXTRATO: EPP e NFS ===
+     Estrutura REAL confirmada:
+     col0=LCTO, col1=Data, col2=NroDoc, col3=Sigla, col4=Ent/Sai,
+     col5=Qtde, col6=Valor, col7=AlmoxSaida, col8=AlmoxEntrada,
+     col9=CustoMed, col10=ValorMovto, col11=Planejador, col12=Cod.Item */
   G.epp=[]; G.nfs=[];
   G.extrato.forEach(function(r){
-    /* Detectar sigla varrendo todas as colunas */
-    var keys=Object.keys(r);
-    var sigla='';
-    keys.forEach(function(k){var v=s(r[k]).toUpperCase();if(v==='EPP'||v==='NFS')sigla=v;});
-    if(!sigla)return;
+    var sigla=s(r['Sigla']||r['_col3']||'').toUpperCase();
+    if(sigla!=='EPP'&&sigla!=='NFS') return;
 
-    /* Detectar posicao da sigla */
-    var siglaPos=-1;
-    keys.forEach(function(k){if(k.startsWith('_col')&&s(r[k]).toUpperCase()===sigla)siglaPos=parseInt(k.replace('_col',''));});
+    var dataVal=s(r['Data']||r['_col1']||'');
+    /* Formatar data se for objeto Date serializado */
+    if(dataVal && dataVal.includes('T')) dataVal=dataVal.substring(0,10);
+    var codVal=s(r['Cod. Item']||r['_col12']||'');
+    var qtyVal=n(r['Qtde']||r['_col5']||0);
 
-    /* Data: _col0 quase sempre */
-    var dataVal=s(r['Data']||r['data']||r['DATA']||r['_col0']||'');
-    /* Codigo: primeiro campo nao-data e nao-sigla antes da sigla */
-    var codVal=s(r['Codigo']||r['Cod']||r['_col1']||'');
-    /* Produto: apos sigla */
-    var prodVal=s(r['Produto']||r['Descricao']||r['_col'+(siglaPos+1)]||'');
-    /* Grupo */
-    var grupoVal=s(r['Grupo']||r['Familia']||r['_col'+(siglaPos+2)]||'');
-    /* Quantidade: ultima coluna numerica */
-    var qtyVal=n(r['Quantidade']||r['Qtd']||r['Qtde']||0);
-    if(qtyVal===0){
-      var maxC=0;
-      keys.forEach(function(k){if(k.startsWith('_col')){var p=parseInt(k.replace('_col',''));if(p>maxC)maxC=p;}});
-      for(var ci=maxC;ci>=0;ci--){
-        var cv=n(r['_col'+ci]||0),cs=s(r['_col'+ci]||'');
-        if(cv>0&&cs!==sigla&&!cs.includes('/')&&!cs.includes('-')){qtyVal=cv;break;}
-      }
-    }
-    /* Grupo pode ter vindo como numero (qty) - verificar */
-    if(grupoVal&&n(grupoVal)>0&&qtyVal===0){qtyVal=n(grupoVal);grupoVal='';}
-
-    var obj={Data:dataVal,Codigo:codVal,Produto:prodVal,Grupo:grupoVal,Quantidade:qtyVal,_raw:r};
+    /* Buscar produto/descricao do SALDO para enriquecer */
+    var obj={Data:dataVal,Codigo:codVal,Produto:'',Grupo:'',Quantidade:qtyVal};
     if(sigla==='EPP') G.epp.push(obj);
     else if(sigla==='NFS') G.nfs.push(obj);
   });
 
-  /* Producao diaria agrupada (EPP) */
+  /* Enriquecer epp/nfs com nome do produto via saldo */
+  var saldoMap={};
+  G.saldo.forEach(function(r){
+    var c=s(r['Código']||r['Codigo']||r['_col0']||'');
+    if(c) saldoMap[c]={prod:s(r['Descrição']||r['Descricao']||r['_col1']||''),grp:s(r['Grupo']||r['_col5']||'')};
+  });
+  G.epp.forEach(function(r){var sm=saldoMap[r.Codigo];if(sm){r.Produto=sm.prod;r.Grupo=sm.grp;}});
+  G.nfs.forEach(function(r){var sm=saldoMap[r.Codigo];if(sm){r.Produto=sm.prod;r.Grupo=sm.grp;}});
+
+  /* Producao diaria agrupada por data (EPP) */
   var dpMap={};
   G.epp.forEach(function(r){if(r.Data&&r.Quantidade>0)dpMap[r.Data]=(dpMap[r.Data]||0)+r.Quantidade;});
   G.prodDiaria=Object.keys(dpMap).map(function(d){return{data:d,qty:dpMap[d]};});
   G.prodDiaria.sort(function(a,b){return a.data.localeCompare(b.data);});
 
-  /* Mapa EPP por codigo */
+  /* Mapa EPP e NFS totais por codigo */
   var eppMap={};
   G.epp.forEach(function(r){if(r.Codigo)eppMap[r.Codigo]=(eppMap[r.Codigo]||0)+r.Quantidade;});
-
-  /* Mapa NFS por codigo */
   var nfsMap={};
   G.nfs.forEach(function(r){if(r.Codigo)nfsMap[r.Codigo]=(nfsMap[r.Codigo]||0)+r.Quantidade;});
 
-  /* === PROCESSAR ITENS PCP === */
+  /* === PROCESSAR ITENS PCP ===
+     SALDO: col0=Código, col1=Descrição, col2=Almox3, col3=Almox30, col4=Almox4, col6=SaldoTotal */
   G.itens=G.saldo.map(function(r){
-    var cod=s(r['Codigo']||r['Código']||r['_col0']||'');
-    var prod=s(r['Descricao']||r['Descrição']||r['Produto']||r['_col1']||'');
-    var grp=s(r['Grupo']||r['_col5']||'');
+    var cod=s(r['Código']||r['Codigo']||r['_col0']||'');
+    var prod=s(r['Descrição']||r['Descricao']||r['_col1']||'');
+    /* SALDO: col5 = timestamp "Atualizado", nao e' grupo. Grupo vem de PARAMETROS/LINHAS */
+    var grp=s(r['Grupo']||'');
     if(!cod)return null;
 
     var a3=n(r['Almox 3']||r['_col2']||0);
@@ -640,12 +639,15 @@ function processar(dados){
   prevCods.forEach(function(cod){
     var prev=G.previsaoMap[cod]||0;
     var fat=nfsMap[cod]||0;
+    /* Usar realizado da aba PREVISAO col3 se NFS for zero */
+    var realizadoOficial=0;
+    G.previsao.forEach(function(r){if(s(r['Item']||r['_col0']||'')===cod)realizadoOficial+=n(r['Realizado']||r['_col3']||0);});
+    fat=Math.max(fat,realizadoOficial);
     if(prev===0&&fat===0)return;
-    /* Buscar nome do produto */
+    /* Buscar produto pelo SALDO (cod ja foi enriquecido) */
     var prod='';
     var item=G.itens.find(function(x){return x.Codigo===cod;});
     if(item)prod=item.Produto;
-    else{var pr=G.previsao.find(function(r){return s(r['Item']||r['Codigo']||r['_col0']||'')===cod;});if(pr)prod=s(pr['Produto']||pr['Descricao']||pr['_col1']||'');}
     var dif=fat-prev;
     var ader=prev>0?Math.round(fat/prev*100):fat>0?999:0;
     var status,rowCls;
@@ -859,15 +861,12 @@ function rEstoque(){
 /* ===== PRODUCAO REAL ===== */
 function rProdReal(){
   var q=v('prod-q').toLowerCase();
-  /* Debug */
+  /* Info painel (compacto) */
   var dbg=el('extrato-debug');
-  if(dbg&&G.extrato.length>0){
-    var fr=G.extrato[0];
-    var ck=Object.keys(fr).filter(function(k){return k.startsWith('_col');}).sort(function(a,b){return parseInt(a.replace('_col',''))-parseInt(b.replace('_col',''));});
-    var h='<div style="background:var(--accent-dim);border:1px solid var(--accent-mid);border-radius:var(--rsm);padding:9px 12px;margin:8px 14px;font-size:10px">';
-    h+='<strong style="color:var(--accent)">Debug EXTRATO</strong> — Total: '+G.extrato.length+' | EPP: '+G.epp.length+' | NFS: '+G.nfs.length+' | ';
-    h+=ck.map(function(k){return'<code>'+k+'='+s(fr[k])+'</code>';}).join(' ');
-    if(G.epp.length>0){var ep=G.epp[0];h+='<br><strong>1o EPP:</strong> Data='+ep.Data+' | Cod='+ep.Codigo+' | Prod='+ep.Produto+' | Qty='+ep.Quantidade;}
+  if(dbg){
+    var h='<div style="background:var(--accent-dim);border:1px solid var(--accent-mid);border-radius:var(--rsm);padding:8px 12px;margin:8px 14px;font-size:10px;color:var(--accent)">';
+    h+='<strong>EXTRATO</strong> — Total: '+G.extrato.length+' registros | EPP: <strong>'+G.epp.length+'</strong> | NFS: <strong>'+G.nfs.length+'</strong>';
+    h+='&nbsp;&nbsp;Colunas: LCTO | Data | NroDoc | <strong>Sigla</strong> | Ent/Sai | <strong>Qtde</strong> | Valor | AlmoxSai | AlmoxEnt | CustoMed | ValorMov | Planejador | <strong>Cod.Item</strong>';
     h+='</div>';
     dbg.innerHTML=h;
   }
