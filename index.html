@@ -425,6 +425,7 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
     </div>
     <div class="card">
       <div class="card-header"><div class="card-title">Detalhamento Producao</div><div class="card-actions"><span class="pill" id="prod-cnt">0</span></div></div>
+      <div id="extrato-debug" style="padding:0 14px"></div>
       <div class="srow"><input class="sinput" id="prod-q" placeholder="Buscar produto..." oninput="rProdReal()"></div>
       <div class="twrap" style="max-height:440px">
         <table><thead><tr>
@@ -529,18 +530,131 @@ function processar(dados){
     }
   });
 
-  /* Processar EXTRATO: filtrar sigla EPP */
-  G.epp = G.extrato.filter(function(r){
-    var sigla = s(r['Sigla']||r['sigla']||r['SIGLA']||r['_col2']||'').toUpperCase();
-    return sigla === 'EPP';
+  /* Processar EXTRATO: detectar colunas automaticamente */
+  /* Estrategia: varrer todas as colunas de cada linha procurando 'EPP' */
+  /* e identificar qual coluna tem data, qual tem quantidade */
+  
+  /* Primeiro: logar as chaves reais da primeira linha para debug */
+  if(G.extrato.length > 0){
+    console.log('[EXTRATO] Colunas reais:', Object.keys(G.extrato[0]).filter(function(k){return !k.startsWith('_col');}));
+    console.log('[EXTRATO] Primeira linha raw:', G.extrato[0]);
+  }
+
+  /* Detectar qual coluna contem 'EPP' (sigla) */
+  /* e mapear as demais colunas por posicao relativa */
+  G.epp = [];
+  G.extrato.forEach(function(r){
+    /* Varrer todos os valores para achar EPP */
+    var keys = Object.keys(r);
+    var siglaKey = null;
+    keys.forEach(function(k){
+      if(s(r[k]).toUpperCase() === 'EPP') siglaKey = k;
+    });
+    if(!siglaKey) return; /* nao e' EPP */
+
+    /* Determinar posicao da coluna sigla (numero do _colN) */
+    var siglaPos = -1;
+    if(siglaKey.startsWith('_col')){
+      siglaPos = parseInt(siglaKey.replace('_col',''));
+    } else {
+      /* descobrir pos pela chave nomeada */
+      keys.forEach(function(k){
+        if(k.startsWith('_col') && s(r[k]).toUpperCase() === 'EPP'){
+          siglaPos = parseInt(k.replace('_col',''));
+        }
+      });
+    }
+
+    /* Estrategia de mapeamento: */
+    /* Data  = primeira coluna que parece data (contem '/' ou '-' e nao e' EPP) */
+    /* Codigo= coluna antes da sigla ou nomeada */
+    /* Produto = coluna apos a sigla */
+    /* Quantidade = ultima coluna numerica */
+
+    var dataVal = s(r['Data']||r['data']||r['DATA']||r['DT']||r['dt']||r['Dt']||'');
+    var codVal  = s(r['Codigo']||r['Código']||r['COD']||r['cod']||r['Item']||r['item']||'');
+    var prodVal = s(r['Produto']||r['produto']||r['PRODUTO']||r['Descricao']||r['Descrição']||r['descricao']||r['Nome']||'');
+    var grupoVal= s(r['Grupo']||r['grupo']||r['GRUPO']||r['Familia']||r['familia']||'');
+    var qtyVal  = n(r['Quantidade']||r['quantidade']||r['QUANTIDADE']||r['Qtd']||r['qtd']||r['QTD']||r['Qtde']||r['qtde']||0);
+
+    /* Fallback por posicao: se nao achou pelos nomes, usar _colN */
+    /* Estrutura mais comum do EXTRATO COLFIX: */
+    /* _col0=Data, _col1=Codigo, _col2=Sigla, _col3=Produto, _col4=Grupo, _col5=Quantidade */
+    /* Mas pelo print vimos: Data=col0, Codigo=col0(data repetida?), Sigla=col2(EPP), Qty=col_grupo */
+    /* Vamos tentar todas as combinacoes possiveis */
+
+    if(!dataVal){
+      /* tentar _col0 */
+      var c0 = s(r['_col0']||'');
+      if(c0.includes('/') || c0.includes('-')) dataVal = c0;
+    }
+
+    /* Se nao achou quantidade por nome, pegar a ultima coluna numerica */
+    if(qtyVal === 0){
+      /* varrer _col em ordem decrescente ate achar numero */
+      var maxCol = 0;
+      keys.forEach(function(k){if(k.startsWith('_col')){var p=parseInt(k.replace('_col',''));if(p>maxCol)maxCol=p;}});
+      for(var ci=maxCol;ci>=0;ci--){
+        var cv = n(r['_col'+ci]||0);
+        var cs = s(r['_col'+ci]||'');
+        /* nao pode ser a data nem EPP */
+        if(cv > 0 && cs !== 'EPP' && !cs.includes('/') && !cs.includes('-')){
+          qtyVal = cv; break;
+        }
+      }
+    }
+
+    /* Codigo: se nao achou por nome, pegar _col1 (assumindo _col0=data) */
+    if(!codVal){
+      /* pegar primeira col nao-data e nao-EPP e nao-numero */
+      var maxCol2 = 0;
+      keys.forEach(function(k){if(k.startsWith('_col')){var p=parseInt(k.replace('_col',''));if(p>maxCol2)maxCol2=p;}});
+      for(var ci2=0;ci2<=maxCol2;ci2++){
+        var cs2 = s(r['_col'+ci2]||'');
+        if(cs2 && cs2 !== 'EPP' && !cs2.includes('/') && n(cs2) === 0){
+          codVal = cs2; break;
+        }
+      }
+    }
+
+    /* Produto: pegar proxima col nao-vazia apos sigla */
+    if(!prodVal && siglaPos >= 0){
+      prodVal = s(r['_col'+(siglaPos+1)]||'');
+    }
+
+    /* Grupo: pegar col apos produto */
+    if(!grupoVal && siglaPos >= 0){
+      grupoVal = s(r['_col'+(siglaPos+2)]||'');
+      /* se grupo parece numero, pode ser qty */
+      if(grupoVal && n(grupoVal) > 0 && qtyVal === 0){
+        qtyVal = n(grupoVal);
+        grupoVal = '';
+      }
+    }
+
+    G.epp.push({
+      Data: dataVal,
+      Codigo: codVal,
+      Produto: prodVal,
+      Grupo: grupoVal,
+      Quantidade: qtyVal,
+      _raw: r /* manter raw para debug */
+    });
   });
+
+  /* Debug: logar primeiros registros EPP */
+  if(G.epp.length > 0){
+    console.log('[EPP] Total registros:', G.epp.length);
+    console.log('[EPP] Primeiro registro processado:', G.epp[0]);
+    console.log('[EPP] Primeiro registro raw:', G.epp[0]._raw);
+  }
 
   /* Agrupar producao diaria */
   var dpMap = {};
   G.epp.forEach(function(r){
-    var data = s(r['Data']||r['data']||r['DATA']||r['_col0']||'');
-    var qty  = n(r['Quantidade']||r['quantidade']||r['QUANTIDADE']||r['_col4']||0);
-    if(data){
+    var data = r.Data;
+    var qty  = r.Quantidade;
+    if(data && qty > 0){
       dpMap[data] = (dpMap[data]||0) + qty;
     }
   });
@@ -790,23 +904,55 @@ function rEstoque(){
 /* === PRODUCAO REAL === */
 function rProdReal(){
   var q = v('prod-q').toLowerCase();
+
+  /* Mostrar debug das colunas reais do EXTRATO */
+  var debugEl = el('extrato-debug');
+  if(debugEl && G.extrato.length > 0){
+    var firstRow = G.extrato[0];
+    var namedKeys = Object.keys(firstRow).filter(function(k){return !k.startsWith('_col');});
+    var colKeys = Object.keys(firstRow).filter(function(k){return k.startsWith('_col');}).sort(function(a,b){
+      return parseInt(a.replace('_col','')) - parseInt(b.replace('_col',''));
+    });
+    var html = '<div style="background:var(--accent-dim);border:1px solid var(--accent-mid);border-radius:var(--rsm);padding:10px 14px;margin-bottom:10px;font-size:11px">';
+    html += '<div style="font-weight:700;color:var(--accent);margin-bottom:6px">&#x1F50D; Colunas reais do EXTRATO (debug)</div>';
+    html += '<div style="margin-bottom:4px"><strong>Headers nomeados:</strong> ' + (namedKeys.length ? namedKeys.join(', ') : '(nenhum — planilha sem header)') + '</div>';
+    html += '<div style="margin-bottom:6px"><strong>Colunas por posicao:</strong> ';
+    colKeys.forEach(function(k){
+      html += '<span style="margin-right:8px"><code>' + k + '</code>=' + s(firstRow[k]) + '</span>';
+    });
+    html += '</div>';
+    html += '<div style="color:var(--text2)"><strong>Total EPP encontrado:</strong> ' + G.epp.length + ' | <strong>Total EXTRATO:</strong> ' + G.extrato.length + '</div>';
+    if(G.epp.length > 0){
+      var ep = G.epp[0];
+      html += '<div style="margin-top:6px;color:var(--text2)"><strong>1o EPP processado:</strong> Data=<em>' + ep.Data + '</em> | Codigo=<em>' + ep.Codigo + '</em> | Produto=<em>' + ep.Produto + '</em> | Grupo=<em>' + ep.Grupo + '</em> | Qty=<em>' + ep.Quantidade + '</em></div>';
+      /* Mostrar raw */
+      var rawKeys = Object.keys(ep._raw).filter(function(k){return k.startsWith('_col');}).sort(function(a,b){return parseInt(a.replace('_col',''))-parseInt(b.replace('_col',''));});
+      html += '<div style="margin-top:4px;color:var(--text3);font-size:10px"><strong>Raw:</strong> ';
+      rawKeys.forEach(function(k){html += k+'='+s(ep._raw[k])+' | ';});
+      html += '</div>';
+    }
+    html += '</div>';
+    debugEl.innerHTML = html;
+  }
+
   var rows = G.epp.filter(function(r){
-    var cod = s(r['Codigo']||r['_col1']||'');
-    var prod = s(r['Produto']||r['_col3']||'');
-    if(q && !cod.toLowerCase().includes(q) && !prod.toLowerCase().includes(q)) return false;
+    if(q && !r.Codigo.toLowerCase().includes(q) && !r.Produto.toLowerCase().includes(q) && !r.Data.toLowerCase().includes(q)) return false;
     return true;
   });
   txt('prod-cnt',rows.length);
   var b = el('prod-body'); b.innerHTML='';
-  if(!rows.length){b.innerHTML='<tr><td colspan="5" class="empty">Nenhum registro EPP encontrado</td></tr>';return;}
+  if(!rows.length){
+    b.innerHTML='<tr><td colspan="5" class="empty">Nenhum registro EPP encontrado. Verifique o debug acima.</td></tr>';
+    return;
+  }
   rows.forEach(function(r){
     var tr = document.createElement('tr');
     tr.innerHTML =
-      '<td style="font-size:10px;color:var(--text3)">'+s(r['Data']||r['data']||r['_col0']||'')+'</td>'+
-      '<td><code>'+s(r['Codigo']||r['_col1']||'')+'</code></td>'+
-      '<td>'+s(r['Produto']||r['_col3']||'')+'</td>'+
-      '<td>'+s(r['Grupo']||r['_col5']||'')+'</td>'+
-      '<td class="num-r num-green">'+fN(n(r['Quantidade']||r['quantidade']||r['_col4']||0))+'</td>';
+      '<td style="font-size:10px;color:var(--text3)">'+r.Data+'</td>'+
+      '<td><code>'+r.Codigo+'</code></td>'+
+      '<td>'+r.Produto+'</td>'+
+      '<td>'+r.Grupo+'</td>'+
+      '<td class="num-r num-green">'+fN(r.Quantidade)+'</td>';
     b.appendChild(tr);
   });
 }
