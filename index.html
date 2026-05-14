@@ -1036,7 +1036,28 @@ function el(id){return document.getElementById(id);}
 function txt(id,vv){var e=el(id);if(e)e.textContent=vv;}
 function v(id){var e=el(id);return e?e.value:'';}
 function s(val){return val===null||val===undefined?'':String(val).trim();}
-function n(val){if(typeof val==='number')return val;var str=s(val).replace(/\./g,'').replace(',','.');var f=parseFloat(str);return isNaN(f)?0:f;}
+function n(val){
+  if(typeof val==='number')return val;
+  var str=s(val).trim();
+  if(!str||str==='-')return 0;
+  /* Detectar formato: PT-BR tem virgula decimal ex "1.136,00" ou "12,5"
+     EN-US tem ponto decimal ex "12.0" ou "1136.00"
+     Regra: se tem virgula E ponto, e' PT-BR (ponto=milhar, virgula=decimal)
+             se tem so ponto sem virgula, e' EN-US
+             se tem so virgula sem ponto, e' PT-BR */
+  var hasDot=str.includes('.');
+  var hasComma=str.includes(',');
+  if(hasDot&&hasComma){
+    /* PT-BR: "1.136,00" -> remove pontos -> "1136,00" -> troca virgula -> "1136.00" */
+    str=str.replace(/\./g,'').replace(',','.');
+  } else if(hasComma&&!hasDot){
+    /* PT-BR sem milhar: "12,5" -> "12.5" */
+    str=str.replace(',','.');
+  }
+  /* else: EN-US "12.0" ou inteiro "12" -> usar direto */
+  var f=parseFloat(str);
+  return isNaN(f)?0:f;
+}
 function fN(val){var num=typeof val==='number'?val:n(val);return num.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});}
 function esc(v2){return s(v2).replace(/'/g,"&#39;");}
 function bdg(st){
