@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COLFIX · PCP Operacional v6</title>
+<title>COLFIX · PCP Operacional v7</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -139,7 +139,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .alert-title{font-weight:700;margin-bottom:1px}
 .alert-body{color:var(--text2)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
 .grid-main{display:grid;grid-template-columns:1fr 280px;gap:14px}
 .chart-box{padding:14px;position:relative}
 .sug-item{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);border-left:3px solid transparent;cursor:pointer;transition:background .08s}
@@ -158,10 +157,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .num-g{color:var(--green);font-weight:700}.num-r{color:var(--red);font-weight:700}.num-a{color:var(--yellow);font-weight:700}.num-p{color:var(--purple);font-weight:700}.num-o{color:var(--orange);font-weight:700}
 .ader-bar{height:6px;border-radius:3px;background:var(--bg4);overflow:hidden;margin-top:3px;width:80px}
 .ader-fill{height:100%;border-radius:3px}
-code{font-family:var(--mono);font-size:11px;color:var(--accent)}
-
-/* ===== CAPACIDADE LINHAS ===== */
-.linhas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:14px}
+.linhas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:14px}
 .linha-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden;box-shadow:var(--shadow);transition:all .15s}
 .linha-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
 .linha-card-header{padding:12px 16px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
@@ -172,7 +168,6 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
 .linha-stat{text-align:center}
 .linha-stat-v{font-family:var(--mono);font-size:16px;font-weight:700;line-height:1}
 .linha-stat-l{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
-.linha-progress{margin-bottom:8px}
 .linha-progress-bar{height:10px;border-radius:5px;background:var(--bg4);overflow:hidden;margin-bottom:4px}
 .linha-progress-fill{height:100%;border-radius:5px;transition:width .6s ease}
 .linha-progress-fill.verde{background:linear-gradient(90deg,#2D7D46,#4CAF70)}
@@ -189,7 +184,7 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
 .linha-status.vermelho .linha-status-dot{background:var(--red);animation:blink 1s infinite}
 .twrap th.cap-col{background:rgba(27,92,122,.08);color:var(--accent)}
 .twrap td.cap-col{background:rgba(27,92,122,.03)}
-.info-tag{font-size:9px;color:var(--text3);font-family:var(--mono);padding:2px 6px;border:1px solid var(--border2);border-radius:4px;background:var(--bg4)}
+code{font-family:var(--mono);font-size:11px;color:var(--accent)}
 @media(max-width:900px){.grid-main{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
 @media(max-width:640px){.sidebar{display:none}}
 </style>
@@ -200,7 +195,7 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
   <div class="brand">
     <div class="brand-mark">COLFIX</div>
     <div class="brand-sep"></div>
-    <div class="brand-tag">PCP Operacional v6</div>
+    <div class="brand-tag">PCP Operacional v7</div>
   </div>
   <div class="topbar-right">
     <div class="status-pill"><div class="status-dot"></div>Online</div>
@@ -227,17 +222,13 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
     Tabela PCP<span class="nav-badge w" id="nb-pcp">0</span>
   </div>
   <div class="nav-item" data-page="linhas" onclick="goPage(this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
-    Linhas Produção<span class="nav-badge o" id="nb-linhas">0</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+    Linhas Producao<span class="nav-badge o" id="nb-linhas">0</span>
   </div>
   <div class="nav-sec">Comercial</div>
   <div class="nav-item" data-page="previsao" onclick="goPage(this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
     Previsao Comercial<span class="nav-badge p" id="nb-prev">0</span>
-  </div>
-  <div class="nav-item" data-page="planejamento" onclick="goPage(this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    Planejamento Prod.
   </div>
   <div class="nav-sec">Analise</div>
   <div class="nav-item" data-page="estoque" onclick="goPage(this)">
@@ -256,7 +247,7 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
     Perfil Itens
   </div>
-  <div class="sb-footer">v6.0 · COLFIX PCP<br><span id="sf-ts" style="color:var(--text4)">--</span></div>
+  <div class="sb-footer">v7.0 · COLFIX PCP<br><span id="sf-ts" style="color:var(--text4)">--</span></div>
 </nav>
 
 <main class="main-content">
@@ -268,12 +259,12 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
     </div>
   </div>
 
-  <!-- ========== DASHBOARD ========== -->
+  <!-- DASHBOARD -->
   <div class="page active" id="page-dashboard">
     <div class="ph">
       <div>
-        <div class="ph-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard PCP</div>
-        <div class="ph-sub">Fluxo real: Estoque → OFA → Linha → Capacidade → Sugestão</div>
+        <div class="ph-title">Dashboard PCP</div>
+        <div class="ph-sub">Estoque Almox3 + Almox30 → Pedido DC → OFA Pendente → Capacidade por item → Status</div>
       </div>
     </div>
     <div class="kpi-row">
@@ -285,20 +276,19 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
       <div class="kpi orange" onclick="goPageId('linhas')"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="2" y="7" width="20" height="14" rx="2"/></svg></div><div class="kpi-val" id="kpi-linhas-ocupadas">-</div><div class="kpi-label">Linhas Sobrecarreg.</div></div>
     </div>
     <div class="legenda">
-      <div class="leg-pill g"><div class="leg-dot"></div><strong>OFA ATENDE</strong> — OFA aberta cobre 100% necessidade</div>
-      <div class="leg-pill p"><div class="leg-dot"></div><strong>NORMAL</strong> — Sem necessidade de produção</div>
-      <div class="leg-pill a"><div class="leg-dot"></div><strong>CAP LIMITADA</strong> — Linha sem capacidade total hoje</div>
-      <div class="leg-pill r"><div class="leg-dot"></div><strong>PRODUZIR URGENTE</strong> — Sem OFA suficiente, produção crítica</div>
+      <div class="leg-pill g"><div class="leg-dot"></div><strong>OFA ATENDE</strong> — OFA aberta cobre 100% da necessidade</div>
+      <div class="leg-pill p"><div class="leg-dot"></div><strong>NORMAL</strong> — Almox3 cobre pedido ou sem pedido ativo</div>
+      <div class="leg-pill a"><div class="leg-dot"></div><strong>CAP LIMITADA</strong> — Capacidade do item não atende hoje</div>
+      <div class="leg-pill r"><div class="leg-dot"></div><strong>PRODUZIR URGENTE</strong> — Necessidade real sem OFA suficiente</div>
     </div>
     <div class="alert-box" id="alert-box"></div>
     <div class="grid-main">
       <div>
         <div class="card">
-          <div class="card-header"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 6-6"/></svg>Posicao Atual com OFAs e Capacidade Real</div><div class="card-actions"><span class="pill" id="dash-cnt">0</span></div></div>
+          <div class="card-header"><div class="card-title">Posicao Atual</div><div class="card-actions"><span class="pill" id="dash-cnt">0</span></div></div>
           <div class="srow">
             <input class="sinput" id="dash-q" placeholder="Buscar codigo ou produto..." oninput="rDash()">
             <select class="ssel" id="dash-st" onchange="rDash()"><option value="">Todos</option><option value="PRODUZIR URGENTE">Produzir Urgente</option><option value="SEM CAPACIDADE">Sem Capacidade</option><option value="CAP LIMITADA">Cap. Limitada</option><option value="OFA ATENDE">OFA Atende</option><option value="NORMAL">Normal</option></select>
-            <select class="ssel" id="dash-grp" onchange="rDash()"><option value="">Todos grupos</option></select>
           </div>
           <div class="twrap" style="max-height:300px">
             <table><thead><tr>
@@ -309,12 +299,12 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
               <th class="nr" onclick="srt('dash','OFAPendente')">OFA Pend.</th>
               <th class="nr" onclick="srt('dash','NecessidadeProd')">Nec. Prod.</th>
               <th onclick="srt('dash','LinhaProducao')">Linhas</th>
-              <th>Status Cap.</th>
+              <th>Status</th>
             </tr></thead><tbody id="dash-body"></tbody></table>
           </div>
         </div>
         <div class="card">
-          <div class="card-header"><div class="card-title">Producao Real (EPP) - Ultimos 14 dias</div></div>
+          <div class="card-header"><div class="card-title">Producao Real EPP — Ultimos 14 dias</div></div>
           <div class="chart-box" style="height:200px"><canvas id="chart-prod-real"></canvas></div>
         </div>
       </div>
@@ -325,10 +315,11 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
     </div>
   </div>
 
-  <!-- ========== TABELA PCP ========== -->
+  <!-- TABELA PCP -->
   <div class="page" id="page-pcp">
     <div class="ph">
-      <div><div class="ph-title">Tabela PCP — Lógica Industrial Real</div><div class="ph-sub">Estoque → OFAs reais (Qtde Pendente) → Linhas reais (aba LINHAS) → Capacidade → Sugestão</div></div>
+      <div><div class="ph-title">Tabela PCP</div>
+      <div class="ph-sub">Logica: Almox3 cobre DC? → OFA Pendente cobre resto? → Capacidade do item (CAPACIDADE) → Status</div></div>
       <div class="ph-actions"><button class="btn" onclick="expCSVMain()">Exportar CSV</button></div>
     </div>
     <div class="card">
@@ -337,7 +328,6 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
         <div class="card-actions">
           <span class="pill" id="pcp-cnt">0</span>
           <select class="ssel" id="pcp-st" onchange="rPCP()"><option value="">Todos</option><option value="PRODUZIR URGENTE">Produzir Urgente</option><option value="SEM CAPACIDADE">Sem Capacidade</option><option value="CAP LIMITADA">Cap. Limitada</option><option value="OFA ATENDE">OFA Atende</option><option value="NORMAL">Normal</option></select>
-          <select class="ssel" id="pcp-grp" onchange="rPCP()"><option value="">Todos grupos</option></select>
         </div>
       </div>
       <div class="mrow" id="pcp-met"></div>
@@ -348,36 +338,33 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
           <th onclick="srtP('Produto')">Produto</th>
           <th class="nr" onclick="srtP('Almox3')">Almox 3</th>
           <th class="nr" onclick="srtP('Almox30')">Almox 30</th>
-          <th class="nr" onclick="srtP('PedidoComercial')">Ped. Com.</th>
-          <th class="nr" onclick="srtP('NecComercial')">Nec. Com.</th>
+          <th class="nr" onclick="srtP('PedidoComercial')">Ped. DC</th>
+          <th class="nr" onclick="srtP('NecComercial')">Nec. Comercial</th>
           <th class="nr" onclick="srtP('EstoqueSeguranca')">Est. Seg.</th>
           <th class="nr" onclick="srtP('OFAPendente')">OFA Pend.</th>
           <th class="nr" onclick="srtP('NecessidadeProd')">Nec. Produzir</th>
-          <!-- Colunas Linhas/Capacidade -->
           <th class="cap-col" onclick="srtP('LinhaProducao')">Linhas</th>
-          <th class="cap-col nr" onclick="srtP('CapacidadeDia')">Cap. Dia</th>
-          <th class="cap-col nr" onclick="srtP('OFAsProgramadas')">OFA Prog.</th>
-          <th class="cap-col nr" onclick="srtP('CapacidadeRestante')">Cap. Rest.</th>
+          <th class="cap-col nr" onclick="srtP('CapacidadeDia')">Cap/Dia (sc)</th>
           <th class="cap-col nr" onclick="srtP('DiasNecessarios')">Dias Nec.</th>
-          <th class="cap-col" onclick="srtP('StatusCap')">Status Cap.</th>
-          <th onclick="srtP('StatusCap')">Motivo</th>
+          <th class="cap-col" onclick="srtP('StatusCap')">Status</th>
+          <th>Motivo</th>
         </tr></thead><tbody id="pcp-body"></tbody></table>
       </div>
     </div>
     <div class="legenda">
-      <div class="leg-pill g"><div class="leg-dot"></div>OFA ATENDE — sem necessidade de nova produção</div>
-      <div class="leg-pill p"><div class="leg-dot"></div>NORMAL — sem pedido comercial ativo</div>
-      <div class="leg-pill a"><div class="leg-dot"></div>CAP LIMITADA — linha atende parcialmente, dividir em dias</div>
+      <div class="leg-pill g"><div class="leg-dot"></div>OFA ATENDE — OFA pendente cobre necessidade</div>
+      <div class="leg-pill p"><div class="leg-dot"></div>NORMAL — sem pedido ou almox3 cobre</div>
+      <div class="leg-pill a"><div class="leg-dot"></div>CAP LIMITADA — capacidade do item não atende hoje</div>
       <div class="leg-pill r"><div class="leg-dot"></div>PRODUZIR URGENTE / SEM CAPACIDADE</div>
     </div>
   </div>
 
-  <!-- ========== ABA LINHAS ========== -->
+  <!-- LINHAS -->
   <div class="page" id="page-linhas">
     <div class="ph">
       <div>
-        <div class="ph-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Dashboard Linhas de Producao</div>
-        <div class="ph-sub">Capacidade real vs OFAs programadas — dados reais da aba LINHAS</div>
+        <div class="ph-title">Dashboard Linhas de Producao</div>
+        <div class="ph-sub">Capacidade diaria por linha (sacos) vs OFAs programadas — dados reais da aba CAPACIDADE e LINHAS</div>
       </div>
     </div>
     <div class="kpi-row">
@@ -392,10 +379,10 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
       <div class="twrap">
         <table><thead><tr>
           <th>Linha</th>
-          <th class="nr">Cap. Dia (ton)</th>
-          <th class="nr">OFA Programada (ton)</th>
+          <th class="nr">Cap. Dia (sc)</th>
+          <th class="nr">OFA Prog. (sc)</th>
           <th class="nr">Utilizacao %</th>
-          <th class="nr">Cap. Livre (ton)</th>
+          <th class="nr">Cap. Livre (sc)</th>
           <th>Status</th>
           <th>Itens Alocados</th>
         </tr></thead><tbody id="linhas-body"></tbody></table>
@@ -407,81 +394,54 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
     </div>
   </div>
 
-  <!-- ========== PREVISAO COMERCIAL ========== -->
+  <!-- PREVISAO -->
   <div class="page" id="page-previsao">
     <div class="ph">
-      <div><div class="ph-title">Previsao Comercial vs Faturado Real</div><div class="ph-sub">PREVISTO (aba PREVISAO) vs FATURADO (NFS)</div></div>
+      <div><div class="ph-title">Previsao Comercial vs Realizado</div>
+      <div class="ph-sub">Campo PREVISTO vs REALIZADO da aba PREVISAO (RPRE0301)</div></div>
       <div class="ph-actions"><button class="btn" onclick="expCSVPrev()">Exportar</button></div>
     </div>
     <div class="kpi-row">
       <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div><div class="kpi-val" id="prev-kpi-prev">-</div><div class="kpi-label">Total Previsto</div></div>
-      <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="kpi-val" id="prev-kpi-real">-</div><div class="kpi-label">Total Faturado NFS</div></div>
+      <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="kpi-val" id="prev-kpi-real">-</div><div class="kpi-label">Total Realizado</div></div>
       <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="12" y1="20" x2="12" y2="4"/></svg></div><div class="kpi-val" id="prev-kpi-ader">-%</div><div class="kpi-label">Aderencia Media</div></div>
       <div class="kpi red"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg></div><div class="kpi-val" id="prev-kpi-abaixo">-</div><div class="kpi-label">Abaixo Previsao</div></div>
     </div>
     <div class="grid2">
-      <div class="card"><div class="card-header"><div class="card-title">Previsto vs Faturado por Item</div></div><div class="chart-box" style="height:220px"><canvas id="chart-prev-fat"></canvas></div></div>
-      <div class="card"><div class="card-header"><div class="card-title">Top Itens Faturados (NFS)</div></div><div class="chart-box" style="height:220px"><canvas id="chart-top-nfs"></canvas></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">Previsto vs Realizado por Item</div></div><div class="chart-box" style="height:220px"><canvas id="chart-prev-fat"></canvas></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">Top Itens Realizados</div></div><div class="chart-box" style="height:220px"><canvas id="chart-top-nfs"></canvas></div></div>
     </div>
     <div class="card">
-      <div class="card-header"><div class="card-title">Previsao x Faturamento Real</div><div class="card-actions"><span class="pill" id="prev-cnt">0</span></div></div>
+      <div class="card-header"><div class="card-title">Previsao x Realizado</div><div class="card-actions"><span class="pill" id="prev-cnt">0</span></div></div>
       <div class="srow"><input class="sinput" id="prev-q" placeholder="Buscar item..." oninput="rPrevisao()"><select class="ssel" id="prev-st" onchange="rPrevisao()"><option value="">Todos</option><option value="ACIMA">Acima</option><option value="DENTRO">Dentro</option><option value="ABAIXO">Abaixo</option></select></div>
       <div class="mrow" id="prev-met"></div>
       <div class="twrap" style="max-height:440px">
         <table><thead><tr>
-          <th>Codigo</th><th>Produto</th>
-          <th class="nr">Previsto</th><th class="nr">Faturado NFS</th><th class="nr">Diferenca</th><th class="nr">% Aderencia</th><th>Status</th>
+          <th>Codigo</th><th>Produto</th><th>UM</th>
+          <th class="nr">Previsto</th><th class="nr">Realizado</th><th class="nr">Diferenca</th><th class="nr">% Aderencia</th><th>Status</th>
         </tr></thead><tbody id="prev-body"></tbody></table>
       </div>
     </div>
   </div>
 
-  <!-- ========== PLANEJAMENTO ========== -->
-  <div class="page" id="page-planejamento">
-    <div class="ph">
-      <div><div class="ph-title">Planejamento de Producao</div><div class="ph-sub">Produzido EPP vs necessidade futura para atender previsao</div></div>
-      <div class="ph-actions"><button class="btn" onclick="expCSVPlan()">Exportar</button></div>
-    </div>
-    <div class="kpi-row">
-      <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div><div class="kpi-val" id="plan-kpi-prev">-</div><div class="kpi-label">Total Previsto</div></div>
-      <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="kpi-val" id="plan-kpi-prod">-</div><div class="kpi-label">Produzido EPP</div></div>
-      <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><div class="kpi-val" id="plan-kpi-est">-</div><div class="kpi-label">Estoque Atual</div></div>
-      <div class="kpi red"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg></div><div class="kpi-val" id="plan-kpi-nec">-</div><div class="kpi-label">Ainda Produzir</div></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><div class="card-header"><div class="card-title">Producao vs Previsao por Item</div></div><div class="chart-box" style="height:220px"><canvas id="chart-plan-prod"></canvas></div></div>
-      <div class="card"><div class="card-header"><div class="card-title">Cobertura Previsao (%)</div></div><div class="chart-box" style="height:220px"><canvas id="chart-plan-cob"></canvas></div></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="card-title">Necessidade Futura de Producao</div><div class="card-actions"><span class="pill" id="plan-cnt">0</span></div></div>
-      <div class="srow"><input class="sinput" id="plan-q" placeholder="Buscar item..." oninput="rPlanejamento()"><select class="ssel" id="plan-st" onchange="rPlanejamento()"><option value="">Todos</option><option value="NECESSARIO PRODUZIR">Necessario Produzir</option><option value="ATENCAO">Atencao</option><option value="COBERTO">Coberto</option></select></div>
-      <div class="mrow" id="plan-met"></div>
-      <div class="twrap" style="max-height:440px">
-        <table><thead><tr>
-          <th>Codigo</th><th>Produto</th><th class="nr">Previsto</th><th class="nr">Produzido EPP</th><th class="nr">Faturado NFS</th><th class="nr">Estoque Atual</th><th class="nr">Nec. Producao</th><th class="nr">Cobertura %</th><th>Status</th>
-        </tr></thead><tbody id="plan-body"></tbody></table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== ESTOQUES ========== -->
+  <!-- ESTOQUES -->
   <div class="page" id="page-estoque">
-    <div class="ph"><div><div class="ph-title">Estoques Reais</div><div class="ph-sub">Almox 3 e Almox 30 por produto</div></div><div class="ph-actions"><button class="btn" onclick="expCSVMain()">Exportar</button></div></div>
+    <div class="ph"><div><div class="ph-title">Estoques Reais</div><div class="ph-sub">Almox 3, Almox 30 e Almox 4 por produto</div></div><div class="ph-actions"><button class="btn" onclick="expCSVMain()">Exportar</button></div></div>
     <div class="grid2">
       <div class="card"><div class="card-header"><div class="card-title">Status dos Itens</div></div><div class="chart-box" style="height:170px"><canvas id="chart-status"></canvas></div></div>
-      <div class="card"><div class="card-header"><div class="card-title">Saldo vs Seguranca</div></div><div class="chart-box" style="height:170px"><canvas id="chart-saldo"></canvas></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">Necessidade vs OFA Pendente</div></div><div class="chart-box" style="height:170px"><canvas id="chart-saldo"></canvas></div></div>
     </div>
     <div class="card">
       <div class="card-header"><div class="card-title">Posicao de Estoques</div><div class="card-actions"><span class="pill" id="est-cnt">0</span></div></div>
-      <div class="srow"><input class="sinput" id="est-q" placeholder="Buscar..." oninput="rEstoque()"><select class="ssel" id="est-grp" onchange="rEstoque()"><option value="">Todos grupos</option></select><select class="ssel" id="est-st" onchange="rEstoque()"><option value="">Todos</option><option value="PRODUZIR URGENTE">Produzir Urgente</option><option value="CAP LIMITADA">Cap. Limitada</option><option value="OFA ATENDE">OFA Atende</option><option value="NORMAL">Normal</option></select></div>
+      <div class="srow"><input class="sinput" id="est-q" placeholder="Buscar..." oninput="rEstoque()"><select class="ssel" id="est-st" onchange="rEstoque()"><option value="">Todos</option><option value="PRODUZIR URGENTE">Produzir Urgente</option><option value="CAP LIMITADA">Cap. Limitada</option><option value="OFA ATENDE">OFA Atende</option><option value="NORMAL">Normal</option></select></div>
       <div class="mrow" id="est-met"></div>
-      <div class="twrap" style="max-height:420px"><table><thead><tr><th>Codigo</th><th>Produto</th><th class="nr">Almox3</th><th class="nr">Almox30</th><th class="nr">Ped.Com.</th><th class="nr">OFA Pend.</th><th class="nr">Nec.Prod.</th><th class="nr">Est.Seg.</th><th>Status</th></tr></thead><tbody id="est-body"></tbody></table></div>
+      <div class="twrap" style="max-height:420px"><table><thead><tr><th>Codigo</th><th>Produto</th><th class="nr">Almox3</th><th class="nr">Almox30</th><th class="nr">Almox4</th><th class="nr">Ped.DC</th><th class="nr">OFA Pend.</th><th class="nr">Nec.Prod.</th><th class="nr">Est.Seg.</th><th>Status</th></tr></thead><tbody id="est-body"></tbody></table></div>
     </div>
   </div>
 
-  <!-- ========== PRODUCAO REAL ========== -->
+  <!-- PRODUCAO REAL -->
   <div class="page" id="page-producao">
-    <div class="ph"><div><div class="ph-title">Producao Real (EPP)</div><div class="ph-sub">Filtro: SIGLA = EPP no EXTRATO</div></div></div>
+    <div class="ph"><div><div class="ph-title">Producao Real (EPP)</div><div class="ph-sub">Sigla EPP no EXTRATO — Entradas no Almox 3</div></div></div>
     <div class="card"><div class="card-header"><div class="card-title">Producao Diaria (EPP)</div></div><div class="chart-box" style="height:240px"><canvas id="chart-prod-det"></canvas></div></div>
     <div class="card">
       <div class="card-header"><div class="card-title">Detalhamento EPP</div><div class="card-actions"><span class="pill" id="prod-cnt">0</span></div></div>
@@ -490,9 +450,9 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
     </div>
   </div>
 
-  <!-- ========== ORDENS ========== -->
+  <!-- ORDENS -->
   <div class="page" id="page-ordens">
-    <div class="ph"><div><div class="ph-title">Ordens de Fabricacao (OFA)</div><div class="ph-sub">Qtde Pendente OFA = Qtde Planejada − Qtde Produzida (dados reais)</div></div></div>
+    <div class="ph"><div><div class="ph-title">Ordens de Fabricacao (OFA)</div><div class="ph-sub">Qtde Pendente = Qtde Planejada − Qtde ja Produzida (campo real do ERP)</div></div></div>
     <div class="card">
       <div class="card-header"><div class="card-title">OFAs Abertas</div><div class="card-actions"><span class="pill" id="ord-cnt">0</span></div></div>
       <div class="srow"><input class="sinput" id="ord-q" placeholder="Buscar ordem ou item..." oninput="rOrdens()"><select class="ssel" id="ord-tp" onchange="rOrdens()"><option value="">Todos</option><option value="OFP">OFP</option><option value="OFA">OFA</option></select></div>
@@ -500,12 +460,12 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
     </div>
   </div>
 
-  <!-- ========== PERFIL ========== -->
+  <!-- PERFIL -->
   <div class="page" id="page-perfil">
-    <div class="ph"><div><div class="ph-title">Perfil de Itens</div><div class="ph-sub">RPLA0300 — Planejamento detalhado</div></div></div>
+    <div class="ph"><div><div class="ph-title">Perfil de Itens</div><div class="ph-sub">RPLA0300 — DD=Demanda, DC=Pedido Comercial, OFA/OFP=Ordens, DP=Demanda Prevista</div></div></div>
     <div class="card">
       <div class="card-header"><div class="card-title">Perfil</div><div class="card-actions"><span class="pill" id="perf-cnt">0</span></div></div>
-      <div class="srow"><input class="sinput" id="perf-q" placeholder="Buscar item..." oninput="rPerfil()"><select class="ssel" id="perf-tp" onchange="rPerfil()"><option value="">Todos</option><option value="DC">DC</option><option value="DP">DP</option><option value="OFP">OFP</option><option value="OFA">OFA</option></select></div>
+      <div class="srow"><input class="sinput" id="perf-q" placeholder="Buscar item..." oninput="rPerfil()"><select class="ssel" id="perf-tp" onchange="rPerfil()"><option value="">Todos</option><option value="DC">DC (Pedido)</option><option value="DD">DD (Demanda)</option><option value="DP">DP (Prev)</option><option value="OFP">OFP</option><option value="OFA">OFA</option></select></div>
       <div class="twrap" style="max-height:560px"><table><thead><tr><th>Data</th><th>Item</th><th>Tipo</th><th>Referencia</th><th>Dt. Inicio</th><th>Dt. Fim</th><th class="nr">Quantidade</th></tr></thead><tbody id="perf-body"></tbody></table></div>
     </div>
   </div>
@@ -516,271 +476,365 @@ code{font-family:var(--mono);font-size:11px;color:var(--accent)}
 
 <script>
 /* ============================================================
-   COLFIX PCP v6 — Lógica Industrial Real
-   Usa: SALDO + ORDENS + LINHAS + PARAMETROS + PERFIL + EXTRATO + PREVISAO
-   OFA Pendente = Qtde Planejada − Qtde Produzida (dado real)
-   Linhas = aba LINHAS (colunas L1, L2, L3, AREA LIQUIDA, MQ1, MAQ2)
-   Capacidade = configs fixas confirmadas pelo documento de requisitos
+   COLFIX PCP v7 — Logica Corrigida
+   
+   CORRECOES v7:
+   1. ABAS agora inclui 'CAPACIDADE ' (com espaco) — estava faltando!
+   2. LINHAS_CONFIG removido — capacidade real vem da aba CAPACIDADE por produto
+   3. DC no PERFIL: quantidades sao negativas → usar Math.abs()
+   4. PREVISAO: Previsto da aba PREVISAO + Realizado do NFS do EXTRATO
+   5. LINHAS: True/False virao como 'TRUE'/'FALSE' string no CSV
+   6. FIXCOL: itens com FIXCOL=true sao 'col fixada' (externo/terceirizado)
+   7. Capacidade por item = aba CAPACIDADE ('Capacidade almox 30' = cap producao/dia)
+   8. Status logica corrigida conforme fluxo industrial real
    ============================================================ */
 
 var PUB_ID = "1_jTVohMskSRguXpHF8n5ym7WPHfjasvl92PXAPSrat8";
-var ABAS   = ['SALDO','PARAMETROS','PERFIL','ORDENS','EXTRATO','PREVISAO','LINHAS '];
 
-/* ============================================================
-   LINHAS: capacidade diária por linha (conforme documento)
-   ============================================================ */
-var LINHAS_CONFIG = {
-  'L1':          { nome:'Linha 1',      capDia:150 },
-  'L2':          { nome:'Linha 2',      capDia:150 },
-  'L3':          { nome:'Linha 3',      capDia:20  },
-  'AREA LIQUIDA':{ nome:'Area Liquida', capDia:4   },
-  'MQ 1':        { nome:'Maquina 1',    capDia:6   },
-  'MAQ 2':       { nome:'Maquina 2',    capDia:6   }
-};
-
-/* Estado acumulado de OFAs programadas por linha (ton) */
-var LINHAS_STATE = {};
+// FIX 1: incluir 'CAPACIDADE ' com espaco (nome real da aba)
+var ABAS = ['SALDO','PARAMETROS','PERFIL','ORDENS','EXTRATO','PREVISAO','LINHAS ','CAPACIDADE '];
 
 var G = {
-  saldo:[], parametros:[], perfil:[], ordens:[], extrato:[], previsao:[], linhasAba:[],
+  saldo:[], parametros:[], perfil:[], ordens:[], extrato:[], previsao:[], linhasAba:[], capacidadeAba:[],
   itens:[],
   epp:[], nfs:[], prodDiaria:[],
-  previsaoMap:{}, prevItens:[], planItens:[],
+  prevItens:[],
   linhasInfo:[],
   codSel:null, stFilter:'',
-  sort:{dash:{col:'StatusCap',asc:true},pcp:{col:'StatusCap',asc:true},prev:{col:'Aderencia',asc:true},plan:{col:'NecessidadeProd',asc:false}},
+  sort:{dash:{col:'StatusCap',asc:true},pcp:{col:'StatusCap',asc:true},prev:{col:'Aderencia',asc:true}},
   charts:{}
 };
+
+// Mapeamento de linhas da producao (para exibicao no dashboard de linhas)
+var LINHAS_NOMES = {
+  'L1':'Linha 1','L2':'Linha 2','L3':'Linha 3',
+  'AREA LIQUIDA':'Area Liquida','MQ 1':'Maquina 1','MAQ 2':'Maquina 2'
+};
+var LINHAS_KEYS = ['L1','L2','L3','AREA LIQUIDA','MQ 1','MAQ 2'];
 
 window.onload = initLoad;
 
 function initLoad(){
   Promise.all(ABAS.map(fetchAba))
-    .then(function(r){var d={};ABAS.forEach(function(a,i){d[a]=r[i];});processar(d);})
-    .catch(function(e){console.warn('Erro fetch:',e);processar({SALDO:[],PARAMETROS:[],PERFIL:[],ORDENS:[],EXTRATO:[],PREVISAO:[],'LINHAS ':[]});});
+    .then(function(r){
+      var d={};
+      ABAS.forEach(function(a,i){d[a]=r[i];});
+      processar(d);
+    })
+    .catch(function(e){
+      console.warn('Erro fetch:',e);
+      processar({SALDO:[],PARAMETROS:[],PERFIL:[],ORDENS:[],EXTRATO:[],PREVISAO:[],'LINHAS ':[],'CAPACIDADE ':[]});
+    });
 }
 
 function fetchAba(aba){
   var url="https://docs.google.com/spreadsheets/d/"+PUB_ID+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(aba);
-  return fetch(url).then(function(r){return r.ok?r.text():Promise.reject(new Error(aba));}).then(parseCSV);
+  return fetch(url)
+    .then(function(r){return r.ok?r.text():Promise.reject(new Error('Erro aba: '+aba));})
+    .then(parseCSV);
 }
 
 function parseCSV(csv){
-  var ls=csv.split('\n');if(!ls.length)return[];
-  var cols=splitL(ls[0]);var rows=[];
-  for(var i=1;i<ls.length;i++){var l=ls[i].trim();if(!l)continue;var vals=splitL(l);var obj={};cols.forEach(function(c,ci){obj[limpC(c)]=limpV(vals[ci]);});vals.forEach(function(v,vi){obj['_col'+vi]=limpV(v);});rows.push(obj);}
+  var ls=csv.split('\n');
+  if(!ls.length) return [];
+  var cols=splitL(ls[0]);
+  var rows=[];
+  for(var i=1;i<ls.length;i++){
+    var l=ls[i].trim();
+    if(!l) continue;
+    var vals=splitL(l);
+    var obj={};
+    cols.forEach(function(c,ci){ obj[limpC(c)]=limpV(vals[ci]); });
+    // index numerico como fallback
+    vals.forEach(function(v,vi){ obj['_col'+vi]=limpV(v); });
+    rows.push(obj);
+  }
   return rows;
 }
-function splitL(l){var r=[],c='',q=false;for(var i=0;i<l.length;i++){var ch=l[i];if(ch==='"'){q=!q;}else if(ch===','&&!q){r.push(c);c='';}else{c+=ch;}}r.push(c);return r;}
+
+function splitL(l){
+  var r=[],c='',q=false;
+  for(var i=0;i<l.length;i++){
+    var ch=l[i];
+    if(ch==='"'){q=!q;}
+    else if(ch===','&&!q){r.push(c);c='';}
+    else{c+=ch;}
+  }
+  r.push(c);
+  return r;
+}
 function limpC(c){return(c||'').trim().replace(/^"|"$/g,'');}
 function limpV(v){return(v===undefined||v===null)?'':String(v).trim().replace(/^"|"$/g,'');}
+
+// FIX 5: detectar TRUE/FALSE do CSV (Google Sheets exporta booleano como TRUE/FALSE)
+function ehTrue(val){
+  var v=s(val).toLowerCase();
+  return v==='true'||v==='1'||v==='sim'||v==='yes';
+}
 
 /* ============================================================
    PROCESSAMENTO PRINCIPAL
    ============================================================ */
 function processar(dados){
-  G.saldo      = dados['SALDO']     ||[];
-  G.parametros = dados['PARAMETROS']||[];
-  G.perfil     = dados['PERFIL']    ||[];
-  G.ordens     = dados['ORDENS']    ||[];
-  G.extrato    = dados['EXTRATO']   ||[];
-  G.previsao   = dados['PREVISAO']  ||[];
-  G.linhasAba  = dados['LINHAS ']   ||[];
+  G.saldo       = dados['SALDO']       ||[];
+  G.parametros  = dados['PARAMETROS']  ||[];
+  G.perfil      = dados['PERFIL']      ||[];
+  G.ordens      = dados['ORDENS']      ||[];
+  G.extrato     = dados['EXTRATO']     ||[];
+  G.previsao    = dados['PREVISAO']    ||[];
+  G.linhasAba   = dados['LINHAS ']     ||[];
+  // FIX 1: carregar CAPACIDADE
+  G.capacidadeAba = dados['CAPACIDADE ']||[];
 
-  /* --- 1. PARÂMETROS: estoque de segurança por item --- */
+  /* --- 1. PARAMETROS: estoque de segurança por item --- */
   var segMap={};
   G.parametros.forEach(function(r){
     var c=s(r['Cod. Item']||r['_col0']||'');
     if(c) segMap[c]=n(r['Estq. Seg']||r['_col6']||0);
   });
 
-  /* --- 2. PERFIL: pedidos comerciais (DC) por item --- */
+  /* --- 2. PERFIL: pedidos comerciais (DC) por item
+     FIX 3: DC tem Quantidade NEGATIVA no ERP → usar Math.abs()
+     Representa demanda/pedido confirmado de saída
+     -------------------------------------------------------- */
   var dcMap={};
   G.perfil.forEach(function(r){
     if(s(r['Tipo']||r['_col2']||'').toUpperCase()==='DC'){
       var cod=s(r['Item']||r['_col1']||'');
-      dcMap[cod]=(dcMap[cod]||0)+n(r['Quantidade']||r['_col6']||0);
+      // Quantidade é negativa (saída), converter para positivo
+      var qtd=Math.abs(n(r['Quantidade']||r['_col6']||0));
+      if(cod && qtd>0) dcMap[cod]=(dcMap[cod]||0)+qtd;
     }
   });
 
-  /* --- 3. ORDENS: OFA pendente real por item
-     Qtde Pendente = campo "Qtde. Pendente" da aba ORDENS (já calculado pelo sistema ERP)
-     Considera apenas ordens abertas/liberadas/parciais
+  /* --- 3. ORDENS: OFA/OFP pendente por item
+     Qtde Pendente = campo direto do ERP (ja calculado)
+     Considera apenas situacao = Liberada (unica existente nos dados)
      -------------------------------------------------------- */
-  var ofaMap={};        // total qtde pendente por item
-  var ofaLinhaMap={};   // ton programadas por linha (para capacidade real)
-
+  var ofaMap={};
   G.ordens.forEach(function(r){
     var cod   = s(r['Cod. Item']||r['_col3']||'');
     var tipo  = s(r['Tipo']     ||r['_col2']||'').toUpperCase();
     var sit   = s(r['Situacao'] ||r['_col8']||'').toLowerCase();
     var pend  = n(r['Qtde. Pendente']||r['_col10']||0);
-    var qtde  = n(r['Qtde']    ||r['_col9'] ||0);
-
-    // Considera OFA e OFP abertas com pendência real > 0
-    var aberta = (sit==='liberada'||sit==='aberta'||sit==='em aberto'||sit==='parcial'||sit==='');
-    if(!cod || !(tipo==='OFA'||tipo==='OFP') || !aberta || pend<=0) return;
-
-    ofaMap[cod] = (ofaMap[cod]||0) + pend;
-
-    /* Mapear para linhas via aba LINHAS */
-    var linhasItem = getLinhasItem(cod);
-    linhasItem.forEach(function(lk){
-      ofaLinhaMap[lk] = (ofaLinhaMap[lk]||0) + pend;
-    });
+    // Liberada = aberta com saldo a produzir
+    var aberta=(sit==='liberada'||sit==='aberta'||sit==='em aberto'||sit==='parcial'||sit==='');
+    if(!cod||(tipo!=='OFA'&&tipo!=='OFP')||!aberta||pend<=0) return;
+    ofaMap[cod]=(ofaMap[cod]||0)+pend;
   });
 
-  /* --- 4. LINHAS: identificar quais linhas cada item pode usar (aba LINHAS real) --- */
-  // linhasAba: { CODIGO, L1:true/false, L2, L3, "AREA LIQUIDA", "MQ 1", "MAQ 2" }
-  var itemLinhasMap = {}; // cod -> array de chaves de LINHAS_CONFIG
+  /* --- 4. LINHAS: mapear quais linhas cada item pode usar
+     FIX 5: CSV exporta TRUE/FALSE maiúsculo
+     FIX 6: FIXCOL=true → item fabricado externamente/col fixada
+     -------------------------------------------------------- */
+  var itemLinhasMap={};   // cod -> array de chaves de linha
+  var itemFixcolMap={};   // cod -> boolean
   G.linhasAba.forEach(function(r){
-    var cod = s(r['CODIGO']||r['_col0']||'');
+    var cod=s(r['CODIGO']||r['_col0']||'');
     if(!cod) return;
-    var lk = [];
-    Object.keys(LINHAS_CONFIG).forEach(function(k){
-      var val = s(r[k]||'').toLowerCase();
-      if(val==='true'||val==='1'||val==='sim'||val==='yes') lk.push(k);
+    var fixcol=ehTrue(r['FIXCOL']||r['_col9']||'');
+    itemFixcolMap[cod]=fixcol;
+    var lk=[];
+    LINHAS_KEYS.forEach(function(k){
+      if(ehTrue(r[k]||'')) lk.push(k);
     });
-    itemLinhasMap[cod] = lk;
+    itemLinhasMap[cod]=lk;
   });
 
-  /* --- 5. RESET estado das linhas (OFAs programadas ton) --- */
-  LINHAS_STATE = {};
-  Object.keys(LINHAS_CONFIG).forEach(function(k){ LINHAS_STATE[k] = 0; });
+  /* --- 5. CAPACIDADE: capacidade de producao por item (sacos/dia)
+     FIX 2: substituiu LINHAS_CONFIG hardcoded (ton)
+     'Capacidade almox 30' = cap producao diaria (transfere 30→3)
+     'Capacidade Almox 3'  = cap de emissao/entrega
+     Usamos 'Capacidade almox 30' como cap producao principal
+     -------------------------------------------------------- */
+  var capProdMap={};   // cod -> capacidade de producao diaria (sc/dia)
+  var capEmisMap={};   // cod -> capacidade de emissao almox3
+  G.capacidadeAba.forEach(function(r){
+    var cod=s(r['CODIGO']||r['_col0']||'');
+    if(!cod) return;
+    capProdMap[cod]=n(r['Capacidade almox 30']||r['_col2']||0);
+    capEmisMap[cod]=n(r['Capacidade Almox 3'] ||r['_col3']||0);
+  });
 
-  /* Acumular OFAs pendentes por linha de acordo com aba LINHAS + ORDENS */
-  /* Fazemos isso após montagem de itemLinhasMap */
+  /* --- 6. Estado acumulado de OFAs por linha (sacos programados)
+     Para dashboard de linhas: soma OFAs pendentes distribuidas
+     pelas linhas em que o item pode ser produzido
+     -------------------------------------------------------- */
+  var linhasState={};
+  LINHAS_KEYS.forEach(function(k){linhasState[k]=0;});
+  var linhasCapMap={};  // linha -> soma cap diaria dos itens que usam essa linha
+  LINHAS_KEYS.forEach(function(k){linhasCapMap[k]=0;});
+
   G.ordens.forEach(function(r){
-    var cod   = s(r['Cod. Item']||r['_col3']||'');
-    var tipo  = s(r['Tipo']     ||r['_col2']||'').toUpperCase();
-    var sit   = s(r['Situacao'] ||r['_col8']||'').toLowerCase();
-    var pend  = n(r['Qtde. Pendente']||r['_col10']||0);
-    var aberta = (sit==='liberada'||sit==='aberta'||sit==='em aberto'||sit==='parcial'||sit==='');
-    if(!cod || !(tipo==='OFA'||tipo==='OFP') || !aberta || pend<=0) return;
-    var linhasItem = itemLinhasMap[cod]||[];
-    if(!linhasItem.length) return;
-    // Distribui igualmente entre linhas disponíveis para o item
-    var por = pend / linhasItem.length;
-    linhasItem.forEach(function(lk){
-      LINHAS_STATE[lk] = (LINHAS_STATE[lk]||0) + por;
-    });
+    var cod  = s(r['Cod. Item']||r['_col3']||'');
+    var tipo = s(r['Tipo']     ||r['_col2']||'').toUpperCase();
+    var sit  = s(r['Situacao'] ||r['_col8']||'').toLowerCase();
+    var pend = n(r['Qtde. Pendente']||r['_col10']||0);
+    var aberta=(sit==='liberada'||sit==='aberta'||sit==='em aberto'||sit==='parcial'||sit==='');
+    if(!cod||(tipo!=='OFA'&&tipo!=='OFP')||!aberta||pend<=0) return;
+    var lk=itemLinhasMap[cod]||[];
+    if(!lk.length) return;
+    // Distribui pendencia igualmente entre linhas do item
+    var por=pend/lk.length;
+    lk.forEach(function(k){linhasState[k]=(linhasState[k]||0)+por;});
   });
 
-  /* --- 6. EXTRATO: EPP e NFS --- */
+  // Capacidade total por linha = soma das caps dos itens que usam essa linha
+  G.linhasAba.forEach(function(r){
+    var cod=s(r['CODIGO']||r['_col0']||'');
+    if(!cod) return;
+    var cap=capProdMap[cod]||0;
+    if(!cap) return;
+    var lk=itemLinhasMap[cod]||[];
+    lk.forEach(function(k){linhasCapMap[k]=(linhasCapMap[k]||0)+cap;});
+  });
+
+  /* --- 7. EXTRATO: EPP = producao real, NFS = faturamento --- */
   G.epp=[]; G.nfs=[];
-  G.extrato.forEach(function(r){
-    var sigla=s(r['Sigla']||r['_col3']||'').toUpperCase();
-    if(sigla!=='EPP'&&sigla!=='NFS')return;
-    var dataVal=s(r['Data']||r['_col1']||'');
-    if(dataVal.includes('T'))dataVal=dataVal.substring(0,10);
-    if(dataVal.match(/^\d{2}\/\d{2}\/\d{4}$/)){var dp=dataVal.split('/');dataVal=dp[2]+'-'+dp[1]+'-'+dp[0];}
-    var qtyVal=n(r['Qtde']||r['_col5']||0);
-    var codVal=s(r['Cod. Item']||r['_col12']||'');
-    if(!codVal||qtyVal<=0)return;
-    var obj={Data:dataVal,Codigo:codVal,Produto:'',Quantidade:qtyVal};
-    if(sigla==='EPP')G.epp.push(obj);else G.nfs.push(obj);
-  });
-
-  var saldoMap={};
+  var prodMap={};  // para nome dos produtos
   G.saldo.forEach(function(r){
     var c=s(r['Código']||r['Codigo']||r['_col0']||'');
-    if(c)saldoMap[c]={prod:s(r['Descrição']||r['Descricao']||r['_col1']||'')};
+    if(c) prodMap[c]=s(r['Descrição']||r['Descricao']||r['_col1']||'');
   });
-  G.epp.forEach(function(r){var sm=saldoMap[r.Codigo];if(sm)r.Produto=sm.prod;});
-  G.nfs.forEach(function(r){var sm=saldoMap[r.Codigo];if(sm)r.Produto=sm.prod;});
 
+  G.extrato.forEach(function(r){
+    var sigla=s(r['Sigla']||r['_col3']||'').toUpperCase();
+    if(sigla!=='EPP'&&sigla!=='NFS') return;
+    var dataVal=s(r['Data']||r['_col1']||'');
+    // Normalizar data para YYYY-MM-DD
+    if(dataVal.includes('T')) dataVal=dataVal.substring(0,10);
+    if(dataVal.match(/^\d{2}\/\d{2}\/\d{4}$/)){
+      var dp=dataVal.split('/');dataVal=dp[2]+'-'+dp[1]+'-'+dp[0];
+    }
+    var qtd=n(r['Qtde']||r['_col5']||0);
+    var cod=s(r['Cod. Item']||r['_col12']||'');
+    if(!cod||qtd<=0) return;
+    var obj={Data:dataVal,Codigo:cod,Produto:prodMap[cod]||'',Quantidade:qtd};
+    if(sigla==='EPP') G.epp.push(obj);
+    else G.nfs.push(obj);
+  });
+
+  // Producao diaria agregada
   var dpMap={};
-  G.epp.forEach(function(r){if(r.Data&&r.Quantidade>0)dpMap[r.Data]=(dpMap[r.Data]||0)+r.Quantidade;});
+  G.epp.forEach(function(r){if(r.Data) dpMap[r.Data]=(dpMap[r.Data]||0)+r.Quantidade;});
   G.prodDiaria=Object.keys(dpMap).map(function(d){return{data:d,qty:dpMap[d]};});
   G.prodDiaria.sort(function(a,b){return a.data.localeCompare(b.data);});
 
-  var eppMap={};G.epp.forEach(function(r){if(r.Codigo)eppMap[r.Codigo]=(eppMap[r.Codigo]||0)+r.Quantidade;});
-  var nfsMap={};G.nfs.forEach(function(r){if(r.Codigo)nfsMap[r.Codigo]=(nfsMap[r.Codigo]||0)+r.Quantidade;});
+  var eppMap={};
+  G.epp.forEach(function(r){if(r.Codigo) eppMap[r.Codigo]=(eppMap[r.Codigo]||0)+r.Quantidade;});
 
-  /* --- 7. PREVISAO --- */
-  G.previsaoMap={};
-  G.previsao.forEach(function(r){
-    var cod=s(r['Item']||r['_col0']||'');
-    var prev=n(r['Previsto']||r['_col2']||0);
-    if(cod&&prev>0) G.previsaoMap[cod]=(G.previsaoMap[cod]||0)+prev;
+  /* --- 8. PREVISAO — Previsto da aba PREVISAO, Realizado do NFS do EXTRATO
+     O campo 'Realizado' da aba PREVISAO fica zerado no periodo atual.
+     O realizado real = soma das saidas NFS no EXTRATO por item.
+     -------------------------------------------------------- */
+  // Montar mapa NFS: cod -> total faturado (saidas NFS)
+  var nfsMap={};
+  G.extrato.forEach(function(r){
+    var sigla=s(r['Sigla']||r['_col3']||'').toUpperCase();
+    if(sigla!=='NFS') return;
+    var cod=s(r['Cod. Item']||r['_col12']||'');
+    var qtd=n(r['Qtde']||r['_col5']||0);
+    if(cod&&qtd>0) nfsMap[cod]=(nfsMap[cod]||0)+qtd;
   });
 
-  /* --- 8. MONTAGEM DOS ITENS PCP com lógica industrial correta --- */
+  var previsaoMap={};  // cod -> {previsto, realizado, um}
+  G.previsao.forEach(function(r){
+    var cod=s(r['Item']||r['_col0']||'');
+    if(!cod) return;
+    var prev=n(r['Previsto']||r['_col2']||0);
+    var um  =s(r['UM']      ||r['_col1']||'');
+    if(previsaoMap[cod]){
+      previsaoMap[cod].previsto+=prev;
+    } else {
+      // Realizado = NFS do EXTRATO (faturamento real)
+      previsaoMap[cod]={previsto:prev, realizado:nfsMap[cod]||0, um:um};
+    }
+  });
+
+  /* --- 9. MONTAGEM DOS ITENS PCP — Logica Industrial Corrigida ---
+     
+     FLUXO:
+     a) Pedido Comercial (DC) = soma abs das DCs no PERFIL
+     b) Almox3 atual = saldo direto
+     c) Necessidade Comercial = MAX(PedidoDC - Almox3, 0)
+        → o que falta no almox3 para atender o pedido
+     d) OFA Pendente = campo real do ERP (ja descontado o produzido)
+     e) Necessidade de Producao = MAX(NecComercial - OFAPendente, 0)
+        → o que nem a OFA aberta cobre
+     f) Capacidade do item = aba CAPACIDADE ('Capacidade almox 30')
+        → sacos/dia que essa linha/item pode produzir
+     g) Dias necessarios = NecProd / CapProd (cap do proprio item)
+     h) Status:
+        - NORMAL: sem pedido DC ou almox3 ja cobre
+        - OFA ATENDE: OFA pendente cobre toda a necessidade
+        - PRODUZIR URGENTE: ha necessidade sem OFA suficiente
+        - CAP LIMITADA: ha necessidade, OFA insuficiente, e cap<necessidade
+        - SEM CAPACIDADE: necessidade mas cap=0 (sem cap mapeada)
+     -------------------------------------------------------- */
   G.itens = G.saldo.map(function(r){
     var cod  = s(r['Código']||r['Codigo']||r['_col0']||'');
     var prod = s(r['Descrição']||r['Descricao']||r['_col1']||'');
     if(!cod) return null;
 
-    var a3    = n(r['Almox 3'] ||r['_col2']||0);
-    var a30   = n(r['Almox 30']||r['_col3']||0);
-    var pedCom = dcMap[cod]||0;
-    var estSeg = segMap[cod]||0;
+    var a3   = n(r['Almox 3'] ||r['_col2']||0);
+    var a30  = n(r['Almox 30']||r['_col3']||0);
+    var a4   = n(r['Almox 4'] ||r['_col4']||0);  // almox 4 (transito/quarentena)
+
+    var pedCom  = dcMap[cod]||0;
+    var estSeg  = segMap[cod]||0;
     var ofaPend = ofaMap[cod]||0;
 
-    /* PASSO 1: Necessidade comercial = pedido - almox3 */
+    // Capacidade de producao diaria do item (sacos/dia) — FIX 2
+    var capProd = capProdMap[cod]||0;
+    var capEmis = capEmisMap[cod]||0;
+
+    // Linhas e FIXCOL
+    var linhasItem = itemLinhasMap[cod]||[];
+    var fixcol     = itemFixcolMap[cod]||false;
+    var linhasNomes = linhasItem.map(function(k){return LINHAS_NOMES[k]||k;}).join(', ');
+    if(fixcol && !linhasNomes) linhasNomes='COL FIXA';
+
+    // PASSO A: Necessidade Comercial
     var necCom = Math.max(pedCom - a3, 0);
 
-    /* PASSO 2: Saldo futuro após transferência almox30 */
-    var saldoFut = a30 - necCom;
-
-    /* PASSO 3: Necessidade de produção = nec.comercial - OFA pendente
-       Se OFA cobre tudo: sem necessidade de nova produção
-       Se OFA cobre parcialmente: produzir só diferença */
+    // PASSO B: Necessidade de Producao (o que OFA nao cobre)
     var necProd = Math.max(necCom - ofaPend, 0);
 
-    /* PASSO 4: Identificar linhas do item (aba LINHAS real) */
-    var linhasItem = itemLinhasMap[cod]||[];
-    var linhasNomes = linhasItem.map(function(lk){return LINHAS_CONFIG[lk]?LINHAS_CONFIG[lk].nome:'';}).filter(Boolean);
+    // PASSO C: Dias necessarios (baseado na capacidade real do item)
+    var diasNec = (necProd > 0 && capProd > 0) ? necProd / capProd : 0;
 
-    /* PASSO 5: Capacidade das linhas disponíveis */
-    var capTotalLinhas = 0;
-    var menorCapRest = Infinity;
-    linhasItem.forEach(function(lk){
-      var cfg = LINHAS_CONFIG[lk];
-      if(!cfg) return;
-      capTotalLinhas += cfg.capDia;
-      var cr = cfg.capDia - (LINHAS_STATE[lk]||0);
-      if(cr < menorCapRest) menorCapRest = cr;
-    });
-    if(menorCapRest===Infinity) menorCapRest=0;
-    var ofasProg = linhasItem.reduce(function(acc,lk){return acc+(LINHAS_STATE[lk]||0);},0);
-    var capRestTotal = linhasItem.reduce(function(acc,lk){
-      var cfg=LINHAS_CONFIG[lk];return cfg?acc+Math.max(cfg.capDia-(LINHAS_STATE[lk]||0),0):acc;
-    },0);
-
-    /* PASSO 6: Status capacidade */
+    // PASSO D: Status
     var statusCap, motivo, rowCls;
 
-    if(necCom<=0 && ofaPend<=0){
-      /* Sem pedido e sem OFA */
+    if(pedCom <= 0 || a3 >= pedCom){
+      // Sem pedido comercial ou almox3 ja cobre
       statusCap='NORMAL';
-      motivo=pedCom>0?'Almox3 cobre pedido.':'Sem pedido comercial ativo.';
+      motivo=pedCom<=0 ? 'Sem pedido DC ativo.' : 'Almox3 ('+fN(a3)+') cobre pedido DC ('+fN(pedCom)+').';
       rowCls='ro';
-    } else if(ofaPend >= necCom && necCom > 0){
-      /* OFA pendente cobre 100% da necessidade */
+    } else if(ofaPend >= necCom){
+      // OFA pendente ja cobre toda a necessidade
       statusCap='OFA ATENDE';
-      motivo='OFA aberta cobre necessidade ('+fN(ofaPend)+' pend. / '+fN(necCom)+' nec.).';
+      motivo='OFA aberta cobre: '+fN(ofaPend)+' pend. / '+fN(necCom)+' necessario.';
       rowCls='rp';
-    } else if(necProd > 0 && linhasItem.length===0){
-      /* Precisa produzir mas sem linha mapeada */
-      statusCap='PRODUZIR URGENTE';
-      motivo='Linha não mapeada. Verificar aba LINHAS.';
+    } else if(necProd > 0 && capProd <= 0){
+      // Precisa produzir mas sem capacidade mapeada
+      if(fixcol){
+        statusCap='SEM CAPACIDADE';
+        motivo='Item FIXCOL (col fixada/externo). Sem capacidade interna mapeada.';
+      } else {
+        statusCap='SEM CAPACIDADE';
+        motivo='Necessidade: '+fN(necProd)+'sc. Item sem capacidade na aba CAPACIDADE.';
+      }
       rowCls='rc';
-    } else if(necProd > 0 && capRestTotal <= 0){
-      /* Precisa produzir mas linhas sem capacidade */
-      statusCap='SEM CAPACIDADE';
-      motivo='Necessidade: '+fN(necProd)+'. Linhas '+linhasNomes.join('/')+ ' sem capacidade disponível hoje.';
-      rowCls='rc';
-    } else if(necProd > 0 && capRestTotal < necProd){
-      /* Capacidade parcial — dividir em dias */
-      var diasNec = capTotalLinhas>0 ? Math.ceil(necProd/capTotalLinhas*100)/100 : 0;
+    } else if(necProd > 0 && capProd < necProd){
+      // Capacidade existe mas nao atende hoje inteiro
       statusCap='CAP LIMITADA';
-      motivo='Produzir '+fN(necProd)+'. Cap. rest.: '+fN(capRestTotal)+'. Dividir em '+diasNec.toFixed(1)+' dia(s).';
+      motivo='Produzir '+fN(necProd)+'sc. Cap: '+fN(capProd)+'sc/dia. Precisa '+diasNec.toFixed(1)+' dia(s).';
       rowCls='rw';
     } else if(necProd > 0){
-      /* Necessidade mas com capacidade suficiente */
+      // Tem capacidade suficiente mas sem OFA aberta
       statusCap='PRODUZIR URGENTE';
-      motivo='Produzir '+fN(necProd)+'.'+(ofaPend>0?' OFA parcial: '+fN(ofaPend)+'.':'');
+      motivo='Produzir '+fN(necProd)+'sc.'+(ofaPend>0?' OFA parcial: '+fN(ofaPend)+'.':' Abrir OFA.');
       rowCls='rc';
     } else {
       statusCap='NORMAL';
@@ -788,94 +842,75 @@ function processar(dados){
       rowCls='ro';
     }
 
-    var diasNec2 = (necProd>0 && capTotalLinhas>0) ? Math.ceil(necProd/capTotalLinhas*100)/100 : 0;
-
     return {
       Codigo:cod, Produto:prod,
-      Almox3:a3, Almox30:a30,
+      Almox3:a3, Almox30:a30, Almox4:a4,
       PedidoComercial:pedCom,
       NecComercial:necCom,
       EstoqueSeguranca:estSeg,
       OFAPendente:ofaPend,
       NecessidadeProd:necProd,
-      SaldoFuturo:saldoFut,
-      LinhaProducao:linhasNomes.join(', ')||'N/M',
+      CapacidadeDia:capProd,
+      CapacidadeEmis:capEmis,
+      DiasNecessarios:diasNec,
+      LinhaProducao:linhasNomes||'N/M',
       LinhasKeys:linhasItem,
-      CapacidadeDia:capTotalLinhas,
-      OFAsProgramadas:ofasProg,
-      CapacidadeRestante:capRestTotal,
-      DiasNecessarios:diasNec2,
+      Fixcol:fixcol,
       StatusCap:statusCap, Motivo:motivo, RowCls:rowCls
     };
   }).filter(Boolean);
 
-  /* --- 9. LINHAS INFO para dashboard linhas --- */
-  G.linhasInfo = Object.keys(LINHAS_CONFIG).map(function(lk){
-    var cfg = LINHAS_CONFIG[lk];
-    var prog = LINHAS_STATE[lk]||0;
-    var util = cfg.capDia>0 ? Math.min(Math.round(prog/cfg.capDia*100),999) : 0;
-    var livre = Math.max(cfg.capDia - prog, 0);
+  /* --- 10. LINHAS INFO para dashboard de linhas ---
+     Capacidade total por linha = soma das caps dos itens que usam essa linha
+     -------------------------------------------------------- */
+  G.linhasInfo = LINHAS_KEYS.map(function(lk){
+    var prog = linhasState[lk]||0;
+    var capTot = linhasCapMap[lk]||0;
+    var util = capTot>0 ? Math.min(Math.round(prog/capTot*100),999) : (prog>0?999:0);
+    var livre = Math.max(capTot-prog,0);
     var cor = util<=70?'verde':util<=90?'amarelo':'vermelho';
-    var itensAlocados = G.itens.filter(function(it){return it.LinhasKeys.includes(lk)&&it.NecessidadeProd>0;}).length;
-    return { id:lk, nome:cfg.nome, capDia:cfg.capDia, prog:prog, util:util, livre:livre, cor:cor, itensAlocados:itensAlocados };
+    var itensAlocados = G.itens.filter(function(it){
+      return it.LinhasKeys.includes(lk)&&it.NecessidadeProd>0;
+    }).length;
+    return {
+      id:lk, nome:LINHAS_NOMES[lk]||lk,
+      capDia:capTot, prog:prog, util:util, livre:livre,
+      cor:cor, itensAlocados:itensAlocados
+    };
   });
 
-  /* --- 10. PREVISAO COMERCIAL --- */
-  var prevCods = new Set(Object.keys(G.previsaoMap).concat(Object.keys(nfsMap)));
-  G.prevItens=[];
-  prevCods.forEach(function(cod){
-    var prev=G.previsaoMap[cod]||0;
-    var fat=nfsMap[cod]||0;
-    var realizadoOficial=0;
-    G.previsao.forEach(function(r){if(s(r['Item']||r['_col0']||'')===cod)realizadoOficial+=n(r['Realizado']||r['_col3']||0);});
-    fat=Math.max(fat,realizadoOficial);
-    if(prev===0&&fat===0)return;
-    var item=G.itens.find(function(x){return x.Codigo===cod;});
-    var dif=fat-prev,ader=prev>0?Math.round(fat/prev*100):fat>0?999:0;
-    var status=fat>prev?'ACIMA':ader>=80?'DENTRO':'ABAIXO';
-    G.prevItens.push({Codigo:cod,Produto:item?item.Produto:'',Previsto:prev,FaturadoNFS:fat,Diferenca:dif,Aderencia:ader,Status:status,RowCls:fat>prev?'ro':ader>=80?'rw':'rc'});
+  /* --- 11. PREVISAO ITENS
+     Previsto = aba PREVISAO | Realizado = NFS do EXTRATO
+     -------------------------------------------------------- */
+  G.prevItens = [];
+  Object.keys(previsaoMap).forEach(function(cod){
+    var pv = previsaoMap[cod];
+    var prev = pv.previsto;
+    var real = pv.realizado;
+    if(prev===0&&real===0) return;
+    var item = G.itens.find(function(x){return x.Codigo===cod;});
+    var dif  = real - prev;
+    var ader = prev>0 ? Math.round(real/prev*100) : (real>0?999:0);
+    var status = ader>=100?'ACIMA' : ader>=80?'DENTRO' : 'ABAIXO';
+    G.prevItens.push({
+      Codigo:cod, Produto:item?item.Produto:'', UM:pv.um,
+      Previsto:prev, Realizado:real, Diferenca:dif, Aderencia:ader,
+      Status:status,
+      RowCls:ader>=100?'ro':ader>=80?'rw':'rc'
+    });
   });
+  G.prevItens.sort(function(a,b){return a.Aderencia-b.Aderencia;});
 
-  /* --- 11. PLANEJAMENTO --- */
-  var planCods = new Set(Object.keys(G.previsaoMap));
-  G.planItens=[];
-  planCods.forEach(function(cod){
-    var prev=G.previsaoMap[cod]||0;if(!prev)return;
-    var item=G.itens.find(function(x){return x.Codigo===cod;});
-    var estAtual=item?(item.Almox3+item.Almox30):0;
-    var prodEPP=eppMap[cod]||0, fatNFS=nfsMap[cod]||0;
-    var nec=Math.max(prev-estAtual-prodEPP,0);
-    var cob=prev>0?Math.min(Math.round((estAtual+prodEPP)/prev*100),999):100;
-    var status=nec===0?'COBERTO':cob>=70?'ATENCAO':'NECESSARIO PRODUZIR';
-    G.planItens.push({Codigo:cod,Produto:item?item.Produto:'',Previsto:prev,ProduzidoEPP:prodEPP,FaturadoNFS:fatNFS,EstoqueAtual:estAtual,NecessidadeProd:nec,Cobertura:cob,Status:status,RowCls:nec===0?'ro':cob>=70?'rw':'rc'});
-  });
-
-  /* Selects grupo */
-  var grupos=[...new Set(G.itens.map(function(x){return '';}).filter(Boolean))].sort();
-  ['dash-grp','pcp-grp','est-grp'].forEach(function(id){
-    var sel=el(id);if(!sel)return;
-    sel.innerHTML='<option value="">Todos grupos</option>';
-    grupos.forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o);});
-  });
-
-  var ts=new Date().toLocaleString('pt-BR');txt('hdr-ts',ts);txt('sf-ts',ts);
+  var ts=new Date().toLocaleString('pt-BR');
+  txt('hdr-ts',ts); txt('sf-ts',ts);
   renderAll();
 }
 
-/* Retorna chaves de linhas para um código (via aba LINHAS real) */
-function getLinhasItem(cod){
-  if(!G.linhasAba) return [];
-  var row = G.linhasAba.find(function(r){return s(r['CODIGO']||r['_col0']||'')=== cod;});
-  if(!row) return [];
-  var lk=[];
-  Object.keys(LINHAS_CONFIG).forEach(function(k){
-    var val=s(row[k]||'').toLowerCase();
-    if(val==='true'||val==='1'||val==='sim'||val==='yes') lk.push(k);
-  });
-  return lk;
+function renderAll(){
+  updateKPIs(); updateAlerts();
+  rDash(); rPCP(); rEstoque(); rProdReal(); rOrdens(); rPerfil(); rPrevisao(); rLinhas();
+  renderCharts();
 }
-
-function renderAll(){updateKPIs();updateAlerts();rDash();rPCP();rEstoque();rProdReal();rOrdens();rPerfil();rPrevisao();rPlanejamento();rLinhas();renderCharts();}
 
 function updateKPIs(){
   var its=G.itens;
@@ -884,8 +919,10 @@ function updateKPIs(){
   var nOfa=its.filter(function(x){return x.StatusCap==='OFA ATENDE';}).length;
   var nNorm=its.filter(function(x){return x.StatusCap==='NORMAL';}).length;
   var sob=G.linhasInfo.filter(function(l){return l.cor==='vermelho';}).length;
-  txt('kpi-total',its.length);txt('kpi-crit',nUrg);txt('kpi-warn',nLim);txt('kpi-ok',nOfa);txt('kpi-ofa',nNorm);txt('kpi-linhas-ocupadas',sob);
-  txt('nb-crit',nUrg);txt('nb-pcp',nUrg+nLim);txt('nb-linhas',sob>0?sob:'');
+  txt('kpi-total',its.length); txt('kpi-crit',nUrg); txt('kpi-warn',nLim);
+  txt('kpi-ok',nOfa); txt('kpi-ofa',nNorm); txt('kpi-linhas-ocupadas',sob);
+  txt('nb-crit',nUrg); txt('nb-pcp',nUrg+nLim);
+  txt('nb-linhas',sob>0?sob:'');
   var prevAbaixo=G.prevItens.filter(function(x){return x.Status==='ABAIXO';}).length;
   txt('nb-prev',prevAbaixo||'');
 }
@@ -898,124 +935,161 @@ function updateAlerts(){
   var nOfa=its.filter(function(x){return x.StatusCap==='OFA ATENDE';}).length;
   var sob=G.linhasInfo.filter(function(l){return l.cor==='vermelho';}).length;
   var alerts=[];
-  if(nUrg>0)alerts.push({cls:'alert-d',title:nUrg+' item(s) PRODUZIR URGENTE',body:'Sem OFA suficiente. Necessidade de produção real não coberta. Acionar produção urgente.'});
-  if(nSem>0)alerts.push({cls:'alert-d',title:nSem+' item(s) SEM CAPACIDADE',body:'Necessidade de produção real mas linhas sem capacidade disponível. Replanejar ou abrir nova OFA.'});
-  if(nLim>0)alerts.push({cls:'alert-w',title:nLim+' item(s) com CAPACIDADE LIMITADA',body:'Linha não atende toda a necessidade hoje. Produção será dividida em múltiplos dias.'});
-  if(sob>0)alerts.push({cls:'alert-w',title:sob+' linha(s) sobrecarregada(s)',body:'Utilizacao acima de 90%. Risco de gargalo. Verificar programação de OFAs.'});
-  if(nOfa>0)alerts.push({cls:'alert-s',title:nOfa+' item(s) com OFA ATENDENDO',body:'OFA aberta pendente já cobre a necessidade comercial. Não abrir nova produção.'});
-  if(!alerts.length)alerts.push({cls:'alert-s',title:'Operação Normal',body:'Todos os itens atendidos pelas OFAs ou sem necessidade.'});
-  el('alert-box').innerHTML=alerts.map(function(a){return'<div class="alert '+a.cls+'"><div><div class="alert-title">'+a.title+'</div><div class="alert-body">'+a.body+'</div></div></div>';}).join('');
+  if(nUrg>0) alerts.push({cls:'alert-d',title:nUrg+' item(s) PRODUZIR URGENTE',body:'Necessidade real sem OFA suficiente. Abrir OFA ou acionar producao urgente.'});
+  if(nSem>0) alerts.push({cls:'alert-d',title:nSem+' item(s) SEM CAPACIDADE',body:'Ha necessidade mas item sem capacidade mapeada na aba CAPACIDADE ou FIXCOL externo.'});
+  if(nLim>0) alerts.push({cls:'alert-w',title:nLim+' item(s) CAP LIMITADA',body:'Producao nao atende hoje. Dividir em multiplos dias conforme capacidade/dia.'});
+  if(sob>0)  alerts.push({cls:'alert-w',title:sob+' linha(s) sobrecarregada(s)',body:'Utilizacao acima de 90%. Risco de gargalo — revisar programacao de OFAs.'});
+  if(nOfa>0) alerts.push({cls:'alert-s',title:nOfa+' item(s) com OFA ATENDENDO',body:'OFA aberta ja cobre necessidade. Nao abrir nova producao.'});
+  if(!alerts.length) alerts.push({cls:'alert-s',title:'Operacao Normal',body:'Todos os itens atendidos pelas OFAs ou sem necessidade.'});
+  el('alert-box').innerHTML=alerts.map(function(a){
+    return '<div class="alert '+a.cls+'"><div><div class="alert-title">'+a.title+'</div><div class="alert-body">'+a.body+'</div></div></div>';
+  }).join('');
 }
 
 /* ===== DASHBOARD ===== */
 function rDash(){
-  var q=v('dash-q').toLowerCase(),st=v('dash-st')||G.stFilter,grp=v('dash-grp');
+  var q=v('dash-q').toLowerCase(), st=v('dash-st')||G.stFilter;
   var its=G.itens.filter(function(it){
-    if(G.codSel&&it.Codigo!==G.codSel)return false;
-    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q))return false;
-    if(st&&it.StatusCap!==st)return false;
+    if(G.codSel&&it.Codigo!==G.codSel) return false;
+    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
+    if(st&&it.StatusCap!==st) return false;
     return true;
   });
-  sortArr(its,'dash');txt('dash-cnt',its.length);
-  var b=el('dash-body');b.innerHTML='';
+  sortArr(its,'dash'); txt('dash-cnt',its.length);
+  var b=el('dash-body'); b.innerHTML='';
   if(!its.length){b.innerHTML='<tr><td colspan="8" class="empty">Nenhum item</td></tr>';}
   else its.forEach(function(it){
-    var tr=document.createElement('tr');tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'+
-      '<td class="nr">'+fN(it.Almox3)+'</td><td class="nr">'+fN(it.Almox30)+'</td>'+
+    var tr=document.createElement('tr');
+    tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
+    tr.innerHTML='<td><code>'+it.Codigo+'</code></td>'+
+      '<td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'+
+      '<td class="nr">'+fN(it.Almox3)+'</td>'+
+      '<td class="nr">'+fN(it.Almox30)+'</td>'+
       '<td class="nr '+(it.OFAPendente>0?'num-p':'')+'">'+fN(it.OFAPendente)+'</td>'+
       '<td class="nr '+(it.NecessidadeProd>0?'num-r':'num-g')+'">'+fN(it.NecessidadeProd)+'</td>'+
       '<td style="font-size:9px;color:var(--accent);font-family:var(--mono)">'+it.LinhaProducao+'</td>'+
       '<td>'+bdgCap(it.StatusCap)+'</td>';
-    tr.onclick=function(){selItem(it.Codigo,it.Produto);};b.appendChild(tr);
+    tr.onclick=function(){selItem(it.Codigo,it.Produto);};
+    b.appendChild(tr);
   });
 
+  // Urgentes
   var urg=G.itens.filter(function(x){return x.StatusCap==='PRODUZIR URGENTE'||x.StatusCap==='SEM CAPACIDADE';}).slice(0,10);
   var ul=el('urgente-list');
   ul.innerHTML=urg.length?'':'<div class="empty" style="color:var(--green)">Nenhum item urgente</div>';
-  urg.forEach(function(it){ul.innerHTML+='<div class="sug-item c" onclick="selItem(\''+esc(it.Codigo)+'\',\''+esc(it.Produto)+'\')"><div><div class="sug-code">'+it.Codigo+'</div><div class="sug-desc">'+it.Produto.substring(0,28)+'</div></div><div><div class="sug-qty">'+fN(it.NecessidadeProd)+'</div><div class="sug-qlbl">produzir</div></div></div>';});
+  urg.forEach(function(it){
+    ul.innerHTML+='<div class="sug-item c" onclick="selItem(\''+esc(it.Codigo)+'\',\''+esc(it.Produto)+'\')">'+
+      '<div><div class="sug-code">'+it.Codigo+'</div><div class="sug-desc">'+it.Produto.substring(0,28)+'</div></div>'+
+      '<div><div class="sug-qty">'+fN(it.NecessidadeProd)+'</div><div class="sug-qlbl">sc produzir</div></div></div>';
+  });
 
-  var peds=G.perfil.filter(function(r){return s(r['Tipo']||r['_col2']||'').toUpperCase()==='DC';}).sort(function(a,b){return s(a['Data Fim']||a['_col5']||'').localeCompare(s(b['Data Fim']||b['_col5']||''));});
-  var pl=el('ped-list');pl.innerHTML=peds.length?'':'<div class="empty">Nenhum pedido DC</div>';
-  peds.slice(0,12).forEach(function(r){pl.innerHTML+='<div class="mini-item"><div><div class="mini-code">'+s(r['Item']||r['_col1']||'')+'</div><div class="mini-sub">'+s(r['Data Fim']||r['_col5']||'')+'</div></div><div class="mini-val">'+fN(n(r['Quantidade']||r['_col6']||0))+'</div></div>';});
+  // Pedidos DC
+  var peds=G.perfil.filter(function(r){return s(r['Tipo']||r['_col2']||'').toUpperCase()==='DC';})
+    .sort(function(a,b){return s(a['Data Fim']||a['_col5']||'').localeCompare(s(b['Data Fim']||b['_col5']||''));});
+  var pl=el('ped-list');
+  pl.innerHTML=peds.length?'':'<div class="empty">Nenhum pedido DC</div>';
+  peds.slice(0,12).forEach(function(r){
+    // DC tem quantidade negativa — exibir como positivo
+    var qtd=Math.abs(n(r['Quantidade']||r['_col6']||0));
+    pl.innerHTML+='<div class="mini-item">'+
+      '<div><div class="mini-code">'+s(r['Item']||r['_col1']||'')+'</div>'+
+      '<div class="mini-sub">'+s(r['Referencia']||r['_col3']||'')+' | Entr: '+s(r['Data Fim']||r['_col5']||'')+'</div></div>'+
+      '<div class="mini-val">'+fN(qtd)+'</div></div>';
+  });
 }
 
 /* ===== TABELA PCP ===== */
 function rPCP(){
-  var q=v('pcp-q').toLowerCase(),st=v('pcp-st')||G.stFilter,grp=v('pcp-grp');
+  var q=v('pcp-q').toLowerCase(), st=v('pcp-st')||G.stFilter;
   var its=G.itens.filter(function(it){
-    if(G.codSel&&it.Codigo!==G.codSel)return false;
-    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q))return false;
-    if(st&&it.StatusCap!==st)return false;
+    if(G.codSel&&it.Codigo!==G.codSel) return false;
+    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
+    if(st&&it.StatusCap!==st) return false;
     return true;
   });
-  sortArr(its,'pcp');txt('pcp-cnt',its.length);
+  sortArr(its,'pcp'); txt('pcp-cnt',its.length);
   var nUrg=its.filter(function(x){return x.StatusCap==='PRODUZIR URGENTE';}).length;
   var nSem=its.filter(function(x){return x.StatusCap==='SEM CAPACIDADE';}).length;
   var nLim=its.filter(function(x){return x.StatusCap==='CAP LIMITADA';}).length;
   var nOfa=its.filter(function(x){return x.StatusCap==='OFA ATENDE';}).length;
   var nNorm=its.filter(function(x){return x.StatusCap==='NORMAL';}).length;
-  el('pcp-met').innerHTML=mbox('Urg.',nUrg,'r')+mbox('Sem Cap.',nSem,'r')+mbox('Cap.Lim.',nLim,'a')+mbox('OFA Atende',nOfa,'g')+mbox('Normal',nNorm,'p')+mbox('Total',its.length,'');
-  var b=el('pcp-body');b.innerHTML='';
-  if(!its.length){b.innerHTML='<tr><td colspan="16" class="empty">Nenhum item</td></tr>';return;}
+  el('pcp-met').innerHTML=
+    mbox('Urgente',nUrg,'r')+mbox('Sem Cap.',nSem,'r')+
+    mbox('Cap.Lim.',nLim,'a')+mbox('OFA Atende',nOfa,'g')+
+    mbox('Normal',nNorm,'p')+mbox('Total',its.length,'');
+  var b=el('pcp-body'); b.innerHTML='';
+  if(!its.length){b.innerHTML='<tr><td colspan="14" class="empty">Nenhum item</td></tr>';return;}
   its.forEach(function(it){
-    var tr=document.createElement('tr');tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
-    var capRestCls=it.CapacidadeRestante===0?'num-r':it.CapacidadeRestante<it.NecessidadeProd?'num-a':'num-g';
-    var diasStr=it.DiasNecessarios>0?it.DiasNecessarios.toFixed(2):'-';
+    var tr=document.createElement('tr');
+    tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
+    var diasStr=it.DiasNecessarios>0?it.DiasNecessarios.toFixed(1)+' d':'-';
+    var capCls=it.CapacidadeDia>0?'':'num-r';
     tr.innerHTML='<td><code>'+it.Codigo+'</code></td>'+
       '<td style="max-width:110px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'+
       '<td class="nr">'+fN(it.Almox3)+'</td>'+
       '<td class="nr">'+fN(it.Almox30)+'</td>'+
-      '<td class="nr">'+fN(it.PedidoComercial)+'</td>'+
+      '<td class="nr '+(it.PedidoComercial>0?'num-a':'')+'">'+fN(it.PedidoComercial)+'</td>'+
       '<td class="nr '+(it.NecComercial>0?'num-a':'')+'">'+fN(it.NecComercial)+'</td>'+
       '<td class="nr">'+fN(it.EstoqueSeguranca)+'</td>'+
       '<td class="nr '+(it.OFAPendente>0?'num-p':'')+'">'+fN(it.OFAPendente)+'</td>'+
       '<td class="nr '+(it.NecessidadeProd>0?'num-r':'num-g')+'">'+fN(it.NecessidadeProd)+'</td>'+
       '<td class="cap-col" style="font-family:var(--mono);font-size:9px;color:var(--accent)">'+it.LinhaProducao+'</td>'+
-      '<td class="cap-col nr">'+fN(it.CapacidadeDia)+'</td>'+
-      '<td class="cap-col nr num-o">'+fN(it.OFAsProgramadas)+'</td>'+
-      '<td class="cap-col nr '+capRestCls+'">'+fN(it.CapacidadeRestante)+'</td>'+
+      '<td class="cap-col nr '+capCls+'">'+fN(it.CapacidadeDia)+'</td>'+
       '<td class="cap-col nr">'+diasStr+'</td>'+
       '<td class="cap-col">'+bdgCap(it.StatusCap)+'</td>'+
       '<td><div style="font-size:10px;color:var(--text2);max-width:200px;white-space:normal;line-height:1.4">'+it.Motivo+'</div></td>';
-    tr.onclick=function(){selItem(it.Codigo,it.Produto);};b.appendChild(tr);
+    tr.onclick=function(){selItem(it.Codigo,it.Produto);};
+    b.appendChild(tr);
   });
 }
 
 /* ===== LINHAS ===== */
 function rLinhas(){
-  var li=G.linhasInfo;if(!li||!li.length)return;
+  var li=G.linhasInfo;
+  if(!li||!li.length) return;
   var livres=li.filter(function(l){return l.cor==='verde';}).length;
   var sob=li.filter(function(l){return l.cor==='vermelho';}).length;
   var medUtil=li.length?Math.round(li.reduce(function(a,l){return a+l.util;},0)/li.length):0;
   var capTot=li.reduce(function(a,l){return a+l.capDia;},0);
-  txt('lin-kpi-ok',livres);txt('lin-kpi-med',medUtil+'%');txt('lin-kpi-sob',sob);txt('lin-kpi-total',fN(capTot)+' ton');
+  txt('lin-kpi-ok',livres); txt('lin-kpi-med',medUtil+'%');
+  txt('lin-kpi-sob',sob); txt('lin-kpi-total',fN(capTot)+' sc');
 
-  var cardsEl=el('linhas-cards');cardsEl.innerHTML='';
+  var cardsEl=el('linhas-cards'); cardsEl.innerHTML='';
   li.forEach(function(l){
     var pct=Math.min(l.util,100);
-    var card=document.createElement('div');card.className='linha-card';
-    card.innerHTML='<div class="linha-card-header"><div><div class="linha-nome">'+l.nome+'</div><div class="linha-cap">Cap: '+fN(l.capDia)+' ton/dia</div></div><div class="linha-status '+l.cor+'"><div class="linha-status-dot"></div>'+(l.cor==='verde'?'LIVRE':l.cor==='amarelo'?'ATENÇÃO':'SOBRECARREGADA')+'</div></div>'+
+    var card=document.createElement('div'); card.className='linha-card';
+    card.innerHTML='<div class="linha-card-header">'+
+      '<div><div class="linha-nome">'+l.nome+'</div>'+
+      '<div class="linha-cap">Cap. soma itens: '+fN(l.capDia)+' sc/dia</div></div>'+
+      '<div class="linha-status '+l.cor+'">'+
+        '<div class="linha-status-dot"></div>'+
+        (l.cor==='verde'?'LIVRE':l.cor==='amarelo'?'ATENÇÃO':'SOBRECARREGADA')+
+      '</div></div>'+
       '<div class="linha-body">'+
-      '<div class="linha-stats"><div class="linha-stat"><div class="linha-stat-v" style="color:var(--accent)">'+fN(l.capDia)+'</div><div class="linha-stat-l">Cap. Total</div></div>'+
-      '<div class="linha-stat"><div class="linha-stat-v" style="color:var(--orange)">'+fN(Math.round(l.prog))+'</div><div class="linha-stat-l">OFA Prog.</div></div>'+
-      '<div class="linha-stat"><div class="linha-stat-v" style="color:'+(l.livre>0?'var(--green)':'var(--red)')+'">'+fN(Math.round(l.livre))+'</div><div class="linha-stat-l">Disponivel</div></div></div>'+
-      '<div class="linha-progress"><div class="linha-progress-bar"><div class="linha-progress-fill '+l.cor+'" style="width:'+pct+'%"></div></div>'+
-      '<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text4);margin-top:2px"><span>Utilizacao</span><span style="font-family:var(--mono);font-weight:700;color:'+(l.cor==='verde'?'var(--green)':l.cor==='amarelo'?'var(--yellow)':'var(--red)')+'">'+l.util+'%</span></div>'+
-      '<div style="font-size:9px;color:var(--text4);margin-top:2px">'+l.itensAlocados+' item(s) com necessidade alocado(s)</div>'+
-      '</div></div>';
+        '<div class="linha-stats">'+
+          '<div class="linha-stat"><div class="linha-stat-v" style="color:var(--accent)">'+fN(l.capDia)+'</div><div class="linha-stat-l">Cap. Total</div></div>'+
+          '<div class="linha-stat"><div class="linha-stat-v" style="color:var(--orange)">'+fN(Math.round(l.prog))+'</div><div class="linha-stat-l">OFA Prog.</div></div>'+
+          '<div class="linha-stat"><div class="linha-stat-v" style="color:'+(l.livre>0?'var(--green)':'var(--red)')+'">'+fN(Math.round(l.livre))+'</div><div class="linha-stat-l">Disponivel</div></div>'+
+        '</div>'+
+        '<div class="linha-progress-bar"><div class="linha-progress-fill '+l.cor+'" style="width:'+pct+'%"></div></div>'+
+        '<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text4);margin-top:2px">'+
+          '<span>Utilizacao</span>'+
+          '<span style="font-family:var(--mono);font-weight:700;color:'+(l.cor==='verde'?'var(--green)':l.cor==='amarelo'?'var(--yellow)':'var(--red)')+'">'+l.util+'%</span>'+
+        '</div>'+
+        '<div style="font-size:9px;color:var(--text4);margin-top:4px">'+l.itensAlocados+' item(s) com necessidade alocado(s)</div>'+
+      '</div>';
     cardsEl.appendChild(card);
   });
 
-  var b=el('linhas-body');b.innerHTML='';
+  var b=el('linhas-body'); b.innerHTML='';
   li.forEach(function(l){
     var tr=document.createElement('tr');
     var utCls=l.cor==='verde'?'num-g':l.cor==='amarelo'?'num-a':'num-r';
     tr.innerHTML='<td><span style="font-family:var(--mono);font-weight:700;color:var(--accent)">'+l.nome+'</span></td>'+
-      '<td class="nr">'+fN(l.capDia)+' ton</td>'+
-      '<td class="nr num-o">'+fN(Math.round(l.prog))+' ton</td>'+
+      '<td class="nr">'+fN(l.capDia)+'</td>'+
+      '<td class="nr num-o">'+fN(Math.round(l.prog))+'</td>'+
       '<td class="nr '+utCls+'">'+l.util+'%<div class="ader-bar"><div class="ader-fill" style="width:'+Math.min(l.util,100)+'%;background:'+(l.cor==='verde'?'var(--green)':l.cor==='amarelo'?'var(--yellow-mid)':'var(--red)')+'"></div></div></td>'+
-      '<td class="nr '+(l.livre>0?'num-g':'num-r')+'">'+fN(Math.round(l.livre))+' ton</td>'+
+      '<td class="nr '+(l.livre>0?'num-g':'num-r')+'">'+fN(Math.round(l.livre))+'</td>'+
       '<td><div class="linha-status '+l.cor+'" style="font-size:9px;padding:3px 8px"><div class="linha-status-dot"></div>'+(l.cor==='verde'?'🟢 LIVRE':l.cor==='amarelo'?'🟡 ATENÇÃO':'🔴 SOBRECARREGADA')+'</div></td>'+
       '<td style="font-size:11px">'+l.itensAlocados+' item(s)</td>';
     b.appendChild(tr);
@@ -1024,113 +1098,115 @@ function rLinhas(){
 
 /* ===== PREVISAO ===== */
 function rPrevisao(){
-  var q=v('prev-q').toLowerCase(),st=v('prev-st');
+  var q=v('prev-q').toLowerCase(), st=v('prev-st');
   var its=G.prevItens.filter(function(it){
-    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q))return false;
-    if(st&&it.Status!==st)return false;
+    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
+    if(st&&it.Status!==st) return false;
     return true;
   });
-  sortArr(its,'prev');txt('prev-cnt',its.length);
+  txt('prev-cnt',its.length);
   var sTot=its.reduce(function(a,x){return a+x.Previsto;},0);
-  var fTot=its.reduce(function(a,x){return a+x.FaturadoNFS;},0);
-  var medAder=its.length?Math.round(its.reduce(function(a,x){return a+(x.Previsto>0?Math.min(x.Aderencia,200):0);},0)/Math.max(its.filter(function(x){return x.Previsto>0;}).length,1)):0;
+  var rTot=its.reduce(function(a,x){return a+x.Realizado;},0);
+  var comPrev=its.filter(function(x){return x.Previsto>0;});
+  var medAder=comPrev.length?Math.round(comPrev.reduce(function(a,x){return a+Math.min(x.Aderencia,200);},0)/comPrev.length):0;
   var nAbaixo=its.filter(function(x){return x.Status==='ABAIXO';}).length;
-  txt('prev-kpi-prev',fN(sTot));txt('prev-kpi-real',fN(fTot));txt('prev-kpi-ader',medAder+'%');txt('prev-kpi-abaixo',nAbaixo);
-  el('prev-met').innerHTML=mbox('Acima',its.filter(function(x){return x.Status==='ACIMA';}).length,'g')+mbox('Dentro',its.filter(function(x){return x.Status==='DENTRO';}).length,'a')+mbox('Abaixo',nAbaixo,'r')+mbox('Total',its.length,'');
-  var b=el('prev-body');b.innerHTML='';
-  if(!its.length){b.innerHTML='<tr><td colspan="7" class="empty">Sem dados de previsao ou NFS</td></tr>';return;}
+  txt('prev-kpi-prev',fN(sTot)); txt('prev-kpi-real',fN(rTot));
+  txt('prev-kpi-ader',medAder+'%'); txt('prev-kpi-abaixo',nAbaixo);
+  el('prev-met').innerHTML=
+    mbox('Acima',its.filter(function(x){return x.Status==='ACIMA';}).length,'g')+
+    mbox('Dentro',its.filter(function(x){return x.Status==='DENTRO';}).length,'a')+
+    mbox('Abaixo',nAbaixo,'r')+mbox('Total',its.length,'');
+  var b=el('prev-body'); b.innerHTML='';
+  if(!its.length){b.innerHTML='<tr><td colspan="8" class="empty">Sem dados de previsao</td></tr>';return;}
   its.forEach(function(it){
-    var tr=document.createElement('tr');tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
+    var tr=document.createElement('tr');
+    tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
     var difCls=it.Diferenca>=0?'num-g':'num-r';
     var aderCls=it.Aderencia>=100?'num-g':it.Aderencia>=80?'num-a':'num-r';
-    var aderPct=it.Aderencia>999?'&gt;999%':it.Aderencia+'%';
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td><td class="nr">'+fN(it.Previsto)+'</td><td class="nr num-g">'+fN(it.FaturadoNFS)+'</td><td class="nr '+difCls+'">'+fN(it.Diferenca)+'</td><td class="nr '+aderCls+'">'+aderPct+'<div class="ader-bar"><div class="ader-fill" style="width:'+Math.min(it.Aderencia,100)+'%;background:'+(it.Aderencia>=100?'var(--green)':it.Aderencia>=80?'var(--yellow-mid)':'var(--red)')+'"></div></div></td><td>'+bdgPrev(it.Status)+'</td>';
-    tr.onclick=function(){selItem(it.Codigo,it.Produto);};b.appendChild(tr);
-  });
-}
-
-/* ===== PLANEJAMENTO ===== */
-function rPlanejamento(){
-  var q=v('plan-q').toLowerCase(),st=v('plan-st');
-  var its=G.planItens.filter(function(it){
-    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q))return false;
-    if(st&&it.Status!==st)return false;
-    return true;
-  });
-  sortArr(its,'plan');txt('plan-cnt',its.length);
-  txt('plan-kpi-prev',fN(its.reduce(function(a,x){return a+x.Previsto;},0)));
-  txt('plan-kpi-prod',fN(its.reduce(function(a,x){return a+x.ProduzidoEPP;},0)));
-  txt('plan-kpi-est',fN(its.reduce(function(a,x){return a+x.EstoqueAtual;},0)));
-  txt('plan-kpi-nec',fN(its.reduce(function(a,x){return a+x.NecessidadeProd;},0)));
-  var nNec=its.filter(function(x){return x.Status==='NECESSARIO PRODUZIR';}).length;
-  var nAt=its.filter(function(x){return x.Status==='ATENCAO';}).length;
-  var nCob=its.filter(function(x){return x.Status==='COBERTO';}).length;
-  el('plan-met').innerHTML=mbox('Necessario',nNec,'r')+mbox('Atencao',nAt,'a')+mbox('Coberto',nCob,'g')+mbox('Total',its.length,'');
-  var b=el('plan-body');b.innerHTML='';
-  if(!its.length){b.innerHTML='<tr><td colspan="9" class="empty">Sem dados de previsao</td></tr>';return;}
-  its.forEach(function(it){
-    var tr=document.createElement('tr');tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
-    var cobCls=it.Cobertura>=100?'num-g':it.Cobertura>=70?'num-a':'num-r';
-    var cobStr=it.Cobertura>999?'&gt;999%':it.Cobertura+'%';
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td style="max-width:150px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td><td class="nr">'+fN(it.Previsto)+'</td><td class="nr num-g">'+fN(it.ProduzidoEPP)+'</td><td class="nr">'+fN(it.FaturadoNFS)+'</td><td class="nr">'+fN(it.EstoqueAtual)+'</td><td class="nr '+(it.NecessidadeProd>0?'num-r':'num-g')+'">'+fN(it.NecessidadeProd)+'</td><td class="nr '+cobCls+'">'+cobStr+'</td><td>'+bdgPlan(it.Status)+'</td>';
-    tr.onclick=function(){selItem(it.Codigo,it.Produto);};b.appendChild(tr);
+    var aderPct=it.Aderencia>999?'>999%':it.Aderencia+'%';
+    tr.innerHTML='<td><code>'+it.Codigo+'</code></td>'+
+      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'+
+      '<td>'+it.UM+'</td>'+
+      '<td class="nr">'+fN(it.Previsto)+'</td>'+
+      '<td class="nr num-g">'+fN(it.Realizado)+'</td>'+
+      '<td class="nr '+difCls+'">'+fN(it.Diferenca)+'</td>'+
+      '<td class="nr '+aderCls+'">'+aderPct+
+        '<div class="ader-bar"><div class="ader-fill" style="width:'+Math.min(it.Aderencia,100)+'%;background:'+
+        (it.Aderencia>=100?'var(--green)':it.Aderencia>=80?'var(--yellow-mid)':'var(--red)')+'"></div></div></td>'+
+      '<td>'+bdgPrev(it.Status)+'</td>';
+    tr.onclick=function(){selItem(it.Codigo,it.Produto);};
+    b.appendChild(tr);
   });
 }
 
 /* ===== ESTOQUE ===== */
 function rEstoque(){
-  var q=v('est-q').toLowerCase(),st=v('est-st')||G.stFilter;
+  var q=v('est-q').toLowerCase(), st=v('est-st')||G.stFilter;
   var its=G.itens.filter(function(it){
-    if(G.codSel&&it.Codigo!==G.codSel)return false;
-    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q))return false;
-    if(st&&it.StatusCap!==st)return false;
+    if(G.codSel&&it.Codigo!==G.codSel) return false;
+    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
+    if(st&&it.StatusCap!==st) return false;
     return true;
   });
   txt('est-cnt',its.length);
   var nUrg=its.filter(function(x){return x.StatusCap==='PRODUZIR URGENTE'||x.StatusCap==='SEM CAPACIDADE';}).length;
   var nLim=its.filter(function(x){return x.StatusCap==='CAP LIMITADA';}).length;
   var nOfa=its.filter(function(x){return x.StatusCap==='OFA ATENDE';}).length;
-  el('est-met').innerHTML=mbox('Urgente',nUrg,'r')+mbox('Cap.Lim.',nLim,'a')+mbox('OFA Atend.',nOfa,'g')+mbox('Normal',its.length-nUrg-nLim-nOfa,'p')+mbox('Total',its.length,'');
-  var b=el('est-body');b.innerHTML='';
+  el('est-met').innerHTML=
+    mbox('Urgente',nUrg,'r')+mbox('Cap.Lim.',nLim,'a')+
+    mbox('OFA Atend.',nOfa,'g')+mbox('Normal',its.length-nUrg-nLim-nOfa,'p')+mbox('Total',its.length,'');
+  var b=el('est-body'); b.innerHTML='';
   its.forEach(function(it){
-    var tr=document.createElement('tr');tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'+
-      '<td class="nr">'+fN(it.Almox3)+'</td><td class="nr">'+fN(it.Almox30)+'</td>'+
-      '<td class="nr">'+fN(it.PedidoComercial)+'</td>'+
+    var tr=document.createElement('tr');
+    tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
+    tr.innerHTML='<td><code>'+it.Codigo+'</code></td>'+
+      '<td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'+
+      '<td class="nr">'+fN(it.Almox3)+'</td>'+
+      '<td class="nr">'+fN(it.Almox30)+'</td>'+
+      '<td class="nr">'+fN(it.Almox4)+'</td>'+
+      '<td class="nr '+(it.PedidoComercial>0?'num-a':'')+'">'+fN(it.PedidoComercial)+'</td>'+
       '<td class="nr '+(it.OFAPendente>0?'num-p':'')+'">'+fN(it.OFAPendente)+'</td>'+
       '<td class="nr '+(it.NecessidadeProd>0?'num-r':'num-g')+'">'+fN(it.NecessidadeProd)+'</td>'+
       '<td class="nr">'+fN(it.EstoqueSeguranca)+'</td>'+
       '<td>'+bdgCap(it.StatusCap)+'</td>';
-    tr.onclick=function(){selItem(it.Codigo,it.Produto);};b.appendChild(tr);
+    tr.onclick=function(){selItem(it.Codigo,it.Produto);};
+    b.appendChild(tr);
   });
 }
 
 /* ===== PRODUCAO REAL ===== */
 function rProdReal(){
   var q=v('prod-q').toLowerCase();
-  var rows=G.epp.filter(function(r){return!q||(r.Codigo.toLowerCase().includes(q)||r.Produto.toLowerCase().includes(q)||r.Data.toLowerCase().includes(q));});
+  var rows=G.epp.filter(function(r){
+    return !q||(r.Codigo.toLowerCase().includes(q)||r.Produto.toLowerCase().includes(q)||r.Data.includes(q));
+  });
   txt('prod-cnt',rows.length);
-  var b=el('prod-body');b.innerHTML='';
+  var b=el('prod-body'); b.innerHTML='';
   if(!rows.length){b.innerHTML='<tr><td colspan="4" class="empty">Nenhum EPP encontrado</td></tr>';return;}
   rows.forEach(function(r){
     var tr=document.createElement('tr');
-    tr.innerHTML='<td style="font-size:10px;color:var(--text3)">'+r.Data+'</td><td><code>'+r.Codigo+'</code></td><td>'+r.Produto+'</td><td class="nr num-g">'+fN(r.Quantidade)+'</td>';
+    tr.innerHTML='<td style="font-size:10px;color:var(--text3)">'+r.Data+'</td>'+
+      '<td><code>'+r.Codigo+'</code></td>'+
+      '<td>'+r.Produto+'</td>'+
+      '<td class="nr num-g">'+fN(r.Quantidade)+'</td>';
     b.appendChild(tr);
   });
 }
 
 /* ===== ORDENS ===== */
 function rOrdens(){
-  var q=v('ord-q').toLowerCase(),tp=v('ord-tp').toUpperCase();
+  var q=v('ord-q').toLowerCase(), tp=v('ord-tp').toUpperCase();
   var rows=G.ordens.filter(function(r){
-    var cod=s(r['Cod. Item']||r['_col3']||''),ord=s(r['Ordem']||r['_col0']||''),tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();
-    if(G.codSel&&cod!==G.codSel)return false;
-    if(q&&!cod.toLowerCase().includes(q)&&!ord.toLowerCase().includes(q))return false;
-    if(tp&&tipo!==tp)return false;
+    var cod=s(r['Cod. Item']||r['_col3']||'');
+    var ord=s(r['Ordem']    ||r['_col0']||'');
+    var tipo=s(r['Tipo']    ||r['_col2']||'').toUpperCase();
+    if(G.codSel&&cod!==G.codSel) return false;
+    if(q&&!cod.toLowerCase().includes(q)&&!ord.toLowerCase().includes(q)) return false;
+    if(tp&&tipo!==tp) return false;
     return true;
   });
   txt('ord-cnt',rows.length);
-  var b=el('ord-body');b.innerHTML='';
+  var b=el('ord-body'); b.innerHTML='';
   if(!rows.length){b.innerHTML='<tr><td colspan="11" class="empty">Nenhuma ordem</td></tr>';return;}
   rows.forEach(function(r){
     var cod=s(r['Cod. Item']||r['_col3']||'');
@@ -1138,42 +1214,77 @@ function rOrdens(){
     var qtde=n(r['Qtde']||r['_col9']||0);
     var tr=document.createElement('tr');
     tr.onclick=function(){selItem(cod,s(r['Descricao']||r['_col4']||''));};
-    tr.innerHTML='<td><code>'+s(r['Ordem']||r['_col0']||'')+'</code></td><td>'+s(r['Planejador']||r['_col1']||'')+'</td><td><span class="bdg bdg-i">'+s(r['Tipo']||r['_col2']||'')+'</span></td><td><code>'+cod+'</code></td><td style="max-width:130px;overflow:hidden;text-overflow:ellipsis">'+s(r['Descricao']||r['_col4']||'')+'</td><td>'+s(r['UM']||r['_col5']||'')+'</td><td style="font-size:10px;color:var(--text3)">'+s(r['Dt. Inicio']||r['_col6']||'')+'</td><td style="font-size:10px;color:var(--text3)">'+s(r['Dt. Fim']||r['_col7']||'')+'</td><td>'+s(r['Situacao']||r['_col8']||'')+'</td><td class="nr">'+fN(qtde)+'</td><td class="nr '+(pend>0?'num-p':'')+'">'+fN(pend)+'</td>';
+    tr.innerHTML='<td><code>'+s(r['Ordem']||r['_col0']||'')+'</code></td>'+
+      '<td>'+s(r['Planejador']||r['_col1']||'')+'</td>'+
+      '<td><span class="bdg bdg-i">'+s(r['Tipo']||r['_col2']||'')+'</span></td>'+
+      '<td><code>'+cod+'</code></td>'+
+      '<td style="max-width:130px;overflow:hidden;text-overflow:ellipsis">'+s(r['Descricao']||r['_col4']||'')+'</td>'+
+      '<td>'+s(r['UM']||r['_col5']||'')+'</td>'+
+      '<td style="font-size:10px;color:var(--text3)">'+s(r['Dt. Inicio']||r['_col6']||'')+'</td>'+
+      '<td style="font-size:10px;color:var(--text3)">'+s(r['Dt. Fim']||r['_col7']||'')+'</td>'+
+      '<td><span class="bdg bdg-s">'+s(r['Situacao']||r['_col8']||'')+'</span></td>'+
+      '<td class="nr">'+fN(qtde)+'</td>'+
+      '<td class="nr '+(pend>0?'num-p':'')+'">'+fN(pend)+'</td>';
     b.appendChild(tr);
   });
 }
 
 /* ===== PERFIL ===== */
 function rPerfil(){
-  var q=v('perf-q').toLowerCase(),tp=v('perf-tp').toUpperCase();
+  var q=v('perf-q').toLowerCase(), tp=v('perf-tp').toUpperCase();
   var rows=G.perfil.filter(function(r){
-    var item=s(r['Item']||r['_col1']||''),tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();
-    if(G.codSel&&item!==G.codSel)return false;
-    if(q&&!item.toLowerCase().includes(q))return false;
-    if(tp&&tipo!==tp)return false;
+    var item=s(r['Item']||r['_col1']||'');
+    var tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();
+    if(G.codSel&&item!==G.codSel) return false;
+    if(q&&!item.toLowerCase().includes(q)) return false;
+    if(tp&&tipo!==tp) return false;
     return true;
   });
   txt('perf-cnt',rows.length);
-  var b=el('perf-body');b.innerHTML='';
+  var b=el('perf-body'); b.innerHTML='';
   if(!rows.length){b.innerHTML='<tr><td colspan="7" class="empty">Nenhum registro</td></tr>';return;}
   rows.slice(0,500).forEach(function(r){
     var tipo2=s(r['Tipo']||r['_col2']||'').toUpperCase();
+    var qtd=n(r['Quantidade']||r['_col6']||0);
     var tr=document.createElement('tr');
-    tr.innerHTML='<td style="font-size:10px;color:var(--text3)">'+s(r['Data Relatorio']||r['_col0']||'')+'</td><td><code>'+s(r['Item']||r['_col1']||'')+'</code></td><td>'+bdgTipo(tipo2)+'</td><td style="font-size:10px;color:var(--text3)">'+s(r['Referencia']||r['_col3']||'')+'</td><td style="font-size:10px">'+s(r['Data Inicio']||r['_col4']||'')+'</td><td style="font-size:10px">'+s(r['Data Fim']||r['_col5']||'')+'</td><td class="nr">'+fN(n(r['Quantidade']||r['_col6']||0))+'</td>';
+    tr.innerHTML='<td style="font-size:10px;color:var(--text3)">'+s(r['Data Relatorio']||r['_col0']||'')+'</td>'+
+      '<td><code>'+s(r['Item']||r['_col1']||'')+'</code></td>'+
+      '<td>'+bdgTipo(tipo2)+'</td>'+
+      '<td style="font-size:10px;color:var(--text3)">'+s(r['Referencia']||r['_col3']||'')+'</td>'+
+      '<td style="font-size:10px">'+s(r['Data Inicio']||r['_col4']||'')+'</td>'+
+      '<td style="font-size:10px">'+s(r['Data Fim']||r['_col5']||'')+'</td>'+
+      // DC é negativo no ERP — exibir o valor real (negativo = saída)
+      '<td class="nr '+(qtd<0?'num-r':'num-g')+'">'+fN(qtd)+'</td>';
     b.appendChild(tr);
   });
 }
 
 /* ===== CHARTS ===== */
-var CD={responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9C9888',font:{size:10},padding:10}}},scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#C4C0B4',font:{size:9}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#C4C0B4',font:{size:9}}}}};
-function mkChart(id,cfg){var ctx=document.getElementById(id);if(!ctx)return;if(G.charts[id])G.charts[id].destroy();cfg.options=Object.assign({},JSON.parse(JSON.stringify(CD)),cfg.options||{});if(cfg.options.plugins)cfg.options.plugins=Object.assign({},CD.plugins,cfg.options.plugins);G.charts[id]=new Chart(ctx,cfg);}
+var CD={
+  responsive:true,maintainAspectRatio:false,
+  plugins:{legend:{labels:{color:'#9C9888',font:{size:10},padding:10}}},
+  scales:{
+    x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#C4C0B4',font:{size:9}}},
+    y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#C4C0B4',font:{size:9}}}
+  }
+};
+function mkChart(id,cfg){
+  var ctx=document.getElementById(id);
+  if(!ctx) return;
+  if(G.charts[id]) G.charts[id].destroy();
+  cfg.options=Object.assign({},JSON.parse(JSON.stringify(CD)),cfg.options||{});
+  if(cfg.options.plugins) cfg.options.plugins=Object.assign({},CD.plugins,cfg.options.plugins);
+  G.charts[id]=new Chart(ctx,cfg);
+}
 
 function renderCharts(){
+  // Producao diaria EPP
   var pd=G.prodDiaria.slice(-14);
-  var prodCfg={type:'bar',data:{labels:pd.map(function(x){return x.data;}),datasets:[{label:'EPP',data:pd.map(function(x){return x.qty;}),backgroundColor:'rgba(27,92,122,.5)',borderColor:'rgba(27,92,122,.8)',borderWidth:1,borderRadius:4}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}};
+  var prodCfg={type:'bar',data:{labels:pd.map(function(x){return x.data;}),datasets:[{label:'EPP (sc)',data:pd.map(function(x){return x.qty;}),backgroundColor:'rgba(27,92,122,.5)',borderColor:'rgba(27,92,122,.8)',borderWidth:1,borderRadius:4}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}};
   mkChart('chart-prod-real',prodCfg);
   mkChart('chart-prod-det',JSON.parse(JSON.stringify(prodCfg)));
 
+  // Status doughnut
   var nUrg=G.itens.filter(function(x){return x.StatusCap==='PRODUZIR URGENTE';}).length;
   var nSem=G.itens.filter(function(x){return x.StatusCap==='SEM CAPACIDADE';}).length;
   var nLim=G.itens.filter(function(x){return x.StatusCap==='CAP LIMITADA';}).length;
@@ -1181,84 +1292,138 @@ function renderCharts(){
   var nNorm=G.itens.filter(function(x){return x.StatusCap==='NORMAL';}).length;
   mkChart('chart-status',{type:'doughnut',data:{labels:['Produzir Urgente','Sem Cap.','Cap. Limitada','OFA Atende','Normal'],datasets:[{data:[nUrg,nSem,nLim,nOfa,nNorm],backgroundColor:['rgba(184,50,50,.75)','rgba(184,50,50,.45)','rgba(212,160,0,.75)','rgba(45,125,70,.75)','rgba(91,63,166,.65)'],borderWidth:0}]},options:{plugins:{legend:{position:'right'}},scales:{x:{display:false},y:{display:false}}}});
 
+  // Necessidade vs OFA
   var top=G.itens.filter(function(x){return x.NecessidadeProd>0;}).slice(0,8);
   mkChart('chart-saldo',{type:'bar',data:{labels:top.map(function(x){return x.Codigo;}),datasets:[{label:'Nec. Produzir',data:top.map(function(x){return x.NecessidadeProd;}),backgroundColor:'rgba(184,50,50,.5)',borderRadius:3},{label:'OFA Pendente',data:top.map(function(x){return x.OFAPendente;}),backgroundColor:'rgba(91,63,166,.5)',borderRadius:3}]},options:{plugins:{legend:{position:'top'}}}});
 
+  // Previsao vs Realizado
   var prevTop=G.prevItens.slice(0,10);
-  mkChart('chart-prev-fat',{type:'bar',data:{labels:prevTop.map(function(x){return x.Codigo;}),datasets:[{label:'Previsto',data:prevTop.map(function(x){return x.Previsto;}),backgroundColor:'rgba(27,92,122,.45)',borderRadius:3},{label:'Faturado NFS',data:prevTop.map(function(x){return x.FaturadoNFS;}),backgroundColor:'rgba(45,125,70,.5)',borderRadius:3}]},options:{plugins:{legend:{position:'top'}}}});
+  mkChart('chart-prev-fat',{type:'bar',data:{labels:prevTop.map(function(x){return x.Codigo;}),datasets:[{label:'Previsto',data:prevTop.map(function(x){return x.Previsto;}),backgroundColor:'rgba(27,92,122,.45)',borderRadius:3},{label:'Realizado',data:prevTop.map(function(x){return x.Realizado;}),backgroundColor:'rgba(45,125,70,.5)',borderRadius:3}]},options:{plugins:{legend:{position:'top'}}}});
 
-  var topNFS=G.prevItens.slice().sort(function(a,b){return b.FaturadoNFS-a.FaturadoNFS;}).slice(0,8);
-  mkChart('chart-top-nfs',{type:'bar',data:{labels:topNFS.map(function(x){return x.Codigo;}),datasets:[{label:'Faturado NFS',data:topNFS.map(function(x){return x.FaturadoNFS;}),backgroundColor:topNFS.map(function(x){return x.Status==='ACIMA'?'rgba(45,125,70,.6)':x.Status==='DENTRO'?'rgba(212,160,0,.6)':'rgba(184,50,50,.6)';}),borderRadius:4}]},options:{plugins:{legend:{display:false}}}});
+  var topReal=G.prevItens.slice().sort(function(a,b){return b.Realizado-a.Realizado;}).slice(0,8);
+  mkChart('chart-top-nfs',{type:'bar',data:{labels:topReal.map(function(x){return x.Codigo;}),datasets:[{label:'Realizado',data:topReal.map(function(x){return x.Realizado;}),backgroundColor:topReal.map(function(x){return x.Status==='ACIMA'?'rgba(45,125,70,.6)':x.Status==='DENTRO'?'rgba(212,160,0,.6)':'rgba(184,50,50,.6)';}),borderRadius:4}]},options:{plugins:{legend:{display:false}}}});
 
-  var planTop=G.planItens.filter(function(x){return x.NecessidadeProd>0;}).slice(0,10);
-  mkChart('chart-plan-prod',{type:'bar',data:{labels:planTop.map(function(x){return x.Codigo;}),datasets:[{label:'Previsto',data:planTop.map(function(x){return x.Previsto;}),backgroundColor:'rgba(27,92,122,.4)',borderRadius:3},{label:'Produzido EPP',data:planTop.map(function(x){return x.ProduzidoEPP;}),backgroundColor:'rgba(45,125,70,.5)',borderRadius:3},{label:'Estoque Atual',data:planTop.map(function(x){return x.EstoqueAtual;}),backgroundColor:'rgba(212,160,0,.4)',borderRadius:3}]},options:{plugins:{legend:{position:'top'}}}});
-
-  var planCob=G.planItens.slice(0,10);
-  mkChart('chart-plan-cob',{type:'bar',data:{labels:planCob.map(function(x){return x.Codigo;}),datasets:[{label:'Cobertura %',data:planCob.map(function(x){return Math.min(x.Cobertura,150);}),backgroundColor:planCob.map(function(x){return x.Cobertura>=100?'rgba(45,125,70,.6)':x.Cobertura>=70?'rgba(212,160,0,.6)':'rgba(184,50,50,.6)';}),borderRadius:3}]},options:{plugins:{legend:{display:false}},scales:{y:{max:150,ticks:{callback:function(v){return v+'%';}}}}}});
-
+  // Linhas utilizacao
   var li=G.linhasInfo;
-  mkChart('chart-linhas',{type:'bar',data:{labels:li.map(function(l){return l.nome;}),datasets:[{label:'OFA Programada (ton)',data:li.map(function(l){return Math.round(l.prog);}),backgroundColor:li.map(function(l){return l.cor==='verde'?'rgba(45,125,70,.6)':l.cor==='amarelo'?'rgba(212,160,0,.6)':'rgba(184,50,50,.6)';}),borderRadius:4},{label:'Capacidade Livre (ton)',data:li.map(function(l){return Math.round(l.livre);}),backgroundColor:'rgba(0,0,0,.06)',borderRadius:4}]},options:{plugins:{legend:{position:'top'}},scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:function(v){return v+' ton';}}}}}});
+  mkChart('chart-linhas',{type:'bar',data:{labels:li.map(function(l){return l.nome;}),datasets:[{label:'OFA Prog. (sc)',data:li.map(function(l){return Math.round(l.prog);}),backgroundColor:li.map(function(l){return l.cor==='verde'?'rgba(45,125,70,.6)':l.cor==='amarelo'?'rgba(212,160,0,.6)':'rgba(184,50,50,.6)';}),borderRadius:4},{label:'Cap. Livre (sc)',data:li.map(function(l){return Math.round(l.livre);}),backgroundColor:'rgba(0,0,0,.06)',borderRadius:4}]},options:{plugins:{legend:{position:'top'}},scales:{x:{stacked:true},y:{stacked:true}}}});
 }
 
 /* ===== SORTS ===== */
-function srt(ctx,col){var sd=G.sort[ctx]||{col:null,asc:true};sd.asc=(sd.col===col)?!sd.asc:true;sd.col=col;G.sort[ctx]=sd;if(ctx==='dash')rDash();else if(ctx==='pcp')rPCP();}
+function srt(ctx,col){
+  var sd=G.sort[ctx]||{col:null,asc:true};
+  sd.asc=(sd.col===col)?!sd.asc:true; sd.col=col; G.sort[ctx]=sd;
+  if(ctx==='dash') rDash(); else if(ctx==='pcp') rPCP();
+}
 function srtP(col){srt('pcp',col);}
-function srtPv(col){var sd=G.sort['prev']||{col:null,asc:true};sd.asc=(sd.col===col)?!sd.asc:true;sd.col=col;G.sort['prev']=sd;rPrevisao();}
-function srtPl(col){var sd=G.sort['plan']||{col:null,asc:false};sd.asc=(sd.col===col)?!sd.asc:false;sd.col=col;G.sort['plan']=sd;rPlanejamento();}
+
 function sortArr(arr,ctx){
-  var sd=G.sort[ctx];if(!sd||!sd.col)return;
-  var stOrd={'PRODUZIR URGENTE':0,'SEM CAPACIDADE':0,'CAP LIMITADA':1,'OFA ATENDE':2,'NORMAL':3,'NECESSARIO PRODUZIR':0,'ATENCAO':1,'COBERTO':3,'ABAIXO':0,'DENTRO':1,'ACIMA':2};
+  var sd=G.sort[ctx]; if(!sd||!sd.col) return;
+  var stOrd={'PRODUZIR URGENTE':0,'SEM CAPACIDADE':0,'CAP LIMITADA':1,'OFA ATENDE':2,'NORMAL':3,'ABAIXO':0,'DENTRO':1,'ACIMA':2};
   arr.sort(function(a,b){
-    var kA=sd.col==='StatusCap'?'StatusCap':sd.col;
-    if(kA==='StatusCap'){var diff=(stOrd[a.StatusCap]||0)-(stOrd[b.StatusCap]||0);return sd.asc?diff:-diff;}
-    if(kA==='Status'){var diff2=(stOrd[a.Status]||0)-(stOrd[b.Status]||0);return sd.asc?diff2:-diff2;}
-    var av=a[kA],bv=b[kA];
-    if(typeof av==='number')return sd.asc?av-bv:bv-av;
+    var kA=sd.col;
+    if(kA==='StatusCap'||kA==='Status'){
+      var kk=kA==='StatusCap'?'StatusCap':'Status';
+      var diff=(stOrd[a[kk]]||0)-(stOrd[b[kk]]||0);
+      return sd.asc?diff:-diff;
+    }
+    var av=a[kA], bv=b[kA];
+    if(typeof av==='number') return sd.asc?av-bv:bv-av;
     return sd.asc?String(av||'').localeCompare(String(bv||'')):String(bv||'').localeCompare(String(av||''));
   });
 }
 
 /* ===== EXPORTS ===== */
-function expCSVMain(){_expCSV(G.itens,['Codigo','Produto','Almox3','Almox30','PedidoComercial','NecComercial','EstoqueSeguranca','OFAPendente','NecessidadeProd','SaldoFuturo','LinhaProducao','CapacidadeDia','OFAsProgramadas','CapacidadeRestante','DiasNecessarios','StatusCap','Motivo'],'pcp');}
-function expCSVPrev(){_expCSV(G.prevItens,['Codigo','Produto','Previsto','FaturadoNFS','Diferenca','Aderencia','Status'],'previsao');}
-function expCSVPlan(){_expCSV(G.planItens,['Codigo','Produto','Previsto','ProduzidoEPP','FaturadoNFS','EstoqueAtual','NecessidadeProd','Cobertura','Status'],'planejamento');}
-function _expCSV(data,keys,name){if(!data||!data.length)return;var csv=keys.join(';')+'\n'+data.map(function(r){return keys.map(function(k){return r[k]===undefined?'':r[k];}).join(';');}).join('\n');var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);a.download='colfix_'+name+'_'+new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')+'.csv';a.click();}
+function expCSVMain(){
+  _expCSV(G.itens,['Codigo','Produto','Almox3','Almox30','Almox4','PedidoComercial','NecComercial','EstoqueSeguranca','OFAPendente','NecessidadeProd','CapacidadeDia','DiasNecessarios','LinhaProducao','StatusCap','Motivo'],'pcp');
+}
+function expCSVPrev(){
+  _expCSV(G.prevItens,['Codigo','Produto','UM','Previsto','Realizado','Diferenca','Aderencia','Status'],'previsao');
+}
+function _expCSV(data,keys,name){
+  if(!data||!data.length) return;
+  var csv=keys.join(';')+'\n'+data.map(function(r){return keys.map(function(k){return r[k]===undefined?'':r[k];}).join(';');}).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+  a.download='colfix_'+name+'_'+new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')+'.csv';
+  a.click();
+}
 
 /* ===== NAV ===== */
-function goPage(navEl){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});var pg=el('page-'+navEl.dataset.page);if(pg)pg.classList.add('active');navEl.classList.add('active');}
-function goPageId(pid){var n=document.querySelector('[data-page="'+pid+'"]');if(n)goPage(n);}
-function filterStatus(st){G.stFilter=st;G.codSel=null;el('filter-bar').classList.remove('on');['dash-st','pcp-st','est-st'].forEach(function(id){var s2=el(id);if(s2)s2.value=st;});renderAll();goPageId('dashboard');}
-function selItem(cod,prod){if(G.codSel===cod){clearFilter();return;}G.codSel=cod;G.stFilter='';txt('filt-cod',cod);txt('filt-desc',prod);el('filter-bar').classList.add('on');renderAll();}
-function clearFilter(){G.codSel=null;G.stFilter='';el('filter-bar').classList.remove('on');['dash-st','pcp-st','est-st'].forEach(function(id){var s2=el(id);if(s2)s2.value='';});renderAll();}
+function goPage(navEl){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  var pg=el('page-'+navEl.dataset.page);
+  if(pg) pg.classList.add('active');
+  navEl.classList.add('active');
+}
+function goPageId(pid){
+  var n=document.querySelector('[data-page="'+pid+'"]');
+  if(n) goPage(n);
+}
+function filterStatus(st){
+  G.stFilter=st; G.codSel=null;
+  el('filter-bar').classList.remove('on');
+  ['dash-st','pcp-st','est-st'].forEach(function(id){var s2=el(id);if(s2)s2.value=st;});
+  renderAll(); goPageId('dashboard');
+}
+function selItem(cod,prod){
+  if(G.codSel===cod){clearFilter();return;}
+  G.codSel=cod; G.stFilter='';
+  txt('filt-cod',cod); txt('filt-desc',prod);
+  el('filter-bar').classList.add('on');
+  renderAll();
+}
+function clearFilter(){
+  G.codSel=null; G.stFilter='';
+  el('filter-bar').classList.remove('on');
+  ['dash-st','pcp-st','est-st'].forEach(function(id){var s2=el(id);if(s2)s2.value='';});
+  renderAll();
+}
 
 /* ===== HELPERS ===== */
 function el(id){return document.getElementById(id);}
-function txt(id,vv){var e=el(id);if(e)e.textContent=vv;}
+function txt(id,vv){var e=el(id);if(e) e.textContent=vv;}
 function v(id){var e=el(id);return e?e.value:'';}
 function s(val){return val===null||val===undefined?'':String(val).trim();}
 function n(val){
-  if(typeof val==='number')return val;
-  var str=s(val).trim();if(!str||str==='-')return 0;
-  var hasDot=str.includes('.');var hasComma=str.includes(',');
+  if(typeof val==='number') return val;
+  var str=s(val).trim();
+  if(!str||str==='-') return 0;
+  var hasDot=str.includes('.');
+  var hasComma=str.includes(',');
   if(hasDot&&hasComma){str=str.replace(/\./g,'').replace(',','.');}
   else if(hasComma&&!hasDot){str=str.replace(',','.');}
-  var f=parseFloat(str);return isNaN(f)?0:f;
+  var f=parseFloat(str);
+  return isNaN(f)?0:f;
 }
-function fN(val){var num=typeof val==='number'?val:n(val);return num.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function fN(val){
+  var num=typeof val==='number'?val:n(val);
+  return num.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});
+}
 function esc(v2){return s(v2).replace(/'/g,"&#39;");}
+
 function bdgCap(st){
-  if(!st||st==='N/M')return'<span class="bdg bdg-m">N/M</span>';
-  if(st==='OFA ATENDE')   return'<span class="bdg bdg-s">🟢 OFA ATENDE</span>';
-  if(st==='NORMAL')       return'<span class="bdg bdg-p">🟣 NORMAL</span>';
-  if(st==='CAP LIMITADA') return'<span class="bdg bdg-w">🟡 CAP LIMITADA</span>';
-  if(st==='SEM CAPACIDADE')return'<span class="bdg bdg-d">🔴 SEM CAP.</span>';
-  if(st==='PRODUZIR URGENTE')return'<span class="bdg bdg-d">🚨 PRODUZIR URG.</span>';
-  return'<span class="bdg bdg-m">'+st+'</span>';
+  if(!st||st==='N/M')  return '<span class="bdg bdg-m">N/M</span>';
+  if(st==='OFA ATENDE')        return '<span class="bdg bdg-s">🟢 OFA ATENDE</span>';
+  if(st==='NORMAL')            return '<span class="bdg bdg-p">🟣 NORMAL</span>';
+  if(st==='CAP LIMITADA')      return '<span class="bdg bdg-w">🟡 CAP LIMITADA</span>';
+  if(st==='SEM CAPACIDADE')    return '<span class="bdg bdg-d">🔴 SEM CAP.</span>';
+  if(st==='PRODUZIR URGENTE')  return '<span class="bdg bdg-d">🚨 PRODUZIR URG.</span>';
+  return '<span class="bdg bdg-m">'+st+'</span>';
 }
-function bdgPrev(st){var map={'ACIMA':['s','🟢 ACIMA'],'DENTRO':['w','🟡 DENTRO'],'ABAIXO':['d','🔴 ABAIXO']};var m=map[st]||['m',st];return'<span class="bdg bdg-'+m[0]+'">'+m[1]+'</span>';}
-function bdgPlan(st){var map={'COBERTO':['s','🟢 COBERTO'],'ATENCAO':['w','🟡 ATENCAO'],'NECESSARIO PRODUZIR':['d','🔴 PRODUZIR']};var m=map[st]||['m',st];return'<span class="bdg bdg-'+m[0]+'">'+m[1]+'</span>';}
-function bdgTipo(tp){var cls=tp==='DC'?'w':(tp==='OFP'||tp==='OFA')?'s':'m';return'<span class="bdg bdg-'+cls+'">'+tp+'</span>';}
-function mbox(label,val,valCls){return'<div class="mbox"><div class="mbox-l">'+label+'</div><div class="mbox-v '+(valCls||'')+'">'+val+'</div></div>';}
+function bdgPrev(st){
+  var map={'ACIMA':['s','🟢 ACIMA'],'DENTRO':['w','🟡 DENTRO'],'ABAIXO':['d','🔴 ABAIXO']};
+  var m=map[st]||['m',st];
+  return '<span class="bdg bdg-'+m[0]+'">'+m[1]+'</span>';
+}
+function bdgTipo(tp){
+  var map={'DC':'w','OFP':'s','OFA':'s','DD':'i','DP':'p'};
+  var cls=map[tp]||'m';
+  return '<span class="bdg bdg-'+cls+'">'+tp+'</span>';
+}
+function mbox(label,val,valCls){
+  return '<div class="mbox"><div class="mbox-l">'+label+'</div><div class="mbox-v '+(valCls||'')+'">'+val+'</div></div>';
+}
 </script>
 </body>
 </html>
