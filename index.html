@@ -161,7 +161,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .linha-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden;box-shadow:var(--shadow);transition:all .15s}
 .linha-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
 .linha-card-header{padding:12px 16px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.linha-nome{font-family:var(--font);font-size:13px;font-weight:700;color:var(--text)}
+.linha-nome{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent)}
 .linha-cap{font-size:9px;color:var(--text3);margin-top:1px}
 .linha-status{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:9px;font-weight:700}
 .linha-status.verde{background:var(--green-dim);color:var(--green);border:1px solid var(--green-mid)}
@@ -192,7 +192,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     </div>
     <div class="topbar-right">
       <div class="status-pill"><div class="status-dot"></div><span>CONECTADO AO SHEETS</span></div>
-      <div id="last-update" class="ts-chip">CARREGANDO...</div>
+      <div id="hdr-ts" class="ts-chip">CARREGANDO...</div>
       <button class="tbtn" onclick="initLoad()">
         <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
         ATUALIZAR
@@ -203,532 +203,200 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   <div class="app-body">
     <div class="sidebar">
       <div class="sb-brand">
-        <div class="sb-logo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17l-6-6-4 4-5-5"/></svg>
-        </div>
-        <div class="sb-name">INDUSTRIAL DASHBOARD</div>
-        <div class="sb-sub">Planejamento e Controle</div>
+        <div class="sb-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17l-6-6-4 4-5-5"/></svg></div>
+        <div class="sb-name">COLFIX INDUSTRIAL</div>
+        <div class="sb-sub">PCP v8.0</div>
       </div>
       
       <div class="nav-sec">Principal</div>
-      <div class="nav-item active" onclick="goPage(this)" data-page="dashboard">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Dashboard
-      </div>
-      <div class="nav-item" onclick="goPage(this)" data-page="pcp">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Sugestão PCP
-        <span id="pcp-badge" class="nav-badge">0</span>
-      </div>
-      <div class="nav-item" onclick="goPage(this)" data-page="linhas">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M5 20V8l7-4 7 4v12"/><path d="M9 20v-4h6v4"/><rect x="8" y="12" width="2" height="2"/><rect x="14" y="12" width="2" height="2"/></svg>
-        Capacidade Linhas
-      </div>
+      <div class="nav-item active" onclick="goPage(this)" data-page="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="pcp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Sugestão PCP <span id="nb-pcp" class="nav-badge">0</span></div>
+      <div class="nav-item" onclick="goPage(this)" data-page="linhas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20"/><path d="M5 20V8l7-4 7 4v12"/><path d="M9 20v-4h6v4"/><rect x="8" y="12" width="2" height="2"/><rect x="14" y="12" width="2" height="2"/></svg>Linhas <span id="nb-linhas" class="nav-badge o">0</span></div>
 
-      <div class="nav-sec">Dados de Apoio</div>
-      <div class="nav-item" onclick="goPage(this)" data-page="estoque">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-        Gestão de Estoque
-      </div>
-      <div class="nav-item" onclick="goPage(this)" data-page="previsao">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
-        Previsão Comercial
-      </div>
-      <div class="nav-item" onclick="goPage(this)" data-page="ordens">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        Ordens (OFA/OFP)
-      </div>
-      <div class="nav-item" onclick="goPage(this)" data-page="perfil">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/><path d="M9 14h6"/><path d="M9 18h6"/><path d="M9 10h6"/></svg>
-        Extrato ERP (Perfil)
-      </div>
-      <div class="nav-item" onclick="goPage(this)" data-page="prod-real">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Produção Real (EPP)
-      </div>
+      <div class="nav-sec">Dados</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="previsao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>Previsão <span id="nb-prev" class="nav-badge w">0</span></div>
+      <div class="nav-item" onclick="goPage(this)" data-page="estoque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Estoque</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="producao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Produção EPP</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="ordens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Ordens OFA</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/><path d="M9 14h6"/><path d="M9 18h6"/><path d="M9 10h6"/></svg>Extrato ERP</div>
 
       <div class="sb-footer">
-        <div>COLFIX INDÚSTRIA</div>
-        <div style="margin-top:2px;opacity:.5">v8.0.0 · 2024</div>
+        <div>Sincronizado: <span id="sf-ts">--</span></div>
       </div>
     </div>
 
-    <div class="main-content">
+    <main class="main-content">
       <div id="filter-bar" class="fbar">
-        <div class="fbar-code" id="filt-cod">ITEM-001</div>
-        <div class="fbar-desc" id="filt-desc">Descrição do produto selecionado para análise</div>
+        <div class="fbar-code" id="filt-cod">--</div>
+        <div class="fbar-desc" id="filt-desc">--</div>
         <button class="btn-clr" onclick="clearFilter()">LIMPAR FILTRO</button>
       </div>
 
-      <!-- PAGE: DASHBOARD -->
-      <div id="page-dashboard" class="page active">
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
         <div class="ph">
-          <div>
-            <div class="ph-title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg> Visão Geral de Operação</div>
-            <div class="ph-sub">Indicadores críticos e resumo de produção industrial</div>
-          </div>
+          <div><div class="ph-title">Visão Geral PCP</div><div class="ph-sub">Indicadores críticos de produção e estoques</div></div>
           <div class="ph-actions">
-            <select class="ssel" id="dash-st" onchange="filterStatus(this.value)">
-              <option value="">Todos Status</option>
-              <option value="PRODUZIR URGENTE">🚨 Produzir Urgente</option>
-              <option value="SEM CAPACIDADE">🔴 Sem Capacidade</option>
-              <option value="CAP LIMITADA">🟡 Cap. Limitada</option>
-              <option value="OFA ATENDE">🟢 OFA Atende</option>
-              <option value="NORMAL">🟣 Normal</option>
-            </select>
+            <select class="ssel" id="dash-st" onchange="filterStatus(this.value)"><option value="">Todos Status</option><option value="PRODUZIR URGENTE">Urgente</option><option value="SEM CAPACIDADE">Sem Cap.</option><option value="CAP LIMITADA">Cap. Limitada</option><option value="OFA ATENDE">OFA Atende</option><option value="NORMAL">Normal</option></select>
           </div>
         </div>
-
         <div class="kpi-row">
-          <div class="kpi red" onclick="filterStatus('PRODUZIR URGENTE')">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
-            <div class="kpi-val" id="kpi-urgente">0</div>
-            <div class="kpi-label">Urgentes</div>
-          </div>
-          <div class="kpi orange" onclick="filterStatus('SEM CAPACIDADE')">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg></div>
-            <div class="kpi-val" id="kpi-sem-cap">0</div>
-            <div class="kpi-label">Sem Cap.</div>
-          </div>
-          <div class="kpi yellow" onclick="filterStatus('CAP LIMITADA')">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-            <div class="kpi-val" id="kpi-limitada">0</div>
-            <div class="kpi-label">Cap. Limitada</div>
-          </div>
-          <div class="kpi green" onclick="filterStatus('OFA ATENDE')">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-            <div class="kpi-val" id="kpi-ofa">0</div>
-            <div class="kpi-label">OFA Atende</div>
-          </div>
-          <div class="kpi blue">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
-            <div class="kpi-val" id="kpi-aderencia">0%</div>
-            <div class="kpi-label">Aderência</div>
-          </div>
+          <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73z"/></svg></div><div class="kpi-val" id="kpi-total">0</div><div class="kpi-label">Total Itens</div></div>
+          <div class="kpi red" onclick="filterStatus('PRODUZIR URGENTE')"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="kpi-val" id="kpi-crit">0</div><div class="kpi-label">Urgentes</div></div>
+          <div class="kpi yellow" onclick="filterStatus('CAP LIMITADA')"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg></div><div class="kpi-val" id="kpi-warn">0</div><div class="kpi-label">Cap. Limitada</div></div>
+          <div class="kpi green" onclick="filterStatus('OFA ATENDE')"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-val" id="kpi-ok">0</div><div class="kpi-label">OFA Atende</div></div>
+          <div class="kpi purple"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div><div class="kpi-val" id="kpi-ofa">0</div><div class="kpi-label">Normal</div></div>
+          <div class="kpi orange"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="kpi-val" id="kpi-linhas-ocupadas">0</div><div class="kpi-label">Linhas >90%</div></div>
         </div>
-
+        <div id="alert-box"></div>
         <div class="grid-main">
           <div>
             <div class="card">
-              <div class="card-header">
-                <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 3v18h18"/><path d="M18 17l-6-6-4 4-5-5"/></svg>Produção Realizada (EPP - Últimos 14 Dias)</div>
-              </div>
-              <div class="chart-box" style="height:220px">
-                <canvas id="chart-prod-real"></canvas>
+              <div class="card-header"><div class="card-title">Sugestao PCP — Criticos e Urgentes</div></div>
+              <div class="twrap" style="max-height:380px">
+                <table><thead><tr>
+                  <th onclick="srt('dash','Codigo')">Cod</th>
+                  <th onclick="srt('dash','Produto')">Produto</th>
+                  <th class="nr" onclick="srt('dash','NecessidadeProd')">Nec. Prod</th>
+                  <th onclick="srt('dash','LinhaProducao')">Linhas</th>
+                  <th>Status</th>
+                </tr></thead><tbody id="dash-body"></tbody></table>
               </div>
             </div>
-            
-            <div class="grid2">
-              <div class="card">
-                <div class="card-header"><div class="card-title">Distribuição de Status</div></div>
-                <div class="chart-box" style="height:180px">
-                  <canvas id="chart-status"></canvas>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header"><div class="card-title">Necessidade vs OFA (Top Itens)</div></div>
-                <div class="chart-box" style="height:180px">
-                  <canvas id="chart-saldo"></canvas>
-                </div>
-              </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Producao Real EPP — Ultimos 14 dias</div></div>
+              <div class="chart-box" style="height:200px"><canvas id="chart-prod-real"></canvas></div>
             </div>
           </div>
-
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Alertas Críticos</div>
-              <div class="pill" id="alert-cnt">0</div>
-            </div>
-            <div id="alerts-list" style="padding:14px;max-height:480px;overflow-y:auto">
-              <div class="empty">Nenhum alerta crítico no momento.</div>
-            </div>
+          <div>
+            <div class="card"><div class="card-header"><div class="card-title">Acoes Urgentes</div></div><div id="urgente-list" style="max-height:220px;overflow-y:auto"></div></div>
+            <div class="card"><div class="card-header"><div class="card-title">Pedidos Comerciais (DC)</div></div><div id="ped-list" style="max-height:210px;overflow-y:auto"></div></div>
           </div>
         </div>
       </div>
 
-      <!-- PAGE: PCP -->
-      <div id="page-pcp" class="page">
+      <!-- TABELA PCP -->
+      <div class="page" id="page-pcp">
         <div class="ph">
-          <div>
-            <div class="ph-title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg> Sugestão de Produção (PCP)</div>
-            <div class="ph-sub">Lógica: Necessidade = Pedido Comercial + Estoque Seg. - Almox3 - OFA Pendente</div>
-          </div>
-          <div class="ph-actions">
-            <button class="btn" onclick="expCSVMain()">EXPORTAR CSV</button>
-          </div>
+          <div><div class="ph-title">Tabela PCP</div><div class="ph-sub">Lógica: Necessidade = Pedido Comercial + Estoque Seg. - (Almox3 + Almox30) - OFA Pendente</div></div>
+          <div class="ph-actions"><button class="btn" onclick="expCSVMain()">Exportar CSV</button></div>
         </div>
-
         <div class="card">
-          <div class="srow">
-            <input type="text" class="sinput" id="pcp-q" placeholder="Buscar por código ou descrição..." oninput="rPCP()">
-            <select class="ssel" id="pcp-st" onchange="rPCP()">
-              <option value="">Todos Status</option>
-              <option value="PRODUZIR URGENTE">🚨 Produzir Urgente</option>
-              <option value="SEM CAPACIDADE">🔴 Sem Capacidade</option>
-              <option value="CAP LIMITADA">🟡 Cap. Limitada</option>
-              <option value="OFA ATENDE">🟢 OFA Atende</option>
-              <option value="NORMAL">🟣 Normal</option>
-            </select>
+          <div class="card-header">
+            <div class="card-title">Planejamento e Controle de Produção</div>
+            <div class="card-actions">
+              <span class="pill" id="pcp-cnt">0</span>
+              <select class="ssel" id="pcp-st" onchange="rPCP()"><option value="">Todos</option><option value="PRODUZIR URGENTE">Produzir Urgente</option><option value="SEM CAPACIDADE">Sem Capacidade</option><option value="CAP LIMITADA">Cap. Limitada</option><option value="OFA ATENDE">OFA Atende</option><option value="NORMAL">Normal</option></select>
+            </div>
           </div>
           <div class="mrow" id="pcp-met"></div>
-          <div class="twrap" style="max-height:calc(100vh - 280px)">
-            <table>
-              <thead>
-                <tr>
-                  <th onclick="srtP('Codigo')">CÓDIGO</th>
-                  <th onclick="srtP('Produto')">PRODUTO</th>
-                  <th onclick="srtP('Almox3')" class="nr">ALMOX3</th>
-                  <th onclick="srtP('Almox30')" class="nr">ALMOX30</th>
-                  <th onclick="srtP('PedidoComercial')" class="nr">PEDIDO DC</th>
-                  <th onclick="srtP('NecComercial')" class="nr">NEC. COM.</th>
-                  <th onclick="srtP('EstoqueSeguranca')" class="nr">EST. SEG.</th>
-                  <th onclick="srtP('OFAPendente')" class="nr">OFA PEND.</th>
-                  <th onclick="srtP('NecessidadeProd')" class="nr">NEC. PROD.</th>
-                  <th onclick="srtP('LinhaProducao')">LINHA</th>
-                  <th onclick="srtP('CapacidadeDia')" class="nr">CAP. DIA</th>
-                  <th onclick="srtP('DiasNecessarios')" class="nr">DIAS</th>
-                  <th onclick="srtP('StatusCap')">STATUS</th>
-                  <th>MOTIVO / AÇÃO</th>
-                </tr>
-              </thead>
-              <tbody id="pcp-body"></tbody>
-            </table>
-          </div>
-          <div class="card-header" style="background:var(--bg2);border-top:1px solid var(--border)">
-            <div style="font-size:10px;color:var(--text3)">Exibindo <span id="pcp-cnt">0</span> itens</div>
-            <div class="legenda" style="margin-bottom:0">
-              <div class="leg-pill r"><div class="leg-dot"></div>Urgente</div>
-              <div class="leg-pill a"><div class="leg-dot"></div>Cap. Limitada</div>
-              <div class="leg-pill g"><div class="leg-dot"></div>OFA Atende</div>
-              <div class="leg-pill p"><div class="leg-dot"></div>Normal</div>
-            </div>
+          <div class="srow"><input class="sinput" id="pcp-q" placeholder="Buscar código ou produto..." oninput="rPCP()"></div>
+          <div class="twrap" style="max-height:540px">
+            <table><thead><tr>
+              <th onclick="srtP('Codigo')">Codigo</th>
+              <th onclick="srtP('Produto')">Produto</th>
+              <th class="nr" onclick="srtP('Almox3')">Almox 3</th>
+              <th class="nr" onclick="srtP('Almox30')">Almox 30</th>
+              <th class="nr" onclick="srtP('PedidoComercial')">Ped. DC</th>
+              <th class="nr" onclick="srtP('NecComercial')">Nec. Comercial</th>
+              <th class="nr" onclick="srtP('EstoqueSeguranca')">Est. Seg.</th>
+              <th class="nr" onclick="srtP('OFAPendente')">OFA Pend.</th>
+              <th class="nr" onclick="srtP('NecessidadeProd')">Nec. Produzir</th>
+              <th class="cap-col" onclick="srtP('LinhaProducao')">Linhas</th>
+              <th class="cap-col nr" onclick="srtP('CapacidadeDia')">Cap/Dia (sc)</th>
+              <th class="cap-col nr" onclick="srtP('DiasNecessarios')">Dias Nec.</th>
+              <th class="cap-col" onclick="srtP('StatusCap')">Status</th>
+              <th>Motivo</th>
+            </tr></thead><tbody id="pcp-body"></tbody></table>
           </div>
         </div>
       </div>
 
-      <!-- PAGE: LINHAS -->
-      <div id="page-linhas" class="page">
-        <div class="ph">
-          <div>
-            <div class="ph-title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg> Capacidade e Ocupação das Linhas</div>
-            <div class="ph-sub">Visão consolidada da carga de trabalho por centro de custo</div>
-          </div>
-        </div>
-
+      <!-- LINHAS -->
+      <div class="page" id="page-linhas">
+        <div class="ph"><div><div class="ph-title">Dashboard Linhas</div><div class="ph-sub">Capacidade real vs OFAs programadas</div></div></div>
         <div class="kpi-row">
-          <div class="kpi green">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
-            <div class="kpi-val" id="lin-kpi-ok">0</div>
-            <div class="kpi-label">Linhas Livres</div>
-          </div>
-          <div class="kpi blue">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div>
-            <div class="kpi-val" id="lin-kpi-med">0%</div>
-            <div class="kpi-label">Ocupação Média</div>
-          </div>
-          <div class="kpi red">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
-            <div class="kpi-val" id="lin-kpi-sob">0</div>
-            <div class="kpi-label">Sobrecarregadas</div>
-          </div>
-          <div class="kpi purple">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>
-            <div class="kpi-val" id="lin-kpi-total">0</div>
-            <div class="kpi-label">Capacidade Total (sc)</div>
-          </div>
+          <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-val" id="lin-kpi-ok">-</div><div class="kpi-label">Linhas Livres</div></div>
+          <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg></div><div class="kpi-val" id="lin-kpi-med">-</div><div class="kpi-label">Utilização Média</div></div>
+          <div class="kpi orange"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg></div><div class="kpi-val" id="lin-kpi-sob">-</div><div class="kpi-label">Sobrecarregadas</div></div>
+          <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="2" y="7" width="20" height="14" rx="2"/></svg></div><div class="kpi-val" id="lin-kpi-total">-</div><div class="kpi-label">Cap. Total/dia</div></div>
         </div>
-
         <div class="linhas-grid" id="linhas-cards"></div>
-
         <div class="card">
-          <div class="card-header"><div class="card-title">Detalhamento por Linha</div></div>
+          <div class="card-header"><div class="card-title">Resumo das Linhas</div></div>
           <div class="twrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>LINHA DE PRODUÇÃO</th>
-                  <th class="nr">CAP. DIA (SC)</th>
-                  <th class="nr">OFA PROG. (SC)</th>
-                  <th class="nr">UTILIZAÇÃO (%)</th>
-                  <th class="nr">DISPONÍVEL (SC)</th>
-                  <th>STATUS</th>
-                  <th>ITENS ALOCADOS</th>
-                </tr>
-              </thead>
-              <tbody id="linhas-body"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:14px">
-          <div class="card-header"><div class="card-title">Carga de Trabalho (OFA Prog. vs Cap. Livre)</div></div>
-          <div class="chart-box" style="height:280px">
-            <canvas id="chart-linhas"></canvas>
+            <table><thead><tr><th>Linha</th><th class="nr">Cap. Dia (sc)</th><th class="nr">OFA Prog. (sc)</th><th class="nr">Utilização %</th><th class="nr">Cap. Livre (sc)</th><th>Status</th><th>Itens Alocados</th></tr></thead><tbody id="linhas-body"></tbody></table>
           </div>
         </div>
       </div>
 
-      <!-- PAGE: ESTOQUE -->
-      <div id="page-estoque" class="page">
-        <div class="ph">
-          <div>
-            <div class="ph-title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg> Gestão de Saldos de Estoque</div>
-            <div class="ph-sub">Monitoramento de Almoxarifados e Estoque de Segurança</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="srow">
-            <input type="text" class="sinput" id="est-q" placeholder="Buscar código ou descrição..." oninput="rEstoque()">
-            <select class="ssel" id="est-st" onchange="rEstoque()">
-              <option value="">Todos Status</option>
-              <option value="PRODUZIR URGENTE">🚨 Produzir Urgente</option>
-              <option value="SEM CAPACIDADE">🔴 Sem Capacidade</option>
-              <option value="CAP LIMITADA">🟡 Cap. Limitada</option>
-              <option value="OFA ATENDE">🟢 OFA Atende</option>
-              <option value="NORMAL">🟣 Normal</option>
-            </select>
-          </div>
-          <div class="mrow" id="est-met"></div>
-          <div class="twrap" style="max-height:calc(100vh - 250px)">
-            <table>
-              <thead>
-                <tr>
-                  <th>CÓDIGO</th>
-                  <th>PRODUTO</th>
-                  <th class="nr">ALMOX 3</th>
-                  <th class="nr">ALMOX 30</th>
-                  <th class="nr">ALMOX 4</th>
-                  <th class="nr">PEDIDO DC</th>
-                  <th class="nr">OFA PEND.</th>
-                  <th class="nr">NEC. PROD.</th>
-                  <th class="nr">EST. SEG.</th>
-                  <th>STATUS</th>
-                </tr>
-              </thead>
-              <tbody id="est-body"></tbody>
-            </table>
-          </div>
-          <div class="card-header" style="background:var(--bg2);border-top:1px solid var(--border)">
-            <div style="font-size:10px;color:var(--text3)">Total: <span id="est-cnt">0</span> itens</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PAGE: PREVISAO -->
-      <div id="page-previsao" class="page">
-        <div class="ph">
-          <div>
-            <div class="ph-title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg> Acompanhamento de Previsão Comercial</div>
-            <div class="ph-sub">Realizado = Soma(EPP + NFS) · Aderência do planejado vs executado</div>
-          </div>
-          <div class="ph-actions">
-            <button class="btn" onclick="expCSVPrev()">EXPORTAR CSV</button>
-          </div>
-        </div>
-
+      <!-- PREVISAO -->
+      <div class="page" id="page-previsao">
+        <div class="ph"><div><div class="ph-title">Previsão vs Realizado</div><div class="ph-sub">Realizado = Soma(EPP + NFS)</div></div><div class="ph-actions"><button class="btn" onclick="expCSVPrev()">Exportar</button></div></div>
         <div class="kpi-row">
-          <div class="kpi blue">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
-            <div class="kpi-val" id="prev-kpi-prev">0</div>
-            <div class="kpi-label">Previsto Total</div>
-          </div>
-          <div class="kpi green">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-            <div class="kpi-val" id="prev-kpi-real">0</div>
-            <div class="kpi-label">Realizado (EPP+NFS)</div>
-          </div>
-          <div class="kpi purple">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div>
-            <div class="kpi-val" id="prev-kpi-ader">0%</div>
-            <div class="kpi-label">Aderência Média</div>
-          </div>
-          <div class="kpi red">
-            <div class="kpi-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-            <div class="kpi-val" id="prev-kpi-abaixo">0</div>
-            <div class="kpi-label">Itens Abaixo</div>
-          </div>
+          <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div><div class="kpi-val" id="prev-kpi-prev">-</div><div class="kpi-label">Previsto</div></div>
+          <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="kpi-val" id="prev-kpi-real">-</div><div class="kpi-label">Realizado</div></div>
+          <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="12" y1="20" x2="12" y2="4"/></svg></div><div class="kpi-val" id="prev-kpi-ader">-%</div><div class="kpi-label">Aderência</div></div>
+          <div class="kpi red"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg></div><div class="kpi-val" id="prev-kpi-abaixo">-</div><div class="kpi-label">Abaixo</div></div>
         </div>
-
-        <div class="grid2" style="grid-template-columns: 1.5fr 1fr">
-          <div class="card">
-            <div class="card-header"><div class="card-title">Previsão vs Realizado por Item</div></div>
-            <div class="chart-box" style="height:250px">
-              <canvas id="chart-prev-fat"></canvas>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">Maiores Realizados (NFS)</div></div>
-            <div class="chart-box" style="height:250px">
-              <canvas id="chart-top-nfs"></canvas>
-            </div>
-          </div>
-        </div>
-
         <div class="card">
-          <div class="srow">
-            <input type="text" class="sinput" id="prev-q" placeholder="Filtrar item..." oninput="rPrevisao()">
-            <select class="ssel" id="prev-st" onchange="rPrevisao()">
-              <option value="">Todos Status</option>
-              <option value="ACIMA">🟢 ACIMA</option>
-              <option value="DENTRO">🟡 DENTRO</option>
-              <option value="ABAIXO">🔴 ABAIXO</option>
-            </select>
-          </div>
-          <div class="mrow" id="prev-met"></div>
-          <div class="twrap" style="max-height:400px">
-            <table>
-              <thead>
-                <tr>
-                  <th>CÓDIGO</th>
-                  <th>PRODUTO</th>
-                  <th>UM</th>
-                  <th class="nr">PREVISTO</th>
-                  <th class="nr">REALIZADO</th>
-                  <th class="nr">DIFERENÇA</th>
-                  <th class="nr">ADERÊNCIA</th>
-                  <th>STATUS</th>
-                </tr>
-              </thead>
-              <tbody id="prev-body"></tbody>
-            </table>
-          </div>
-          <div class="card-header" style="background:var(--bg2);border-top:1px solid var(--border)">
-            <div style="font-size:10px;color:var(--text3)">Total: <span id="prev-cnt">0</span> itens</div>
+          <div class="card-header"><div class="card-title">Previsão x Realizado</div><div class="card-actions"><span class="pill" id="prev-cnt">0</span></div></div>
+          <div class="srow"><input class="sinput" id="prev-q" placeholder="Buscar item..." oninput="rPrevisao()"></div>
+          <div class="twrap" style="max-height:440px">
+            <table><thead><tr><th>Codigo</th><th>Produto</th><th>UM</th><th class="nr">Previsto</th><th class="nr">Realizado</th><th class="nr">Diferença</th><th class="nr">% Aderência</th><th>Status</th></tr></thead><tbody id="prev-body"></tbody></table>
           </div>
         </div>
       </div>
 
-      <!-- PAGE: ORDENS -->
-      <div id="page-ordens" class="page">
-        <div class="ph">
-          <div>
-            <div class="ph-title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg> Ordens de Fabricação (OFA/OFP)</div>
-            <div class="ph-sub">Lista de ordens em aberto extraídas do ERP</div>
-          </div>
-        </div>
+      <!-- ESTOQUES -->
+      <div class="page" id="page-estoque">
+        <div class="ph"><div><div class="ph-title">Estoques Reais</div><div class="ph-sub">Almox 3, Almox 30 e Almox 4</div></div></div>
         <div class="card">
-          <div class="srow">
-            <input type="text" class="sinput" id="ord-q" placeholder="Buscar ordem ou item..." oninput="rOrdens()">
-            <select class="ssel" id="ord-tp" onchange="rOrdens()">
-              <option value="">Todos Tipos</option>
-              <option value="OFA">OFA</option>
-              <option value="OFP">OFP</option>
-            </select>
-          </div>
-          <div class="twrap" style="max-height:calc(100vh - 220px)">
-            <table>
-              <thead>
-                <tr>
-                  <th>ORDEM</th>
-                  <th>PLANEJADOR</th>
-                  <th>TIPO</th>
-                  <th>CÓDIGO</th>
-                  <th>DESCRIÇÃO</th>
-                  <th>UM</th>
-                  <th>DT. INÍCIO</th>
-                  <th>DT. FIM</th>
-                  <th>SITUAÇÃO</th>
-                  <th class="nr">QTDE</th>
-                  <th class="nr">PENDENTE</th>
-                </tr>
-              </thead>
-              <tbody id="ord-body"></tbody>
-            </table>
-          </div>
-          <div class="card-header" style="background:var(--bg2);border-top:1px solid var(--border)">
-            <div style="font-size:10px;color:var(--text3)">Total: <span id="ord-cnt">0</span> ordens</div>
-          </div>
+          <div class="card-header"><div class="card-title">Posição de Estoques</div><div class="card-actions"><span class="pill" id="est-cnt">0</span></div></div>
+          <div class="srow"><input class="sinput" id="est-q" placeholder="Buscar..." oninput="rEstoque()"></div>
+          <div class="twrap" style="max-height:420px"><table><thead><tr><th>Codigo</th><th>Produto</th><th class="nr">Almox3</th><th class="nr">Almox30</th><th class="nr">Almox4</th><th class="nr">Ped.DC</th><th class="nr">OFA Pend.</th><th class="nr">Nec.Prod.</th><th class="nr">Est.Seg.</th><th>Status</th></tr></thead><tbody id="est-body"></tbody></table></div>
         </div>
       </div>
 
-      <!-- PAGE: PERFIL -->
-      <div id="page-perfil" class="page">
-        <div class="ph">
-          <div>
-            <div class="ph-title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg> Extrato de Movimentação (Perfil)</div>
-            <div class="ph-sub">Detalhamento de entradas e saídas por item</div>
-          </div>
-        </div>
+      <!-- PRODUCAO REAL -->
+      <div class="page" id="page-producao">
+        <div class="ph"><div><div class="ph-title">Produção Real (EPP)</div><div class="ph-sub">Sigla EPP no EXTRATO</div></div></div>
         <div class="card">
-          <div class="srow">
-            <input type="text" class="sinput" id="perf-q" placeholder="Buscar item..." oninput="rPerfil()">
-            <select class="ssel" id="perf-tp" onchange="rPerfil()">
-              <option value="">Todos Tipos</option>
-              <option value="DC">DC (Pedido)</option>
-              <option value="OFA">OFA (Ordem)</option>
-              <option value="OFP">OFP (Ordem)</option>
-              <option value="DD">DD</option>
-              <option value="DP">DP</option>
-            </select>
-          </div>
-          <div class="twrap" style="max-height:calc(100vh - 220px)">
-            <table>
-              <thead>
-                <tr>
-                  <th>DATA RELATÓRIO</th>
-                  <th>ITEM</th>
-                  <th>TIPO</th>
-                  <th>REFERÊNCIA</th>
-                  <th>DT. INÍCIO</th>
-                  <th>DT. FIM</th>
-                  <th class="nr">QUANTIDADE</th>
-                </tr>
-              </thead>
-              <tbody id="perf-body"></tbody>
-            </table>
-          </div>
-          <div class="card-header" style="background:var(--bg2);border-top:1px solid var(--border)">
-            <div style="font-size:10px;color:var(--text3)">Mostrando os primeiros 500 registros · Total: <span id="perf-cnt">0</span></div>
-          </div>
+          <div class="card-header"><div class="card-title">Detalhamento EPP</div><div class="card-actions"><span class="pill" id="prod-cnt">0</span></div></div>
+          <div class="srow"><input class="sinput" id="prod-q" placeholder="Buscar produto..." oninput="rProdReal()"></div>
+          <div class="twrap" style="max-height:420px"><table><thead><tr><th>Data</th><th>Codigo</th><th>Produto</th><th class="nr">Quantidade</th></tr></thead><tbody id="prod-body"></tbody></table></div>
         </div>
       </div>
 
-      <!-- PAGE: PROD REAL -->
-      <div id="page-prod-real" class="page">
-        <div class="ph">
-          <div>
-            <div class="ph-title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Histórico de Produção Realizada (EPP)</div>
-            <div class="ph-sub">Dados extraídos do Extrato (sigla EPP)</div>
-          </div>
-        </div>
+      <!-- ORDENS -->
+      <div class="page" id="page-ordens">
+        <div class="ph"><div><div class="ph-title">Ordens de Fabricação (OFA)</div><div class="ph-sub">OFAs Abertas do ERP</div></div></div>
         <div class="card">
-          <div class="srow">
-            <input type="text" class="sinput" id="prod-q" placeholder="Buscar por data, código ou produto..." oninput="rProdReal()">
-          </div>
-          <div class="twrap" style="max-height:calc(100vh - 220px)">
-            <table>
-              <thead>
-                <tr>
-                  <th>DATA</th>
-                  <th>CÓDIGO</th>
-                  <th>PRODUTO</th>
-                  <th class="nr">QTDE (SC)</th>
-                </tr>
-              </thead>
-              <tbody id="prod-body"></tbody>
-            </table>
-          </div>
-          <div class="card-header" style="background:var(--bg2);border-top:1px solid var(--border)">
-            <div style="font-size:10px;color:var(--text3)">Total: <span id="prod-cnt">0</span> registros</div>
-          </div>
-        </div>
-        <div class="card" style="margin-top:14px">
-          <div class="card-header"><div class="card-title">Produção Diária (Sacos)</div></div>
-          <div class="chart-box" style="height:280px">
-            <canvas id="chart-prod-det"></canvas>
-          </div>
+          <div class="card-header"><div class="card-title">OFAs Abertas</div><div class="card-actions"><span class="pill" id="ord-cnt">0</span></div></div>
+          <div class="srow"><input class="sinput" id="ord-q" placeholder="Buscar ordem ou item..." oninput="rOrdens()"></div>
+          <div class="twrap" style="max-height:560px"><table><thead><tr><th>Ordem</th><th>Planejador</th><th>Tipo</th><th>Codigo</th><th>Descricao</th><th>UM</th><th>Dt. Inicio</th><th>Dt. Fim</th><th>Situação</th><th class="nr">Qtde Plan.</th><th class="nr">Qtde Pend.</th></tr></thead><tbody id="ord-body"></tbody></table></div>
         </div>
       </div>
 
-    </div>
+      <!-- PERFIL -->
+      <div class="page" id="page-perfil">
+        <div class="ph"><div><div class="ph-title">Perfil de Itens</div><div class="ph-sub">RPLA0300</div></div></div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Perfil</div><div class="card-actions"><span class="pill" id="perf-cnt">0</span></div></div>
+          <div class="srow"><input class="sinput" id="perf-q" placeholder="Buscar item..." oninput="rPerfil()"></div>
+          <div class="twrap" style="max-height:560px"><table><thead><tr><th>Data</th><th>Item</th><th>Tipo</th><th>Referencia</th><th>Dt. Inicio</th><th>Dt. Fim</th><th class="nr">Quantidade</th></tr></thead><tbody id="perf-body"></tbody></table></div>
+        </div>
+      </div>
+
+    </main>
   </div>
 </div>
 
 <script>
 /* ============================================================
-   CONFIGURAÇÕES E ESTADO GLOBAL
+   CONFIGURAÇÕES GLOBAIS
    ============================================================ */
-var PUB_ID = "1_jTVohMskSRguXpHF8n5ym7WPHfjasvl92PXAPSrat8"; // ID corrigido para o original
+var PUB_ID = "1_jTVohMskSRguXpHF8n5ym7WPHfjasvl92PXAPSrat8";
 var ABAS = ['SALDO','PARAMETROS','PERFIL','ORDENS','EXTRATO','PREVISAO','LINHAS ','CAPACIDADE '];
 
 var G = {
@@ -740,7 +408,6 @@ var G = {
   charts:{}
 };
 
-// Mapeamento de linhas da producao
 var LINHAS_NOMES = {
   'L1':'Linha 1','L2':'Linha 2','L3':'Linha 3',
   'AREA LIQUIDA':'Area Liquida','MQ 1':'Maquina 1','MAQ 2':'Maquina 2',
@@ -807,10 +474,9 @@ function ehTrue(val){
 }
 
 /* ============================================================
-   PROCESSAMENTO PRINCIPAL
+   PROCESSAMENTO
    ============================================================ */
 function processar(dados){
-  console.log("Iniciando processamento...");
   G.saldo       = dados['SALDO']       ||[];
   G.parametros  = dados['PARAMETROS']  ||[];
   G.perfil      = dados['PERFIL']      ||[];
@@ -820,25 +486,22 @@ function processar(dados){
   G.linhasAba   = dados['LINHAS ']     ||[];
   G.capacidadeAba = dados['CAPACIDADE ']||[];
 
-  /* --- 1. PARAMETROS: estoque de segurança por item --- */
+  // Mapas
   var segMap={};
   G.parametros.forEach(function(r){
     var c=s(r['Cod. Item']||r['CODIGO']||r['Codigo']||r['_col0']||'');
     if(c) segMap[c]=n(r['Estq. Seg']||r['ESTOQUE SEGURANÇA']||r['_col6']||0);
   });
 
-  /* --- 2. PERFIL: pedidos comerciais (DC) por item --- */
   var dcMap={};
   G.perfil.forEach(function(r){
-    var tipo = s(r['Tipo']||r['_col2']||'').toUpperCase();
-    if(tipo==='DC'){
+    if(s(r['Tipo']||r['_col2']||'').toUpperCase()==='DC'){
       var cod=s(r['Item']||r['CODIGO']||r['Codigo']||r['_col1']||'');
       var qtd=Math.abs(n(r['Quantidade']||r['_col6']||0));
       if(cod && qtd>0) dcMap[cod]=(dcMap[cod]||0)+qtd;
     }
   });
 
-  /* --- 3. ORDENS: OFA/OFP pendente por item --- */
   var ofaMap={};
   G.ordens.forEach(function(r){
     var cod   = s(r['Cod. Item']||r['CODIGO']||r['Codigo']||r['_col3']||'');
@@ -850,7 +513,6 @@ function processar(dados){
     ofaMap[cod]=(ofaMap[cod]||0)+pend;
   });
 
-  /* --- 4. LINHAS E CAPACIDADE --- */
   var itemLinhasMap={};   
   var itemFixcolMap={};   
   G.linhasAba.forEach(function(r){
@@ -858,77 +520,61 @@ function processar(dados){
     if(!cod) return;
     itemFixcolMap[cod]=ehTrue(r['FIXCOL']||r['_col9']||'');
     var lk=[];
-    LINHAS_KEYS.forEach(function(k){
-      if(ehTrue(r[k]||'')) lk.push(k);
-    });
+    LINHAS_KEYS.forEach(function(k){ if(ehTrue(r[k]||'')) lk.push(k); });
     itemLinhasMap[cod]=lk;
   });
 
   var capProdMap={};   
-  var capEmisMap={};   
   G.capacidadeAba.forEach(function(r){
     var cod=s(r['CODIGO']||r['Codigo']||r['Código']||r['_col0']||'');
     if(!cod) return;
     capProdMap[cod]=n(r['Capacidade almox 30']||r['CAPACIDADE ALMOX 30']||r['_col2']||0);
-    capEmisMap[cod]=n(r['Capacidade Almox 3'] ||r['CAPACIDADE ALMOX 3']||r['_col3']||0);
   });
 
-  /* --- 5. EXTRATO: EPP = producao real, NFS = faturamento --- */
+  // EXTRATO (EPP e NFS)
   G.epp=[]; G.nfs=[];
-  var prodMap={};  
+  var eppMap={}; var nfsMap={};
+  var prodMap={};
   G.saldo.forEach(function(r){
     var c=s(r['Código']||r['Codigo']||r['CODIGO']||r['_col0']||'');
     if(c) prodMap[c]=s(r['Descrição']||r['Descricao']||r['DESCRIÇÃO']||r['_col1']||'');
   });
 
-  var eppMap={};
-  var nfsMap={};
   G.extrato.forEach(function(r){
     var sigla=s(r['Sigla']||r['SIGLA']||r['_col3']||'').toUpperCase();
     if(sigla!=='EPP'&&sigla!=='NFS') return;
     var dataVal=s(r['Data']||r['DATA']||r['_col1']||'');
     if(dataVal.includes('T')) dataVal=dataVal.substring(0,10);
-    if(dataVal.match(/^\d{2}\/\d{2}\/\d{4}$/)){
-      var dp=dataVal.split('/');dataVal=dp[2]+'-'+dp[1]+'-'+dp[0];
-    }
     var qtd=n(r['Qtde']||r['QTDE']||r['QUANTIDADE']||r['_col5']||0);
     var cod=s(r['Cod. Item']||r['CODIGO']||r['Codigo']||r['_col12']||'');
     if(!cod||qtd<=0) return;
     var obj={Data:dataVal,Codigo:cod,Produto:prodMap[cod]||'',Quantidade:qtd};
-    if(sigla==='EPP'){
-      G.epp.push(obj);
-      eppMap[cod]=(eppMap[cod]||0)+qtd;
-    } else {
-      G.nfs.push(obj);
-      nfsMap[cod]=(nfsMap[cod]||0)+qtd;
-    }
+    if(sigla==='EPP'){ G.epp.push(obj); eppMap[cod]=(eppMap[cod]||0)+qtd; }
+    else { G.nfs.push(obj); nfsMap[cod]=(nfsMap[cod]||0)+qtd; }
   });
 
-  // Producao diaria agregada
+  // Produção Diária
   var dpMap={};
   G.epp.forEach(function(r){if(r.Data) dpMap[r.Data]=(dpMap[r.Data]||0)+r.Quantidade;});
-  G.prodDiaria=Object.keys(dpMap).map(function(d){return{data:d,qty:dpMap[d]};});
-  G.prodDiaria.sort(function(a,b){return a.data.localeCompare(b.data);});
+  G.prodDiaria=Object.keys(dpMap).map(function(d){return{data:d,qty:dpMap[d]};}).sort((a,b)=>a.data.localeCompare(b.data));
 
-  /* --- 6. PREVISAO: Realizado = SOMA(EPP + NFS) --- */
+  // Previsão
   G.prevItens=[];
   G.previsao.forEach(function(r){
     var cod=s(r['Item']||r['CODIGO']||r['Codigo']||r['_col0']||'');
     if(!cod) return;
     var prev=n(r['Previsto']||r['PREVISTO']||r['_col2']||0);
-    var um  =s(r['UM']||r['_col1']||'');
-    var real = (eppMap[cod]||0) + (nfsMap[cod]||0);
-    var dif = real - prev;
-    var ader = prev>0 ? Math.round((real/prev)*100) : (real>0?999:0);
-    var st = ader>=100 ? 'ACIMA' : (ader>=80 ? 'DENTRO' : 'ABAIXO');
+    var real=(eppMap[cod]||0)+(nfsMap[cod]||0);
+    var ader=prev>0?Math.round(real/prev*100):(real>0?999:0);
     G.prevItens.push({
-      Codigo:cod, Produto:prodMap[cod]||'', UM:um,
-      Previsto:prev, Realizado:real, Diferenca:dif, Aderencia:ader, Status:st,
-      RowCls: st==='ACIMA'?'ro':(st==='DENTRO'?'rw':'rc')
+      Codigo:cod, Produto:prodMap[cod]||'', UM:s(r['UM']||r['_col1']||''),
+      Previsto:prev, Realizado:real, Diferenca:real-prev, Aderencia:ader,
+      Status:ader>=100?'ACIMA':ader>=80?'DENTRO':'ABAIXO',
+      RowCls:ader>=100?'ro':ader>=80?'rw':'rc'
     });
   });
 
-  /* --- 7. MONTAGEM DOS ITENS PCP --- */
+  // ITENS PCP
   G.itens = G.saldo.map(function(r){
     var cod  = s(r['Código']||r['Codigo']||r['CODIGO']||r['_col0']||'');
     var prod = s(r['Descrição']||r['Descricao']||r['DESCRIÇÃO']||r['_col1']||'');
@@ -936,376 +582,201 @@ function processar(dados){
 
     var a3   = n(r['Almox 3'] ||r['ALMOX 3']||r['_col2']||0);
     var a30  = n(r['Almox 30']||r['ALMOX 30']||r['_col3']||0);
-    var a4   = n(r['Almox 4'] ||r['ALMOX 4']||r['_col4']||0);
-
     var pedCom  = dcMap[cod]||0;
     var estSeg  = segMap[cod]||0;
     var ofaPend = ofaMap[cod]||0;
-
     var capProd = capProdMap[cod]||0;
-    var capEmis = capEmisMap[cod]||0;
-
     var lk = itemLinhasMap[cod]||[];
     var fixcol = itemFixcolMap[cod]||false;
-    var lNomes = lk.map(function(k){return LINHAS_NOMES[k]||k;}).join(', ');
-    if(fixcol && !lNomes) lNomes='COL FIXA';
 
-    // NOVA LÓGICA: Necessidade = Pedido Comercial + Estoque Segurança - Almox3 - OFA Pendente
+    // Lógica PCP v8 (Corrigida: Disponibilidade = Almox3 + Almox30)
+    var dispTotal = a3 + a30;
     var necTotal = pedCom + estSeg;
-    var necProd = Math.max(necTotal - a3 - ofaPend, 0);
-    var necCom = Math.max(pedCom - a3, 0);
-
+    var necProd = Math.max(necTotal - dispTotal - ofaPend, 0);
+    var necCom = Math.max(pedCom - dispTotal, 0);
     var diasNec = (necProd > 0 && capProd > 0) ? necProd / capProd : 0;
 
     var statusCap, motivo, rowCls;
-
-    if (necProd <= 0) {
-      statusCap = 'NORMAL';
-      motivo = 'Estoque + OFA cobrem Pedido + Seguranca.';
-      rowCls = 'ro';
-    } else if (capProd <= 0) {
-      statusCap = 'SEM CAPACIDADE';
-      motivo = fixcol ? 'Item FIXCOL. Sem cap. interna.' : 'Necessidade: '+fN(necProd)+'sc. Sem cap. mapeada.';
-      rowCls = 'rc';
-    } else if (capProd < necProd) {
-      statusCap = 'CAP LIMITADA';
-      motivo = 'Produzir '+fN(necProd)+'sc. Cap: '+fN(capProd)+'sc/dia. Dias: '+diasNec.toFixed(1);
-      rowCls = 'rw';
+    if(necProd <= 0){
+      statusCap='NORMAL'; motivo='Estoque (A3+A30) + OFA cobrem Pedido + Seg.'; rowCls='ro';
+    } else if(capProd <= 0){
+      statusCap='SEM CAPACIDADE'; motivo=fixcol?'Item FIXCOL externo.':'Sem cap. mapeada.'; rowCls='rc';
+    } else if(capProd < necProd){
+      statusCap='CAP LIMITADA'; motivo='Produzir '+fN(necProd)+'sc. Cap:'+fN(capProd)+'. Dias:'+diasNec.toFixed(1); rowCls='rw';
     } else {
-      statusCap = 'PRODUZIR URGENTE';
-      motivo = 'Produzir '+fN(necProd)+'sc urgente.';
-      rowCls = 'rc';
+      statusCap='PRODUZIR URGENTE'; motivo='Produzir '+fN(necProd)+'sc urgente.'; rowCls='rc';
     }
 
-    // Prioridade para itens críticos (abaixo do estoque de segurança)
-    if (a3 < estSeg && statusCap !== 'NORMAL') {
-      motivo = "⚠️ CRÍTICO: Abaixo do Est. Seguranca! " + motivo;
-    }
+    if(dispTotal < estSeg && statusCap!=='NORMAL') motivo = "⚠️ CRÍTICO! " + motivo;
 
-    // LOGS DE DEBUG (Warnings no console)
-    if (necProd > 0 && capProd <= 0) console.warn("Item sem capacidade:", cod, prod);
-    if (necProd > 0 && !lNomes) console.warn("Item sem vínculo de linha:", cod, prod);
-    if (a3 === 0 && a30 === 0 && a4 === 0) console.warn("Item sem saldo em nenhum almox:", cod);
+    // Debug Logs
+    if(necProd > 0 && capProd <= 0) console.warn("Sem capacidade:", cod, prod);
+    if(necProd > 0 && lk.length === 0) console.warn("Sem linha:", cod, prod);
 
     return {
-      Codigo:cod, Produto:prod,
-      Almox3:a3, Almox30:a30, Almox4:a4,
-      PedidoComercial:pedCom, NecComercial:necCom,
-      EstoqueSeguranca:estSeg, OFAPendente:ofaPend,
-      NecessidadeProd:necProd, CapacidadeDia:capProd,
-      CapacidadeEmis:capEmis, DiasNecessarios:diasNec,
-      LinhaProducao:lNomes||'N/M', LinhasKeys:lk, Fixcol:fixcol,
-      StatusCap:statusCap, Motivo:motivo, RowCls:rowCls
+      Codigo:cod, Produto:prod, Almox3:a3, Almox30:a30, PedidoComercial:pedCom,
+      NecComercial:necCom, EstoqueSeguranca:estSeg, OFAPendente:ofaPend,
+      NecessidadeProd:necProd, CapacidadeDia:capProd, DiasNecessarios:diasNec,
+      LinhaProducao:lk.map(k=>LINHAS_NOMES[k]||k).join(', ')||(fixcol?'COL FIXA':'N/M'),
+      LinhasKeys:lk, StatusCap:statusCap, Motivo:motivo, RowCls:rowCls
     };
   }).filter(Boolean);
 
-  /* --- 8. LINHAS INFO --- */
-  var linhasState={}; LINHAS_KEYS.forEach(function(k){linhasState[k]=0;});
-  var linhasCapMap={}; LINHAS_KEYS.forEach(function(k){linhasCapMap[k]=0;});
-
-  G.itens.forEach(function(it){
-    if(it.OFAPendente > 0 && it.LinhasKeys.length > 0){
-      var por = it.OFAPendente / it.LinhasKeys.length;
-      it.LinhasKeys.forEach(function(k){ linhasState[k] = (linhasState[k]||0) + por; });
-    }
-    if(it.CapacidadeDia > 0 && it.LinhasKeys.length > 0){
-      it.LinhasKeys.forEach(function(k){ linhasCapMap[k] = (linhasCapMap[k]||0) + it.CapacidadeDia; });
-    }
+  // Linhas Info
+  var lState={}; var lCap={};
+  LINHAS_KEYS.forEach(k=>{lState[k]=0; lCap[k]=0;});
+  G.itens.forEach(it=>{
+    if(it.OFAPendente>0 && it.LinhasKeys.length>0) it.LinhasKeys.forEach(k=>lState[k]+=it.OFAPendente/it.LinhasKeys.length);
+    if(it.CapacidadeDia>0 && it.LinhasKeys.length>0) it.LinhasKeys.forEach(k=>lCap[k]+=it.CapacidadeDia);
+  });
+  G.linhasInfo = LINHAS_KEYS.map(lk=>{
+    var p=lState[lk]||0; var c=lCap[lk]||0;
+    var u=c>0?Math.min(Math.round(p/c*100),999):(p>0?999:0);
+    return { id:lk, nome:LINHAS_NOMES[lk]||lk, capDia:c, prog:p, util:u, livre:Math.max(c-p,0), cor:u<=70?'verde':u<=90?'amarelo':'vermelho', itensAlocados:G.itens.filter(it=>it.LinhasKeys.includes(lk)&&it.NecessidadeProd>0).length };
   });
 
-  G.linhasInfo = LINHAS_KEYS.map(function(lk){
-    var prog = linhasState[lk]||0;
-    var capTot = linhasCapMap[lk]||0;
-    var util = capTot>0 ? Math.min(Math.round(prog/capTot*100),999) : (prog>0?999:0);
-    var livre = Math.max(capTot-prog,0);
-    var cor = util<=70?'verde':util<=90?'amarelo':'vermelho';
-    return {
-      id:lk, nome:LINHAS_NOMES[lk]||lk,
-      capDia:capTot, prog:prog, util:util, livre:livre,
-      cor:cor, itensAlocados: G.itens.filter(function(it){return it.LinhasKeys.includes(lk) && it.NecessidadeProd>0;}).length
-    };
-  });
-
-  txt('last-update', new Date().toLocaleString('pt-BR'));
+  var ts=new Date().toLocaleString('pt-BR');
+  txt('hdr-ts',ts); txt('sf-ts',ts);
   renderAll();
 }
 
 function renderAll(){
-  rDash(); rPCP(); rLinhas(); rEstoque(); rPrevisao(); rOrdens(); rPerfil(); rProdReal();
+  rDash(); rPCP(); rLinhas(); rPrevisao(); rEstoque(); rProdReal(); rOrdens(); rPerfil();
   renderCharts();
+  updateKPIs();
 }
 
-/* ===== DASHBOARD ===== */
+function updateKPIs(){
+  var its=G.itens;
+  var nUrg=its.filter(x=>x.StatusCap==='PRODUZIR URGENTE'||x.StatusCap==='SEM CAPACIDADE').length;
+  var nLim=its.filter(x=>x.StatusCap==='CAP LIMITADA').length;
+  var nOfa=its.filter(x=>x.StatusCap==='OFA ATENDE').length;
+  var sob=G.linhasInfo.filter(l=>l.cor==='vermelho').length;
+  txt('kpi-total',its.length); txt('kpi-crit',nUrg); txt('kpi-warn',nLim);
+  txt('kpi-ok',nOfa); txt('kpi-ofa',its.length-nUrg-nLim-nOfa); txt('kpi-linhas-ocupadas',sob);
+  txt('nb-pcp',nUrg+nLim); txt('nb-linhas',sob||'');
+  txt('nb-prev',G.prevItens.filter(x=>x.Status==='ABAIXO').length||'');
+}
+
 function rDash(){
-  var its = G.itens;
-  txt('kpi-urgente', its.filter(function(x){return x.StatusCap==='PRODUZIR URGENTE';}).length);
-  txt('kpi-sem-cap', its.filter(function(x){return x.StatusCap==='SEM CAPACIDADE';}).length);
-  txt('kpi-limitada', its.filter(function(x){return x.StatusCap==='CAP LIMITADA';}).length);
-  txt('kpi-ofa', its.filter(function(x){return x.StatusCap==='OFA ATENDE';}).length);
-  
-  var comPrev = G.prevItens.filter(function(x){return x.Previsto>0;});
-  var medAder = comPrev.length ? Math.round(comPrev.reduce(function(a,x){return a+Math.min(x.Aderencia,200);},0)/comPrev.length) : 0;
-  txt('kpi-aderencia', medAder+'%');
-
-  var alist = el('alerts-list'); alist.innerHTML='';
-  var alerts = [];
-  its.forEach(function(it){
-    if(it.Almox3 < it.EstoqueSeguranca && it.NecessidadeProd > 0){
-      alerts.push({t:'CRÍTICO: ABAIXO EST. SEG.', b:it.Codigo+' - '+it.Produto+': Saldo '+fN(it.Almox3)+' < Seguranca '+fN(it.EstoqueSeguranca), c:'d'});
-    }
-    if(it.StatusCap==='SEM CAPACIDADE' && it.NecessidadeProd > 100){
-      alerts.push({t:'SEM CAPACIDADE MAPEADA', b:it.Codigo+': Necessidade de '+fN(it.NecessidadeProd)+'sc sem linha definida.', c:'w'});
-    }
-  });
-  
-  txt('alert-cnt', alerts.length);
-  if(!alerts.length) alist.innerHTML='<div class="empty">Nenhum alerta crítico.</div>';
-  else alerts.forEach(function(a){
-    var d=document.createElement('div'); d.className='alert alert-'+a.c;
-    d.innerHTML='<div><div class="alert-title">'+a.t+'</div><div class="alert-body">'+a.b+'</div></div>';
-    alist.appendChild(d);
-  });
-  
-  txt('pcp-badge', its.filter(function(x){return x.StatusCap!=='NORMAL';}).length);
-}
-
-/* ===== TABELA PCP ===== */
-function rPCP(){
-  var q=v('pcp-q').toLowerCase(), st=v('pcp-st')||G.stFilter;
-  var its=G.itens.filter(function(it){
-    if(G.codSel&&it.Codigo!==G.codSel) return false;
-    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
-    if(st&&it.StatusCap!==st) return false;
-    return true;
-  });
-  sortArr(its,'pcp'); txt('pcp-cnt',its.length);
-  
-  var nUrg=its.filter(function(x){return x.StatusCap==='PRODUZIR URGENTE';}).length;
-  var nSem=its.filter(function(x){return x.StatusCap==='SEM CAPACIDADE';}).length;
-  var nLim=its.filter(function(x){return x.StatusCap==='CAP LIMITADA';}).length;
-  var nOfa=its.filter(function(x){return x.StatusCap==='OFA ATENDE';}).length;
-  var nNorm=its.filter(function(x){return x.StatusCap==='NORMAL';}).length;
-  el('pcp-met').innerHTML=mbox('Urgente',nUrg,'r')+mbox('Sem Cap.',nSem,'r')+mbox('Cap.Lim.',nLim,'a')+mbox('OFA Atende',nOfa,'g')+mbox('Normal',nNorm,'p')+mbox('Total',its.length,'');
-
-  var b=el('pcp-body'); b.innerHTML='';
-  if(!its.length){b.innerHTML='<tr><td colspan="14" class="empty">Nenhum item</td></tr>';return;}
-  its.forEach(function(it){
-    var tr=document.createElement('tr');
-    tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
-    var diasStr=it.DiasNecessarios>0?it.DiasNecessarios.toFixed(1)+' d':'-';
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td>'+
-      '<td style="max-width:110px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'+
-      '<td class="nr">'+fN(it.Almox3)+'</td>'+
-      '<td class="nr">'+fN(it.Almox30)+'</td>'+
-      '<td class="nr '+(it.PedidoComercial>0?'num-a':'')+'">'+fN(it.PedidoComercial)+'</td>'+
-      '<td class="nr '+(it.NecComercial>0?'num-a':'')+'">'+fN(it.NecComercial)+'</td>'+
-      '<td class="nr">'+fN(it.EstoqueSeguranca)+'</td>'+
-      '<td class="nr '+(it.OFAPendente>0?'num-p':'')+'">'+fN(it.OFAPendente)+'</td>'+
-      '<td class="nr '+(it.NecessidadeProd>0?'num-r':'num-g')+'">'+fN(it.NecessidadeProd)+'</td>'+
-      '<td style="font-family:var(--mono);font-size:9px;color:var(--accent)">'+it.LinhaProducao+'</td>'+
-      '<td class="nr '+(it.CapacidadeDia>0?'':'num-r')+'">'+fN(it.CapacidadeDia)+'</td>'+
-      '<td class="nr">'+diasStr+'</td>'+
-      '<td>'+bdgCap(it.StatusCap)+'</td>'+
-      '<td><div style="font-size:10px;color:var(--text2);max-width:200px;white-space:normal;line-height:1.4">'+it.Motivo+'</div></td>';
-    tr.onclick=function(){selItem(it.Codigo,it.Produto);};
+  var its=G.itens.filter(x=>x.StatusCap!=='NORMAL').sort((a,b)=>b.NecessidadeProd-a.NecessidadeProd);
+  var b=el('dash-body'); b.innerHTML='';
+  its.slice(0,10).forEach(it=>{
+    var tr=document.createElement('tr'); tr.className=it.RowCls;
+    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td class="nr">'+fN(it.NecessidadeProd)+'</td><td>'+it.LinhaProducao+'</td><td>'+bdgCap(it.StatusCap)+'</td>';
     b.appendChild(tr);
   });
 }
 
-/* ===== LINHAS ===== */
+function rPCP(){
+  var q=v('pcp-q').toLowerCase(), st=v('pcp-st');
+  var its=G.itens.filter(it=>{
+    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
+    if(st&&it.StatusCap!==st) return false;
+    return true;
+  });
+  txt('pcp-cnt',its.length);
+  var b=el('pcp-body'); b.innerHTML='';
+  its.forEach(it=>{
+    var tr=document.createElement('tr'); tr.className=it.RowCls;
+    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td class="nr">'+fN(it.Almox3)+'</td><td class="nr">'+fN(it.Almox30)+'</td><td class="nr">'+fN(it.PedidoComercial)+'</td><td class="nr">'+fN(it.NecComercial)+'</td><td class="nr">'+fN(it.EstoqueSeguranca)+'</td><td class="nr">'+fN(it.OFAPendente)+'</td><td class="nr">'+fN(it.NecessidadeProd)+'</td><td>'+it.LinhaProducao+'</td><td class="nr">'+fN(it.CapacidadeDia)+'</td><td class="nr">'+(it.DiasNecessarios?it.DiasNecessarios.toFixed(1):'-')+'</td><td>'+bdgCap(it.StatusCap)+'</td><td>'+it.Motivo+'</td>';
+    b.appendChild(tr);
+  });
+}
+
 function rLinhas(){
   var li=G.linhasInfo;
-  txt('lin-kpi-ok',li.filter(function(l){return l.cor==='verde';}).length);
-  txt('lin-kpi-med', (li.length?Math.round(li.reduce(function(a,l){return a+l.util;},0)/li.length):0)+'%');
-  txt('lin-kpi-sob',li.filter(function(l){return l.cor==='vermelho';}).length);
-  txt('lin-kpi-total',fN(li.reduce(function(a,l){return a+l.capDia;},0))+' sc');
-
+  txt('lin-kpi-ok',li.filter(l=>l.cor==='verde').length);
+  txt('lin-kpi-med',(li.length?Math.round(li.reduce((a,l)=>a+l.util,0)/li.length):0)+'%');
+  txt('lin-kpi-sob',li.filter(l=>l.cor==='vermelho').length);
+  txt('lin-kpi-total',fN(li.reduce((a,l)=>a+l.capDia,0))+' sc');
   var cardsEl=el('linhas-cards'); cardsEl.innerHTML='';
-  li.forEach(function(l){
+  li.forEach(l=>{
     var card=document.createElement('div'); card.className='linha-card';
-    card.innerHTML='<div class="linha-card-header"><div><div class="linha-nome">'+l.nome+'</div><div class="linha-cap">Cap. Total: '+fN(l.capDia)+' sc/dia</div></div><div class="linha-status '+l.cor+'"><div class="linha-status-dot"></div>'+(l.cor==='verde'?'LIVRE':l.cor==='amarelo'?'ATENÇÃO':'SOBRECARREGADA')+'</div></div><div class="linha-body"><div class="linha-stats"><div class="linha-stat"><div class="linha-stat-v" style="color:var(--accent)">'+fN(l.capDia)+'</div><div class="linha-stat-l">Capacidade</div></div><div class="linha-stat"><div class="linha-stat-v" style="color:var(--orange)">'+fN(Math.round(l.prog))+'</div><div class="linha-stat-l">Ocupado</div></div><div class="linha-stat"><div class="linha-stat-v" style="color:'+(l.livre>0?'var(--green)':'var(--red)')+'">'+fN(Math.round(l.livre))+'</div><div class="linha-stat-l">Livre</div></div></div><div class="linha-progress-bar"><div class="linha-progress-fill '+l.cor+'" style="width:'+Math.min(l.util,100)+'%"></div></div><div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text4)"><span>Utilização</span><span style="font-family:var(--mono);font-weight:700;color:'+(l.cor==='verde'?'var(--green)':l.cor==='amarelo'?'var(--yellow)':'var(--red)')+'">'+l.util+'%</span></div><div style="font-size:9px;color:var(--text4);margin-top:4px">'+l.itensAlocados+' item(s) com necessidade</div></div>';
+    card.innerHTML='<div class="linha-card-header"><div><div class="linha-nome">'+l.nome+'</div><div class="linha-cap">Cap: '+fN(l.capDia)+' sc/dia</div></div><div class="linha-status '+l.cor+'"><div class="linha-status-dot"></div>'+l.cor.toUpperCase()+'</div></div><div class="linha-body"><div class="linha-stats"><div class="linha-stat"><div class="linha-stat-v">'+fN(Math.round(l.prog))+'</div><div class="linha-stat-l">Ocupado</div></div><div class="linha-stat"><div class="linha-stat-v">'+fN(Math.round(l.livre))+'</div><div class="linha-stat-l">Livre</div></div><div class="linha-stat"><div class="linha-stat-v">'+l.util+'%</div><div class="linha-stat-l">Uso</div></div></div><div class="linha-progress-bar"><div class="linha-progress-fill '+l.cor+'" style="width:'+Math.min(l.util,100)+'%"></div></div></div>';
     cardsEl.appendChild(card);
   });
-
-  var b=el('linhas-body'); b.innerHTML='';
-  li.forEach(function(l){
-    var tr=document.createElement('tr');
-    tr.innerHTML='<td><span style="font-family:var(--mono);font-weight:700;color:var(--accent)">'+l.nome+'</span></td><td class="nr">'+fN(l.capDia)+'</td><td class="nr num-o">'+fN(Math.round(l.prog))+'</td><td class="nr">'+l.util+'%</td><td class="nr">'+fN(Math.round(l.livre))+'</td><td>'+(l.cor==='verde'?'🟢 LIVRE':l.cor==='amarelo'?'🟡 ATENÇÃO':'🔴 SOBRECARREGADA')+'</td><td>'+l.itensAlocados+' item(s)</td>';
-    b.appendChild(tr);
-  });
 }
 
-/* ===== PREVISAO ===== */
 function rPrevisao(){
-  var q=v('prev-q').toLowerCase(), st=v('prev-st');
-  var its=G.prevItens.filter(function(it){
-    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
-    if(st&&it.Status!==st) return false;
-    return true;
-  });
+  var q=v('prev-q').toLowerCase();
+  var its=G.prevItens.filter(it=>!q||it.Codigo.toLowerCase().includes(q)||it.Produto.toLowerCase().includes(q));
   txt('prev-cnt',its.length);
-  txt('prev-kpi-prev',fN(its.reduce(function(a,x){return a+x.Previsto;},0)));
-  txt('prev-kpi-real',fN(its.reduce(function(a,x){return a+x.Realizado;},0)));
-  txt('prev-kpi-abaixo',its.filter(function(x){return x.Status==='ABAIXO';}).length);
-  
   var b=el('prev-body'); b.innerHTML='';
-  its.forEach(function(it){
-    var tr=document.createElement('tr');
-    tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td><td>'+it.UM+'</td><td class="nr">'+fN(it.Previsto)+'</td><td class="nr num-g">'+fN(it.Realizado)+'</td><td class="nr">'+fN(it.Diferenca)+'</td><td class="nr">'+it.Aderencia+'%</td><td>'+bdgPrev(it.Status)+'</td>';
-    tr.onclick=function(){selItem(it.Codigo,it.Produto);};
+  its.forEach(it=>{
+    var tr=document.createElement('tr'); tr.className=it.RowCls;
+    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td>'+it.UM+'</td><td class="nr">'+fN(it.Previsto)+'</td><td class="nr">'+fN(it.Realizado)+'</td><td class="nr">'+fN(it.Diferenca)+'</td><td class="nr">'+it.Aderencia+'%</td><td>'+bdgPrev(it.Status)+'</td>';
     b.appendChild(tr);
   });
 }
 
-/* ===== OUTROS RENDERS (ESTOQUE, ORDENS, PERFIL, PROD REAL) ===== */
 function rEstoque(){
-  var q=v('est-q').toLowerCase(), st=v('est-st')||G.stFilter;
-  var its=G.itens.filter(function(it){
-    if(G.codSel&&it.Codigo!==G.codSel) return false;
-    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
-    if(st&&it.StatusCap!==st) return false;
-    return true;
-  });
+  var q=v('est-q').toLowerCase();
+  var its=G.itens.filter(it=>!q||it.Codigo.toLowerCase().includes(q)||it.Produto.toLowerCase().includes(q));
   txt('est-cnt',its.length);
   var b=el('est-body'); b.innerHTML='';
-  its.forEach(function(it){
-    var tr=document.createElement('tr');
-    tr.className=it.RowCls+(G.codSel===it.Codigo?' sel':'');
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td class="nr">'+fN(it.Almox3)+'</td><td class="nr">'+fN(it.Almox30)+'</td><td class="nr">'+fN(it.Almox4)+'</td><td class="nr">'+fN(it.PedidoComercial)+'</td><td class="nr">'+fN(it.OFAPendente)+'</td><td class="nr">'+fN(it.NecessidadeProd)+'</td><td class="nr">'+fN(it.EstoqueSeguranca)+'</td><td>'+bdgCap(it.StatusCap)+'</td>';
-    tr.onclick=function(){selItem(it.Codigo,it.Produto);};
+  its.forEach(it=>{
+    var tr=document.createElement('tr'); tr.className=it.RowCls;
+    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td class="nr">'+fN(it.Almox3)+'</td><td class="nr">'+fN(it.Almox30)+'</td><td class="nr">0</td><td class="nr">'+fN(it.PedidoComercial)+'</td><td class="nr">'+fN(it.OFAPendente)+'</td><td class="nr">'+fN(it.NecessidadeProd)+'</td><td class="nr">'+fN(it.EstoqueSeguranca)+'</td><td>'+bdgCap(it.StatusCap)+'</td>';
     b.appendChild(tr);
   });
 }
 
 function rProdReal(){
   var q=v('prod-q').toLowerCase();
-  var rows=G.epp.filter(function(r){ return !q||(r.Codigo.toLowerCase().includes(q)||r.Produto.toLowerCase().includes(q)||r.Data.includes(q)); });
+  var rows=G.epp.filter(r=>!q||r.Codigo.toLowerCase().includes(q)||r.Produto.toLowerCase().includes(q));
   txt('prod-cnt',rows.length);
   var b=el('prod-body'); b.innerHTML='';
-  rows.forEach(function(r){
+  rows.forEach(r=>{
     var tr=document.createElement('tr');
-    tr.innerHTML='<td style="font-size:10px;color:var(--text3)">'+r.Data+'</td><td><code>'+r.Codigo+'</code></td><td>'+r.Produto+'</td><td class="nr num-g">'+fN(r.Quantidade)+'</td>';
+    tr.innerHTML='<td>'+r.Data+'</td><td><code>'+r.Codigo+'</code></td><td>'+r.Produto+'</td><td class="nr">'+fN(r.Quantidade)+'</td>';
     b.appendChild(tr);
   });
 }
 
 function rOrdens(){
-  var q=v('ord-q').toLowerCase(), tp=v('ord-tp').toUpperCase();
-  var rows=G.ordens.filter(function(r){
-    var cod=s(r['Cod. Item']||r['CODIGO']||r['Codigo']||r['_col3']||'');
-    var ord=s(r['Ordem']||r['_col0']||'');
-    var tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();
-    if(G.codSel&&cod!==G.codSel) return false;
-    if(q&&!cod.toLowerCase().includes(q)&&!ord.toLowerCase().includes(q)) return false;
-    if(tp&&tipo!==tp) return false;
-    return true;
-  });
+  var q=v('ord-q').toLowerCase();
+  var rows=G.ordens.filter(r=>!q||s(r['Cod. Item']||r['_col3']).toLowerCase().includes(q));
   txt('ord-cnt',rows.length);
   var b=el('ord-body'); b.innerHTML='';
-  rows.forEach(function(r){
-    var cod=s(r['Cod. Item']||r['CODIGO']||r['Codigo']||r['_col3']||'');
+  rows.forEach(r=>{
     var tr=document.createElement('tr');
-    tr.onclick=function(){selItem(cod,s(r['Descricao']||r['_col4']||''));};
-    tr.innerHTML='<td><code>'+s(r['Ordem']||r['_col0']||'')+'</code></td><td>'+s(r['Planejador']||r['_col1']||'')+'</td><td><span class="bdg bdg-i">'+s(r['Tipo']||r['_col2']||'')+'</span></td><td><code>'+cod+'</code></td><td>'+s(r['Descricao']||r['_col4']||'')+'</td><td>'+s(r['UM']||r['_col5']||'')+'</td><td>'+s(r['Dt. Inicio']||r['_col6']||'')+'</td><td>'+s(r['Dt. Fim']||r['_col7']||'')+'</td><td><span class="bdg bdg-s">'+s(r['Situacao']||r['_col8']||'')+'</span></td><td class="nr">'+fN(n(r['Qtde']||r['_col9']||0))+'</td><td class="nr">'+fN(n(r['Qtde. Pendente']||r['_col10']||0))+'</td>';
+    tr.innerHTML='<td>'+s(r['Ordem']||r['_col0'])+'</td><td>'+s(r['Planejador']||r['_col1'])+'</td><td>'+s(r['Tipo']||r['_col2'])+'</td><td>'+s(r['Cod. Item']||r['_col3'])+'</td><td>'+s(r['Descricao']||r['_col4'])+'</td><td>'+s(r['UM']||r['_col5'])+'</td><td>'+s(r['Dt. Inicio']||r['_col6'])+'</td><td>'+s(r['Dt. Fim']||r['_col7'])+'</td><td>'+s(r['Situacao']||r['_col8'])+'</td><td class="nr">'+fN(n(r['Qtde']||r['_col9']))+'</td><td class="nr">'+fN(n(r['Qtde. Pendente']||r['_col10']))+'</td>';
     b.appendChild(tr);
   });
 }
 
 function rPerfil(){
-  var q=v('perf-q').toLowerCase(), tp=v('perf-tp').toUpperCase();
-  var rows=G.perfil.filter(function(r){
-    var item=s(r['Item']||r['CODIGO']||r['Codigo']||r['_col1']||'');
-    var tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();
-    if(G.codSel&&item!==G.codSel) return false;
-    if(q&&!item.toLowerCase().includes(q)) return false;
-    if(tp&&tipo!==tp) return false;
-    return true;
-  });
+  var q=v('perf-q').toLowerCase();
+  var rows=G.perfil.filter(r=>!q||s(r['Item']||r['_col1']).toLowerCase().includes(q));
   txt('perf-cnt',rows.length);
   var b=el('perf-body'); b.innerHTML='';
-  rows.slice(0,500).forEach(function(r){
-    var qtd=n(r['Quantidade']||r['_col6']||0);
+  rows.slice(0,100).forEach(r=>{
     var tr=document.createElement('tr');
-    tr.innerHTML='<td style="font-size:10px;color:var(--text3)">'+s(r['Data Relatorio']||r['_col0']||'')+'</td><td><code>'+s(r['Item']||r['CODIGO']||r['Codigo']||r['_col1']||'')+'</code></td><td>'+bdgTipo(s(r['Tipo']||r['_col2']||'').toUpperCase())+'</td><td>'+s(r['Referencia']||r['_col3']||'')+'</td><td>'+s(r['Data Inicio']||r['_col4']||'')+'</td><td>'+s(r['Data Fim']||r['_col5']||'')+'</td><td class="nr '+(qtd<0?'num-r':'num-g')+'">'+fN(qtd)+'</td>';
+    tr.innerHTML='<td>'+s(r['Data Relatorio']||r['_col0'])+'</td><td>'+s(r['Item']||r['_col1'])+'</td><td>'+s(r['Tipo']||r['_col2'])+'</td><td>'+s(r['Referencia']||r['_col3'])+'</td><td>'+s(r['Data Inicio']||r['_col4'])+'</td><td>'+s(r['Data Fim']||r['_col5'])+'</td><td class="nr">'+fN(n(r['Quantidade']||r['_col6']))+'</td>';
     b.appendChild(tr);
   });
 }
 
-/* ===== CHARTS ===== */
-var CD={
-  responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{labels:{color:'#9C9888',font:{size:10},padding:10}}},
-  scales:{ x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#C4C0B4',font:{size:9}}}, y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#C4C0B4',font:{size:9}}} }
-};
+function renderCharts(){
+  var pd=G.prodDiaria.slice(-14);
+  mkChart('chart-prod-real',{type:'bar',data:{labels:pd.map(x=>x.data),datasets:[{label:'EPP (sc)',data:pd.map(x=>x.qty),backgroundColor:'rgba(27,92,122,.5)'}]},options:{plugins:{legend:{display:false}}}});
+}
+
 function mkChart(id,cfg){
   var ctx=document.getElementById(id); if(!ctx) return;
   if(G.charts[id]) G.charts[id].destroy();
-  cfg.options=Object.assign({},JSON.parse(JSON.stringify(CD)),cfg.options||{});
   G.charts[id]=new Chart(ctx,cfg);
-}
-function renderCharts(){
-  var pd=G.prodDiaria.slice(-14);
-  var prodCfg={type:'bar',data:{labels:pd.map(function(x){return x.data;}),datasets:[{label:'EPP (sc)',data:pd.map(function(x){return x.qty;}),backgroundColor:'rgba(27,92,122,.5)',borderColor:'rgba(27,92,122,.8)',borderWidth:1,borderRadius:4}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}};
-  mkChart('chart-prod-real',prodCfg);
-  mkChart('chart-prod-det',JSON.parse(JSON.stringify(prodCfg)));
-
-  var its = G.itens;
-  var nUrg=its.filter(function(x){return x.StatusCap==='PRODUZIR URGENTE';}).length;
-  var nSem=its.filter(function(x){return x.StatusCap==='SEM CAPACIDADE';}).length;
-  var nLim=its.filter(function(x){return x.StatusCap==='CAP LIMITADA';}).length;
-  var nOfa=its.filter(function(x){return x.StatusCap==='OFA ATENDE';}).length;
-  var nNorm=its.filter(function(x){return x.StatusCap==='NORMAL';}).length;
-  mkChart('chart-status',{type:'doughnut',data:{labels:['Urgente','Sem Cap.','Limitada','OFA','Normal'],datasets:[{data:[nUrg,nSem,nLim,nOfa,nNorm],backgroundColor:['#B83232','#A0470A','#8A6A00','#2D7D46','#5B3FA6'],borderWidth:0}]},options:{plugins:{legend:{position:'right'}}}});
-
-  var top=its.filter(function(x){return x.NecessidadeProd>0;}).slice(0,8);
-  mkChart('chart-saldo',{type:'bar',data:{labels:top.map(function(x){return x.Codigo;}),datasets:[{label:'Nec. Produzir',data:top.map(function(x){return x.NecessidadeProd;}),backgroundColor:'rgba(184,50,50,.5)',borderRadius:3},{label:'OFA Pendente',data:top.map(function(x){return x.OFAPendente;}),backgroundColor:'rgba(91,63,166,.5)',borderRadius:3}]},options:{plugins:{legend:{position:'top'}}}});
-
-  var prevTop=G.prevItens.slice(0,10);
-  mkChart('chart-prev-fat',{type:'bar',data:{labels:prevTop.map(function(x){return x.Codigo;}),datasets:[{label:'Previsto',data:prevTop.map(function(x){return x.Previsto;}),backgroundColor:'rgba(27,92,122,.45)',borderRadius:3},{label:'Realizado',data:prevTop.map(function(x){return x.Realizado;}),backgroundColor:'rgba(45,125,70,.5)',borderRadius:3}]},options:{plugins:{legend:{position:'top'}}}});
-
-  var topReal=G.prevItens.slice().sort(function(a,b){return b.Realizado-a.Realizado;}).slice(0,8);
-  mkChart('chart-top-nfs',{type:'bar',data:{labels:topReal.map(function(x){return x.Codigo;}),datasets:[{label:'Realizado',data:topReal.map(function(x){return x.Realizado;}),backgroundColor:topReal.map(function(x){return x.Status==='ACIMA'?'#2D7D46':(x.Status==='DENTRO'?'#8A6A00':'#B83232');}),borderRadius:4}]}});
-
-  var li=G.linhasInfo;
-  mkChart('chart-linhas',{type:'bar',data:{labels:li.map(function(l){return l.nome;}),datasets:[{label:'Ocupado (sc)',data:li.map(function(l){return Math.round(l.prog);}),backgroundColor:li.map(function(l){return l.cor==='verde'?'#2D7D46':(l.cor==='amarelo'?'#8A6A00':'#B83232');}),borderRadius:4},{label:'Livre (sc)',data:li.map(function(l){return Math.round(l.livre);}),backgroundColor:'rgba(0,0,0,.06)',borderRadius:4}]},options:{scales:{x:{stacked:true},y:{stacked:true}}}});
-}
-
-/* ===== SORTS & HELPERS ===== */
-function srtP(col){ var sd=G.sort.pcp; sd.asc=(sd.col===col)?!sd.asc:true; sd.col=col; rPCP(); }
-function sortArr(arr,ctx){
-  var sd=G.sort[ctx]; if(!sd||!sd.col) return;
-  var stOrd={'PRODUZIR URGENTE':0,'SEM CAPACIDADE':0,'CAP LIMITADA':1,'OFA ATENDE':2,'NORMAL':3,'ABAIXO':0,'DENTRO':1,'ACIMA':2};
-  arr.sort(function(a,b){
-    var kA=sd.col;
-    if(kA==='StatusCap'||kA==='Status'){
-      var kk=kA==='StatusCap'?'StatusCap':'Status';
-      var diff=(stOrd[a[kk]]||0)-(stOrd[b[kk]]||0);
-      return sd.asc?diff:-diff;
-    }
-    var av=a[kA], bv=b[kA];
-    if(typeof av==='number') return sd.asc?av-bv:bv-av;
-    return sd.asc?String(av||'').localeCompare(String(bv||'')):String(bv||'').localeCompare(String(av||''));
-  });
-}
-
-function expCSVMain(){ _expCSV(G.itens,['Codigo','Produto','Almox3','Almox30','Almox4','PedidoComercial','NecComercial','EstoqueSeguranca','OFAPendente','NecessidadeProd','CapacidadeDia','DiasNecessarios','LinhaProducao','StatusCap','Motivo'],'pcp'); }
-function expCSVPrev(){ _expCSV(G.prevItens,['Codigo','Produto','UM','Previsto','Realizado','Diferenca','Aderencia','Status'],'previsao'); }
-function _expCSV(data,keys,name){
-  if(!data||!data.length) return;
-  var csv=keys.join(';')+'\n'+data.map(function(r){return keys.map(function(k){return r[k]===undefined?'':r[k];}).join(';');}).join('\n');
-  var a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
-  a.download='colfix_'+name+'_'+new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')+'.csv'; a.click();
 }
 
 function goPage(navEl){
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-  var pg=el('page-'+navEl.dataset.page); if(pg) pg.classList.add('active'); navEl.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el('page-'+navEl.dataset.page).classList.add('active'); navEl.classList.add('active');
 }
-function filterStatus(st){ G.stFilter=st; G.codSel=null; el('filter-bar').classList.remove('on'); renderAll(); goPage(document.querySelector('[data-page="dashboard"]')); }
-function selItem(cod,prod){ if(G.codSel===cod){clearFilter();return;} G.codSel=cod; G.stFilter=''; txt('filt-cod',cod); txt('filt-desc',prod); el('filter-bar').classList.add('on'); renderAll(); }
-function clearFilter(){ G.codSel=null; G.stFilter=''; el('filter-bar').classList.remove('on'); renderAll(); }
+
+function filterStatus(st){ G.stFilter=st; rPCP(); goPage(document.querySelector('[data-page="pcp"]')); }
+function clearFilter(){ G.codSel=null; G.stFilter=''; renderAll(); }
 
 function el(id){return document.getElementById(id);}
 function txt(id,vv){var e=el(id);if(e) e.textContent=vv;}
@@ -1313,20 +784,34 @@ function v(id){var e=el(id);return e?e.value:'';}
 function s(val){return val===null||val===undefined?'':String(val).trim();}
 function n(val){
   if(typeof val==='number') return val;
-  var str=s(val).trim(); if(!str||str==='-') return 0;
-  if(str.includes('.')&&str.includes(',')){str=str.replace(/\./g,'').replace(',','.');}
-  else if(str.includes(',')&&!str.includes('.')){str=str.replace(',','.');}
+  var str = s(val);
+  // Se contiver vírgula e ponto, assumimos padrão milhar.ponto e decimal,vírgula
+  if(str.includes(',') && str.includes('.')) {
+    str = str.replace(/\./g,'').replace(',','.');
+  } else if(str.includes(',')) {
+    // Se só tem vírgula, é o separador decimal brasileiro
+    str = str.replace(',','.');
+  }
+  // IMPORTANTE: Se o número for "1.871" (sem vírgula), o JS pode achar que o ponto é decimal.
+  // Em contextos industriais brasileiros no Sheets, um ponto sozinho em "1.871" costuma ser MILHAR.
+  // Vamos tratar: se houver um ponto e apenas 3 dígitos depois dele, tratamos como milhar.
+  if(!str.includes(',') && str.includes('.')) {
+    var parts = str.split('.');
+    if(parts.length === 2 && parts[1].length === 3) {
+      str = str.replace('.','');
+    }
+  }
   var f=parseFloat(str); return isNaN(f)?0:f;
 }
-function fN(val){ return (typeof val==='number'?val:n(val)).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}); }
-
+function fN(val){ return (typeof val==='number'?val:n(val)).toLocaleString('pt-BR'); }
 function bdgCap(st){
-  var map={'OFA ATENDE':['s','🟢 OFA ATENDE'],'NORMAL':['p','🟣 NORMAL'],'CAP LIMITADA':['w','🟡 CAP LIMITADA'],'SEM CAPACIDADE':['d','🔴 SEM CAP.'],'PRODUZIR URGENTE':['d','🚨 PRODUZIR URG.']};
-  var m=map[st]||['m',st]; return '<span class="bdg bdg-'+m[0]+'">'+m[1]+'</span>';
+  var map={'OFA ATENDE':'bdg-s','NORMAL':'bdg-p','CAP LIMITADA':'bdg-w','SEM CAPACIDADE':'bdg-d','PRODUZIR URGENTE':'bdg-d'};
+  return '<span class="bdg '+(map[st]||'bdg-m')+'">'+st+'</span>';
 }
-function bdgPrev(st){ var map={'ACIMA':['s','🟢 ACIMA'],'DENTRO':['w','🟡 DENTRO'],'ABAIXO':['d','🔴 ABAIXO']}; var m=map[st]||['m',st]; return '<span class="bdg bdg-'+m[0]+'">'+m[1]+'</span>'; }
-function bdgTipo(tp){ var map={'DC':'w','OFP':'s','OFA':'s','DD':'i','DP':'p'}; return '<span class="bdg bdg-'+(map[tp]||'m')+'">'+tp+'</span>'; }
-function mbox(label,val,valCls){ return '<div class="mbox"><div class="mbox-l">'+label+'</div><div class="mbox-v '+(valCls||'')+'">'+val+'</div></div>'; }
+function bdgPrev(st){
+  var map={'ACIMA':'bdg-s','DENTRO':'bdg-w','ABAIXO':'bdg-d'};
+  return '<span class="bdg '+(map[st]||'bdg-m')+'">'+st+'</span>';
+}
 </script>
 </body>
 </html>
