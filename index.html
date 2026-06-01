@@ -1007,6 +1007,7 @@ function processar(dados){
   /* ---- Schedule ---- */
   G.schedule=gerarAutoSchedule();
   popularSelectLinhas();
+  popularSelectLinhasEst();
 
   var ts=new Date().toLocaleString('pt-BR');
   txt('hdr-ts',ts);txt('sf-ts',ts);txt('dash-ts',ts);
@@ -1566,7 +1567,6 @@ function sortEst(col){
 }
 
 function rEstoque(){
-  popularSelectLinhasEst();
   var q=v('est-q').toLowerCase();
   var st=v('est-st');
   var risco=v('est-risco');
