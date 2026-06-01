@@ -308,6 +308,41 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .rupt-chip.n{background:var(--bg3);color:var(--text3);border-color:var(--border)}
 /* Sat chip */
 .sat-cell{font-family:var(--mono);font-size:10px;font-weight:600}
+
+/* ============================================================
+   ESTOQUE ANÁLISE — novos estilos
+   ============================================================ */
+.cob-bar-wrap{display:flex;align-items:center;gap:6px;min-width:110px}
+.cob-bar{height:6px;border-radius:3px;background:var(--bg4);overflow:hidden;flex:1}
+.cob-bar-fill{height:100%;border-radius:3px;transition:width .3s}
+.cob-val{font-family:var(--mono);font-size:10px;font-weight:700;white-space:nowrap;min-width:38px;text-align:right}
+.giro-chip{font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;border:1px solid}
+.giro-chip.alto{background:var(--green-dim);color:var(--green);border-color:var(--green-mid)}
+.giro-chip.med{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-mid)}
+.giro-chip.baixo{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-mid)}
+.giro-chip.zero{background:var(--bg3);color:var(--text3);border-color:var(--border)}
+.dp-compare{display:flex;flex-direction:column;align-items:flex-end;gap:1px}
+.dp-compare-val{font-family:var(--mono);font-size:11px;font-weight:700}
+.dp-compare-sub{font-size:9px;color:var(--text3)}
+/* Dist bar chart */
+.dist-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.dist-bar-label{font-size:10px;color:var(--text2);min-width:90px;font-weight:600}
+.dist-bar-outer{flex:1;height:18px;background:var(--bg4);border-radius:4px;overflow:hidden}
+.dist-bar-inner{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:9px;font-weight:700;color:#fff;min-width:18px;transition:width .4s}
+.dist-bar-count{font-family:var(--mono);font-size:11px;font-weight:700;min-width:28px;text-align:right}
+/* Risk list */
+.risk-item{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .08s}
+.risk-item:hover{background:var(--bg3)}
+.risk-rank{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--text4);min-width:20px;text-align:center}
+.risk-info{flex:1;min-width:0}
+.risk-code{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent)}
+.risk-name{font-size:11px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.risk-detail{font-size:10px;color:var(--text3);margin-top:1px}
+.risk-meters{display:flex;flex-direction:column;gap:3px;min-width:130px}
+.risk-meter-row{display:flex;align-items:center;gap:5px}
+.risk-meter-label{font-size:9px;color:var(--text3);min-width:45px}
+.risk-meter-bar{flex:1;height:5px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.risk-meter-fill{height:100%;border-radius:3px}
 </style>
 </head>
 <body>
@@ -534,12 +569,126 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
 <!-- ======= ESTOQUE ======= -->
 <div class="page" id="page-estoque">
-  <div class="ph"><div><div class="ph-title">Estoques Reais</div><div class="ph-sub">Almox 3 + Almox 30 · com projeção de ruptura</div></div></div>
+  <div class="ph">
+    <div><div class="ph-title">Análise de Estoques</div><div class="ph-sub">Posição real · Cobertura vs DP · Giro · Risco de Ruptura · Comparativo Almox 3 × Almox 30</div></div>
+    <div class="ph-actions">
+      <button class="btn" onclick="expCSVEstoque()">📥 CSV</button>
+    </div>
+  </div>
+
+  <!-- KPIs analíticos -->
+  <div class="kpi-row" id="est-kpis"></div>
+
+  <!-- Métricas resumo -->
   <div class="mrow" id="est-met"></div>
+
+  <!-- Filtros avançados -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-header">
+      <div class="card-title">🔍 Filtros &amp; Análise</div>
+      <div class="card-actions">
+        <span class="pill" id="est-cnt">0</span>
+        <button class="btn" onclick="resetFiltrosEst()">Limpar</button>
+      </div>
+    </div>
+    <div class="srow" style="flex-wrap:wrap;gap:8px">
+      <input class="sinput" id="est-q" placeholder="Buscar código ou produto..." oninput="rEstoque()" style="max-width:220px">
+      <select class="ssel" id="est-st" onchange="rEstoque()">
+        <option value="">Todos Status</option>
+        <option value="SEM_EST">🔴 Zerado</option>
+        <option value="ABAIXO_SEG">🟡 Abaixo Seg.</option>
+        <option value="OK">✅ OK</option>
+      </select>
+      <select class="ssel" id="est-risco" onchange="rEstoque()">
+        <option value="">Todos Riscos</option>
+        <option value="CRITICO">🔴 Crítico</option>
+        <option value="URGENTE">🟠 Urgente</option>
+        <option value="MODERADO">🟡 Moderado</option>
+        <option value="BAIXO">🔵 Baixo</option>
+        <option value="OK">✅ OK</option>
+      </select>
+      <select class="ssel" id="est-cob" onchange="rEstoque()">
+        <option value="">Toda Cobertura</option>
+        <option value="0">Cobertura ZERO</option>
+        <option value="3">Cobertura ≤ 3 dias</option>
+        <option value="7">Cobertura ≤ 7 dias</option>
+        <option value="15">Cobertura ≤ 15 dias</option>
+        <option value="30">Cobertura ≤ 30 dias</option>
+        <option value="30+">Cobertura > 30 dias</option>
+      </select>
+      <select class="ssel" id="est-dp" onchange="rEstoque()">
+        <option value="">Toda DP</option>
+        <option value="com_dp">Com DC (DP ativa)</option>
+        <option value="sem_dp">Sem DC</option>
+        <option value="dp_risco">DC em risco (cob &lt; DC)</option>
+      </select>
+      <select class="ssel" id="est-linha" onchange="rEstoque()">
+        <option value="">Todas Linhas</option>
+      </select>
+      <select class="ssel" id="est-ord" onchange="rEstoque()">
+        <option value="risco">Risco ↓</option>
+        <option value="cobertura_asc">Cobertura ↑</option>
+        <option value="cobertura_desc">Cobertura ↓</option>
+        <option value="estoque_desc">Estoque ↓</option>
+        <option value="giro_desc">Giro ↓</option>
+        <option value="dp_desc">DC ↓</option>
+        <option value="codigo">Código A→Z</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Tabela principal -->
   <div class="card">
-    <div class="card-header"><div class="card-title">Posição de Estoques</div><div class="card-actions"><span class="pill" id="est-cnt">0</span><select class="ssel" id="est-st" onchange="rEstoque()"><option value="">Todos</option><option value="SEM_EST">Sem Estoque</option><option value="ABAIXO_SEG">Abaixo Seg.</option><option value="OK">OK</option></select></div></div>
-    <div class="srow"><input class="sinput" id="est-q" placeholder="Buscar..." oninput="rEstoque()"></div>
-    <div class="twrap" style="max-height:420px"><table><thead><tr><th>Codigo</th><th>Produto</th><th class="nr">Almox 3</th><th class="nr">Almox 30</th><th class="nr">Total</th><th class="nr">Ped. DC</th><th class="nr">OFA ≤Hz.</th><th class="nr">OFA Fora</th><th class="nr">Nec. Prod.</th><th class="nr">Est. Seg.</th><th>Ruptura Prev.</th></tr></thead><tbody id="est-body"></tbody></table></div>
+    <div class="card-header">
+      <div class="card-title">📦 Posição de Estoques — Comparativo DP</div>
+      <div class="card-actions">
+        <div style="display:flex;gap:8px;align-items:center;font-size:10px">
+          <span style="background:var(--red-dim);color:var(--red);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--red-mid)">Zerado</span>
+          <span style="background:var(--yellow-dim);color:var(--yellow);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--yellow-mid)">Abaixo Seg</span>
+          <span style="background:var(--green-dim);color:var(--green);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--green-mid)">OK</span>
+        </div>
+      </div>
+    </div>
+    <div class="twrap" style="max-height:480px">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortEst('codigo')" title="Clique para ordenar">Código ↕</th>
+            <th>Produto</th>
+            <th class="nr" onclick="sortEst('almox3')" title="Clique para ordenar">Almox 3 ↕</th>
+            <th class="nr" onclick="sortEst('almox30')" title="Clique para ordenar">Almox 30 ↕</th>
+            <th class="nr" onclick="sortEst('total')" title="Clique para ordenar">Total ↕</th>
+            <th class="nr">Est. Seg.</th>
+            <th class="nr" onclick="sortEst('dp')" title="DC = Demanda do Perfil · Clique para ordenar">DC (DP) ↕</th>
+            <th class="nr" onclick="sortEst('cobertura')" title="Dias cobertos pelo estoque · Clique para ordenar">Cobertura ↕</th>
+            <th class="nr">Giro/mês</th>
+            <th class="nr">OFA ≤Hz.</th>
+            <th class="nr">Nec. Prod.</th>
+            <th>Ruptura Prev.</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="est-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Análise de distribuição -->
+  <div class="grid2" style="margin-bottom:14px">
+    <div class="card">
+      <div class="card-header"><div class="card-title">📊 Distribuição por Faixa de Cobertura</div></div>
+      <div id="est-dist-cob" style="padding:14px"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">🏭 Estoque por Linha de Produção</div></div>
+      <div id="est-dist-linha" style="padding:14px"></div>
+    </div>
+  </div>
+
+  <!-- Top alertas -->
+  <div class="card">
+    <div class="card-header"><div class="card-title">⚠️ Top 10 — Maiores Riscos de Ruptura (DC × Estoque)</div></div>
+    <div id="est-top-risk" style="max-height:280px;overflow-y:auto"></div>
   </div>
 </div>
 
@@ -1395,28 +1544,266 @@ function rPrevisao(){
 }
 
 /* ==============================================================
-   ESTOQUE
+   ESTOQUE — ANÁLISE PCP SÊNIOR (com DP do Perfil)
    ============================================================== */
+var _estSortCol='risco',_estSortDir=1;
+
+function popularSelectLinhasEst(){
+  var sel=el('est-linha');if(!sel) return;
+  sel.innerHTML='<option value="">Todas Linhas</option>';
+  LINHAS_KEYS.forEach(k=>{var op=document.createElement('option');op.value=k;op.textContent=LINHAS_NOMES[k]||k;sel.appendChild(op);});
+}
+
+function resetFiltrosEst(){
+  ['est-q','est-st','est-risco','est-cob','est-dp','est-linha'].forEach(id=>{var e=el(id);if(e) e.value='';});
+  el('est-ord').value='risco';
+  rEstoque();
+}
+
+function sortEst(col){
+  if(_estSortCol===col) _estSortDir*=-1; else{_estSortCol=col;_estSortDir=1;}
+  rEstoque();
+}
+
 function rEstoque(){
-  var q=v('est-q').toLowerCase(),st=v('est-st');
+  popularSelectLinhasEst();
+  var q=v('est-q').toLowerCase();
+  var st=v('est-st');
+  var risco=v('est-risco');
+  var cobFiltro=v('est-cob');
+  var dpFiltro=v('est-dp');
+  var linhaFiltro=v('est-linha');
+  var ord=v('est-ord')||'risco';
+
   var its=G.itens.filter(it=>{
     if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
     if(st==='SEM_EST'&&it.DispTotal>0) return false;
     if(st==='ABAIXO_SEG'&&(it.DispTotal>=it.EstoqueSeguranca||it.DispTotal<=0)) return false;
     if(st==='OK'&&it.DispTotal<it.EstoqueSeguranca) return false;
+    if(risco&&it.RiscoRuptura!==risco) return false;
+    if(cobFiltro==='0'&&it.CoberturasDias>0) return false;
+    if(cobFiltro==='3'&&!(it.CoberturasDias>=0&&it.CoberturasDias<=3)) return false;
+    if(cobFiltro==='7'&&!(it.CoberturasDias>=0&&it.CoberturasDias<=7)) return false;
+    if(cobFiltro==='15'&&!(it.CoberturasDias>=0&&it.CoberturasDias<=15)) return false;
+    if(cobFiltro==='30'&&!(it.CoberturasDias>=0&&it.CoberturasDias<=30)) return false;
+    if(cobFiltro==='30+'&&it.CoberturasDias<=30) return false;
+    if(dpFiltro==='com_dp'&&it.DemandaDiaria<=0) return false;
+    if(dpFiltro==='sem_dp'&&it.DemandaDiaria>0) return false;
+    if(dpFiltro==='dp_risco'&&!(it.PedidoComercial>0&&it.CoberturasDias<22)) return false;
+    if(linhaFiltro&&!it.LinhasKeys.includes(linhaFiltro)) return false;
     return true;
   });
+
+  // Ordenação
+  its.sort((a,b)=>{
+    var va,vb;
+    switch(ord){
+      case 'risco': var rm={'CRITICO':5,'URGENTE':4,'MODERADO':3,'BAIXO':2,'OK':1}; va=rm[a.RiscoRuptura]||0; vb=rm[b.RiscoRuptura]||0; return vb-va||(a.CoberturasDias-b.CoberturasDias);
+      case 'cobertura_asc': va=a.CoberturasDias>=999?9999:a.CoberturasDias; vb=b.CoberturasDias>=999?9999:b.CoberturasDias; return va-vb;
+      case 'cobertura_desc': va=a.CoberturasDias>=999?9999:a.CoberturasDias; vb=b.CoberturasDias>=999?9999:b.CoberturasDias; return vb-va;
+      case 'estoque_desc': return b.DispTotal-a.DispTotal;
+      case 'giro_desc': va=a.DemandaDiaria*30/(a.DispTotal||1); vb=b.DemandaDiaria*30/(b.DispTotal||1); return vb-va;
+      case 'dp_desc': return b.PedidoComercial-a.PedidoComercial;
+      case 'codigo': return a.Codigo.localeCompare(b.Codigo);
+      default: return b.Prioridade-a.Prioridade;
+    }
+  });
+
   txt('est-cnt',its.length);
-  var metEl=el('est-met');if(metEl){var sE=G.itens.filter(x=>x.DispTotal<=0).length;var aS=G.itens.filter(x=>x.DispTotal>0&&x.DispTotal<x.EstoqueSeguranca).length;metEl.innerHTML='<div class="mbox"><div class="mbox-l">Total</div><div class="mbox-v">'+G.itens.length+'</div></div><div class="mbox"><div class="mbox-l">Sem Estoque</div><div class="mbox-v r">'+sE+'</div></div><div class="mbox"><div class="mbox-l">Abaixo Seg.</div><div class="mbox-v a">'+aS+'</div></div>';}
+
+  // KPIs analíticos globais
+  var kpiEl=el('est-kpis');
+  if(kpiEl){
+    var tot=G.itens.length;
+    var sE=G.itens.filter(x=>x.DispTotal<=0).length;
+    var aS=G.itens.filter(x=>x.DispTotal>0&&x.DispTotal<x.EstoqueSeguranca).length;
+    var okE=G.itens.filter(x=>x.DispTotal>=x.EstoqueSeguranca).length;
+    var comDp=G.itens.filter(x=>x.DemandaDiaria>0).length;
+    var semDp=G.itens.filter(x=>x.DemandaDiaria<=0).length;
+    var emRisco=G.itens.filter(x=>x.PedidoComercial>0&&x.CoberturasDias<22).length;
+    var cobMedia=G.itens.filter(x=>x.DemandaDiaria>0).reduce((a,x)=>a+(x.CoberturasDias>=999?30:x.CoberturasDias),0)/(comDp||1);
+    kpiEl.innerHTML=
+      '<div class="kpi red"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="kpi-val">'+sE+'</div><div class="kpi-label">Zerados</div><div class="kpi-sub">de '+tot+' itens</div></div>'
+      +'<div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg></div><div class="kpi-val">'+aS+'</div><div class="kpi-label">Abaixo Seg.</div><div class="kpi-sub">estoque insuficiente</div></div>'
+      +'<div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-val">'+okE+'</div><div class="kpi-label">Adequados</div><div class="kpi-sub">≥ estoque segurança</div></div>'
+      +'<div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div><div class="kpi-val">'+cobMedia.toFixed(1)+'d</div><div class="kpi-label">Cobertura Média</div><div class="kpi-sub">itens com DC</div></div>'
+      +'<div class="kpi orange"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/></svg></div><div class="kpi-val">'+emRisco+'</div><div class="kpi-label">DC em Risco</div><div class="kpi-sub">cob &lt; 22d com pedido</div></div>'
+      +'<div class="kpi purple"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/></svg></div><div class="kpi-val">'+comDp+' / '+semDp+'</div><div class="kpi-label">Com / Sem DC</div><div class="kpi-sub">demanda do perfil</div></div>';
+  }
+
+  // Métricas resumo
+  var metEl=el('est-met');
+  if(metEl){
+    var tE=its.reduce((a,x)=>a+x.DispTotal,0);
+    var tDp=its.reduce((a,x)=>a+x.PedidoComercial,0);
+    var tNec=its.reduce((a,x)=>a+x.NecessidadeProd,0);
+    var tA3=its.reduce((a,x)=>a+x.Almox3,0);
+    var tA30=its.reduce((a,x)=>a+x.Almox30,0);
+    metEl.innerHTML=
+      '<div class="mbox"><div class="mbox-l">Itens filtrados</div><div class="mbox-v">'+its.length+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Almox 3</div><div class="mbox-v">'+fN(Math.round(tA3))+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Almox 30</div><div class="mbox-v">'+fN(Math.round(tA30))+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Total Estoque</div><div class="mbox-v" style="color:var(--accent)">'+fN(Math.round(tE))+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Total DC (DP)</div><div class="mbox-v o">'+fN(Math.round(tDp))+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Nec. Produzir</div><div class="mbox-v '+(tNec>0?'r':'g')+'">'+fN(Math.round(tNec))+'</div></div>';
+  }
+
+  // Tabela principal
   var b=el('est-body');b.innerHTML='';
   its.forEach(it=>{
-    var sit=it.DispTotal<=0?'<span class="bdg bdg-d">ZERADO</span>':it.DispTotal<it.EstoqueSeguranca?'<span class="bdg bdg-w">ABAIXO</span>':'<span class="bdg bdg-s">OK</span>';
-    var ruptLabel=it.DiasAteRuptura!==null?'<span class="rupt-chip '+(it.DiasAteRuptura<=7?'c':'w')+'">⏰ '+it.DiasAteRuptura+'d</span>':'<span class="rupt-chip s">OK</span>';
-    var tr=document.createElement('tr');tr.className=it.RowCls;tr.onclick=function(){openDetail(it);};
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td class="nr">'+fN(it.Almox3)+'</td><td class="nr">'+fN(it.Almox30)+'</td><td class="nr"><strong>'+fN(it.DispTotal)+'</strong></td><td class="nr">'+fN(it.PedidoComercial)+'</td><td class="nr '+(it.OFAAtrasada>0?'num-o':'')+'">'+fN(Math.round(it.OFAHorizonte))+(it.OFAAtrasada>0?' ⏰':'')+'</td><td class="nr '+(it.OFAFora>0?'num-p':'')+'">'+fN(Math.round(it.OFAFora))+'</td><td class="nr '+(it.NecessidadeProd>0?'num-r':'')+'">'+fN(Math.round(it.NecessidadeProd))+'</td><td class="nr">'+fN(it.EstoqueSeguranca)+'</td><td>'+ruptLabel+'</td>';
+    // Status badge
+    var sit=it.DispTotal<=0
+      ?'<span class="bdg bdg-d">ZERADO</span>'
+      :it.DispTotal<it.EstoqueSeguranca
+        ?'<span class="bdg bdg-w">ABAIXO SEG</span>'
+        :'<span class="bdg bdg-s">OK</span>';
+
+    // Ruptura
+    var ruptLabel=it.DiasAteRuptura!==null
+      ?'<span class="rupt-chip '+(it.DiasAteRuptura<=3?'c':it.DiasAteRuptura<=7?'c':'w')+'">⏰ '+it.DiasAteRuptura+'d · '+fmtDate(it.DataRuptura)+'</span>'
+      :'<span class="rupt-chip s">OK</span>';
+
+    // Cobertura bar
+    var cobDias=it.CoberturasDias>=999?999:it.CoberturasDias;
+    var cobPct=Math.min(cobDias/30*100,100);
+    var cobCor=cobDias<=3?'var(--red)':cobDias<=7?'var(--yellow-mid)':cobDias<=15?'var(--orange)':'var(--green)';
+    var cobStr=cobDias>=999?'∞':cobDias.toFixed(1)+'d';
+    var cobHtml='<div class="cob-bar-wrap"><div class="cob-bar"><div class="cob-bar-fill" style="width:'+cobPct+'%;background:'+cobCor+'"></div></div><div class="cov-val" style="color:'+cobCor+'">'+cobStr+'</div></div>';
+
+    // Giro mensal = (DC mensal / estoque) — quantas vezes o estoque gira por mês
+    var giroMes=it.DispTotal>0&&it.DemandaDiaria>0?(it.DemandaDiaria*22/it.DispTotal).toFixed(2):'--';
+    var giroCls=giroMes==='--'?'zero':parseFloat(giroMes)>=1.5?'alto':parseFloat(giroMes)>=0.8?'med':'baixo';
+    var giroHtml='<span class="giro-chip '+giroCls+'">'+(giroMes==='--'?'—':giroMes+'x')+'</span>';
+
+    // DC (DP) — comparativo com cobertura
+    var dpHtml='';
+    if(it.PedidoComercial>0){
+      var dpRisco=it.CoberturasDias<22&&it.PedidoComercial>0;
+      dpHtml='<div class="dp-compare"><div class="dp-compare-val '+(dpRisco?'num-r':'')+'" title="Pedido DC do Perfil">'+fN(it.PedidoComercial)+'sc</div><div class="dp-compare-sub">'+(it.DemandaDiaria>0?it.DemandaDiaria.toFixed(1)+'sc/d':'')+'</div></div>';
+    } else {
+      dpHtml='<span style="color:var(--text4);font-size:10px">—</span>';
+    }
+
+    // OFA
+    var ofaHtml='<span class="nr '+(it.OFAAtrasada>0?'num-o':'')+'">'
+      +fN(Math.round(it.OFAHorizonte))
+      +(it.OFAAtrasada>0?' <span title="OFA Atrasada" style="color:var(--orange)">⏰</span>':'')
+      +'</span>';
+
+    var tr=document.createElement('tr');
+    tr.className=it.RowCls;
+    tr.onclick=function(){openDetail(it);};
+    tr.innerHTML=
+      '<td><code style="font-size:10px">'+it.Codigo+'</code></td>'
+      +'<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+it.Produto+'">'+it.Produto+'</td>'
+      +'<td class="nr">'+fN(it.Almox3)+'</td>'
+      +'<td class="nr">'+fN(it.Almox30)+'</td>'
+      +'<td class="nr"><strong style="color:var(--accent)">'+fN(it.DispTotal)+'</strong></td>'
+      +'<td class="nr" style="color:var(--text3)">'+fN(it.EstoqueSeguranca)+'</td>'
+      +'<td class="nr">'+dpHtml+'</td>'
+      +'<td>'+cobHtml+'</td>'
+      +'<td class="nr">'+giroHtml+'</td>'
+      +'<td>'+ofaHtml+'</td>'
+      +'<td class="nr '+(it.NecessidadeProd>0?'num-r':'num-g')+'">'+fN(Math.round(it.NecessidadeProd))+'</td>'
+      +'<td>'+ruptLabel+'</td>'
+      +'<td>'+sit+'</td>';
     b.appendChild(tr);
   });
-  if(!its.length) b.innerHTML='<tr><td colspan="11" class="empty">Nenhum item</td></tr>';
+  if(!its.length) b.innerHTML='<tr><td colspan="13" class="empty">Nenhum item com os filtros selecionados.</td></tr>';
+
+  // Distribuição por cobertura
+  var distEl=el('est-dist-cob');
+  if(distEl){
+    var faixas=[
+      {label:'Zerado (0d)',min:-1,max:0,cor:'var(--red)'},
+      {label:'1–3 dias',min:0,max:3,cor:'var(--red)'},
+      {label:'4–7 dias',min:3,max:7,cor:'var(--orange)'},
+      {label:'8–15 dias',min:7,max:15,cor:'var(--yellow-mid)'},
+      {label:'16–30 dias',min:15,max:30,cor:'var(--green)'},
+      {label:'> 30 dias',min:30,max:99999,cor:'var(--accent)'},
+    ];
+    var maxQ=1;
+    var counts=faixas.map(f=>{
+      var c=G.itens.filter(it=>{
+        if(f.min===-1) return it.DispTotal<=0;
+        return it.CoberturasDias>f.min&&it.CoberturasDias<=f.max&&it.DispTotal>0;
+      }).length;
+      if(c>maxQ) maxQ=c;
+      return c;
+    });
+    distEl.innerHTML=faixas.map((f,i)=>{
+      var pct=maxQ>0?Math.round(counts[i]/maxQ*100):0;
+      return '<div class="dist-bar-row">'
+        +'<div class="dist-bar-label">'+f.label+'</div>'
+        +'<div class="dist-bar-outer"><div class="dist-bar-inner" style="width:'+pct+'%;background:'+f.cor+'">'+( pct>15?counts[i]:'')+'</div></div>'
+        +'<div class="dist-bar-count" style="color:'+f.cor+'">'+counts[i]+'</div>'
+        +'</div>';
+    }).join('');
+  }
+
+  // Distribuição por linha
+  var distLEl=el('est-dist-linha');
+  if(distLEl){
+    var linhasData=LINHAS_KEYS.map(lk=>{
+      var itensLinha=G.itens.filter(it=>it.LinhasKeys.includes(lk));
+      var emRiscoL=itensLinha.filter(it=>it.RiscoRuptura==='CRITICO'||it.RiscoRuptura==='URGENTE').length;
+      return{nome:LINHAS_NOMES[lk]||lk,total:itensLinha.length,risco:emRiscoL};
+    }).filter(x=>x.total>0);
+    var maxL=Math.max(...linhasData.map(x=>x.total),1);
+    distLEl.innerHTML=linhasData.map(l=>{
+      var pct=Math.round(l.total/maxL*100);
+      var pctR=l.total>0?Math.round(l.risco/l.total*100):0;
+      var cor=pctR>30?'var(--red)':pctR>10?'var(--orange)':'var(--green)';
+      return '<div class="dist-bar-row">'
+        +'<div class="dist-bar-label" style="font-size:9px">'+l.nome+'</div>'
+        +'<div class="dist-bar-outer"><div class="dist-bar-inner" style="width:'+pct+'%;background:'+cor+'">'+( pct>15?l.total:'')+'</div></div>'
+        +'<div class="dist-bar-count" style="color:var(--text2)">'+l.total+' <span style="font-size:9px;color:'+cor+'">'+( l.risco>0?'⚠'+l.risco:'')+'</span></div>'
+        +'</div>';
+    }).join('')||'<div style="color:var(--text4);font-size:11px">Nenhuma linha mapeada</div>';
+  }
+
+  // Top riscos (DC × Estoque)
+  var topEl=el('est-top-risk');
+  if(topEl){
+    var topRisk=G.itens
+      .filter(it=>it.PedidoComercial>0)
+      .sort((a,b)=>{
+        var ra={'CRITICO':4,'URGENTE':3,'MODERADO':2,'BAIXO':1,'OK':0};
+        return (ra[b.RiscoRuptura]||0)-(ra[a.RiscoRuptura]||0)||(a.CoberturasDias-b.CoberturasDias);
+      }).slice(0,10);
+
+    if(!topRisk.length){topEl.innerHTML='<div class="empty">✅ Sem itens com DC em risco</div>';return;}
+    topEl.innerHTML=topRisk.map((it,i)=>{
+      var cobDp=it.DemandaDiaria>0?it.CoberturasDias:0;
+      var cobPctBar=Math.min(cobDp/30*100,100);
+      var estPctBar=it.EstoqueSeguranca>0?Math.min(it.DispTotal/it.EstoqueSeguranca*100,200):0;
+      var cobCor=cobDp<=3?'var(--red)':cobDp<=7?'var(--orange)':cobDp<=15?'var(--yellow-mid)':'var(--green)';
+      return '<div class="risk-item" onclick="openDetail(G.itens.find(x=>x.Codigo===\''+it.Codigo+'\'))">'
+        +'<div class="risk-rank">#'+(i+1)+'</div>'
+        +'<div class="risk-info">'
+          +'<div style="display:flex;align-items:center;gap:6px"><div class="risk-code">'+it.Codigo+'</div>'+bdgRisco(it.RiscoRuptura)+'</div>'
+          +'<div class="risk-name">'+it.Produto+'</div>'
+          +'<div class="risk-detail">DC: <strong>'+fN(it.PedidoComercial)+'sc</strong> · Cob: <strong style="color:'+cobCor+'">'+(cobDp>=999?'∞':cobDp.toFixed(1)+'d')+'</strong> · '+it.LinhaRec+'</div>'
+        +'</div>'
+        +'<div class="risk-meters">'
+          +'<div class="risk-meter-row"><div class="risk-meter-label">Cobertura</div><div class="risk-meter-bar"><div class="risk-meter-fill" style="width:'+cobPctBar+'%;background:'+cobCor+'"></div></div></div>'
+          +'<div class="risk-meter-row"><div class="risk-meter-label">vs Seg.</div><div class="risk-meter-bar"><div class="risk-meter-fill" style="width:'+Math.min(estPctBar,100)+'%;background:'+(estPctBar<100?'var(--red)':'var(--green)')+'"></div></div></div>'
+        +'</div>'
+        +(it.DiasAteRuptura!==null?'<span class="rupt-chip '+(it.DiasAteRuptura<=7?'c':'w')+'" style="flex-shrink:0">⏰ '+it.DiasAteRuptura+'d</span>':'')
+        +'</div>';
+    }).join('');
+  }
+}
+
+function expCSVEstoque(){
+  var its=G.itens.sort((a,b)=>b.Prioridade-a.Prioridade);
+  var hdr=['Codigo','Produto','Almox3','Almox30','DispTotal','EstoqueSeguranca','PedidoComercial','DemandaDiaria','CoberturasDias','GiroMensal','OFAHorizonte','OFAFora','OFAAtrasada','NecessidadeProd','RiscoRuptura','DiasAteRuptura','DataRuptura','TipoRuptura','LinhaProducao','StatusCap','Prioridade'];
+  var rows=[hdr.join(',')];
+  its.forEach(it=>{
+    var giro=it.DispTotal>0&&it.DemandaDiaria>0?(it.DemandaDiaria*22/it.DispTotal).toFixed(2):'0';
+    rows.push([csvEsc(it.Codigo),csvEsc(it.Produto),csvEsc(it.Almox3),csvEsc(it.Almox30),csvEsc(it.DispTotal),csvEsc(it.EstoqueSeguranca),csvEsc(it.PedidoComercial),csvEsc(it.DemandaDiaria.toFixed(2)),csvEsc(it.CoberturasDias>=999?'INF':it.CoberturasDias.toFixed(1)),csvEsc(giro),csvEsc(Math.round(it.OFAHorizonte)),csvEsc(Math.round(it.OFAFora)),csvEsc(Math.round(it.OFAAtrasada)),csvEsc(Math.round(it.NecessidadeProd)),csvEsc(it.RiscoRuptura),csvEsc(it.DiasAteRuptura||''),csvEsc(fmtDate(it.DataRuptura)),csvEsc(it.TipoRuptura||'OK'),csvEsc(it.LinhaProducao),csvEsc(it.StatusCap),csvEsc(it.Prioridade)].join(','));
+  });
+  dlCSV('estoque_analise_pcp.csv',rows.join('\n'));
 }
 
 /* ==============================================================
