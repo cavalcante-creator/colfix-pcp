@@ -491,26 +491,40 @@ window.onload = function() {
 };
 
 function initMesFiltro() {
-  var hj = new Date();
-  G.mesFiltro = hj.getFullYear() + '-' + String(hj.getMonth() + 1).padStart(2, '0');
-  popularSelectMes();
+  // Inicialmente vazio, será populado após o load dos dados
+  G.mesFiltro = null;
 }
 
 function popularSelectMes() {
   var sel = el('prev-mes-filtro');
   if(!sel) return;
+  
+  var comps = new Set();
+  var buscarComp = function(r) {
+    var c = s(r['Competência'] || r['COMPETENCIA'] || r['Competencia'] || '');
+    if(c && /^\d{4}-\d{2}$/.test(c)) comps.add(c);
+  };
+  
+  if(G.previsao) G.previsao.forEach(buscarComp);
+  if(G.extrato) G.extrato.forEach(buscarComp);
+  if(G.estoqueInicialAba) G.estoqueInicialAba.forEach(buscarComp);
+  
+  var lista = Array.from(comps).sort().reverse();
+  if(lista.length === 0) return;
+
   sel.innerHTML = '';
-  // Gerar opções para 2025 e 2026
-  [2025, 2026].forEach(y => {
-    MESES_NOMES.forEach((m, i) => {
-      var val = y + '-' + String(i + 1).padStart(2, '0');
-      var op = document.createElement('option');
-      op.value = val;
-      op.textContent = m + '/' + y;
-      if(val === G.mesFiltro) op.selected = true;
-      sel.appendChild(op);
-    });
+  lista.forEach(val => {
+    var op = document.createElement('option');
+    op.value = val;
+    op.textContent = val;
+    if(val === G.mesFiltro) op.selected = true;
+    sel.appendChild(op);
   });
+
+  if(!G.mesFiltro || !comps.has(G.mesFiltro)) {
+    G.mesFiltro = lista[0];
+    sel.value = G.mesFiltro;
+  }
 }
 
 function mudarMesFiltro() {
@@ -575,11 +589,9 @@ function processar(dados){
   var HOJE=hoje0();
   var hzDate=addDias(HOJE,HORIZONTE_OFA);
 
-  // Filtro de Mês/Ano Global
-  var fY = parseInt(G.mesFiltro.split('-')[0]);
-  var fM = parseInt(G.mesFiltro.split('-')[1]);
-  var mesAnoRef = (MESES_NOMES[fM-1] + '/' + fY).toLowerCase();
-  var mmPadded = String(fM).padStart(2, '0') + '/' + fY;
+  // Filtro de Competência Global
+  popularSelectMes();
+  var compSel = G.mesFiltro;
 
   var segMap={};
   G.parametros.forEach(function(r){var c=s(r['Cod. Item']||r['Codigo']||r['_col0']||'');if(c) segMap[c]=n(r['Estq. Seg']||r['ESTOQUE SEGURANÇA']||r['_col6']||0);});
@@ -627,48 +639,49 @@ function processar(dados){
   var prodMap={};
   G.saldo.forEach(function(r){var c=s(r['Código']||r['Codigo']||r['_col0']||'');if(c) prodMap[c]=s(r['Descrição']||r['Descricao']||r['_col1']||'');});
 
-  // FILTRAGEM MENSAL EPP/NFS
+  // FILTRAGEM POR COMPETÊNCIA EPP/NFS
   G.epp=[];G.nfs=[];var eppMap={},nfsMap={};
   G.extrato.forEach(function(r){
     var sigla=s(r['Sigla']||r['_col3']||'').toUpperCase();if(sigla!=='EPP'&&sigla!=='NFS') return;
-    var dt = parseDate(s(r['Data']||r['_col1']||''));
-    if(!dt) return;
-    if(dt.getFullYear() === fY && (dt.getMonth()+1) === fM){
+    var comp = s(r['Competência'] || r['COMPETENCIA'] || r['Competencia'] || '');
+    if(comp === compSel){
       var qtd=n(r['Qtde']||r['QTDE']||r['_col5']||0);var cod=s(r['Cod. Item']||r['CODIGO']||r['_col12']||'');
       if(!cod||qtd<=0) return;
-      var obj={Data:isoDate(dt),Codigo:cod,Produto:prodMap[cod]||'',Quantidade:qtd};
+      var dt = parseDate(s(r['Data']||r['_col1']||''));
+      var obj={Data:dt?isoDate(dt):'',Codigo:cod,Produto:prodMap[cod]||'',Quantidade:qtd};
       if(sigla==='EPP'){G.epp.push(obj);eppMap[cod]=(eppMap[cod]||0)+qtd;}
       else{G.nfs.push(obj);nfsMap[cod]=(nfsMap[cod]||0)+qtd;}
     }
   });
 
-  // FILTRAGEM MENSAL ESTOQUE INICIAL
+  // FILTRAGEM POR COMPETÊNCIA ESTOQUE INICIAL
   var estIniMap={};
   G.estoqueInicialAba.forEach(function(r){
     var c=s(r['Código']||r['Codigo']||r['_col0']||'');
-    var mesAba = s(r['Mês']||r['MES']||r['_col1']||'').toLowerCase();
-    if(c && (mesAba === mesAnoRef || mesAba === mmPadded)) {
+    var comp = s(r['Competência'] || r['COMPETENCIA'] || r['Competencia'] || '');
+    if(c && comp === compSel) {
       estIniMap[c]=n(r['Quantidade Inicial']||r['QUANTIDADE INICIAL']||r['_col2']||0);
     }
   });
 
-  // FILTRAGEM MENSAL PREVISÃO - BASE DA TABELA
+  // FILTRAGEM POR COMPETÊNCIA PREVISÃO - BASE DA TABELA
   G.prevItens=[];
   G.previsao.forEach(function(r){
     var cod=s(r['Item']||r['ITEM']||r['_col0']||'');if(!cod) return;
-    var mesAba = s(r['Mês']||r['MES']||r['Mes']||r['_col3']||'').toLowerCase();
+    var comp = s(r['Competência'] || r['COMPETENCIA'] || r['Competencia'] || '');
     
-    // FILTRO MENSAL
-    if(mesAba !== mesAnoRef && mesAba !== mmPadded) return;
+    if(comp !== compSel) return;
 
     var prev=n(r['Previsto']||r['PREVISTO']||r['_col2']||0);
     var estIni=estIniMap[cod]||0;
     var prodExec=eppMap[cod]||0;
     var nfs=nfsMap[cod]||0;
+    
+    // NOVOS CÁLCULOS CONFORME REGRAS
     var necProd=Math.max(prev-estIni,0);
     var prodRest=Math.max(necProd-prodExec,0);
-    var real=prodExec+nfs;
     var saldoAtual=estIni+prodExec-nfs;
+    var real=prodExec+nfs; // Mantido para aderência
     
     var statusProd='NÃO PRODUZIR';
     if(estIni<prev){
@@ -724,8 +737,9 @@ function processar(dados){
   
   var ts=new Date().toLocaleString('pt-BR');
   txt('hdr-ts',ts);txt('sf-ts',ts);txt('dash-ts',ts);txt('dash-hz',HORIZONTE_PROJ);
-  txt('prev-mes-label', MESES_NOMES[fM-1] + '/' + fY);
+  txt('prev-mes-label', compSel);
   renderAll();
+  executarTestes();
 }
 
 function calcProjecao(cod,dispTotal,estSeg,demDiaria,ofaDiasMapCod,horizonte){
@@ -815,11 +829,11 @@ function rPrevisao(){
 
 function openDetailPrev(it){
   el('dp-title').textContent=it.Codigo+' · '+it.Produto;
-  el('dp-sub').textContent='Análise Mensal: ' + G.mesFiltro;
+  el('dp-sub').textContent='Competência: ' + G.mesFiltro;
   var pct=it.NecProd>0?Math.round(it.ProdExec/it.NecProd*100):100;
   el('dp-body').innerHTML='<div class="dp-section"><div class="dp-sec-title">Decisão de Produção ('+G.mesFiltro+')</div>'
     +'<div class="dp-grid">'
-      +'<div class="dp-stat"><div class="dp-stat-l">Previsão Mês</div><div class="dp-stat-v blue">'+fN(it.Previsto)+'</div></div>'
+      +'<div class="dp-stat"><div class="dp-stat-l">Previsão</div><div class="dp-stat-v blue">'+fN(it.Previsto)+'</div></div>'
       +'<div class="dp-stat"><div class="dp-stat-l">Estoque Inicial</div><div class="dp-stat-v purple">'+fN(it.EstIni)+'</div></div>'
       +'<div class="dp-stat"><div class="dp-stat-l">Nec. Produção</div><div class="dp-stat-v o">'+fN(it.NecProd)+'</div></div>'
       +'<div class="dp-stat"><div class="dp-stat-l">Produção (EPP)</div><div class="dp-stat-v g">'+fN(it.ProdExec)+'</div></div>'
@@ -977,6 +991,36 @@ function expCSVPrev(){alert('Exportando...');}
 function expCSVEstoque(){alert('Exportando...');}
 function expCSVOrdens(){alert('Exportando...');}
 function expCSVProg(){alert('Exportando...');}
+
+function executarTestes() {
+  console.log('--- INICIANDO TESTES AUTOMATIZADOS ---');
+  var erros = [];
+  var comp = G.mesFiltro;
+  
+  // 1. Competências carregadas
+  var sel = el('prev-mes-filtro');
+  if(!sel || sel.options.length === 0) erros.push({f:'popularSelectMes', m:'Nenhuma competência carregada no seletor'});
+  
+  // 2. Quantidade de registros
+  if(G.previsao.length === 0) erros.push({f:'processar', m:'Base de Previsão vazia'});
+  if(G.extrato.length === 0) erros.push({f:'processar', m:'Base de Extrato (Produção/NFS) vazia'});
+  
+  // 3. Filtro aplicado
+  var itensFiltrados = G.prevItens.length;
+  console.log('Itens na Previsão para ' + comp + ': ' + itensFiltrados);
+  
+  // 4. Validação de consistência
+  if(itensFiltrados === 0 && G.previsao.some(r => s(r['Competência']||r['COMPETENCIA']) === comp)) {
+    erros.push({f:'processar', m:'Existem registros na base para a competência, mas a tabela ficou vazia', c:'Verificar mapeamento de colunas'});
+  }
+
+  if(erros.length > 0) {
+    console.error('RELATÓRIO DE INCONSISTÊNCIAS:');
+    erros.forEach(e => console.table(e));
+  } else {
+    console.log('✅ Todos os testes aprovados!');
+  }
+}
 </script>
 </body>
 </html>
