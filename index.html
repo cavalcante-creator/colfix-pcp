@@ -223,7 +223,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
         <div class="nav-item" onclick="goPage(this)" data-page="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>Perfil / Extrato</div>
       </nav>
       <div class="sb-footer">
-        <div>v11.0.4 · Preditivo</div>
+        <div>v11.0.5 · Preditivo</div>
         <div id="sf-ts">--/-- --:--</div>
       </div>
     </aside>
@@ -306,28 +306,32 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
       <!-- ======= PREVISÃO ======= -->
       <div class="page" id="page-previsao">
         <div class="ph">
-          <div><div class="ph-title">Previsão vs Realizado</div><div class="ph-sub">Ferramenta de Decisão de Produção · Realizado = EPP + NFS</div></div>
+          <div><div class="ph-title">Previsão de Venda Mensal</div><div class="ph-sub">Análise baseada no mês selecionado · Realizado = EPP + NFS do período</div></div>
           <div class="ph-actions">
+            <div style="display:flex;flex-direction:column;align-items:flex-end">
+              <div style="font-size:9px;color:var(--text3);font-weight:700;margin-bottom:2px">MÊS DE ANÁLISE</div>
+              <select class="ssel" id="prev-mes-filtro" onchange="mudarMesFiltro()" style="font-weight:700;border-color:var(--accent)"></select>
+            </div>
             <button class="btn" onclick="expCSVPrev()">📥 CSV</button>
           </div>
         </div>
         <!-- KPIs de Produção -->
         <div class="kpi-row">
-          <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div><div class="kpi-val" id="prev-kpi-prev">-</div><div class="kpi-label">Previsto</div></div>
-          <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="kpi-val" id="prev-kpi-real">-</div><div class="kpi-label">Realizado</div></div>
+          <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div><div class="kpi-val" id="prev-kpi-prev">-</div><div class="kpi-label">Previsão Mês</div></div>
+          <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="kpi-val" id="prev-kpi-real">-</div><div class="kpi-label">Vendas Mês (NFS)</div></div>
           <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="12" y1="20" x2="12" y2="4"/></svg></div><div class="kpi-val" id="prev-kpi-ader">-%</div><div class="kpi-label">Aderência</div></div>
           <div class="kpi red"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/></svg></div><div class="kpi-val" id="prev-kpi-abaixo">-</div><div class="kpi-label">Abaixo Prev.</div></div>
         </div>
         <div class="kpi-row">
           <div class="kpi orange"><div class="kpi-icon">🏭</div><div class="kpi-val" id="prev-kpi-nec">-</div><div class="kpi-label">Itens p/ Produzir</div></div>
-          <div class="kpi green"><div class="kpi-icon">✅</div><div class="kpi-val" id="prev-kpi-exec">-</div><div class="kpi-label">Produção Realizada</div></div>
+          <div class="kpi green"><div class="kpi-icon">✅</div><div class="kpi-val" id="prev-kpi-exec">-</div><div class="kpi-label">Produção Mês (EPP)</div></div>
           <div class="kpi red"><div class="kpi-icon">⏳</div><div class="kpi-val" id="prev-kpi-rest">-</div><div class="kpi-label">Produção Restante</div></div>
-          <div class="kpi purple"><div class="kpi-icon">📦</div><div class="kpi-val" id="prev-kpi-est">-</div><div class="kpi-label">Estoque Inicial Total</div></div>
+          <div class="kpi purple"><div class="kpi-icon">📦</div><div class="kpi-val" id="prev-kpi-est">-</div><div class="kpi-label">Est. Inicial Mês</div></div>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <div class="card-title">Previsão x Realizado por Item</div>
+            <div class="card-title">Análise de Decisão PCP — <span id="prev-mes-label">Mês Selecionado</span></div>
             <div class="card-actions">
               <span class="pill" id="prev-cnt">0</span>
               <select class="ssel" id="prev-st" onchange="rPrevisao()">
@@ -354,13 +358,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
                 <tr>
                   <th>Codigo</th>
                   <th>Produto</th>
-                  <th class="nr">Previsto</th>
-                  <th class="nr">Est. Inicial</th>
-                  <th class="nr">Nec. Prod.</th>
-                  <th class="nr">Executada</th>
-                  <th class="nr">Restante</th>
+                  <th class="nr">Previsão Mês</th>
+                  <th class="nr">Est. Inicial Mês</th>
+                  <th class="nr">Nec. Produção</th>
+                  <th class="nr">Produção Mês</th>
+                  <th class="nr">Prod. Restante</th>
                   <th class="nr">Saldo Atual</th>
-                  <th>Status</th>
+                  <th>Status Decisão</th>
                 </tr>
               </thead>
               <tbody id="prev-body"></tbody>
@@ -470,18 +474,54 @@ var ABAS=['SALDO','PARAMETROS','PERFIL','ORDENS','EXTRATO','PREVISAO','LINHAS ',
 var LINHAS_NOMES={'L1':'Linha 1','L2':'Linha 2','L3':'Linha 3','AREA LIQUIDA':'Área Líquida','MQ 1':'Máquina 1','MAQ 2':'Máquina 2','REJUNTE ACRILICO':'Rejunte Acrílico'};
 var LINHAS_KEYS=['L1','L2','L3','AREA LIQUIDA','MQ 1','MAQ 2','REJUNTE ACRILICO'];
 var DIAS_PT=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+var MESES_NOMES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 var HORIZONTE_OFA=14;  
 var HORIZONTE_PROJ=21; 
 var G={
   saldo:[],parametros:[],perfil:[],ordens:[],extrato:[],previsao:[],linhasAba:[],capacidadeAba:[],estoqueInicialAba:[],
   itens:[],epp:[],nfs:[],prodDiaria:[],prevItens:[],linhasInfo:[],
   schedule:null,semanaOffset:0,linhaForecast:null,charts:{},
-  rawData:null 
+  rawData:null,
+  mesFiltro: null // "YYYY-MM"
 };
-window.onload=initLoad;
+
+window.onload = function() {
+  initMesFiltro();
+  initLoad();
+};
+
+function initMesFiltro() {
+  var hj = new Date();
+  G.mesFiltro = hj.getFullYear() + '-' + String(hj.getMonth() + 1).padStart(2, '0');
+  popularSelectMes();
+}
+
+function popularSelectMes() {
+  var sel = el('prev-mes-filtro');
+  if(!sel) return;
+  sel.innerHTML = '';
+  var hj = new Date();
+  var currYear = hj.getFullYear();
+  // Gerar opções para 2025 e 2026
+  [2025, 2026].forEach(y => {
+    MESES_NOMES.forEach((m, i) => {
+      var val = y + '-' + String(i + 1).padStart(2, '0');
+      var op = document.createElement('option');
+      op.value = val;
+      op.textContent = m + '/' + y;
+      if(val === G.mesFiltro) op.selected = true;
+      sel.appendChild(op);
+    });
+  });
+}
+
+function mudarMesFiltro() {
+  G.mesFiltro = v('prev-mes-filtro');
+  if(G.rawData) processar(G.rawData);
+}
 
 /* ==============================================================
-   FETCH (LÓGICA ORIGINAL RESTAURADA)
+   FETCH
    ============================================================== */
 function initLoad(){
   el('conn-status').textContent='ATUALIZANDO...';
@@ -529,6 +569,10 @@ function processar(dados){
 
   var HOJE=hoje0();
   var hzDate=addDias(HOJE,HORIZONTE_OFA);
+
+  // Filtro de Mês/Ano Global
+  var fY = parseInt(G.mesFiltro.split('-')[0]);
+  var fM = parseInt(G.mesFiltro.split('-')[1]);
 
   var segMap={};
   G.parametros.forEach(function(r){var c=s(r['Cod. Item']||r['Codigo']||r['_col0']||'');if(c) segMap[c]=n(r['Estq. Seg']||r['ESTOQUE SEGURANÇA']||r['_col6']||0);});
@@ -579,30 +623,58 @@ function processar(dados){
   G.epp=[];G.nfs=[];var eppMap={},nfsMap={};
   G.extrato.forEach(function(r){
     var sigla=s(r['Sigla']||r['_col3']||'').toUpperCase();if(sigla!=='EPP'&&sigla!=='NFS') return;
-    var dv=s(r['Data']||r['_col1']||'');if(dv.includes('T')) dv=dv.substring(0,10);
+    var dvStr=s(r['Data']||r['_col1']||'');if(dvStr.includes('T')) dvStr=dvStr.substring(0,10);
+    var dt = parseDate(dvStr);
+    if(!dt) return;
+    
+    // FILTRO MENSAL EPP/NFS
+    if(dt.getFullYear() !== fY || (dt.getMonth()+1) !== fM) return;
+
     var qtd=n(r['Qtde']||r['QTDE']||r['_col5']||0);var cod=s(r['Cod. Item']||r['CODIGO']||r['_col12']||'');
     if(!cod||qtd<=0) return;
-    var obj={Data:dv,Codigo:cod,Produto:prodMap[cod]||'',Quantidade:qtd};
+    var obj={Data:dvStr,Codigo:cod,Produto:prodMap[cod]||'',Quantidade:qtd};
     if(sigla==='EPP'){G.epp.push(obj);eppMap[cod]=(eppMap[cod]||0)+qtd;}
     else{G.nfs.push(obj);nfsMap[cod]=(nfsMap[cod]||0)+qtd;}
   });
   var dpMap={};G.epp.forEach(function(r){if(r.Data) dpMap[r.Data]=(dpMap[r.Data]||0)+r.Quantidade;});
   G.prodDiaria=Object.keys(dpMap).map(function(d){return{data:d,qty:dpMap[d]};}).sort((a,b)=>a.data.localeCompare(b.data));
 
-  // Mapa de Estoque Inicial
+  // Mapa de Estoque Inicial - FILTRADO POR MÊS
   var estIniMap={};
-  G.estoqueInicialAba.forEach(function(r){var c=s(r['Código']||r['Codigo']||r['_col0']||'');if(c) estIniMap[c]=n(r['Quantidade Inicial']||r['QUANTIDADE INICIAL']||r['_col2']||0);});
+  G.estoqueInicialAba.forEach(function(r){
+    var c=s(r['Código']||r['Codigo']||r['_col0']||'');
+    var mesAba = s(r['Mês']||r['MES']||r['_col1']||''); // Formato esperado: "MM/YYYY" ou "Janeiro/2026"
+    if(!c) return;
+    
+    var mesAnoRef = (MESES_NOMES[fM-1] + '/' + fY).toLowerCase();
+    var mesAbaL = mesAba.toLowerCase();
+    
+    // Tenta bater "Janeiro/2026" ou "01/2026"
+    var mmPadded = String(fM).padStart(2, '0') + '/' + fY;
+    
+    if(mesAbaL === mesAnoRef || mesAbaL === mmPadded) {
+      estIniMap[c]=n(r['Quantidade Inicial']||r['QUANTIDADE INICIAL']||r['_col2']||0);
+    }
+  });
 
-  // Previsão de Venda com Nova Lógica
+  // Previsão de Venda com Nova Lógica - FILTRADA POR MÊS
   G.prevItens=[];
   G.previsao.forEach(function(r){
     var cod=s(r['Item']||r['_col0']||'');if(!cod) return;
-    var prev=n(r['Previsto']||r['_col2']||0),real=(eppMap[cod]||0)+(nfsMap[cod]||0);
+    
+    // FILTRO MENSAL PREVISÃO
+    var mesAba = s(r['Mês']||r['MES']||r['_col3']||''); // Coluna de Mês na aba Previsão
+    var mesAnoRef = (MESES_NOMES[fM-1] + '/' + fY).toLowerCase();
+    var mmPadded = String(fM).padStart(2, '0') + '/' + fY;
+    if(mesAba.toLowerCase() !== mesAnoRef && mesAba !== mmPadded) return;
+
+    var prev=n(r['Previsto']||r['_col2']||0);
     var estIni=estIniMap[cod]||0;
     var necProd=Math.max(prev-estIni,0);
     var prodExec=eppMap[cod]||0;
     var prodRest=Math.max(necProd-prodExec,0);
     var nfs=nfsMap[cod]||0;
+    var real=prodExec+nfs;
     var saldoAtual=estIni+prodExec-nfs;
     
     var statusProd='NÃO PRODUZIR';
@@ -616,7 +688,7 @@ function processar(dados){
     G.prevItens.push({Codigo:cod,Produto:prodMap[cod]||'',UM:s(r['UM']||r['_col1']||''),Previsto:prev,Realizado:real,Diferenca:real-prev,Aderencia:ader,Status:ader>=100?'ACIMA':ader>=80?'DENTRO':'ABAIXO',RowCls:ader>=100?'ro':ader>=80?'rw':'rc',EstIni:estIni,NecProd:necProd,ProdExec:prodExec,ProdRest:prodRest,SaldoAtual:saldoAtual,StatusProd:statusProd,NFS:nfs});
   });
 
-  // Itens PCP (Lógica Original)
+  // Itens PCP (Lógica Original Mantida para Dashboard/Estoque)
   G.itens=G.saldo.map(function(r){
     var cod=s(r['Código']||r['Codigo']||r['_col0']||''),prod=s(r['Descrição']||r['Descricao']||r['_col1']||'');if(!cod) return null;
     var a3=n(r['Almox 3']||r['_col2']||0),a30=n(r['Almox 30']||r['_col3']||0),estSeg=segMap[cod]||0,pedCom=dcMap[cod]||0;
@@ -646,7 +718,6 @@ function processar(dados){
   });
   G.linhasInfo=LINHAS_KEYS.map(lk=>{var p=lOFA[lk]||0,c=lCap[lk]||0,a=lAtras[lk]||0,u=c>0?Math.min(Math.round(p/c*100),999):(p>0?999:0);return{id:lk,nome:LINHAS_NOMES[lk]||lk,capDia:c,prog:p,util:u,livre:Math.max(c-p,0),atrasada:a,cor:u<=70?'verde':u<=90?'amarelo':'vermelho',itensAlocados:G.itens.filter(it=>it.LinhasKeys.includes(lk)&&it.NecessidadeProd>0).length};});
   
-  // Funções de Suporte (Forecast, Schedule)
   G.linhaForecast=calcFuturoLinhas(14,ofaDiasMap);
   G.schedule=gerarAutoSchedule();
   popularSelectLinhas();
@@ -654,6 +725,7 @@ function processar(dados){
   
   var ts=new Date().toLocaleString('pt-BR');
   txt('hdr-ts',ts);txt('sf-ts',ts);txt('dash-ts',ts);txt('dash-hz',HORIZONTE_PROJ);
+  txt('prev-mes-label', MESES_NOMES[fM-1] + '/' + fY);
   renderAll();
 }
 
@@ -729,9 +801,9 @@ function rPrevisao(){
     if(stP&&it.StatusProd!==stP) return false;
     return true;
   });
-  var tP=its.reduce((a,x)=>a+x.Previsto,0),tR=its.reduce((a,x)=>a+x.Realizado,0);
+  var tP=its.reduce((a,x)=>a+x.Previsto,0),tR=its.reduce((a,x)=>a+x.NFS,0); // Vendas Mês = NFS
   var tNec=its.reduce((a,x)=>a+x.NecProd,0),tExec=its.reduce((a,x)=>a+x.ProdExec,0),tRest=its.reduce((a,x)=>a+x.ProdRest,0),tEst=its.reduce((a,x)=>a+x.EstIni,0);
-  txt('prev-kpi-prev',fN(Math.round(tP)));txt('prev-kpi-real',fN(Math.round(tR)));txt('prev-kpi-ader',(tP>0?Math.round(tR/tP*100):0)+'%');txt('prev-kpi-abaixo',its.filter(x=>x.Status==='ABAIXO').length);
+  txt('prev-kpi-prev',fN(Math.round(tP)));txt('prev-kpi-real',fN(Math.round(tR)));txt('prev-kpi-ader',(tP>0?Math.round((tExec+tR)/tP*100):0)+'%');txt('prev-kpi-abaixo',its.filter(x=>x.Status==='ABAIXO').length);
   txt('prev-kpi-nec',its.filter(x=>x.StatusProd!=='NÃO PRODUZIR').length);txt('prev-kpi-exec',fN(Math.round(tExec)));txt('prev-kpi-rest',fN(Math.round(tRest)));txt('prev-kpi-est',fN(Math.round(tEst)));txt('prev-cnt',its.length);
   var b=el('prev-body');b.innerHTML='';
   its.forEach(it=>{
@@ -744,16 +816,16 @@ function rPrevisao(){
 
 function openDetailPrev(it){
   el('dp-title').textContent=it.Codigo+' · '+it.Produto;
-  el('dp-sub').textContent='Status Produção: '+it.StatusProd;
+  el('dp-sub').textContent='Análise Mensal: ' + G.mesFiltro;
   var pct=it.NecProd>0?Math.round(it.ProdExec/it.NecProd*100):100;
-  el('dp-body').innerHTML='<div class="dp-section"><div class="dp-sec-title">Decisão de Produção</div>'
+  el('dp-body').innerHTML='<div class="dp-section"><div class="dp-sec-title">Decisão de Produção ('+G.mesFiltro+')</div>'
     +'<div class="dp-grid">'
-      +'<div class="dp-stat"><div class="dp-stat-l">Previsão</div><div class="dp-stat-v blue">'+fN(it.Previsto)+'</div></div>'
+      +'<div class="dp-stat"><div class="dp-stat-l">Previsão Mês</div><div class="dp-stat-v blue">'+fN(it.Previsto)+'</div></div>'
       +'<div class="dp-stat"><div class="dp-stat-l">Estoque Inicial</div><div class="dp-stat-v purple">'+fN(it.EstIni)+'</div></div>'
       +'<div class="dp-stat"><div class="dp-stat-l">Nec. Produção</div><div class="dp-stat-v o">'+fN(it.NecProd)+'</div></div>'
-      +'<div class="dp-stat"><div class="dp-stat-l">Prod. Executada</div><div class="dp-stat-v g">'+fN(it.ProdExec)+'</div></div>'
+      +'<div class="dp-stat"><div class="dp-stat-l">Produção (EPP)</div><div class="dp-stat-v g">'+fN(it.ProdExec)+'</div></div>'
       +'<div class="dp-stat"><div class="dp-stat-l">Prod. Restante</div><div class="dp-stat-v r">'+fN(it.ProdRest)+'</div></div>'
-      +'<div class="dp-stat"><div class="dp-stat-l">Vendido (NFS)</div><div class="dp-stat-v">'+fN(it.NFS)+'</div></div>'
+      +'<div class="dp-stat"><div class="dp-stat-l">Vendas (NFS)</div><div class="dp-stat-v">'+fN(it.NFS)+'</div></div>'
       +'<div class="dp-stat"><div class="dp-stat-l">Saldo Atual</div><div class="dp-stat-v blue">'+fN(it.SaldoAtual)+'</div></div>'
       +'<div class="dp-stat"><div class="dp-stat-l">% Produzido</div><div class="dp-stat-v">'+pct+'%</div></div>'
     +'</div>'
@@ -890,7 +962,6 @@ function updateKPIs(){
   txt('badge-ruptura',r7);el('badge-ruptura').style.display=r7?'':'none';
   txt('badge-prog',G.schedule?G.schedule.naoProgramados.length:0);
   txt('badge-ofa',G.ordens.length);
-  txt('nb-prev',prevAb);
 }
 function el(id){return document.getElementById(id);}
 function txt(id,v){var e=el(id);if(e) e.textContent=v;}
