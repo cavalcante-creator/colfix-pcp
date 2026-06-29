@@ -223,7 +223,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
         <div class="nav-item" onclick="goPage(this)" data-page="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>Perfil / Extrato</div>
       </nav>
       <div class="sb-footer">
-        <div>v11.0.5 · Preditivo</div>
+        <div>v11.0.6 · Preditivo</div>
         <div id="sf-ts">--/-- --:--</div>
       </div>
     </aside>
@@ -500,8 +500,6 @@ function popularSelectMes() {
   var sel = el('prev-mes-filtro');
   if(!sel) return;
   sel.innerHTML = '';
-  var hj = new Date();
-  var currYear = hj.getFullYear();
   // Gerar opções para 2025 e 2026
   [2025, 2026].forEach(y => {
     MESES_NOMES.forEach((m, i) => {
@@ -541,8 +539,10 @@ function ehTrue(v){var t=s(v).toLowerCase();return t==='true'||t==='1'||t==='sim
    ============================================================== */
 function parseDate(str){
   str=s(str).trim();if(!str||str==='-'||str.length<8) return null;
-  if(/^\d{4}-\d{2}-\d{2}/.test(str)){var d=new Date(str.substring(0,10)+'T00:00:00');return isNaN(d.getTime())?null:d;}
+  // Suporte a DD/MM/AAAA
   if(/^\d{2}\/\d{2}\/\d{4}/.test(str)){var p=str.split('/');var d=new Date(p[2]+'-'+p[1]+'-'+p[0]+'T00:00:00');return isNaN(d.getTime())?null:d;}
+  // Suporte a AAAA-MM-DD
+  if(/^\d{4}-\d{2}-\d{2}/.test(str)){var d=new Date(str.substring(0,10)+'T00:00:00');return isNaN(d.getTime())?null:d;}
   var d=new Date(str);return isNaN(d.getTime())?null:d;
 }
 function difDias(d1,d2){if(!d1||!d2) return null;return Math.round((d2.getTime()-d1.getTime())/86400000);}
@@ -567,12 +567,19 @@ function processar(dados){
   G.capacidadeAba=dados['CAPACIDADE '] ||[];
   G.estoqueInicialAba=dados['ESTOQUE INICIAL'] ||[];
 
+  console.log('--- DIAGNÓSTICO DE CARREGAMENTO ---');
+  console.log('Previsão:', G.previsao.length);
+  console.log('Extrato (EPP/NFS):', G.extrato.length);
+  console.log('Estoque Inicial:', G.estoqueInicialAba.length);
+
   var HOJE=hoje0();
   var hzDate=addDias(HOJE,HORIZONTE_OFA);
 
   // Filtro de Mês/Ano Global
   var fY = parseInt(G.mesFiltro.split('-')[0]);
   var fM = parseInt(G.mesFiltro.split('-')[1]);
+  var mesAnoRef = (MESES_NOMES[fM-1] + '/' + fY).toLowerCase();
+  var mmPadded = String(fM).padStart(2, '0') + '/' + fY;
 
   var segMap={};
   G.parametros.forEach(function(r){var c=s(r['Cod. Item']||r['Codigo']||r['_col0']||'');if(c) segMap[c]=n(r['Estq. Seg']||r['ESTOQUE SEGURANÇA']||r['_col6']||0);});
@@ -620,60 +627,46 @@ function processar(dados){
   var prodMap={};
   G.saldo.forEach(function(r){var c=s(r['Código']||r['Codigo']||r['_col0']||'');if(c) prodMap[c]=s(r['Descrição']||r['Descricao']||r['_col1']||'');});
 
+  // FILTRAGEM MENSAL EPP/NFS
   G.epp=[];G.nfs=[];var eppMap={},nfsMap={};
   G.extrato.forEach(function(r){
     var sigla=s(r['Sigla']||r['_col3']||'').toUpperCase();if(sigla!=='EPP'&&sigla!=='NFS') return;
-    var dvStr=s(r['Data']||r['_col1']||'');if(dvStr.includes('T')) dvStr=dvStr.substring(0,10);
-    var dt = parseDate(dvStr);
+    var dt = parseDate(s(r['Data']||r['_col1']||''));
     if(!dt) return;
-    
-    // FILTRO MENSAL EPP/NFS
-    if(dt.getFullYear() !== fY || (dt.getMonth()+1) !== fM) return;
-
-    var qtd=n(r['Qtde']||r['QTDE']||r['_col5']||0);var cod=s(r['Cod. Item']||r['CODIGO']||r['_col12']||'');
-    if(!cod||qtd<=0) return;
-    var obj={Data:dvStr,Codigo:cod,Produto:prodMap[cod]||'',Quantidade:qtd};
-    if(sigla==='EPP'){G.epp.push(obj);eppMap[cod]=(eppMap[cod]||0)+qtd;}
-    else{G.nfs.push(obj);nfsMap[cod]=(nfsMap[cod]||0)+qtd;}
+    if(dt.getFullYear() === fY && (dt.getMonth()+1) === fM){
+      var qtd=n(r['Qtde']||r['QTDE']||r['_col5']||0);var cod=s(r['Cod. Item']||r['CODIGO']||r['_col12']||'');
+      if(!cod||qtd<=0) return;
+      var obj={Data:isoDate(dt),Codigo:cod,Produto:prodMap[cod]||'',Quantidade:qtd};
+      if(sigla==='EPP'){G.epp.push(obj);eppMap[cod]=(eppMap[cod]||0)+qtd;}
+      else{G.nfs.push(obj);nfsMap[cod]=(nfsMap[cod]||0)+qtd;}
+    }
   });
-  var dpMap={};G.epp.forEach(function(r){if(r.Data) dpMap[r.Data]=(dpMap[r.Data]||0)+r.Quantidade;});
-  G.prodDiaria=Object.keys(dpMap).map(function(d){return{data:d,qty:dpMap[d]};}).sort((a,b)=>a.data.localeCompare(b.data));
 
-  // Mapa de Estoque Inicial - FILTRADO POR MÊS
+  // FILTRAGEM MENSAL ESTOQUE INICIAL
   var estIniMap={};
   G.estoqueInicialAba.forEach(function(r){
     var c=s(r['Código']||r['Codigo']||r['_col0']||'');
-    var mesAba = s(r['Mês']||r['MES']||r['_col1']||''); // Formato esperado: "MM/YYYY" ou "Janeiro/2026"
-    if(!c) return;
-    
-    var mesAnoRef = (MESES_NOMES[fM-1] + '/' + fY).toLowerCase();
-    var mesAbaL = mesAba.toLowerCase();
-    
-    // Tenta bater "Janeiro/2026" ou "01/2026"
-    var mmPadded = String(fM).padStart(2, '0') + '/' + fY;
-    
-    if(mesAbaL === mesAnoRef || mesAbaL === mmPadded) {
+    var mesAba = s(r['Mês']||r['MES']||r['_col1']||'').toLowerCase();
+    if(c && (mesAba === mesAnoRef || mesAba === mmPadded)) {
       estIniMap[c]=n(r['Quantidade Inicial']||r['QUANTIDADE INICIAL']||r['_col2']||0);
     }
   });
 
-  // Previsão de Venda com Nova Lógica - FILTRADA POR MÊS
+  // FILTRAGEM MENSAL PREVISÃO - BASE DA TABELA
   G.prevItens=[];
   G.previsao.forEach(function(r){
-    var cod=s(r['Item']||r['_col0']||'');if(!cod) return;
+    var cod=s(r['Item']||r['ITEM']||r['_col0']||'');if(!cod) return;
+    var mesAba = s(r['Mês']||r['MES']||r['Mes']||r['_col3']||'').toLowerCase();
     
-    // FILTRO MENSAL PREVISÃO
-    var mesAba = s(r['Mês']||r['MES']||r['_col3']||''); // Coluna de Mês na aba Previsão
-    var mesAnoRef = (MESES_NOMES[fM-1] + '/' + fY).toLowerCase();
-    var mmPadded = String(fM).padStart(2, '0') + '/' + fY;
-    if(mesAba.toLowerCase() !== mesAnoRef && mesAba !== mmPadded) return;
+    // FILTRO MENSAL
+    if(mesAba !== mesAnoRef && mesAba !== mmPadded) return;
 
-    var prev=n(r['Previsto']||r['_col2']||0);
+    var prev=n(r['Previsto']||r['PREVISTO']||r['_col2']||0);
     var estIni=estIniMap[cod]||0;
-    var necProd=Math.max(prev-estIni,0);
     var prodExec=eppMap[cod]||0;
-    var prodRest=Math.max(necProd-prodExec,0);
     var nfs=nfsMap[cod]||0;
+    var necProd=Math.max(prev-estIni,0);
+    var prodRest=Math.max(necProd-prodExec,0);
     var real=prodExec+nfs;
     var saldoAtual=estIni+prodExec-nfs;
     
@@ -688,7 +681,13 @@ function processar(dados){
     G.prevItens.push({Codigo:cod,Produto:prodMap[cod]||'',UM:s(r['UM']||r['_col1']||''),Previsto:prev,Realizado:real,Diferenca:real-prev,Aderencia:ader,Status:ader>=100?'ACIMA':ader>=80?'DENTRO':'ABAIXO',RowCls:ader>=100?'ro':ader>=80?'rw':'rc',EstIni:estIni,NecProd:necProd,ProdExec:prodExec,ProdRest:prodRest,SaldoAtual:saldoAtual,StatusProd:statusProd,NFS:nfs});
   });
 
-  // Itens PCP (Lógica Original Mantida para Dashboard/Estoque)
+  console.log('--- DIAGNÓSTICO PÓS-FILTRO ---');
+  console.log('Previsão Filtrada:', G.prevItens.length);
+  console.log('EPP Filtrada:', G.epp.length);
+  console.log('NFS Filtrada:', G.nfs.length);
+  console.log('Estoque Inicial Filtrado:', Object.keys(estIniMap).length);
+
+  // Itens PCP (Dashboard/Estoque)
   G.itens=G.saldo.map(function(r){
     var cod=s(r['Código']||r['Codigo']||r['_col0']||''),prod=s(r['Descrição']||r['Descricao']||r['_col1']||'');if(!cod) return null;
     var a3=n(r['Almox 3']||r['_col2']||0),a30=n(r['Almox 30']||r['_col3']||0),estSeg=segMap[cod]||0,pedCom=dcMap[cod]||0;
@@ -801,7 +800,7 @@ function rPrevisao(){
     if(stP&&it.StatusProd!==stP) return false;
     return true;
   });
-  var tP=its.reduce((a,x)=>a+x.Previsto,0),tR=its.reduce((a,x)=>a+x.NFS,0); // Vendas Mês = NFS
+  var tP=its.reduce((a,x)=>a+x.Previsto,0),tR=its.reduce((a,x)=>a+x.NFS,0);
   var tNec=its.reduce((a,x)=>a+x.NecProd,0),tExec=its.reduce((a,x)=>a+x.ProdExec,0),tRest=its.reduce((a,x)=>a+x.ProdRest,0),tEst=its.reduce((a,x)=>a+x.EstIni,0);
   txt('prev-kpi-prev',fN(Math.round(tP)));txt('prev-kpi-real',fN(Math.round(tR)));txt('prev-kpi-ader',(tP>0?Math.round((tExec+tR)/tP*100):0)+'%');txt('prev-kpi-abaixo',its.filter(x=>x.Status==='ABAIXO').length);
   txt('prev-kpi-nec',its.filter(x=>x.StatusProd!=='NÃO PRODUZIR').length);txt('prev-kpi-exec',fN(Math.round(tExec)));txt('prev-kpi-rest',fN(Math.round(tRest)));txt('prev-kpi-est',fN(Math.round(tEst)));txt('prev-cnt',its.length);
@@ -811,7 +810,7 @@ function rPrevisao(){
     tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td class="nr">'+fN(it.Previsto)+'</td><td class="nr">'+fN(it.EstIni)+'</td><td class="nr">'+fN(it.NecProd)+'</td><td class="nr">'+fN(it.ProdExec)+'</td><td class="nr">'+fN(it.ProdRest)+'</td><td class="nr">'+fN(it.SaldoAtual)+'</td><td>'+bdgProd(it.StatusProd)+'</td>';
     b.appendChild(tr);
   });
-  if(!its.length) b.innerHTML='<tr><td colspan="9" class="empty">Nenhum item</td></tr>';
+  if(!its.length) b.innerHTML='<tr><td colspan="9" class="empty">Nenhum item para o mês selecionado. Verifique os filtros.</td></tr>';
 }
 
 function openDetailPrev(it){
@@ -860,7 +859,7 @@ function rPCP(){
   });
   its.sort((a,b)=>{
     if(ord==='prioridade') return b.Prioridade-a.Prioridade;
-    if(ord==='ruptura') return (a.DiasAteRuptura||999)-(b.DiasAteRuptura||999);
+    if(ord==='ruptura') return (a.DiasAteRuptura||999)-(b.Prioridade||999);
     if(ord==='cobertura') return a.CoberturasDias-b.CoberturasDias;
     if(ord==='necessidade') return b.NecessidadeProd-a.NecessidadeProd;
     return a.Codigo.localeCompare(b.Codigo);
@@ -955,10 +954,7 @@ function closeDetail(){el('detail-panel').classList.remove('open');el('detail-ov
 function popularSelectLinhas(){var sel=el('pcp-linha');if(sel){sel.innerHTML='<option value="">Todas Linhas</option>';LINHAS_KEYS.forEach(k=>sel.innerHTML+='<option value="'+k+'">'+LINHAS_NOMES[k]+'</option>');}}
 function popularSelectLinhasEst(){var sel=el('est-linha');if(sel){sel.innerHTML='<option value="">Todas Linhas</option>';LINHAS_KEYS.forEach(k=>sel.innerHTML+='<option value="'+k+'">'+LINHAS_NOMES[k]+'</option>');}}
 function updateKPIs(){
-  var nUrg=G.itens.filter(x=>x.StatusCap==='PRODUZIR URGENTE').length;
   var r7=G.itens.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura<=7).length;
-  var sob=G.linhasInfo.filter(l=>l.cor==='vermelho').length;
-  var prevAb=G.prevItens.filter(x=>x.Status==='ABAIXO').length;
   txt('badge-ruptura',r7);el('badge-ruptura').style.display=r7?'':'none';
   txt('badge-prog',G.schedule?G.schedule.naoProgramados.length:0);
   txt('badge-ofa',G.ordens.length);
