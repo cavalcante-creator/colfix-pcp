@@ -171,366 +171,597 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .dp-close{background:rgba(255,255,255,.15);border:none;border-radius:var(--rsm);padding:6px 10px;color:#fff;cursor:pointer;font-size:11px;font-weight:600;font-family:var(--font);flex-shrink:0}
 .dp-body{flex:1;overflow-y:auto;padding:16px 20px}
 .dp-section{margin-bottom:16px}
-.dp-sec-title{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.dp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px}
-.dp-stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:8px 10px}
-.dp-stat-l{font-size:9px;color:var(--text3);text-transform:uppercase;margin-bottom:2px}
-.dp-stat-v{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text)}
+.dp-sec-title{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.dp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dp-stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:8px 12px}
+.dp-stat-l{font-size:9px;color:var(--text3);margin-bottom:2px}
+.dp-stat-v{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--text)}
 .dp-stat-v.r{color:var(--red)}.dp-stat-v.g{color:var(--green)}.dp-stat-v.a{color:var(--yellow)}.dp-stat-v.p{color:var(--purple)}.dp-stat-v.o{color:var(--orange)}
-.dp-action{display:flex;gap:10px;padding:10px;border-radius:var(--rsm);margin-bottom:8px;border:1px solid}
+.dp-action{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-radius:var(--r);border:1px solid;margin-bottom:6px;font-size:11px}
 .dp-action.critico{background:var(--red-dim);border-color:var(--red-mid);color:var(--red)}
 .dp-action.urgente{background:var(--orange-dim);border-color:var(--orange-mid);color:var(--orange)}
+.dp-action.atencao{background:var(--yellow-dim);border-color:var(--yellow-mid);color:var(--yellow)}
 .dp-action.ok{background:var(--green-dim);border-color:var(--green-mid);color:var(--green)}
-.dp-action-icon{font-size:16px}
-.dp-action-text{font-weight:700;font-size:11px}
-.dp-action-sub{font-size:10px;opacity:.8;display:block;margin-top:2px}
+.dp-action.info{background:var(--accent-dim);border-color:var(--accent-mid);color:var(--accent)}
+.dp-action-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.dp-action-text{font-weight:600}
+.dp-action-sub{font-size:10px;opacity:.85;display:block;margin-top:2px}
+/* PCP ITEM CARDS */
+.pcp-item{border-bottom:1px solid var(--border);border-left:4px solid transparent;cursor:pointer;transition:background .08s}
+.pcp-item:hover{background:var(--bg3)}
+.pcp-item.c{border-left-color:var(--red)}.pcp-item.w{border-left-color:var(--yellow-mid)}.pcp-item.p{border-left-color:var(--purple)}.pcp-item.g{border-left-color:var(--green)}
+.pcp-row1{display:flex;align-items:center;padding:9px 16px 3px;gap:8px;flex-wrap:wrap}
+.pcp-row2{display:flex;align-items:center;gap:8px;padding:3px 16px 9px;flex-wrap:wrap}
+.pcp-pri{width:26px;height:26px;border-radius:50%;font-family:var(--mono);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1.5px solid}
+.pcp-pri.p0{background:var(--red-dim);color:var(--red);border-color:var(--red-mid)}
+.pcp-pri.p1{background:var(--orange-dim);color:var(--orange);border-color:var(--orange-mid)}
+.pcp-pri.p2{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-mid)}
+.pcp-pri.p3{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-mid)}
+.pcp-pri.p4{background:var(--green-dim);color:var(--green);border-color:var(--green-mid)}
+.pcp-code{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent)}
+.pcp-nome{font-size:12px;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.pcp-qty-block{text-align:right;flex-shrink:0}
+.pcp-qty{font-family:var(--mono);font-size:15px;font-weight:700}
+.pcp-qty.r{color:var(--red)}.pcp-qty.a{color:var(--yellow)}
+.pcp-meta{font-size:10px;color:var(--text3);display:flex;align-items:center;gap:3px}
+.pcp-meta strong{color:var(--text2)}
+/* GANTT */
+.gantt-wrap{overflow-x:auto;border-radius:var(--rlg);border:1px solid var(--border);background:var(--bg2);box-shadow:var(--shadow);margin-bottom:14px}
+.gantt-table{width:100%;border-collapse:collapse;min-width:750px}
+.gantt-table th{padding:7px 10px;background:var(--bg4);border-bottom:2px solid var(--border2);font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;text-align:center;white-space:nowrap}
+.gantt-table td{border:1px solid var(--border);vertical-align:top;padding:0}
+.gantt-linha-label{padding:10px 12px;background:var(--bg3);border-right:2px solid var(--border2);min-width:130px;vertical-align:middle}
+.gantt-linha-name{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent)}
+.gantt-linha-cap{font-size:9px;color:var(--text3);margin-top:2px}
+.gantt-cell{padding:5px 7px;min-height:76px}
+.cap-bar-wrap{height:6px;background:var(--bg4);border-radius:3px;margin-bottom:4px;overflow:hidden;position:relative;display:flex}
+.cap-bar-ofa{height:100%;background:var(--purple);opacity:.65}
+.cap-bar-sug{height:100%}
+.cap-bar-sug.g{background:var(--green)}.cap-bar-sug.a{background:var(--yellow-mid)}.cap-bar-sug.r{background:var(--red)}
+.gantt-chip{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:108px;display:block}
+.gantt-chip.rc{background:var(--red-dim);color:var(--red);border:1px solid var(--red-mid)}
+.gantt-chip.rw{background:var(--yellow-dim);color:var(--yellow);border:1px solid var(--yellow-mid)}
+.gantt-chip.ro{background:var(--green-dim);color:var(--green);border:1px solid var(--green-mid)}
+.gantt-chip.ofa{background:var(--purple-dim);color:var(--purple);border:1px solid var(--purple-mid)}
+.gantt-cell-rem{font-size:8px;color:var(--text4);margin-top:2px;font-family:var(--mono)}
+.gantt-backlog{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);box-shadow:var(--shadow);margin-bottom:14px}
+.gantt-backlog-header{padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg3);font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;justify-content:space-between}
+.backlog-item{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--border)}
+.backlog-code{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);min-width:80px}
+.semana-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:8px;margin-bottom:12px}
+.semana-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;text-align:center;box-shadow:var(--shadow)}
+.semana-stat-v{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--accent)}
+.semana-stat-l{font-size:9px;color:var(--text3);text-transform:uppercase;margin-top:2px}
+/* OFA CHIPS */
+.ofa-chip{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;border:1px solid}
+.ofa-chip.atrasada{background:var(--red-dim);color:var(--red);border-color:var(--red-mid)}
+.ofa-chip.semana{background:var(--green-dim);color:var(--green);border-color:var(--green-mid)}
+.ofa-chip.horizonte{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-mid)}
+.ofa-chip.fora{background:var(--purple-dim);color:var(--purple);border-color:var(--purple-mid)}
+.ofa-chip.semdata{background:var(--bg3);color:var(--text3);border-color:var(--border)}
+.cov-chip{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;border:1px solid}
+.cov-chip.c{background:var(--red-dim);color:var(--red);border-color:var(--red-mid)}
+.cov-chip.w{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-mid)}
+.cov-chip.s{background:var(--green-dim);color:var(--green);border-color:var(--green-mid)}
+.cov-chip.n{background:var(--bg3);color:var(--text3);border-color:var(--border)}
+/* URGENTE LIST */
+.urg-item{display:flex;align-items:flex-start;gap:9px;padding:8px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .08s}
+.urg-item:hover{background:var(--bg3)}
+.urg-icon{width:24px;height:24px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px}
+.urg-title{font-size:11px;font-weight:600;color:var(--text)}
+.urg-sub{font-size:10px;color:var(--text3);margin-top:1px}
+/* CONFIG BAR */
+.config-bar{display:flex;align-items:center;gap:12px;padding:8px 14px;background:var(--accent-dim);border-bottom:1px solid var(--accent-mid);font-size:11px;color:var(--text2);flex-wrap:wrap}
+.config-bar label{font-size:10px;font-weight:600;color:var(--text3)}
+
+/* ============================================================
+   ESTILOS PROJEÇÃO TEMPORAL — novos
+   ============================================================ */
+/* Timeline heatmap table */
+.timeline-wrap{overflow-x:auto;border-radius:var(--rlg);border:1px solid var(--border);background:var(--bg2);box-shadow:var(--shadow);margin-bottom:14px}
+.timeline-table{border-collapse:collapse;font-size:10px;min-width:900px}
+.timeline-table th{padding:6px 8px;background:var(--bg4);border:1px solid var(--border2);font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;white-space:nowrap;text-align:center}
+.timeline-table th.hoje{background:var(--accent-dim);color:var(--accent)}
+.timeline-table td{border:1px solid var(--border);padding:0;vertical-align:middle}
+.timeline-table tr:hover .tl-item-cell{background:var(--bg3)}
+.tl-item-cell{padding:6px 10px;white-space:nowrap;min-width:130px;cursor:pointer}
+.tl-item-cell:hover{background:var(--bg3)}
+.tl-cod{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent)}
+.tl-nome{font-size:9px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;max-width:110px}
+.tl-cell{width:62px;height:44px;text-align:center;cursor:pointer;transition:filter .1s}
+.tl-cell:hover{filter:brightness(.92)}
+.tl-cell-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:2px}
+.tl-saldo{font-family:var(--mono);font-size:10px;font-weight:700;line-height:1.2}
+.tl-label{font-size:8px;opacity:.75;margin-top:1px}
+/* Cell color states */
+.tl-cell.ruptura{background:#FDEAEA}
+.tl-cell.critico{background:#FDE8D0}
+.tl-cell.abaixo{background:#FFF8E1}
+.tl-cell.ok{background:#F0FAF4}
+.tl-cell.excesso{background:#E8F2F7}
+.tl-cell.ruptura .tl-saldo{color:var(--red)}
+.tl-cell.critico .tl-saldo{color:var(--orange)}
+.tl-cell.abaixo .tl-saldo{color:var(--yellow)}
+.tl-cell.ok .tl-saldo{color:var(--green)}
+.tl-cell.excesso .tl-saldo{color:var(--accent)}
+/* Ruptura badge na timeline */
+.rupt-badge{display:inline-flex;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--red);color:#fff;margin-top:2px}
+/* Linha forecast heatmap */
+.lf-table{border-collapse:collapse;font-size:10px;min-width:800px;width:100%}
+.lf-table th{padding:5px 6px;background:var(--bg4);border:1px solid var(--border2);font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;white-space:nowrap;text-align:center}
+.lf-table th.hoje{background:var(--accent-dim);color:var(--accent)}
+.lf-table td{border:1px solid var(--border);padding:4px 6px;text-align:center;font-family:var(--mono);font-size:10px;font-weight:600}
+.lf-label{padding:6px 10px;background:var(--bg3);text-align:left;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap;border:1px solid var(--border)}
+/* Projection chart modal */
+.proj-modal{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.45);backdrop-filter:blur(3px);align-items:center;justify-content:center}
+.proj-modal.open{display:flex}
+.proj-modal-box{background:var(--bg2);border-radius:var(--rlg);box-shadow:var(--shadow-md);padding:20px;width:700px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.proj-modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px}
+.proj-modal-title{font-size:15px;font-weight:700;color:var(--accent)}
+/* Sparkline */
+.spark{display:inline-block;vertical-align:middle}
+/* Ruptura countdown chips */
+.rupt-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid}
+.rupt-chip.c{background:var(--red-dim);color:var(--red);border-color:var(--red-mid)}
+.rupt-chip.w{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-mid)}
+.rupt-chip.s{background:var(--green-dim);color:var(--green);border-color:var(--green-mid)}
+.rupt-chip.n{background:var(--bg3);color:var(--text3);border-color:var(--border)}
+/* Sat chip */
+.sat-cell{font-family:var(--mono);font-size:10px;font-weight:600}
+
+/* ============================================================
+   ESTOQUE ANÁLISE — novos estilos
+   ============================================================ */
+.cob-bar-wrap{display:flex;align-items:center;gap:6px;min-width:110px}
+.cob-bar{height:6px;border-radius:3px;background:var(--bg4);overflow:hidden;flex:1}
+.cob-bar-fill{height:100%;border-radius:3px;transition:width .3s}
+.cob-val{font-family:var(--mono);font-size:10px;font-weight:700;white-space:nowrap;min-width:38px;text-align:right}
+.giro-chip{font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;border:1px solid}
+.giro-chip.alto{background:var(--green-dim);color:var(--green);border-color:var(--green-mid)}
+.giro-chip.med{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-mid)}
+.giro-chip.baixo{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-mid)}
+.giro-chip.zero{background:var(--bg3);color:var(--text3);border-color:var(--border)}
+.dp-compare{display:flex;flex-direction:column;align-items:flex-end;gap:1px}
+.dp-compare-val{font-family:var(--mono);font-size:11px;font-weight:700}
+.dp-compare-sub{font-size:9px;color:var(--text3)}
+/* Dist bar chart */
+.dist-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.dist-bar-label{font-size:10px;color:var(--text2);min-width:90px;font-weight:600}
+.dist-bar-outer{flex:1;height:18px;background:var(--bg4);border-radius:4px;overflow:hidden}
+.dist-bar-inner{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:9px;font-weight:700;color:#fff;min-width:18px;transition:width .4s}
+.dist-bar-count{font-family:var(--mono);font-size:11px;font-weight:700;min-width:28px;text-align:right}
+/* Risk list */
+.risk-item{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .08s}
+.risk-item:hover{background:var(--bg3)}
+.risk-rank{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--text4);min-width:20px;text-align:center}
+.risk-info{flex:1;min-width:0}
+.risk-code{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent)}
+.risk-name{font-size:11px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.risk-detail{font-size:10px;color:var(--text3);margin-top:1px}
+.risk-meters{display:flex;flex-direction:column;gap:3px;min-width:130px}
+.risk-meter-row{display:flex;align-items:center;gap:5px}
+.risk-meter-label{font-size:9px;color:var(--text3);min-width:45px}
+.risk-meter-bar{flex:1;height:5px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.risk-meter-fill{height:100%;border-radius:3px}
 </style>
 </head>
 <body>
 <div id="app">
-  <header class="topbar">
+  <div class="topbar">
     <div class="brand">
       <div class="brand-mark">COLFIX</div>
       <div class="brand-sep"></div>
-      <div class="brand-tag">PCP Preditivo v11</div>
+      <div class="brand-tag">PCP Preditivo v11 · Projeção Temporal</div>
     </div>
     <div class="topbar-right">
-      <div class="ts-chip" id="hdr-ts">--/--/---- --:--</div>
       <div class="status-pill"><div class="status-dot"></div><span id="conn-status">CONECTANDO...</span></div>
-      <button class="tbtn" onclick="initLoad()">🔄 Sincronizar</button>
+      <div id="hdr-ts" class="ts-chip">--</div>
+      <button class="tbtn" onclick="initLoad()">
+        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        ATUALIZAR
+      </button>
     </div>
-  </header>
+  </div>
   <div class="app-body">
-    <aside class="sidebar">
+    <div class="sidebar">
       <div class="sb-brand">
-        <div class="sb-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
-        <div class="sb-name">COLFIX PCP</div>
-        <div class="sb-sub">Painel de Controle</div>
+        <div class="sb-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 3v18h18"/><path d="M18 17l-6-6-4 4-5-5"/></svg></div>
+        <div class="sb-name">COLFIX INDUSTRIAL</div>
+        <div class="sb-sub">PCP Preditivo v11</div>
       </div>
-      <nav>
-        <div class="nav-sec">Análise Geral</div>
-        <div class="nav-item active" onclick="goPage(this)" data-page="pcp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>Dashboard PCP</div>
-        <div class="nav-item" onclick="goPage(this)" data-page="estoque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>Estoque &amp; Ruptura <span class="nav-badge" id="badge-ruptura">0</span></div>
-        <div class="nav-item" onclick="goPage(this)" data-page="previsao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>Previsão de Venda</div>
-        
-        <div class="nav-sec">Operacional</div>
-        <div class="nav-item" onclick="goPage(this)" data-page="programacao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>Prog. Semanal <span class="nav-badge p" id="badge-prog">0</span></div>
-        <div class="nav-item" onclick="goPage(this)" data-page="linhas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20"></path><path d="M5 20V8l7-4 7 4v12"></path><path d="M9 20v-4h6v4"></path></svg>Linhas &amp; Forecast</div>
-        <div class="nav-item" onclick="goPage(this)" data-page="ordens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Ordens OFA <span class="nav-badge o" id="badge-ofa">0</span></div>
-        
-        <div class="nav-sec">Dados Brutos</div>
-        <div class="nav-item" onclick="goPage(this)" data-page="producao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>Produção EPP</div>
-        <div class="nav-item" onclick="goPage(this)" data-page="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>Perfil / Extrato</div>
-      </nav>
-      <div class="sb-footer">
-        <div>v11.0.6 · Preditivo</div>
-        <div id="sf-ts">--/-- --:--</div>
-      </div>
-    </aside>
+      <div class="nav-sec">Decisão &amp; Projeção</div>
+      <div class="nav-item active" onclick="goPage(this)" data-page="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="projecao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        Projeção Temporal<span id="nb-proj" class="nav-badge">0</span></div>
+      <div class="nav-item" onclick="goPage(this)" data-page="pcp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+        PCP Decisório<span id="nb-pcp" class="nav-badge">0</span></div>
+      <div class="nav-item" onclick="goPage(this)" data-page="programacao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Prog. Semanal</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="linhas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20"/><path d="M5 20V8l7-4 7 4v12"/></svg>
+        Linhas + Forecast<span id="nb-linhas" class="nav-badge o">0</span></div>
+      <div class="nav-sec">Análise</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="previsao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+        Previsão<span id="nb-prev" class="nav-badge w">0</span></div>
+      <div class="nav-item" onclick="goPage(this)" data-page="estoque">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+        Estoques</div>
+      <div class="nav-sec">Dados ERP</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="producao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Produção EPP</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="ordens">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        OFAs</div>
+      <div class="nav-item" onclick="goPage(this)" data-page="perfil">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg>
+        Extrato ERP</div>
+      <div class="sb-footer"><div>Sync: <span id="sf-ts">--</span></div><div style="margin-top:3px">v11.0 · Preditivo</div></div>
+    </div>
     <main class="main-content">
-      <!-- ======= DASHBOARD PCP ======= -->
-      <div class="page active" id="page-pcp">
-        <div class="ph">
-          <div><div class="ph-title">PCP Inteligente · Dashboard</div><div class="ph-sub">Análise preditiva de estoques, ordens e capacidade para os próximos <span id="dash-hz">--</span> dias</div></div>
-          <div class="ph-actions">
-            <div style="display:flex;flex-direction:column;align-items:flex-end">
-              <div style="font-size:9px;color:var(--text3);font-weight:700;margin-bottom:2px">HORIZONTE OFA</div>
-              <div style="display:flex;align-items:center;gap:6px">
-                <input type="range" id="cfg-horizonte" min="7" max="45" value="14" oninput="mudarHorizonte()" style="width:80px">
-                <span class="pill" id="horizonte-label">14d</span>
-              </div>
-            </div>
-            <button class="btn" onclick="expCSVMain()">📥 Exportar PCP</button>
-            <button class="btn prim" onclick="expCSVProjecao()">📊 Exportar Projeção</button>
-          </div>
-        </div>
-        <div class="kpi-row" id="pcp-kpis"></div>
-        <div class="alert-box" id="pcp-alerts"></div>
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">📋 Plano de Ação PCP — Necessidade de Produção</div>
-            <div class="card-actions">
-              <span class="pill" id="pcp-cnt">0</span>
-              <select class="ssel" id="pcp-risco" onchange="rPCP()"><option value="">Todos Riscos</option><option value="CRITICO">🔴 Crítico</option><option value="URGENTE">🟠 Urgente</option><option value="MODERADO">🟡 Moderado</option><option value="BAIXO">🔵 Baixo</option><option value="OK">✅ OK</option></select>
-              <select class="ssel" id="pcp-st" onchange="rPCP()"><option value="">Todos Status</option><option value="PRODUZIR URGENTE">Prod. Urgente</option><option value="SEM CAPACIDADE">Sem Cap.</option><option value="CAP LIMITADA">Cap. Limitada</option><option value="OFA ATENDE">OFA Atende</option><option value="NORMAL">Normal</option></select>
-              <select class="ssel" id="pcp-linha" onchange="rPCP()"><option value="">Todas Linhas</option></select>
-              <select class="ssel" id="pcp-ord" onchange="rPCP()"><option value="prioridade">Prioridade</option><option value="ruptura">Ruptura Prevista ↑</option><option value="cobertura">Cobertura ↑</option><option value="necessidade">Nec. Prod ↓</option><option value="codigo">Código A→Z</option></select>
-            </div>
-          </div>
-          <div class="srow"><input class="sinput" id="pcp-q" placeholder="Buscar código ou produto..." oninput="rPCP()"></div>
-          <div id="pcp-body-dec"></div>
+
+<!-- ======= DASHBOARD ======= -->
+<div class="page active" id="page-dashboard">
+  <div class="ph">
+    <div><div class="ph-title">Dashboard PCP Preditivo</div><div class="ph-sub">Projeção temporal ativa · Horizonte: <span id="dash-hz">21</span> dias · <span id="dash-ts">--</span></div></div>
+    <div class="ph-actions">
+      <button class="btn prim" onclick="goPage(document.querySelector('[data-page=projecao]'))">Ver Projeção Temporal →</button>
+    </div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi red" onclick="goPage(document.querySelector('[data-page=projecao]'))"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="kpi-val" id="kpi-rupt7">0</div><div class="kpi-label">Ruptura ≤7 dias</div><div class="kpi-sub" id="kpi-rupt7-sub">--</div></div>
+    <div class="kpi orange"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg></div><div class="kpi-val" id="kpi-rupt14">0</div><div class="kpi-label">Ruptura 8–14 dias</div></div>
+    <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="12" y1="2" x2="12" y2="22"/></svg></div><div class="kpi-val" id="kpi-abaixo-seg">0</div><div class="kpi-label">Abaixo Seg. Futuro</div></div>
+    <div class="kpi purple"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div><div class="kpi-val" id="kpi-conflito">0</div><div class="kpi-label">Conflito DC×OFA</div></div>
+    <div class="kpi orange"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/></svg></div><div class="kpi-val" id="kpi-linhas-sat">0</div><div class="kpi-label">Linhas Sat. (7d)</div></div>
+    <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-val" id="kpi-ok-proj">0</div><div class="kpi-label">Cobertos (21d)</div></div>
+  </div>
+  <div id="alert-box" class="alert-box"></div>
+  <div class="grid-main">
+    <div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">🔴 Rupturas Previstas — próximos 21 dias</div><div class="card-actions"><button class="btn" onclick="goPage(document.querySelector('[data-page=projecao]'))">Ver Projeção →</button></div></div>
+        <div class="twrap" style="max-height:300px">
+          <table><thead><tr><th>Cod</th><th>Produto</th><th>Ruptura em</th><th class="nr">Saldo Hoje</th><th class="nr">Cons./Dia</th><th>OFA</th><th>Ação</th></tr></thead>
+          <tbody id="dash-rupt-body"></tbody></table>
         </div>
       </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Produção EPP — Últimos 14 dias</div></div>
+        <div class="chart-box" style="height:170px"><canvas id="chart-prod-real"></canvas></div>
+      </div>
+    </div>
+    <div>
+      <div class="card"><div class="card-header"><div class="card-title">⚡ Ações Urgentes</div></div><div id="urgente-list" style="max-height:230px;overflow-y:auto"></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">⚠️ Conflitos DC × OFA</div></div><div id="conflito-list" style="max-height:200px;overflow-y:auto"></div></div>
+    </div>
+  </div>
+</div>
 
-      <!-- ======= PROGRAMAÇÃO SEMANAL ======= -->
-      <div class="page" id="page-programacao">
-        <div class="ph">
-          <div><div class="ph-title">Programação Semanal Inteligente</div><div class="ph-sub">🟣 OFAs ERP por Dt. Início · 🟢 Sugestão PCP por capacidade livre e urgência projetada</div></div>
-          <div class="ph-actions">
-            <button class="btn" onclick="semanaAnterior()">← Ant.</button>
-            <button class="btn prim" onclick="semanaHoje()">Hoje</button>
-            <button class="btn" onclick="semanaProxima()">Próx. →</button>
-            <button class="btn" onclick="G.schedule=gerarAutoSchedule();rProg()">🔄 Regerar</button>
-            <button class="btn" onclick="expCSVProg()">📥 CSV</button>
-          </div>
-        </div>
-        <div class="semana-stats" id="prog-stats"></div>
-        <div class="gantt-wrap"><table class="gantt-table" id="gantt-table"></table></div>
-        <div class="gantt-backlog">
-          <div class="gantt-backlog-header"><span>Backlog — sem alocação nesta semana</span><span class="pill" id="backlog-cnt">0</span></div>
-          <div id="backlog-list"></div>
+<!-- ======= PROJEÇÃO TEMPORAL ======= -->
+<div class="page" id="page-projecao">
+  <div class="ph">
+    <div><div class="ph-title">Projeção Temporal</div><div class="ph-sub">Saldo projetado diário por item · OFAs + Produção - Consumo · Clique para ver detalhes</div></div>
+    <div class="ph-actions">
+      <label style="font-size:11px;color:var(--text2)">Horizonte:</label>
+      <select class="ssel" id="cfg-horizonte-proj" onchange="reprocessar()"><option value="14">14 dias</option><option value="21" selected>21 dias</option><option value="30">30 dias</option></select>
+      <select class="ssel" id="proj-filtro"><option value="">Todos Riscos</option><option value="ruptura">Ruptura Prevista</option><option value="abaixo">Abaixo Seg.</option><option value="ok">Cobertos</option></select>
+      <input class="sinput" style="max-width:160px" id="proj-q" placeholder="Buscar item..." oninput="rProjecao()">
+      <button class="btn" onclick="rProjecao()">🔄 Atualizar</button>
+      <button class="btn" onclick="expCSVProjecao()">📥 CSV</button>
+    </div>
+  </div>
+  <!-- Resumo de risco futuro -->
+  <div class="kpi-row" id="proj-kpis"></div>
+  <!-- Heatmap Timeline -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">📅 Timeline de Estoque Projetado — por item por dia</div>
+      <div class="card-actions">
+        <div style="display:flex;gap:8px;align-items:center;font-size:10px">
+          <span style="background:var(--red-dim);color:var(--red);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--red-mid)">Ruptura</span>
+          <span style="background:#FDE8D0;color:var(--orange);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--orange-mid)">Crítico</span>
+          <span style="background:var(--yellow-dim);color:var(--yellow);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--yellow-mid)">Abaixo Seg</span>
+          <span style="background:#F0FAF4;color:var(--green);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--green-mid)">OK</span>
+          <span style="background:var(--accent-dim);color:var(--accent);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--accent-mid)">Excesso</span>
         </div>
       </div>
+    </div>
+    <div class="timeline-wrap"><table class="timeline-table" id="timeline-table"></table></div>
+  </div>
+  <!-- Forecast de Linhas -->
+  <div class="card">
+    <div class="card-header"><div class="card-title">🏭 Ocupação Futura das Linhas — próximos 14 dias</div></div>
+    <div class="timeline-wrap"><table class="lf-table" id="lf-table"></table></div>
+  </div>
+</div>
 
-      <!-- ======= LINHAS + FORECAST ======= -->
-      <div class="page" id="page-linhas">
-        <div class="ph"><div><div class="ph-title">Linhas + Forecast de Capacidade</div><div class="ph-sub">Situação atual · Projeção de ocupação futura por OFAs</div></div></div>
-        <div class="kpi-row">
-          <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-val" id="lin-kpi-ok">-</div><div class="kpi-label">Linhas Livres</div></div>
-          <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/></svg></div><div class="kpi-val" id="lin-kpi-med">-</div><div class="kpi-label">Util. Média</div></div>
-          <div class="kpi orange"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/></svg></div><div class="kpi-val" id="lin-kpi-sob">-</div><div class="kpi-label">Sobrecarregadas</div></div>
-          <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="2" y="7" width="20" height="14" rx="2"/></svg></div><div class="kpi-val" id="lin-kpi-total">-</div><div class="kpi-label">Cap. Total/dia</div></div>
-        </div>
-        <div class="linhas-grid" id="linhas-cards"></div>
-        <!-- Heatmap de forecast das linhas (14 dias) -->
-        <div class="card">
-          <div class="card-header"><div class="card-title">Forecast de Ocupação das Linhas — próximos 14 dias</div></div>
-          <div class="timeline-wrap"><table class="lf-table" id="linhas-forecast-table"></table></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Resumo das Linhas</div></div>
-          <div class="twrap"><table><thead><tr><th>Linha</th><th class="nr">Cap./dia</th><th class="nr">OFA ≤Hz.</th><th class="nr">OFA Atrasada</th><th class="nr">Util %</th><th class="nr">Livre</th><th>Status</th><th>Itens</th></tr></thead><tbody id="linhas-body"></tbody></table></div>
+<!-- ======= PCP DECISÓRIO ======= -->
+<div class="page" id="page-pcp">
+  <div class="ph">
+    <div><div class="ph-title">PCP Decisório</div><div class="ph-sub">Projeção temporal integrada · Horizonte OFA: <strong id="horizonte-label">14 dias</strong></div></div>
+    <div class="ph-actions"><button class="btn" onclick="expCSVMain()">📥 Exportar CSV</button></div>
+  </div>
+  <div class="config-bar">
+    <label>Horizonte OFA:</label>
+    <select class="ssel" id="cfg-horizonte" onchange="mudarHorizonte()"><option value="7">7 dias</option><option value="14" selected>14 dias</option><option value="21">21 dias</option><option value="30">30 dias</option></select>
+    <span style="color:var(--text3);font-size:10px">OFAs com Dt. Fim além deste prazo NÃO abaterão a necessidade</span>
+  </div>
+  <div class="mrow" id="pcp-met"></div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Planejamento e Controle de Produção</div>
+      <div class="card-actions">
+        <span class="pill" id="pcp-cnt">0</span>
+        <select class="ssel" id="pcp-risco" onchange="rPCP()"><option value="">Todos Riscos</option><option value="CRITICO">🔴 Crítico</option><option value="URGENTE">🟠 Urgente</option><option value="MODERADO">🟡 Moderado</option><option value="BAIXO">🔵 Baixo</option><option value="OK">✅ OK</option></select>
+        <select class="ssel" id="pcp-st" onchange="rPCP()"><option value="">Todos Status</option><option value="PRODUZIR URGENTE">Prod. Urgente</option><option value="SEM CAPACIDADE">Sem Cap.</option><option value="CAP LIMITADA">Cap. Limitada</option><option value="OFA ATENDE">OFA Atende</option><option value="NORMAL">Normal</option></select>
+        <select class="ssel" id="pcp-linha" onchange="rPCP()"><option value="">Todas Linhas</option></select>
+        <select class="ssel" id="pcp-ord" onchange="rPCP()"><option value="prioridade">Prioridade</option><option value="ruptura">Ruptura Prevista ↑</option><option value="cobertura">Cobertura ↑</option><option value="necessidade">Nec. Prod ↓</option><option value="codigo">Código A→Z</option></select>
+      </div>
+    </div>
+    <div class="srow"><input class="sinput" id="pcp-q" placeholder="Buscar código ou produto..." oninput="rPCP()"></div>
+    <div id="pcp-body-dec"></div>
+  </div>
+</div>
+
+<!-- ======= PROGRAMAÇÃO SEMANAL ======= -->
+<div class="page" id="page-programacao">
+  <div class="ph">
+    <div><div class="ph-title">Programação Semanal Inteligente</div><div class="ph-sub">🟣 OFAs ERP por Dt. Início · 🟢 Sugestão PCP por capacidade livre e urgência projetada</div></div>
+    <div class="ph-actions">
+      <button class="btn" onclick="semanaAnterior()">← Ant.</button>
+      <button class="btn prim" onclick="semanaHoje()">Hoje</button>
+      <button class="btn" onclick="semanaProxima()">Próx. →</button>
+      <button class="btn" onclick="G.schedule=gerarAutoSchedule();rProg()">🔄 Regerar</button>
+      <button class="btn" onclick="expCSVProg()">📥 CSV</button>
+    </div>
+  </div>
+  <div class="semana-stats" id="prog-stats"></div>
+  <div class="gantt-wrap"><table class="gantt-table" id="gantt-table"></table></div>
+  <div class="gantt-backlog">
+    <div class="gantt-backlog-header"><span>Backlog — sem alocação nesta semana</span><span class="pill" id="backlog-cnt">0</span></div>
+    <div id="backlog-list"></div>
+  </div>
+</div>
+
+<!-- ======= LINHAS + FORECAST ======= -->
+<div class="page" id="page-linhas">
+  <div class="ph"><div><div class="ph-title">Linhas + Forecast de Capacidade</div><div class="ph-sub">Situação atual · Projeção de ocupação futura por OFAs</div></div></div>
+  <div class="kpi-row">
+    <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-val" id="lin-kpi-ok">-</div><div class="kpi-label">Linhas Livres</div></div>
+    <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/></svg></div><div class="kpi-val" id="lin-kpi-med">-</div><div class="kpi-label">Util. Média</div></div>
+    <div class="kpi orange"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/></svg></div><div class="kpi-val" id="lin-kpi-sob">-</div><div class="kpi-label">Sobrecarregadas</div></div>
+    <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="2" y="7" width="20" height="14" rx="2"/></svg></div><div class="kpi-val" id="lin-kpi-total">-</div><div class="kpi-label">Cap. Total/dia</div></div>
+  </div>
+  <div class="linhas-grid" id="linhas-cards"></div>
+  <!-- Heatmap de forecast das linhas (14 dias) -->
+  <div class="card">
+    <div class="card-header"><div class="card-title">Forecast de Ocupação das Linhas — próximos 14 dias</div></div>
+    <div class="timeline-wrap"><table class="lf-table" id="linhas-forecast-table"></table></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Resumo das Linhas</div></div>
+    <div class="twrap"><table><thead><tr><th>Linha</th><th class="nr">Cap./dia</th><th class="nr">OFA ≤Hz.</th><th class="nr">OFA Atrasada</th><th class="nr">Util %</th><th class="nr">Livre</th><th>Status</th><th>Itens</th></tr></thead><tbody id="linhas-body"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ======= PREVISÃO ======= -->
+<div class="page" id="page-previsao">
+  <div class="ph"><div><div class="ph-title">Previsão vs Realizado</div><div class="ph-sub">Realizado = EPP + NFS</div></div><div class="ph-actions"><button class="btn" onclick="expCSVPrev()">📥 CSV</button></div></div>
+  <div class="kpi-row">
+    <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div><div class="kpi-val" id="prev-kpi-prev">-</div><div class="kpi-label">Previsto</div></div>
+    <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="kpi-val" id="prev-kpi-real">-</div><div class="kpi-label">Realizado</div></div>
+    <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="12" y1="20" x2="12" y2="4"/></svg></div><div class="kpi-val" id="prev-kpi-ader">-%</div><div class="kpi-label">Aderência</div></div>
+    <div class="kpi red"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/></svg></div><div class="kpi-val" id="prev-kpi-abaixo">-</div><div class="kpi-label">Abaixo Prev.</div></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Previsão x Realizado por Item</div><div class="card-actions"><span class="pill" id="prev-cnt">0</span><select class="ssel" id="prev-st" onchange="rPrevisao()"><option value="">Todos</option><option value="ACIMA">Acima</option><option value="DENTRO">Dentro</option><option value="ABAIXO">Abaixo</option></select></div></div>
+    <div class="srow"><input class="sinput" id="prev-q" placeholder="Buscar item..." oninput="rPrevisao()"></div>
+    <div class="twrap" style="max-height:440px"><table><thead><tr><th>Codigo</th><th>Produto</th><th>UM</th><th class="nr">Previsto</th><th class="nr">Realizado</th><th class="nr">Diferença</th><th class="nr">% Ader.</th><th>Status</th><th>Progresso</th></tr></thead><tbody id="prev-body"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ======= ESTOQUE ======= -->
+<div class="page" id="page-estoque">
+  <div class="ph">
+    <div><div class="ph-title">Análise de Estoques</div><div class="ph-sub">Posição real · Cobertura vs DP · Giro · Risco de Ruptura · Comparativo Almox 3 × Almox 30</div></div>
+    <div class="ph-actions">
+      <button class="btn" onclick="expCSVEstoque()">📥 CSV</button>
+    </div>
+  </div>
+
+  <!-- KPIs analíticos -->
+  <div class="kpi-row" id="est-kpis"></div>
+
+  <!-- Métricas resumo -->
+  <div class="mrow" id="est-met"></div>
+
+  <!-- Filtros avançados -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-header">
+      <div class="card-title">🔍 Filtros &amp; Análise</div>
+      <div class="card-actions">
+        <span class="pill" id="est-cnt">0</span>
+        <button class="btn" onclick="resetFiltrosEst()">Limpar</button>
+      </div>
+    </div>
+    <div class="srow" style="flex-wrap:wrap;gap:8px">
+      <input class="sinput" id="est-q" placeholder="Buscar código ou produto..." oninput="rEstoque()" style="max-width:220px">
+      <select class="ssel" id="est-st" onchange="rEstoque()">
+        <option value="">Todos Status</option>
+        <option value="SEM_EST">🔴 Zerado</option>
+        <option value="ABAIXO_SEG">🟡 Abaixo Seg.</option>
+        <option value="OK">✅ OK</option>
+      </select>
+      <select class="ssel" id="est-risco" onchange="rEstoque()">
+        <option value="">Todos Riscos</option>
+        <option value="CRITICO">🔴 Crítico</option>
+        <option value="URGENTE">🟠 Urgente</option>
+        <option value="MODERADO">🟡 Moderado</option>
+        <option value="BAIXO">🔵 Baixo</option>
+        <option value="OK">✅ OK</option>
+      </select>
+      <select class="ssel" id="est-cob" onchange="rEstoque()">
+        <option value="">Toda Cobertura</option>
+        <option value="0">Cobertura ZERO</option>
+        <option value="3">Cobertura ≤ 3 dias</option>
+        <option value="7">Cobertura ≤ 7 dias</option>
+        <option value="15">Cobertura ≤ 15 dias</option>
+        <option value="30">Cobertura ≤ 30 dias</option>
+        <option value="30+">Cobertura > 30 dias</option>
+      </select>
+      <select class="ssel" id="est-dp" onchange="rEstoque()">
+        <option value="">Toda DP</option>
+        <option value="com_dp">Com DC (DP ativa)</option>
+        <option value="sem_dp">Sem DC</option>
+        <option value="dp_risco">DC em risco (cob &lt; DC)</option>
+      </select>
+      <select class="ssel" id="est-linha" onchange="rEstoque()">
+        <option value="">Todas Linhas</option>
+      </select>
+      <select class="ssel" id="est-ord" onchange="rEstoque()">
+        <option value="risco">Risco ↓</option>
+        <option value="cobertura_asc">Cobertura ↑</option>
+        <option value="cobertura_desc">Cobertura ↓</option>
+        <option value="estoque_desc">Estoque ↓</option>
+        <option value="giro_desc">Giro ↓</option>
+        <option value="dp_desc">DC ↓</option>
+        <option value="codigo">Código A→Z</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Tabela principal -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">📦 Posição de Estoques — Comparativo DP</div>
+      <div class="card-actions">
+        <div style="display:flex;gap:8px;align-items:center;font-size:10px">
+          <span style="background:var(--red-dim);color:var(--red);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--red-mid)">Zerado</span>
+          <span style="background:var(--yellow-dim);color:var(--yellow);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--yellow-mid)">Abaixo Seg</span>
+          <span style="background:var(--green-dim);color:var(--green);padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--green-mid)">OK</span>
         </div>
       </div>
+    </div>
+    <div class="twrap" style="max-height:480px">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortEst('codigo')" title="Clique para ordenar">Código ↕</th>
+            <th>Produto</th>
+            <th class="nr" onclick="sortEst('almox3')" title="Clique para ordenar">Almox 3 ↕</th>
+            <th class="nr" onclick="sortEst('almox30')" title="Clique para ordenar">Almox 30 ↕</th>
+            <th class="nr" onclick="sortEst('total')" title="Clique para ordenar">Total ↕</th>
+            <th class="nr">Est. Seg.</th>
+            <th class="nr" onclick="sortEst('dp')" title="DC = Demanda do Perfil · Clique para ordenar">DC (DP) ↕</th>
+            <th class="nr" onclick="sortEst('cobertura')" title="Dias cobertos pelo estoque · Clique para ordenar">Cobertura ↕</th>
+            <th class="nr">Giro/mês</th>
+            <th class="nr">OFA ≤Hz.</th>
+            <th class="nr">Nec. Prod.</th>
+            <th>Ruptura Prev.</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="est-body"></tbody>
+      </table>
+    </div>
+  </div>
 
-      <!-- ======= PREVISÃO ======= -->
-      <div class="page" id="page-previsao">
-        <div class="ph">
-          <div><div class="ph-title">Previsão de Venda Mensal</div><div class="ph-sub">Análise baseada no mês selecionado · Realizado = EPP + NFS do período</div></div>
-          <div class="ph-actions">
-            <div style="display:flex;flex-direction:column;align-items:flex-end">
-              <div style="font-size:9px;color:var(--text3);font-weight:700;margin-bottom:2px">MÊS DE ANÁLISE</div>
-              <select class="ssel" id="prev-mes-filtro" onchange="mudarMesFiltro()" style="font-weight:700;border-color:var(--accent)"></select>
-            </div>
-            <button class="btn" onclick="expCSVPrev()">📥 CSV</button>
-          </div>
-        </div>
-        <!-- KPIs de Produção -->
-        <div class="kpi-row">
-          <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div><div class="kpi-val" id="prev-kpi-prev">-</div><div class="kpi-label">Previsão Mês</div></div>
-          <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="kpi-val" id="prev-kpi-real">-</div><div class="kpi-label">Vendas Mês (NFS)</div></div>
-          <div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="12" y1="20" x2="12" y2="4"/></svg></div><div class="kpi-val" id="prev-kpi-ader">-%</div><div class="kpi-label">Aderência</div></div>
-          <div class="kpi red"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/></svg></div><div class="kpi-val" id="prev-kpi-abaixo">-</div><div class="kpi-label">Abaixo Prev.</div></div>
-        </div>
-        <div class="kpi-row">
-          <div class="kpi orange"><div class="kpi-icon">🏭</div><div class="kpi-val" id="prev-kpi-nec">-</div><div class="kpi-label">Itens p/ Produzir</div></div>
-          <div class="kpi green"><div class="kpi-icon">✅</div><div class="kpi-val" id="prev-kpi-exec">-</div><div class="kpi-label">Produção Mês (EPP)</div></div>
-          <div class="kpi red"><div class="kpi-icon">⏳</div><div class="kpi-val" id="prev-kpi-rest">-</div><div class="kpi-label">Produção Restante</div></div>
-          <div class="kpi purple"><div class="kpi-icon">📦</div><div class="kpi-val" id="prev-kpi-est">-</div><div class="kpi-label">Est. Inicial Mês</div></div>
-        </div>
+  <!-- Análise de distribuição -->
+  <div class="grid2" style="margin-bottom:14px">
+    <div class="card">
+      <div class="card-header"><div class="card-title">📊 Distribuição por Faixa de Cobertura</div></div>
+      <div id="est-dist-cob" style="padding:14px"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">🏭 Estoque por Linha de Produção</div></div>
+      <div id="est-dist-linha" style="padding:14px"></div>
+    </div>
+  </div>
 
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Análise de Decisão PCP — <span id="prev-mes-label">Mês Selecionado</span></div>
-            <div class="card-actions">
-              <span class="pill" id="prev-cnt">0</span>
-              <select class="ssel" id="prev-st" onchange="rPrevisao()">
-                <option value="">Todos Status</option>
-                <option value="ACIMA">Acima</option>
-                <option value="DENTRO">Dentro</option>
-                <option value="ABAIXO">Abaixo</option>
-              </select>
-              <select class="ssel" id="prev-prod-st" onchange="rPrevisao()">
-                <option value="">Todos Status Prod.</option>
-                <option value="NÃO PRODUZIR">Não Produzir</option>
-                <option value="PRODUZIR">Produzir</option>
-                <option value="EM PRODUÇÃO">Em Produção</option>
-                <option value="PRODUÇÃO CONCLUÍDA">Produção Concluída</option>
-              </select>
-            </div>
-          </div>
-          <div class="srow">
-            <input class="sinput" id="prev-q" placeholder="Buscar item..." oninput="rPrevisao()">
-          </div>
-          <div class="twrap" style="max-height:440px">
-            <table>
-              <thead>
-                <tr>
-                  <th>Codigo</th>
-                  <th>Produto</th>
-                  <th class="nr">Previsão Mês</th>
-                  <th class="nr">Est. Inicial Mês</th>
-                  <th class="nr">Nec. Produção</th>
-                  <th class="nr">Produção Mês</th>
-                  <th class="nr">Prod. Restante</th>
-                  <th class="nr">Saldo Atual</th>
-                  <th>Status Decisão</th>
-                </tr>
-              </thead>
-              <tbody id="prev-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+  <!-- Top alertas -->
+  <div class="card">
+    <div class="card-header"><div class="card-title">⚠️ Top 10 — Maiores Riscos de Ruptura (DC × Estoque)</div></div>
+    <div id="est-top-risk" style="max-height:280px;overflow-y:auto"></div>
+  </div>
+</div>
 
-      <!-- ======= ESTOQUE ======= -->
-      <div class="page" id="page-estoque">
-        <div class="ph">
-          <div><div class="ph-title">Análise de Estoques</div><div class="ph-sub">Posição real · Cobertura vs DP · Giro · Risco de Ruptura · Comparativo Almox 3 × Almox 30</div></div>
-          <div class="ph-actions">
-            <button class="btn" onclick="expCSVEstoque()">📥 CSV</button>
-          </div>
-        </div>
-        <div class="kpi-row" id="est-kpis"></div>
-        <div class="mrow" id="est-met"></div>
-        <div class="card" style="margin-bottom:14px">
-          <div class="card-header">
-            <div class="card-title">🔍 Filtros &amp; Análise</div>
-            <div class="card-actions"><span class="pill" id="est-cnt">0</span><button class="btn" onclick="resetFiltrosEst()">Limpar</button></div>
-          </div>
-          <div class="srow" style="flex-wrap:wrap;gap:8px">
-            <input class="sinput" id="est-q" placeholder="Buscar código ou produto..." oninput="rEstoque()" style="max-width:220px">
-            <select class="ssel" id="est-st" onchange="rEstoque()"><option value="">Todos Status</option><option value="SEM_EST">🔴 Zerado</option><option value="ABAIXO_SEG">🟡 Abaixo Seg.</option><option value="OK">✅ OK</option></select>
-            <select class="ssel" id="est-risco" onchange="rEstoque()"><option value="">Todos Riscos</option><option value="CRITICO">🔴 Crítico</option><option value="URGENTE">🟠 Urgente</option><option value="MODERADO">🟡 Moderado</option><option value="BAIXO">🔵 Baixo</option><option value="OK">✅ OK</option></select>
-            <select class="ssel" id="est-cob" onchange="rEstoque()"><option value="">Toda Cobertura</option><option value="0">Cobertura ZERO</option><option value="3">Cobertura ≤ 3 dias</option><option value="7">Cobertura ≤ 7 dias</option><option value="15">Cobertura ≤ 15 dias</option><option value="30">Cobertura ≤ 30 dias</option><option value="30+">Cobertura > 30 dias</option></select>
-            <select class="ssel" id="est-dp" onchange="rEstoque()"><option value="">Toda DP</option><option value="com_dp">Com DC (DP ativa)</option><option value="sem_dp">Sem DC</option><option value="dp_risco">DC em risco (cob &lt; DC)</option></select>
-            <select class="ssel" id="est-linha" onchange="rEstoque()"><option value="">Todas Linhas</option></select>
-            <select class="ssel" id="est-ord" onchange="rEstoque()"><option value="risco">Risco ↓</option><option value="cobertura_asc">Cobertura ↑</option><option value="cobertura_desc">Cobertura ↓</option><option value="estoque_desc">Estoque ↓</option><option value="giro_desc">Giro ↓</option><option value="dp_desc">DC ↓</option><option value="codigo">Código A→Z</option></select>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">📦 Posição de Estoques — Comparativo DP</div></div>
-          <div class="twrap" style="max-height:480px">
-            <table>
-              <thead>
-                <tr>
-                  <th onclick="sortEst('codigo')">Código ↕</th>
-                  <th>Produto</th>
-                  <th class="nr" onclick="sortEst('almox3')">Almox 3 ↕</th>
-                  <th class="nr" onclick="sortEst('almox30')">Almox 30 ↕</th>
-                  <th class="nr" onclick="sortEst('total')">Total ↕</th>
-                  <th class="nr">Est. Seg.</th>
-                  <th class="nr" onclick="sortEst('dp')">DC (DP) ↕</th>
-                  <th class="nr" onclick="sortEst('cobertura')">Cobertura ↕</th>
-                  <th class="nr">Giro/mês</th>
-                  <th class="nr">OFA ≤Hz.</th>
-                  <th class="nr">Nec. Prod.</th>
-                  <th>Ruptura Prev.</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="est-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+<!-- ======= PRODUÇÃO EPP ======= -->
+<div class="page" id="page-producao">
+  <div class="ph"><div><div class="ph-title">Produção Real (EPP)</div></div></div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Detalhamento EPP</div><div class="card-actions"><span class="pill" id="prod-cnt">0</span></div></div>
+    <div class="srow"><input class="sinput" id="prod-q" placeholder="Buscar produto..." oninput="rProdReal()"></div>
+    <div class="twrap" style="max-height:420px"><table><thead><tr><th>Data</th><th>Codigo</th><th>Produto</th><th class="nr">Quantidade</th></tr></thead><tbody id="prod-body"></tbody></table>
+  </div>
+</div>
 
-      <!-- ======= PRODUÇÃO EPP ======= -->
-      <div class="page" id="page-producao">
-        <div class="ph"><div><div class="ph-title">Produção Real (EPP)</div></div></div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Detalhamento EPP</div><div class="card-actions"><span class="pill" id="prod-cnt">0</span></div></div>
-          <div class="srow"><input class="sinput" id="prod-q" placeholder="Buscar produto..." oninput="rProdReal()"></div>
-          <div class="twrap" style="max-height:420px"><table><thead><tr><th>Data</th><th>Codigo</th><th>Produto</th><th class="nr">Quantidade</th></tr></thead><tbody id="prod-body"></tbody></table></div>
-        </div>
-      </div>
+<!-- ======= ORDENS OFA ======= -->
+<div class="page" id="page-ordens">
+  <div class="ph"><div><div class="ph-title">Ordens de Fabricação (OFA)</div><div class="ph-sub">Classificadas por situação de data</div></div><div class="ph-actions"><button class="btn" onclick="expCSVOrdens()">📥 CSV</button></div></div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">OFAs Abertas</div><div class="card-actions"><span class="pill" id="ord-cnt">0</span><select class="ssel" id="ord-sit" onchange="rOrdens()"><option value="">Todas</option><option value="atrasada">Atrasadas</option><option value="semana">Esta Semana</option><option value="horizonte">No Horizonte</option><option value="fora">Fora do Horizonte</option></select></div></div>
+    <div class="srow"><input class="sinput" id="ord-q" placeholder="Buscar ordem ou item..." oninput="rOrdens()"></div>
+    <div class="twrap" style="max-height:560px"><table><thead><tr><th>Ordem</th><th>Tipo</th><th>Codigo</th><th>Descricao</th><th>Dt. Início</th><th>Dt. Fim</th><th>Situação</th><th>Status Dt.</th><th class="nr">Qtde Plan.</th><th class="nr">Qtde Pend.</th><th class="nr">Dias Restantes</th></tr></thead><tbody id="ord-body"></tbody></table></div>
+  </div>
+</div>
 
-      <!-- ======= ORDENS OFA ======= -->
-      <div class="page" id="page-ordens">
-        <div class="ph"><div><div class="ph-title">Ordens de Fabricação (OFA)</div><div class="ph-sub">Classificadas por situação de data</div></div><div class="ph-actions"><button class="btn" onclick="expCSVOrdens()">📥 CSV</button></div></div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">OFAs Abertas</div><div class="card-actions"><span class="pill" id="ord-cnt">0</span><select class="ssel" id="ord-sit" onchange="rOrdens()"><option value="">Todas</option><option value="atrasada">Atrasadas</option><option value="semana">Esta Semana</option><option value="horizonte">No Horizonte</option><option value="fora">Fora do Horizonte</option></select></div></div>
-          <div class="srow"><input class="sinput" id="ord-q" placeholder="Buscar ordem ou item..." oninput="rOrdens()"></div>
-          <div class="twrap" style="max-height:560px"><table><thead><tr><th>Ordem</th><th>Tipo</th><th>Codigo</th><th>Descricao</th><th>Dt. Início</th><th>Dt. Fim</th><th>Situação</th><th>Status Dt.</th><th class="nr">Qtde Plan.</th><th class="nr">Qtde Pend.</th><th class="nr">Dias Restantes</th></tr></thead><tbody id="ord-body"></tbody></table></div>
-        </div>
-      </div>
-
-      <!-- ======= PERFIL ======= -->
-      <div class="page" id="page-perfil">
-        <div class="ph"><div><div class="ph-title">Extrato / Perfil ERP</div></div></div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Perfil</div><div class="card-actions"><span class="pill" id="perf-cnt">0</span></div></div>
-          <div class="srow"><input class="sinput" id="perf-q" placeholder="Buscar item..." oninput="rPerfil()"></div>
-          <div class="twrap" style="max-height:560px"><table><thead><tr><th>Data</th><th>Item</th><th>Tipo</th><th>Referencia</th><th>Dt. Inicio</th><th>Dt. Fim</th><th class="nr">Quantidade</th></tr></thead><tbody id="perf-body"></tbody></table></div>
-        </div>
-      </div>
+<!-- ======= PERFIL ======= -->
+<div class="page" id="page-perfil">
+  <div class="ph"><div><div class="ph-title">Extrato / Perfil ERP</div></div></div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Perfil</div><div class="card-actions"><span class="pill" id="perf-cnt">0</span></div></div>
+    <div class="srow"><input class="sinput" id="perf-q" placeholder="Buscar item..." oninput="rPerfil()"></div>
+    <div class="twrap" style="max-height:560px"><table><thead><tr><th>Data</th><th>Item</th><th>Tipo</th><th>Referencia</th><th>Dt. Inicio</th><th>Dt. Fim</th><th class="nr">Quantidade</th></tr></thead><tbody id="perf-body"></tbody></table>
+  </div>
+</div>
 
     </main>
   </div>
 </div>
 
+<!-- DETAIL PANEL -->
 <div id="detail-overlay" class="detail-overlay" onclick="closeDetail()"></div>
 <div id="detail-panel" class="detail-panel">
   <div class="dp-header"><div><div class="dp-title" id="dp-title">Item</div><div class="dp-sub" id="dp-sub">--</div></div><button class="dp-close" onclick="closeDetail()">✕ Fechar</button></div>
   <div class="dp-body" id="dp-body"></div>
 </div>
 
+<!-- PROJEÇÃO MODAL (gráfico completo) -->
+<div id="proj-modal" class="proj-modal" onclick="if(event.target===this)closeProjModal()">
+  <div class="proj-modal-box">
+    <div class="proj-modal-header">
+      <div class="proj-modal-title" id="proj-modal-title">Projeção</div>
+      <button class="btn" onclick="closeProjModal()">✕ Fechar</button>
+    </div>
+    <canvas id="proj-chart" height="220"></canvas>
+    <div id="proj-modal-detail" style="margin-top:14px;font-size:11px;color:var(--text2)"></div>
+  </div>
+</div>
 <script>
 /* ==============================================================
    CONFIG
    ============================================================== */
 var PUB_ID="1_jTVohMskSRguXpHF8n5ym7WPHfjasvl92PXAPSrat8";
-var ABAS=['SALDO','PARAMETROS','PERFIL','ORDENS','EXTRATO','PREVISAO','LINHAS ','CAPACIDADE ','ESTOQUE INICIAL'];
+var ABAS=['SALDO','PARAMETROS','PERFIL','ORDENS','EXTRATO','PREVISAO','LINHAS ','CAPACIDADE '];
 var LINHAS_NOMES={'L1':'Linha 1','L2':'Linha 2','L3':'Linha 3','AREA LIQUIDA':'Área Líquida','MQ 1':'Máquina 1','MAQ 2':'Máquina 2','REJUNTE ACRILICO':'Rejunte Acrílico'};
 var LINHAS_KEYS=['L1','L2','L3','AREA LIQUIDA','MQ 1','MAQ 2','REJUNTE ACRILICO'];
 var DIAS_PT=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-var MESES_NOMES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-var HORIZONTE_OFA=14;  
-var HORIZONTE_PROJ=21; 
+var HORIZONTE_OFA=14;  // dias para considerar OFA como cobertura
+var HORIZONTE_PROJ=21; // dias de projeção temporal
 var G={
-  saldo:[],parametros:[],perfil:[],ordens:[],extrato:[],previsao:[],linhasAba:[],capacidadeAba:[],estoqueInicialAba:[],
+  saldo:[],parametros:[],perfil:[],ordens:[],extrato:[],previsao:[],linhasAba:[],capacidadeAba:[],
   itens:[],epp:[],nfs:[],prodDiaria:[],prevItens:[],linhasInfo:[],
   schedule:null,semanaOffset:0,linhaForecast:null,charts:{},
-  rawData:null,
-  mesFiltro: null // "YYYY-MM"
+  rawData:null // guarda dados brutos para reprocessar
 };
-
-window.onload = function() {
-  initMesFiltro();
-  initLoad();
-};
-
-function initMesFiltro() {
-  // Inicialmente vazio, será populado após o load dos dados
-  G.mesFiltro = null;
-}
-
-function popularSelectMes() {
-  var sel = el('prev-mes-filtro');
-  if(!sel) return;
-  
-  var comps = new Set();
-  var buscarComp = function(r) {
-    var c = s(r['Competência'] || r['COMPETENCIA'] || r['Competencia'] || '');
-    if(c && /^\d{4}-\d{2}$/.test(c)) comps.add(c);
-  };
-  
-  if(G.previsao) G.previsao.forEach(buscarComp);
-  if(G.extrato) G.extrato.forEach(buscarComp);
-  if(G.estoqueInicialAba) G.estoqueInicialAba.forEach(buscarComp);
-  
-  var lista = Array.from(comps).sort().reverse();
-  if(lista.length === 0) return;
-
-  sel.innerHTML = '';
-  lista.forEach(val => {
-    var op = document.createElement('option');
-    op.value = val;
-    op.textContent = val;
-    if(val === G.mesFiltro) op.selected = true;
-    sel.appendChild(op);
-  });
-
-  if(!G.mesFiltro || !comps.has(G.mesFiltro)) {
-    G.mesFiltro = lista[0];
-    sel.value = G.mesFiltro;
-  }
-}
-
-function mudarMesFiltro() {
-  G.mesFiltro = v('prev-mes-filtro');
-  if(G.rawData) processar(G.rawData);
-}
+window.onload=initLoad;
 
 /* ==============================================================
    FETCH
@@ -539,7 +770,7 @@ function initLoad(){
   el('conn-status').textContent='ATUALIZANDO...';
   Promise.all(ABAS.map(fetchAba))
     .then(function(r){var d={};ABAS.forEach(function(a,i){d[a]=r[i];});G.rawData=d;processar(d);el('conn-status').textContent='CONECTADO';})
-    .catch(function(e){console.warn('Erro:',e);el('conn-status').textContent='ERRO CONEXÃO';var d={SALDO:[],PARAMETROS:[],PERFIL:[],ORDENS:[],EXTRATO:[],PREVISAO:[],'LINHAS ':[],'CAPACIDADE ':[],'ESTOQUE INICIAL':[]};G.rawData=d;processar(d);});
+    .catch(function(e){console.warn('Erro:',e);el('conn-status').textContent='ERRO CONEXÃO';var d={SALDO:[],PARAMETROS:[],PERFIL:[],ORDENS:[],EXTRATO:[],PREVISAO:[],'LINHAS ':[],'CAPACIDADE ':[]};G.rawData=d;processar(d);});
 }
 function fetchAba(aba){return fetch("https://docs.google.com/spreadsheets/d/"+PUB_ID+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(aba)).then(function(r){return r.ok?r.text():Promise.reject(aba);}).then(parseCSV);}
 function parseCSV(csv){var ls=csv.split('\n');if(!ls.length) return[];var cols=splitL(ls[0]);var rows=[];for(var i=1;i<ls.length;i++){var l=ls[i].trim();if(!l) continue;var vals=splitL(l);var obj={};cols.forEach(function(c,ci){obj[limpC(c)]=limpV(vals[ci]);});vals.forEach(function(v,vi){obj['_col'+vi]=limpV(v);});rows.push(obj);}return rows;}
@@ -547,16 +778,17 @@ function splitL(l){var r=[],c='',q=false;for(var i=0;i<l.length;i++){var ch=l[i]
 function limpC(c){return(c||'').trim().replace(/^"|"$/g,'');}
 function limpV(v){return(v===undefined||v===null)?'':String(v).trim().replace(/^"|"$/g,'');}
 function ehTrue(v){var t=s(v).toLowerCase();return t==='true'||t==='1'||t==='sim'||t==='yes';}
+function reprocessar(){HORIZONTE_PROJ=parseInt(v('cfg-horizonte-proj'))||21;if(G.rawData)processar(G.rawData);}
+function mudarHorizonte(){HORIZONTE_OFA=parseInt(v('cfg-horizonte'))||14;txt('horizonte-label',HORIZONTE_OFA+'d');if(G.rawData)processar(G.rawData);}
 
 /* ==============================================================
    UTILITÁRIOS DE DATA
    ============================================================== */
 function parseDate(str){
   str=s(str).trim();if(!str||str==='-'||str.length<8) return null;
-  // Suporte a DD/MM/AAAA
-  if(/^\d{2}\/\d{2}\/\d{4}/.test(str)){var p=str.split('/');var d=new Date(p[2]+'-'+p[1]+'-'+p[0]+'T00:00:00');return isNaN(d.getTime())?null:d;}
-  // Suporte a AAAA-MM-DD
   if(/^\d{4}-\d{2}-\d{2}/.test(str)){var d=new Date(str.substring(0,10)+'T00:00:00');return isNaN(d.getTime())?null:d;}
+  if(/^\d{2}\/\d{2}\/\d{4}/.test(str)){var p=str.split('/');var d=new Date(p[2]+'-'+p[1]+'-'+p[0]+'T00:00:00');return isNaN(d.getTime())?null:d;}
+  if(/^\d{2}\/\d{2}\/\d{2}$/.test(str)){var p=str.split('/');var a=parseInt(p[2])<50?'20'+p[2]:'19'+p[2];var d=new Date(a+'-'+p[1]+'-'+p[0]+'T00:00:00');return isNaN(d.getTime())?null:d;}
   var d=new Date(str);return isNaN(d.getTime())?null:d;
 }
 function difDias(d1,d2){if(!d1||!d2) return null;return Math.round((d2.getTime()-d1.getTime())/86400000);}
@@ -565,6 +797,7 @@ function isoDate(d){if(!d) return '';return d.getFullYear()+'-'+String(d.getMont
 function hoje0(){var d=new Date();d.setHours(0,0,0,0);return d;}
 function addDias(d,n){var r=new Date(d);r.setDate(r.getDate()+n);return r;}
 function isDiaUtil(d){var dw=d.getDay();return dw!==0&&dw!==6;}
+// Gera array de datas (todos os dias) por N dias a partir de HOJE
 function gerarDias(n,inicio){var base=inicio||hoje0();var dias=[];for(var i=0;i<n;i++) dias.push(addDias(base,i));return dias;}
 
 /* ==============================================================
@@ -579,23 +812,17 @@ function processar(dados){
   G.previsao     =dados['PREVISAO']     ||[];
   G.linhasAba    =dados['LINHAS ']      ||[];
   G.capacidadeAba=dados['CAPACIDADE '] ||[];
-  G.estoqueInicialAba=dados['ESTOQUE INICIAL'] ||[];
-
-  console.log('--- DIAGNÓSTICO DE CARREGAMENTO ---');
-  console.log('Previsão:', G.previsao.length);
-  console.log('Extrato (EPP/NFS):', G.extrato.length);
-  console.log('Estoque Inicial:', G.estoqueInicialAba.length);
 
   var HOJE=hoje0();
   var hzDate=addDias(HOJE,HORIZONTE_OFA);
 
-  // Filtro de Competência Global
-  popularSelectMes();
-  var compSel = G.mesFiltro;
-
+  /* ---- Mapas base ---- */
   var segMap={};
   G.parametros.forEach(function(r){var c=s(r['Cod. Item']||r['Codigo']||r['_col0']||'');if(c) segMap[c]=n(r['Estq. Seg']||r['ESTOQUE SEGURANÇA']||r['_col6']||0);});
 
+  /* ---- DC — com datas quando disponível ---- */
+  // dcMap[cod] = total (para cálculo de demanda diária)
+  // dcDatasMap[cod] = [{qty, dateFim}] para projeção temporal
   var dcMap={},dcDatasMap={};
   G.perfil.forEach(function(r){
     if(s(r['Tipo']||r['_col2']||'').toUpperCase()!=='DC') return;
@@ -608,12 +835,22 @@ function processar(dados){
     dcDatasMap[cod].push({qty:qtd,dateFim:dtFim});
   });
 
-  var ofaHorizMap={},ofaAtrasMap={},ofaForaMap={},ofaDtFimMap={},ofaDetMap={},ofaDiasMap={};
+  /* ---- OFAs processadas com data-awareness ---- */
+  var ofaHorizMap={},ofaAtrasMap={},ofaForaMap={};
+  var ofaDtFimMap={},ofaDetMap={};
+  // ofaDiasMap[cod][isoDate] = qty produzida naquele dia (para projeção)
+  var ofaDiasMap={};
+
   G.ordens.forEach(function(r){
-    var cod=s(r['Cod. Item']||r['_col3']||''),tipo=s(r['Tipo']||r['_col2']||'').toUpperCase(),sit=s(r['Situacao']||r['_col8']||'').toLowerCase(),pend=n(r['Qtde. Pendente']||r['_col10']||0),ordem=s(r['Ordem']||r['_col0']||'');
+    var cod   =s(r['Cod. Item']||r['_col3']||'');
+    var tipo  =s(r['Tipo']    ||r['_col2']||'').toUpperCase();
+    var sit   =s(r['Situacao']||r['_col8']||'').toLowerCase();
+    var pend  =n(r['Qtde. Pendente']||r['_col10']||0);
+    var ordem =s(r['Ordem']   ||r['_col0']||'');
     var aberta=(sit==='liberada'||sit==='aberta'||sit==='em aberto'||sit==='parcial'||sit==='');
     if(!cod||(tipo!=='OFA'&&tipo!=='OFP')||!aberta||pend<=0) return;
-    var dtIni=parseDate(s(r['Dt. Inicio']||r['_col6']||'')),dtFim=parseDate(s(r['Dt. Fim']||r['_col7']||''));
+    var dtIni=parseDate(s(r['Dt. Inicio']||r['_col6']||''));
+    var dtFim=parseDate(s(r['Dt. Fim']   ||r['_col7']||''));
     var diasRest=dtFim?difDias(HOJE,dtFim):null;
     var situDt;
     if(!dtFim){situDt='semdata';ofaHorizMap[cod]=(ofaHorizMap[cod]||0)+pend;}
@@ -623,15 +860,19 @@ function processar(dados){
     if(dtFim&&(!ofaDtFimMap[cod]||dtFim<ofaDtFimMap[cod])) ofaDtFimMap[cod]=dtFim;
     if(!ofaDetMap[cod]) ofaDetMap[cod]=[];
     ofaDetMap[cod].push({pend,dtIni,dtFim,diasRest,situDt,ordem,tipo});
+    // Distribuir produção da OFA por dia (para projeção temporal)
     if(pend>0){
-      var iniEfetivo=dtIni&&dtIni>HOJE?dtIni:HOJE,fimEfetivo=dtFim||addDias(HOJE,7);
-      var totalDias=Math.max(difDias(iniEfetivo,fimEfetivo)+1,1),porDia=pend/totalDias;
+      var iniEfetivo=dtIni&&dtIni>HOJE?dtIni:HOJE;
+      var fimEfetivo=dtFim||addDias(HOJE,7);
+      var totalDias=Math.max(difDias(iniEfetivo,fimEfetivo)+1,1);
+      var porDia=pend/totalDias;
       if(!ofaDiasMap[cod]) ofaDiasMap[cod]={};
       var d=new Date(iniEfetivo);
       for(var di=0;di<totalDias;di++){var dk=isoDate(d);ofaDiasMap[cod][dk]=(ofaDiasMap[cod][dk]||0)+porDia;d=addDias(d,1);}
     }
   });
 
+  /* ---- Linhas + Capacidade ---- */
   var itemLinhasMap={},itemFixcolMap={};
   G.linhasAba.forEach(function(r){var cod=s(r['CODIGO']||r['Codigo']||r['_col0']||'');if(!cod) return;itemFixcolMap[cod]=ehTrue(r['FIXCOL']||r['_col9']||'');var lk=[];LINHAS_KEYS.forEach(function(k){if(ehTrue(r[k]||'')) lk.push(k);});itemLinhasMap[cod]=lk;});
   var capProdMap={};
@@ -639,128 +880,190 @@ function processar(dados){
   var prodMap={};
   G.saldo.forEach(function(r){var c=s(r['Código']||r['Codigo']||r['_col0']||'');if(c) prodMap[c]=s(r['Descrição']||r['Descricao']||r['_col1']||'');});
 
-  // FILTRAGEM POR COMPETÊNCIA EPP/NFS
+  /* ---- EPP / NFS ---- */
   G.epp=[];G.nfs=[];var eppMap={},nfsMap={};
   G.extrato.forEach(function(r){
-    var sigla=s(r['Sigla']||r['_col3']||'').toUpperCase();if(sigla!=='EPP'&&sigla!=='NFS') return;
-    var comp = s(r['Competência'] || r['COMPETENCIA'] || r['Competencia'] || '');
-    if(comp === compSel){
-      var qtd=n(r['Qtde']||r['QTDE']||r['_col5']||0);var cod=s(r['Cod. Item']||r['CODIGO']||r['_col12']||'');
-      if(!cod||qtd<=0) return;
-      var dt = parseDate(s(r['Data']||r['_col1']||''));
-      var obj={Data:dt?isoDate(dt):'',Codigo:cod,Produto:prodMap[cod]||'',Quantidade:qtd};
-      if(sigla==='EPP'){G.epp.push(obj);eppMap[cod]=(eppMap[cod]||0)+qtd;}
-      else{G.nfs.push(obj);nfsMap[cod]=(nfsMap[cod]||0)+qtd;}
-    }
+    var sigla=s(r['Sigla']||r['_col3']||'').toUpperCase();
+    if(sigla!=='EPP'&&sigla!=='NFS') return;
+    var dv=s(r['Data']||r['_col1']||'');if(dv.includes('T')) dv=dv.substring(0,10);
+    var qtd=n(r['Qtde']||r['QTDE']||r['_col5']||0);var cod=s(r['Cod. Item']||r['CODIGO']||r['_col12']||'');
+    if(!cod||qtd<=0) return;
+    var obj={Data:dv,Codigo:cod,Produto:prodMap[cod]||'',Quantidade:qtd};
+    if(sigla==='EPP'){G.epp.push(obj);eppMap[cod]=(eppMap[cod]||0)+qtd;}
+    else{G.nfs.push(obj);nfsMap[cod]=(nfsMap[cod]||0)+qtd;}
   });
+  var dpMap={};G.epp.forEach(function(r){if(r.Data) dpMap[r.Data]=(dpMap[r.Data]||0)+r.Quantidade;});
+  G.prodDiaria=Object.keys(dpMap).map(function(d){return{data:d,qty:dpMap[d]};}).sort((a,b)=>a.data.localeCompare(b.data));
 
-  // FILTRAGEM POR COMPETÊNCIA ESTOQUE INICIAL
-  var estIniMap={};
-  G.estoqueInicialAba.forEach(function(r){
-    var c=s(r['Código']||r['Codigo']||r['_col0']||'');
-    var comp = s(r['Competência'] || r['COMPETENCIA'] || r['Competencia'] || '');
-    if(c && comp === compSel) {
-      estIniMap[c]=n(r['Quantidade Inicial']||r['QUANTIDADE INICIAL']||r['_col2']||0);
-    }
-  });
-
-  // FILTRAGEM POR COMPETÊNCIA PREVISÃO - BASE DA TABELA
+  /* ---- Previsão ---- */
   G.prevItens=[];
   G.previsao.forEach(function(r){
-    var cod=s(r['Item']||r['ITEM']||r['_col0']||'');if(!cod) return;
-    var comp = s(r['Competência'] || r['COMPETENCIA'] || r['Competencia'] || '');
-    
-    if(comp !== compSel) return;
-
-    var prev=n(r['Previsto']||r['PREVISTO']||r['_col2']||0);
-    var estIni=estIniMap[cod]||0;
-    var prodExec=eppMap[cod]||0;
-    var nfs=nfsMap[cod]||0;
-    
-    // NOVOS CÁLCULOS CONFORME REGRAS
-    var necProd=Math.max(prev-estIni,0);
-    var prodRest=Math.max(necProd-prodExec,0);
-    var saldoAtual=estIni+prodExec-nfs;
-    var real=prodExec+nfs; // Mantido para aderência
-    
-    var statusProd='NÃO PRODUZIR';
-    if(estIni<prev){
-      if(prodExec===0) statusProd='PRODUZIR';
-      else if(prodRest>0) statusProd='EM PRODUÇÃO';
-      else statusProd='PRODUÇÃO CONCLUÍDA';
-    }
-
+    var cod=s(r['Item']||r['_col0']||'');if(!cod) return;
+    var prev=n(r['Previsto']||r['_col2']||0);var real=(eppMap[cod]||0)+(nfsMap[cod]||0);
     var ader=prev>0?Math.round(real/prev*100):(real>0?999:0);
-    G.prevItens.push({Codigo:cod,Produto:prodMap[cod]||'',UM:s(r['UM']||r['_col1']||''),Previsto:prev,Realizado:real,Diferenca:real-prev,Aderencia:ader,Status:ader>=100?'ACIMA':ader>=80?'DENTRO':'ABAIXO',RowCls:ader>=100?'ro':ader>=80?'rw':'rc',EstIni:estIni,NecProd:necProd,ProdExec:prodExec,ProdRest:prodRest,SaldoAtual:saldoAtual,StatusProd:statusProd,NFS:nfs});
+    G.prevItens.push({Codigo:cod,Produto:prodMap[cod]||'',UM:s(r['UM']||r['_col1']||''),Previsto:prev,Realizado:real,Diferenca:real-prev,Aderencia:ader,Status:ader>=100?'ACIMA':ader>=80?'DENTRO':'ABAIXO',RowCls:ader>=100?'ro':ader>=80?'rw':'rc'});
   });
 
-  console.log('--- DIAGNÓSTICO PÓS-FILTRO ---');
-  console.log('Previsão Filtrada:', G.prevItens.length);
-  console.log('EPP Filtrada:', G.epp.length);
-  console.log('NFS Filtrada:', G.nfs.length);
-  console.log('Estoque Inicial Filtrado:', Object.keys(estIniMap).length);
-
-  // Itens PCP (Dashboard/Estoque)
+  /* ================================================================
+     ITENS PCP — lógica temporal completa
+  ================================================================ */
   G.itens=G.saldo.map(function(r){
-    var cod=s(r['Código']||r['Codigo']||r['_col0']||''),prod=s(r['Descrição']||r['Descricao']||r['_col1']||'');if(!cod) return null;
-    var a3=n(r['Almox 3']||r['_col2']||0),a30=n(r['Almox 30']||r['_col3']||0),estSeg=segMap[cod]||0,pedCom=dcMap[cod]||0;
-    var ofaHoriz=ofaHorizMap[cod]||0,ofaFora=ofaForaMap[cod]||0,ofaAtras=ofaAtrasMap[cod]||0,ofaTotal=ofaHoriz+ofaFora;
+    var cod =s(r['Código']||r['Codigo']||r['_col0']||'');
+    var prod=s(r['Descrição']||r['Descricao']||r['_col1']||'');
+    if(!cod) return null;
+    var a3=n(r['Almox 3']||r['_col2']||0),a30=n(r['Almox 30']||r['_col3']||0);
+    var pedCom=dcMap[cod]||0,estSeg=segMap[cod]||0;
+    var ofaHoriz=ofaHorizMap[cod]||0,ofaFora=ofaForaMap[cod]||0,ofaAtras=ofaAtrasMap[cod]||0;
+    var ofaTotal=ofaHoriz+ofaFora;
     var capProd=capProdMap[cod]||0,lk=itemLinhasMap[cod]||[],fixcol=itemFixcolMap[cod]||false;
-    var dets=ofaDetMap[cod]||[],dtFimOFA=ofaDtFimMap[cod]||null,diasAteOFA=dtFimOFA?difDias(HOJE,dtFimOFA):null;
-    var dispTotal=a3+a30,necTotal=pedCom+estSeg,necProd=Math.max(necTotal-dispTotal-ofaHoriz,0),necCom=Math.max(pedCom-dispTotal,0);
-    var demDiaria=pedCom>0?pedCom/22:0,cobDias=demDiaria>0?dispTotal/demDiaria:(dispTotal>0?999:0);
+    var dets=ofaDetMap[cod]||[];var dtFimOFA=ofaDtFimMap[cod]||null;
+    var diasAteOFA=dtFimOFA?difDias(HOJE,dtFimOFA):null;
+    var dispTotal=a3+a30;
+    var necTotal=pedCom+estSeg;
+    var necProd=Math.max(necTotal-dispTotal-ofaHoriz,0);
+    var necCom=Math.max(pedCom-dispTotal,0);
+    var diasNec=(necProd>0&&capProd>0)?necProd/capProd:0;
+    var demDiaria=pedCom>0?pedCom/22:0;
+    var cobDias=demDiaria>0?dispTotal/demDiaria:(dispTotal>0?999:0);
     var conflitoDCOFA=necCom>0&&dtFimOFA&&diasAteOFA!==null&&diasAteOFA>cobDias;
-    var proj=calcProjecao(cod,dispTotal,estSeg,demDiaria,ofaDiasMap[cod]||{},HORIZONTE_PROJ),ruptInfo=findRupturaDate(proj,estSeg);
+
+    /* PROJEÇÃO TEMPORAL — motor principal */
+    var proj=calcProjecao(cod,dispTotal,estSeg,demDiaria,ofaDiasMap[cod]||{},HORIZONTE_PROJ);
+    var ruptInfo=findRupturaDate(proj,estSeg);
+
+    /* STATUS CAPACIDADE */
     var statusCap,motivo,rowCls;
     if(necProd<=0){statusCap=ofaHoriz>0&&ofaHoriz>=(necTotal-dispTotal)?'OFA ATENDE':'NORMAL';motivo='Coberto.';rowCls='ro';}
     else if(capProd<=0){statusCap='SEM CAPACIDADE';motivo=fixcol?'FIXCOL externo.':'Sem cap. mapeada.';rowCls='rc';}
-    else if(necProd/capProd>5){statusCap='CAP LIMITADA';motivo=(necProd/capProd).toFixed(1)+'d prod.';rowCls='rw';}
+    else if(diasNec>5){statusCap='CAP LIMITADA';motivo=diasNec.toFixed(1)+'d prod.';rowCls='rw';}
     else{statusCap='PRODUZIR URGENTE';motivo='Urgente!';rowCls='rc';}
-    var riscoRuptura=conflitoDCOFA||(ruptInfo&&ruptInfo.dias<=3)?'CRITICO':(ruptInfo&&ruptInfo.dias<=7)?'URGENTE':(ruptInfo&&ruptInfo.dias<=14)?'MODERADO':ruptInfo?'BAIXO':'OK';
-    var pri=0;if(ruptInfo){if(ruptInfo.dias<=3)pri+=55;else if(ruptInfo.dias<=7)pri+=45;else if(ruptInfo.dias<=14)pri+=30;else pri+=15;}if(conflitoDCOFA)pri+=20;if(ofaAtras>0)pri+=12;if(necCom>0)pri+=15;if(dispTotal<estSeg)pri+=10;if(statusCap==='PRODUZIR URGENTE')pri+=10;if(statusCap==='SEM CAPACIDADE')pri-=10;pri=Math.min(Math.max(pri,0),100);
-    return{Codigo:cod,Produto:prod,Almox3:a3,Almox30:a30,DispTotal:dispTotal,PedidoComercial:pedCom,NecComercial:necCom,EstoqueSeguranca:estSeg,OFAPendente:ofaTotal,OFAHorizonte:ofaHoriz,OFAFora:ofaFora,OFAAtrasada:ofaAtras,NecessidadeProd:necProd,CapacidadeDia:capProd,CoberturasDias:cobDias,DemandaDiaria:demDiaria,OFADtFim:dtFimOFA,DiasAteOFA:diasAteOFA,ConflitoDCOFA:conflitoDCOFA,OFADetalhes:dets,LinhaProducao:lk.map(k=>LINHAS_NOMES[k]||k).join(', ')||(fixcol?'COL FIXA':'N/M'),LinhasKeys:lk,LinhaRec:lk.length>0?(LINHAS_NOMES[lk[0]]||lk[0]):(fixcol?'COL FIXA':'N/M'),StatusCap:statusCap,Motivo:motivo,RowCls:rowCls,RiscoRuptura:riscoRuptura,Prioridade:pri,Projecao:proj,RuptInfo:ruptInfo,DiasAteRuptura:ruptInfo?ruptInfo.dias:null,DataRuptura:ruptInfo?ruptInfo.data:null,TipoRuptura:ruptInfo?ruptInfo.tipo:null};
+    if(ofaAtras>0) motivo='⏰OFA ATRASADA '+fN(Math.round(ofaAtras))+'sc! '+motivo;
+    if(conflitoDCOFA) motivo='🚨CONFLITO DC×OFA('+diasAteOFA+'d)! '+motivo;
+    if(ruptInfo) motivo=(ruptInfo.tipo==='RUPTURA'?'🔴':'⚠️')+' Ruptura prevista em '+ruptInfo.dias+'d! '+motivo;
+
+    /* RISCO */
+    var riscoRuptura;
+    if(conflitoDCOFA||(ruptInfo&&ruptInfo.dias<=3)) riscoRuptura='CRITICO';
+    else if(ruptInfo&&ruptInfo.dias<=7) riscoRuptura='URGENTE';
+    else if(ruptInfo&&ruptInfo.dias<=14) riscoRuptura='MODERADO';
+    else if(ruptInfo) riscoRuptura='BAIXO';
+    else riscoRuptura='OK';
+
+    /* SCORE */
+    var pri=0;
+    if(ruptInfo&&ruptInfo.dias<=3) pri+=55;
+    else if(ruptInfo&&ruptInfo.dias<=7) pri+=45;
+    else if(ruptInfo&&ruptInfo.dias<=14) pri+=30;
+    else if(ruptInfo) pri+=15;
+    if(conflitoDCOFA) pri+=20;
+    if(ofaAtras>0) pri+=12;
+    if(necCom>0) pri+=15;
+    if(dispTotal<estSeg) pri+=10;
+    if(statusCap==='PRODUZIR URGENTE') pri+=10;
+    if(statusCap==='SEM CAPACIDADE') pri-=10;
+    if(necProd>1000) pri+=7;
+    pri=Math.min(Math.max(pri,0),100);
+
+    var dataIdeal=cobDias<=2?'HOJE':cobDias<=5?'Esta Semana':cobDias<=12?'Próx. Semana':'Programar';
+    if(statusCap==='NORMAL'||statusCap==='OFA ATENDE') dataIdeal='Coberto';
+    var tempoEst=capProd>0&&necProd>0?+(necProd/capProd).toFixed(1):0;
+    var linhaRec=lk.length>0?(LINHAS_NOMES[lk[0]]||lk[0]):(fixcol?'COL FIXA':'N/M');
+
+    return{Codigo:cod,Produto:prod,Almox3:a3,Almox30:a30,DispTotal:dispTotal,PedidoComercial:pedCom,NecComercial:necCom,EstoqueSeguranca:estSeg,
+      OFAPendente:ofaTotal,OFAHorizonte:ofaHoriz,OFAFora:ofaFora,OFAAtrasada:ofaAtras,
+      NecessidadeProd:necProd,CapacidadeDia:capProd,DiasNecessarios:diasNec,
+      CoberturasDias:cobDias,DemandaDiaria:demDiaria,
+      OFADtFim:dtFimOFA,DiasAteOFA:diasAteOFA,ConflitoDCOFA:conflitoDCOFA,OFADetalhes:dets,
+      LinhaProducao:lk.map(k=>LINHAS_NOMES[k]||k).join(', ')||(fixcol?'COL FIXA':'N/M'),
+      LinhasKeys:lk,LinhaRec:linhaRec,
+      StatusCap:statusCap,Motivo:motivo,RowCls:rowCls,RiscoRuptura:riscoRuptura,Prioridade:pri,
+      DataIdeal:dataIdeal,TempoEstimado:tempoEst,
+      // CAMPOS PREDITIVOS
+      Projecao:proj,
+      RuptInfo:ruptInfo,
+      DiasAteRuptura:ruptInfo?ruptInfo.dias:null,
+      DataRuptura:ruptInfo?ruptInfo.data:null,
+      TipoRuptura:ruptInfo?ruptInfo.tipo:null
+    };
   }).filter(Boolean);
 
-  // Linhas Info
-  var lOFA={},lCap={},lAtras={};LINHAS_KEYS.forEach(k=>{lOFA[k]=0;lCap[k]=0;lAtras[k]=0;});
+  /* ---- Linhas Info ---- */
+  var lOFA={},lCap={},lAtras={};
+  LINHAS_KEYS.forEach(k=>{lOFA[k]=0;lCap[k]=0;lAtras[k]=0;});
   G.itens.forEach(it=>{
     if(it.CapacidadeDia>0&&it.LinhasKeys.length>0) it.LinhasKeys.forEach(k=>{if(it.CapacidadeDia>lCap[k]) lCap[k]=it.CapacidadeDia;});
     if(it.OFAHorizonte>0&&it.LinhasKeys.length>0) it.LinhasKeys.forEach(k=>lOFA[k]+=it.OFAHorizonte/it.LinhasKeys.length);
     if(it.OFAAtrasada>0&&it.LinhasKeys.length>0) it.LinhasKeys.forEach(k=>lAtras[k]+=it.OFAAtrasada/it.LinhasKeys.length);
   });
-  G.linhasInfo=LINHAS_KEYS.map(lk=>{var p=lOFA[lk]||0,c=lCap[lk]||0,a=lAtras[lk]||0,u=c>0?Math.min(Math.round(p/c*100),999):(p>0?999:0);return{id:lk,nome:LINHAS_NOMES[lk]||lk,capDia:c,prog:p,util:u,livre:Math.max(c-p,0),atrasada:a,cor:u<=70?'verde':u<=90?'amarelo':'vermelho',itensAlocados:G.itens.filter(it=>it.LinhasKeys.includes(lk)&&it.NecessidadeProd>0).length};});
-  
+  G.linhasInfo=LINHAS_KEYS.map(lk=>{
+    var p=lOFA[lk]||0,c=lCap[lk]||0,a=lAtras[lk]||0;
+    var u=c>0?Math.min(Math.round(p/c*100),999):(p>0?999:0);
+    return{id:lk,nome:LINHAS_NOMES[lk]||lk,capDia:c,prog:p,util:u,livre:Math.max(c-p,0),atrasada:a,cor:u<=70?'verde':u<=90?'amarelo':'vermelho',itensAlocados:G.itens.filter(it=>it.LinhasKeys.includes(lk)&&it.NecessidadeProd>0).length};
+  });
+
+  /* ---- Forecast de Linhas (14 dias) ---- */
   G.linhaForecast=calcFuturoLinhas(14,ofaDiasMap);
+
+  /* ---- Schedule ---- */
   G.schedule=gerarAutoSchedule();
   popularSelectLinhas();
   popularSelectLinhasEst();
-  
+
   var ts=new Date().toLocaleString('pt-BR');
-  txt('hdr-ts',ts);txt('sf-ts',ts);txt('dash-ts',ts);txt('dash-hz',HORIZONTE_PROJ);
-  txt('prev-mes-label', compSel);
+  txt('hdr-ts',ts);txt('sf-ts',ts);txt('dash-ts',ts);
+  txt('dash-hz',HORIZONTE_PROJ);
   renderAll();
-  executarTestes();
 }
 
+/* ==============================================================
+   MOTOR DE PROJEÇÃO TEMPORAL
+   ============================================================== */
 function calcProjecao(cod,dispTotal,estSeg,demDiaria,ofaDiasMapCod,horizonte){
-  var HOJE=hoje0(),saldo=dispTotal,proj=[];
+  var HOJE=hoje0();
+  var saldo=dispTotal;
+  var proj=[];
   for(var d=0;d<horizonte;d++){
-    var date=addDias(HOJE,d),dk=isoDate(date),util=isDiaUtil(date),entradaOFA=ofaDiasMapCod[dk]||0,saidaDC=util&&demDiaria>0?demDiaria:0,saldoInicio=saldo,saldoFim=saldoInicio+entradaOFA-saidaDC;
-    saldo=Math.max(saldoFim,0);proj.push({d,date,dk,util,entradaOFA,saidaDC,saldoInicio,saldoFim,abaixoSeg:saldoFim<estSeg&&estSeg>0,ruptura:saldoFim<=0});
+    var date=addDias(HOJE,d);var dk=isoDate(date);
+    var util=isDiaUtil(date);
+    var entradaOFA=ofaDiasMapCod[dk]||0;
+    var saidaDC=util&&demDiaria>0?demDiaria:0;
+    var saldoInicio=saldo;
+    var saldoFim=saldoInicio+entradaOFA-saidaDC;
+    saldo=Math.max(saldoFim,0); // não acumula negativo
+    proj.push({d,date,dk,util,entradaOFA,saidaDC,saldoInicio,saldoFim,
+      abaixoSeg:saldoFim<estSeg&&estSeg>0,ruptura:saldoFim<=0,
+      excesso:estSeg>0&&saldoFim>estSeg*3});
   }
   return proj;
 }
-function findRupturaDate(proj,estSeg){for(var i=0;i<proj.length;i++){if(proj[i].ruptura)return{dias:i+1,tipo:'RUPTURA',data:proj[i].date};if(proj[i].abaixoSeg&&estSeg>0)return{dias:i+1,tipo:'ABAIXO_SEG',data:proj[i].date};}return null;}
 
+function findRupturaDate(proj,estSeg){
+  for(var i=0;i<proj.length;i++){
+    if(proj[i].ruptura) return{dias:i+1,tipo:'RUPTURA',data:proj[i].date};
+    if(proj[i].abaixoSeg&&estSeg>0) return{dias:i+1,tipo:'ABAIXO_SEG',data:proj[i].date};
+  }
+  return null;
+}
+
+/* ==============================================================
+   FORECAST DE LINHAS — projeção de ocupação futura
+   ============================================================== */
 function calcFuturoLinhas(dias,ofaDiasMapGlobal){
-  var HOJE=hoje0();var result={};
+  var HOJE=hoje0();
+  var result={};
   LINHAS_KEYS.forEach(lk=>{
     result[lk]=[];
     for(var d=0;d<dias;d++){
       var date=addDias(HOJE,d);var dk=isoDate(date);
       var linhaInfo=G.linhasInfo.find(l=>l.id===lk);
-      var cap=linhaInfo?linhaInfo.capDia:0,ofa=0;
-      G.itens.forEach(it=>{if(!it.LinhasKeys.includes(lk)) return;var ofaDias=ofaDiasMapGlobal[it.Codigo];if(ofaDias&&ofaDias[dk]) ofa+=ofaDias[dk]/Math.max(it.LinhasKeys.length,1);});
+      var cap=linhaInfo?linhaInfo.capDia:0;
+      var ofa=0;
+      // Soma OFAs de itens dessa linha para esse dia
+      G.itens.forEach(it=>{
+        if(!it.LinhasKeys.includes(lk)) return;
+        var ofaDias=ofaDiasMapGlobal[it.Codigo];
+        if(ofaDias&&ofaDias[dk]) ofa+=ofaDias[dk]/Math.max(it.LinhasKeys.length,1);
+      });
       var util=cap>0?Math.min(Math.round(ofa/cap*100),999):(ofa>0?999:0);
       result[lk].push({date,dk,cap,ofa,util,livre:Math.max(cap-ofa,0),cor:util<=70?'verde':util<=90?'amarelo':'vermelho'});
     }
@@ -768,6 +1071,9 @@ function calcFuturoLinhas(dias,ofaDiasMapGlobal){
   return result;
 }
 
+/* ==============================================================
+   SCHEDULE SEMANAL INTELIGENTE — prioriza itens com ruptura prevista
+   ============================================================== */
 function getSemanaAtual(){
   var hoje=hoje0();var base=new Date(hoje);base.setDate(hoje.getDate()+(G.semanaOffset*7));
   var dw=base.getDay();var inicio=new Date(base);inicio.setDate(base.getDate()-(dw===0?6:dw-1));
@@ -775,26 +1081,41 @@ function getSemanaAtual(){
 }
 
 function gerarAutoSchedule(){
-  var dias=getSemanaAtual();var HOJE=hoje0();var grade={};
+  var dias=getSemanaAtual();var HOJE=hoje0();
+  var grade={};
   LINHAS_KEYS.forEach(lk=>{grade[lk]={};dias.forEach(d=>{var dk=isoDate(d);var li=G.linhasInfo.find(l=>l.id===lk);grade[lk][dk]={cap:li?li.capDia:0,ofaProg:0,sugestao:0,itensOFA:[],itensSug:[]};});});
+
+  // Pré-alocar OFAs com Dt.Início dentro da semana
   G.ordens.forEach(function(r){
-    var cod=s(r['Cod. Item']||r['_col3']||''),tipo=s(r['Tipo']||r['_col2']||'').toUpperCase(),sit=s(r['Situacao']||r['_col8']||'').toLowerCase(),pend=n(r['Qtde. Pendente']||r['_col10']||0);
+    var cod=s(r['Cod. Item']||r['_col3']||''),tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();
+    var sit=s(r['Situacao']||r['_col8']||'').toLowerCase();
+    var pend=n(r['Qtde. Pendente']||r['_col10']||0);
     var aberta=(sit==='liberada'||sit==='aberta'||sit==='em aberto'||sit==='parcial'||sit==='');
     if(!cod||(tipo!=='OFA'&&tipo!=='OFP')||!aberta||pend<=0) return;
     var dtIni=parseDate(s(r['Dt. Inicio']||r['_col6']||'')),dtFim=parseDate(s(r['Dt. Fim']||r['_col7']||''));
-    var it=G.itens.find(x=>x.Codigo===cod);var lk=it?it.LinhasKeys:[];if(!lk||!lk.length) return;
-    var dkStart=isoDate(dtIni&&dtIni>HOJE?dtIni:HOJE),dkEnd=dtFim?isoDate(dtFim):isoDate(dias[dias.length-1]);
+    var lk=G.itens.find(x=>x.Codigo===cod);lk=lk?lk.LinhasKeys:[];if(!lk||!lk.length) return;
+    var dkStart=isoDate(dtIni&&dtIni>HOJE?dtIni:HOJE);
+    var dkEnd=dtFim?isoDate(dtFim):isoDate(dias[dias.length-1]);
     var diasOFA=dias.filter(d=>{var dk=isoDate(d);return dk>=dkStart&&dk<=dkEnd;});
     if(!diasOFA.length) return;
     var porDia=pend/diasOFA.length;
     diasOFA.forEach(d=>{var dk=isoDate(d);lk.forEach(lk2=>{if(grade[lk2]&&grade[lk2][dk]){grade[lk2][dk].ofaProg+=porDia/lk.length;grade[lk2][dk].itensOFA.push({cod,qty:Math.round(porDia/lk.length),ordem:s(r['Ordem']||r['_col0']||'')});}});});
   });
-  var fila=G.itens.filter(it=>it.NecessidadeProd>0&&it.LinhasKeys.length>0).sort((a,b)=>{var ar=a.DiasAteRuptura!==null?a.DiasAteRuptura:999,br=b.DiasAteRuptura!==null?b.DiasAteRuptura:999;if(ar!==br) return ar-br;return b.Prioridade-a.Prioridade;});
+
+  // Sugestão PCP — ordenada por urgência preditiva (ruptura mais próxima primeiro)
+  var fila=G.itens.filter(it=>it.NecessidadeProd>0&&it.LinhasKeys.length>0)
+    .sort((a,b)=>{
+      var ar=a.DiasAteRuptura!==null?a.DiasAteRuptura:999;
+      var br=b.DiasAteRuptura!==null?b.DiasAteRuptura:999;
+      if(ar!==br) return ar-br;
+      return b.Prioridade-a.Prioridade;
+    });
+
   var naoProgramados=[];
   fila.forEach(it=>{
     var restante=it.NecessidadeProd;
     for(var di=0;di<dias.length&&restante>0;di++){
-      var dk=isoDate(dias[di]),melhor=null,espMax=0;
+      var dk=isoDate(dias[di]);var melhor=null,espMax=0;
       it.LinhasKeys.forEach(lk=>{var cell=grade[lk]&&grade[lk][dk];if(!cell) return;var esp=cell.cap-cell.ofaProg-cell.sugestao;if(esp>espMax){espMax=esp;melhor=lk;}});
       if(melhor&&espMax>0){var aloc=Math.min(restante,espMax);grade[melhor][dk].sugestao+=aloc;grade[melhor][dk].itensSug.push({it,qty:Math.round(aloc)});restante-=aloc;}
     }
@@ -803,224 +1124,860 @@ function gerarAutoSchedule(){
   return{grade,dias,naoProgramados};
 }
 
+function semanaAnterior(){G.semanaOffset--;G.schedule=gerarAutoSchedule();rProg();}
+function semanaProxima(){G.semanaOffset++;G.schedule=gerarAutoSchedule();rProg();}
+function semanaHoje(){G.semanaOffset=0;G.schedule=gerarAutoSchedule();rProg();}
+function popularSelectLinhas(){var sel=el('pcp-linha');if(!sel) return;sel.innerHTML='<option value="">Todas Linhas</option>';LINHAS_KEYS.forEach(k=>{var op=document.createElement('option');op.value=k;op.textContent=LINHAS_NOMES[k]||k;sel.appendChild(op);});}
+
 /* ==============================================================
-   RENDERIZAÇÃO
+   RENDER ALL
    ============================================================== */
-function rPrevisao(){
-  var q=v('prev-q').toLowerCase(),st=v('prev-st'),stP=v('prev-prod-st');
-  var its=G.prevItens.filter(it=>{
-    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
-    if(st&&it.Status!==st) return false;
-    if(stP&&it.StatusProd!==stP) return false;
-    return true;
-  });
-  var tP=its.reduce((a,x)=>a+x.Previsto,0),tR=its.reduce((a,x)=>a+x.NFS,0);
-  var tNec=its.reduce((a,x)=>a+x.NecProd,0),tExec=its.reduce((a,x)=>a+x.ProdExec,0),tRest=its.reduce((a,x)=>a+x.ProdRest,0),tEst=its.reduce((a,x)=>a+x.EstIni,0);
-  txt('prev-kpi-prev',fN(Math.round(tP)));txt('prev-kpi-real',fN(Math.round(tR)));txt('prev-kpi-ader',(tP>0?Math.round((tExec+tR)/tP*100):0)+'%');txt('prev-kpi-abaixo',its.filter(x=>x.Status==='ABAIXO').length);
-  txt('prev-kpi-nec',its.filter(x=>x.StatusProd!=='NÃO PRODUZIR').length);txt('prev-kpi-exec',fN(Math.round(tExec)));txt('prev-kpi-rest',fN(Math.round(tRest)));txt('prev-kpi-est',fN(Math.round(tEst)));txt('prev-cnt',its.length);
-  var b=el('prev-body');b.innerHTML='';
-  its.forEach(it=>{
-    var tr=document.createElement('tr');tr.className=it.RowCls;tr.onclick=function(){openDetailPrev(it);};
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td class="nr">'+fN(it.Previsto)+'</td><td class="nr">'+fN(it.EstIni)+'</td><td class="nr">'+fN(it.NecProd)+'</td><td class="nr">'+fN(it.ProdExec)+'</td><td class="nr">'+fN(it.ProdRest)+'</td><td class="nr">'+fN(it.SaldoAtual)+'</td><td>'+bdgProd(it.StatusProd)+'</td>';
-    b.appendChild(tr);
-  });
-  if(!its.length) b.innerHTML='<tr><td colspan="9" class="empty">Nenhum item para o mês selecionado. Verifique os filtros.</td></tr>';
+function renderAll(){rDash();rProjecao();rPCP();rProg();rLinhas();rPrevisao();rEstoque();rProdReal();rOrdens();rPerfil();renderCharts();updateKPIs();}
+
+function updateKPIs(){
+  var its=G.itens;
+  var r7=its.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura<=7).length;
+  var r14=its.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura>7&&x.DiasAteRuptura<=14).length;
+  var abSeg=its.filter(x=>x.DiasAteRuptura!==null&&x.TipoRuptura==='ABAIXO_SEG').length;
+  var nConfl=its.filter(x=>x.ConflitoDCOFA).length;
+  var nOk=its.filter(x=>!x.DiasAteRuptura).length;
+  var nUrg=its.filter(x=>x.StatusCap==='PRODUZIR URGENTE'||x.StatusCap==='SEM CAPACIDADE').length;
+  var sob=G.linhasInfo.filter(l=>l.cor==='vermelho').length;
+  var linhasSat7=G.linhaForecast?LINHAS_KEYS.filter(lk=>G.linhaForecast[lk]&&G.linhaForecast[lk].slice(0,7).some(d=>d.util>90)).length:0;
+  var prevAb=G.prevItens.filter(x=>x.Status==='ABAIXO').length;
+  txt('kpi-rupt7',r7);txt('kpi-rupt14',r14);txt('kpi-abaixo-seg',abSeg);txt('kpi-conflito',nConfl);txt('kpi-ok-proj',nOk);txt('kpi-linhas-sat',linhasSat7);
+  var r7first=its.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura<=7).sort((a,b)=>a.DiasAteRuptura-b.DiasAteRuptura).slice(0,2);
+  txt('kpi-rupt7-sub',r7first.length?r7first.map(x=>x.Codigo+'('+x.DiasAteRuptura+'d)').join(', '):'--');
+  txt('nb-pcp',nUrg);el('nb-pcp').style.display=nUrg?'':'none';
+  txt('nb-proj',r7+r14);el('nb-proj').style.display=(r7+r14)?'':'none';
+  txt('nb-linhas',sob||'');el('nb-linhas').style.display=sob?'':'none';
+  txt('nb-prev',prevAb||'');el('nb-prev').style.display=prevAb?'':'none';
 }
 
-function openDetailPrev(it){
-  el('dp-title').textContent=it.Codigo+' · '+it.Produto;
-  el('dp-sub').textContent='Competência: ' + G.mesFiltro;
-  var pct=it.NecProd>0?Math.round(it.ProdExec/it.NecProd*100):100;
-  el('dp-body').innerHTML='<div class="dp-section"><div class="dp-sec-title">Decisão de Produção ('+G.mesFiltro+')</div>'
-    +'<div class="dp-grid">'
-      +'<div class="dp-stat"><div class="dp-stat-l">Previsão</div><div class="dp-stat-v blue">'+fN(it.Previsto)+'</div></div>'
-      +'<div class="dp-stat"><div class="dp-stat-l">Estoque Inicial</div><div class="dp-stat-v purple">'+fN(it.EstIni)+'</div></div>'
-      +'<div class="dp-stat"><div class="dp-stat-l">Nec. Produção</div><div class="dp-stat-v o">'+fN(it.NecProd)+'</div></div>'
-      +'<div class="dp-stat"><div class="dp-stat-l">Produção (EPP)</div><div class="dp-stat-v g">'+fN(it.ProdExec)+'</div></div>'
-      +'<div class="dp-stat"><div class="dp-stat-l">Prod. Restante</div><div class="dp-stat-v r">'+fN(it.ProdRest)+'</div></div>'
-      +'<div class="dp-stat"><div class="dp-stat-l">Vendas (NFS)</div><div class="dp-stat-v">'+fN(it.NFS)+'</div></div>'
-      +'<div class="dp-stat"><div class="dp-stat-l">Saldo Atual</div><div class="dp-stat-v blue">'+fN(it.SaldoAtual)+'</div></div>'
-      +'<div class="dp-stat"><div class="dp-stat-l">% Produzido</div><div class="dp-stat-v">'+pct+'%</div></div>'
-    +'</div>'
-    +'<div style="margin-top:12px"><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Status: <strong>'+it.StatusProd+'</strong></div>'
-    +'<div style="height:8px;border-radius:4px;background:var(--bg4);overflow:hidden"><div style="height:100%;width:'+Math.min(pct,100)+'%;background:var(--accent)"></div></div></div></div>';
-  el('detail-panel').classList.add('open');el('detail-overlay').classList.add('open');
-}
-
-function bdgProd(st){
-  var m={'NÃO PRODUZIR':'bdg-m','PRODUZIR':'bdg-d','EM PRODUÇÃO':'bdg-o','PRODUÇÃO CONCLUÍDA':'bdg-s'};
-  return '<span class="bdg '+(m[st]||'bdg-m')+'">'+st+'</span>';
-}
-
+/* ==============================================================
+   DASHBOARD
+   ============================================================== */
 function rDash(){
+  // Tabela de rupturas previstas
   var rupt=G.itens.filter(x=>x.DiasAteRuptura!==null).sort((a,b)=>a.DiasAteRuptura-b.DiasAteRuptura).slice(0,15);
-  var b=el('dash-rupt-body');if(!b) return;b.innerHTML='';
+  var b=el('dash-rupt-body');b.innerHTML='';
   rupt.forEach(it=>{
+    var cor=it.DiasAteRuptura<=3?'num-r':it.DiasAteRuptura<=7?'num-o':'num-a';
     var tr=document.createElement('tr');tr.className=it.RowCls;tr.onclick=function(){openDetail(it);};
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td><span class="rupt-chip '+(it.DiasAteRuptura<=3?'c':it.DiasAteRuptura<=7?'w':'n')+'">⏰ '+it.DiasAteRuptura+'d</span></td><td class="nr">'+fN(Math.round(it.DispTotal))+'</td><td class="nr">'+(it.DemandaDiaria>0?it.DemandaDiaria.toFixed(0):'--')+'</td><td>'+ofaChip(it)+'</td><td>'+bdgCap(it.StatusCap)+'</td>';
+    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">'+it.Produto+'</td>'
+      +'<td><span class="rupt-chip '+(it.DiasAteRuptura<=3?'c':it.DiasAteRuptura<=7?'w':'n')+'">⏰ '+it.DiasAteRuptura+'d · '+fmtDate(it.DataRuptura)+'</span></td>'
+      +'<td class="nr">'+fN(Math.round(it.DispTotal))+'</td>'
+      +'<td class="nr '+(it.DemandaDiaria>0?'':'')+'">'+( it.DemandaDiaria>0?it.DemandaDiaria.toFixed(0):'--')+'</td>'
+      +'<td>'+ofaChip(it)+'</td>'
+      +'<td>'+bdgCap(it.StatusCap)+'</td>';
     b.appendChild(tr);
   });
+  if(!rupt.length) b.innerHTML='<tr><td colspan="7" class="empty">✅ Nenhuma ruptura prevista no horizonte</td></tr>';
+  rAcoesUrgentes();rConflitos();rAlertas();
 }
 
-function rPCP(){
-  var q=v('pcp-q').toLowerCase(),risco=v('pcp-risco'),st=v('pcp-st'),lin=v('pcp-linha'),ord=v('pcp-ord');
+function rAlertas(){
+  var box=el('alert-box');box.innerHTML='';
+  var r3=G.itens.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura<=3).length;
+  var r7=G.itens.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura>3&&x.DiasAteRuptura<=7).length;
+  var confl=G.itens.filter(x=>x.ConflitoDCOFA).length;
+  var atras=G.itens.filter(x=>x.OFAAtrasada>0).length;
+  var urg=G.itens.filter(x=>x.StatusCap==='PRODUZIR URGENTE').length;
+  var sat=G.linhaForecast?LINHAS_KEYS.filter(lk=>G.linhaForecast[lk]&&G.linhaForecast[lk].slice(0,7).some(d=>d.util>90)).length:0;
+  if(r3>0) box.innerHTML+='<div class="alert alert-d"><div><div class="alert-title">🔴 '+r3+' item(s) com RUPTURA PREVISTA em ≤ 3 dias</div><div class="alert-body">Produção imediata obrigatória. Ver aba Projeção Temporal.</div></div></div>';
+  if(r7>0) box.innerHTML+='<div class="alert alert-w"><div><div class="alert-title">🟡 '+r7+' item(s) com ruptura prevista em 4–7 dias</div><div class="alert-body">Programar produção esta semana.</div></div></div>';
+  if(confl>0) box.innerHTML+='<div class="alert alert-d"><div><div class="alert-title">🚨 '+confl+' conflito(s) DC×OFA — pedido em risco antes da entrega da OFA</div><div class="alert-body">Negociar prazo com cliente ou antecipar produção.</div></div></div>';
+  if(atras>0) box.innerHTML+='<div class="alert alert-w"><div><div class="alert-title">⏰ '+atras+' item(s) com OFA ATRASADA (Dt.Fim já vencida)</div><div class="alert-body">Verificar andamento e registrar produção no Focco.</div></div></div>';
+  if(urg>0) box.innerHTML+='<div class="alert alert-i"><div><div class="alert-title">⚡ '+urg+' item(s) PRODUZIR URGENTE com capacidade disponível</div></div></div>';
+  if(sat>0) box.innerHTML+='<div class="alert alert-w"><div><div class="alert-title">📊 '+sat+' linha(s) saturada(s) nos próximos 7 dias (>90%)</div><div class="alert-body">Ver Forecast de Linhas.</div></div></div>';
+}
+
+function rAcoesUrgentes(){
+  var ul=el('urgente-list');ul.innerHTML='';
+  var its=[...G.itens.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura<=7).sort((a,b)=>a.DiasAteRuptura-b.DiasAteRuptura).slice(0,4),
+           ...G.itens.filter(x=>x.DataIdeal==='HOJE'&&(!x.DiasAteRuptura||x.DiasAteRuptura>7)).slice(0,3)];
+  if(!its.length){ul.innerHTML='<div style="padding:14px;text-align:center;font-size:11px;color:var(--text3)">✅ Sem ações urgentes</div>';return;}
+  its.forEach(it=>{
+    var ic=it.DiasAteRuptura!==null&&it.DiasAteRuptura<=3?'🔴':it.DiasAteRuptura!==null&&it.DiasAteRuptura<=7?'🟡':'⚡';
+    var sub=it.DiasAteRuptura!==null?'Ruptura em '+it.DiasAteRuptura+'d · '+fN(Math.round(it.NecessidadeProd))+'sc · '+it.LinhaRec:'Produzir hoje · '+fN(Math.round(it.NecessidadeProd))+'sc';
+    ul.innerHTML+='<div class="urg-item" onclick="openDetail(G.itens.find(x=>x.Codigo===\''+it.Codigo+'\'))">'
+      +'<div class="urg-icon d">'+ic+'</div><div><div class="urg-title">'+it.Codigo+' · '+it.Produto.substring(0,24)+'</div><div class="urg-sub">'+sub+'</div></div></div>';
+  });
+}
+
+function rConflitos(){
+  var cl=el('conflito-list');cl.innerHTML='';
+  var its=G.itens.filter(x=>x.ConflitoDCOFA||x.OFAAtrasada>0).sort((a,b)=>b.Prioridade-a.Prioridade).slice(0,8);
+  if(!its.length){cl.innerHTML='<div style="padding:14px;text-align:center;font-size:11px;color:var(--text3)">✅ Sem conflitos de data</div>';return;}
+  its.forEach(it=>{
+    var tipo=it.ConflitoDCOFA?'🚨 DC×OFA':'⏰ OFA Atras.';
+    var desc=it.ConflitoDCOFA?'DC sem cob.· OFA entrega em '+it.DiasAteOFA+'d':'OFA vencida · '+fN(Math.round(it.OFAAtrasada))+'sc';
+    cl.innerHTML+='<div class="urg-item" onclick="openDetail(G.itens.find(x=>x.Codigo===\''+it.Codigo+'\'))">'
+      +'<div class="urg-icon d">⚠️</div><div><div class="urg-title">'+it.Codigo+' · '+it.Produto.substring(0,20)+' <span style="font-size:9px">'+tipo+'</span></div><div class="urg-sub">'+desc+'</div></div></div>';
+  });
+}
+
+/* ==============================================================
+   PROJEÇÃO TEMPORAL — página principal preditiva
+   ============================================================== */
+function rProjecao(){
+  var q=v('proj-q').toLowerCase(),filtro=v('proj-filtro');
   var its=G.itens.filter(it=>{
     if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
-    if(risco&&it.RiscoRuptura!==risco) return false;
-    if(st&&it.StatusCap!==st) return false;
-    if(lin&&!it.LinhasKeys.includes(lin)) return false;
+    if(filtro==='ruptura'&&!it.DiasAteRuptura) return false;
+    if(filtro==='abaixo'&&it.TipoRuptura!=='ABAIXO_SEG') return false;
+    if(filtro==='ok'&&it.DiasAteRuptura) return false;
     return true;
-  });
-  its.sort((a,b)=>{
-    if(ord==='prioridade') return b.Prioridade-a.Prioridade;
-    if(ord==='ruptura') return (a.DiasAteRuptura||999)-(b.Prioridade||999);
-    if(ord==='cobertura') return a.CoberturasDias-b.CoberturasDias;
-    if(ord==='necessidade') return b.NecessidadeProd-a.NecessidadeProd;
-    return a.Codigo.localeCompare(b.Codigo);
-  });
-  txt('pcp-cnt',its.length);
-  var b=el('pcp-body-dec');if(!b) return;b.innerHTML='';
-  its.forEach(it=>{
-    var d=document.createElement('div');d.className='twrap';d.style.marginBottom='1px';
-    d.innerHTML='<table style="border-left:4px solid '+(it.RiscoRuptura==='CRITICO'?'var(--red)':it.RiscoRuptura==='URGENTE'?'var(--orange)':'var(--border)')+'"><tr>'
-      +'<td style="width:100px"><code>'+it.Codigo+'</code></td><td style="width:250px"><strong>'+it.Produto+'</strong></td><td class="nr" style="width:80px">'+fN(it.DispTotal)+'</td><td class="nr" style="width:80px">'+fN(Math.round(it.NecessidadeProd))+'</td><td style="width:120px">'+bdgRisco(it.RiscoRuptura)+'</td><td>'+bdgCap(it.StatusCap)+'</td><td class="nr"><button class="btn" onclick="openDetail(G.itens.find(x=>x.Codigo===\''+it.Codigo+'\'))">Detalhes</button></td>'
-      +'</tr></table>';
-    b.appendChild(d);
-  });
-}
+  }).sort((a,b)=>{
+    var ar=a.DiasAteRuptura!==null?a.DiasAteRuptura:999;
+    var br=b.DiasAteRuptura!==null?b.DiasAteRuptura:999;
+    if(ar!==br) return ar-br;
+    return b.Prioridade-a.Prioridade;
+  }).slice(0,30); // max 30 para performance
 
-function rEstoque(){
-  var q=v('est-q').toLowerCase(),st=v('est-st'),risco=v('est-risco'),linF=v('est-linha');
-  var its=G.itens.filter(it=>{
-    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
-    if(st==='SEM_EST'&&it.DispTotal>0) return false;
-    if(st==='OK'&&it.DispTotal<it.EstoqueSeguranca) return false;
-    if(risco&&it.RiscoRuptura!==risco) return false;
-    if(linF&&!it.LinhasKeys.includes(linF)) return false;
-    return true;
-  });
-  txt('est-cnt',its.length);
-  var b=el('est-body');if(!b) return;b.innerHTML='';
-  its.forEach(it=>{
-    var tr=document.createElement('tr');tr.onclick=function(){openDetail(it);};
-    tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td class="nr">'+fN(it.Almox3)+'</td><td class="nr">'+fN(it.Almox30)+'</td><td class="nr"><strong>'+fN(it.DispTotal)+'</strong></td><td class="nr">'+fN(it.EstoqueSeguranca)+'</td><td class="nr">'+fN(it.PedidoComercial)+'</td><td class="nr">'+it.CoberturasDias.toFixed(1)+'d</td><td class="nr">--</td><td class="nr">'+fN(Math.round(it.OFAHorizonte))+'</td><td class="nr">'+fN(Math.round(it.NecessidadeProd))+'</td><td>'+(it.RuptInfo?'⏰ '+it.RuptInfo.dias+'d':'OK')+'</td><td>'+bdgRisco(it.RiscoRuptura)+'</td>';
-    b.appendChild(tr);
-  });
-}
+  // KPIs da projeção
+  var pkel=el('proj-kpis');
+  if(pkel){
+    var r3=G.itens.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura<=3).length;
+    var r7=G.itens.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura>3&&x.DiasAteRuptura<=7).length;
+    var r14=G.itens.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura>7&&x.DiasAteRuptura<=14).length;
+    var ok=G.itens.filter(x=>!x.DiasAteRuptura).length;
+    pkel.innerHTML=
+      '<div class="kpi red"><div class="kpi-val">'+r3+'</div><div class="kpi-label">Ruptura ≤3 dias</div></div>'
+      +'<div class="kpi orange"><div class="kpi-val">'+r7+'</div><div class="kpi-label">Ruptura 4–7 dias</div></div>'
+      +'<div class="kpi yellow"><div class="kpi-val">'+r14+'</div><div class="kpi-label">Ruptura 8–14 dias</div></div>'
+      +'<div class="kpi green"><div class="kpi-val">'+ok+'</div><div class="kpi-label">Cobertos ('+HORIZONTE_PROJ+'d)</div></div>';
+  }
 
-function rLinhas(){
-  var li=G.linhasInfo;txt('lin-kpi-ok',li.filter(l=>l.cor==='verde').length);txt('lin-kpi-med',(li.length?Math.round(li.reduce((a,l)=>a+l.util,0)/li.length):0)+'%');txt('lin-kpi-sob',li.filter(l=>l.cor==='vermelho').length);txt('lin-kpi-total',fN(li.reduce((a,l)=>a+l.capDia,0))+' sc');
-  var ce=el('linhas-cards');if(!ce) return;ce.innerHTML='';
-  li.forEach(l=>{
-    var card=document.createElement('div');card.className='linha-card';
-    card.innerHTML='<div class="linha-card-header"><div><div class="linha-nome">'+l.nome+'</div><div class="linha-cap">'+fN(l.capDia)+' sc/dia</div></div><div class="linha-status '+l.cor+'"><div class="linha-status-dot"></div>'+l.util+'%</div></div><div class="linha-body"><div class="linha-stats"><div class="linha-stat"><div class="linha-stat-v">'+fN(Math.round(l.prog))+'</div><div class="linha-stat-l">OFA Prog.</div></div><div class="linha-stat"><div class="linha-stat-v">'+l.itensAlocados+'</div><div class="linha-stat-l">Itens</div></div></div><div class="linha-progress-bar"><div class="linha-progress-fill '+l.cor+'" style="width:'+Math.min(l.util,100)+'%"></div></div></div>';
-    ce.appendChild(card);
-  });
-}
+  // Gerar heatmap da timeline
+  var HOJE=hoje0();
+  var dias=gerarDias(HORIZONTE_PROJ);
+  var tbl=el('timeline-table');tbl.innerHTML='';
 
-function rProg(){
-  if(!G.schedule) return;
-  var {grade,dias}=G.schedule;
-  var tbl=el('gantt-table');if(!tbl) return;tbl.innerHTML='';
+  // Cabeçalho
   var thead=document.createElement('thead');
-  var tr=document.createElement('tr');tr.innerHTML='<th style="text-align:left;width:120px">Linha</th>';
-  dias.forEach(d=>tr.innerHTML+='<th>'+DIAS_PT[d.getDay()]+' '+d.getDate()+'</th>');
-  thead.appendChild(tr);tbl.appendChild(thead);
+  var tr0=document.createElement('tr');
+  tr0.innerHTML='<th style="text-align:left;min-width:150px;position:sticky;left:0;z-index:3;background:var(--bg4)">Item</th>'
+    +'<th style="min-width:70px">Ruptura</th><th style="min-width:60px">Cob. Hoje</th>';
+  dias.forEach((d,i)=>{
+    var isHoje=(i===0);
+    var dw=DIAS_PT[d.getDay()];
+    var label=dw+' '+d.getDate()+'/'+(d.getMonth()+1);
+    tr0.innerHTML+='<th class="'+(isHoje?'hoje':'')+'">'+label+'</th>';
+  });
+  thead.appendChild(tr0);tbl.appendChild(thead);
+
+  var tbody=document.createElement('tbody');
+  its.forEach(it=>{
+    var tr=document.createElement('tr');
+    // Sparkline inline
+    var spark=sparklineSVG(it.Projecao,60,20);
+    var ruptLabel=it.DiasAteRuptura!==null?'<span class="rupt-chip '+(it.DiasAteRuptura<=3?'c':it.DiasAteRuptura<=7?'w':'n')+'">'+it.DiasAteRuptura+'d</span>':'<span class="rupt-chip s">OK</span>';
+    var cobLabel=covChip(it.CoberturasDias);
+    var cellsHTML='<td class="tl-item-cell" style="position:sticky;left:0;z-index:2;background:var(--bg2)" onclick="openDetail(it)">'
+      +'<div class="tl-cod">'+it.Codigo+'</div>'
+      +'<div class="tl-nome">'+it.Produto.substring(0,18)+'</div>'
+      +'<div style="margin-top:3px">'+spark+'</div>'
+      +'</td>'
+      +'<td style="text-align:center;padding:4px">'+ruptLabel+'</td>'
+      +'<td style="text-align:center;padding:4px">'+cobLabel+'</td>';
+
+    dias.forEach((d,di)=>{
+      var proj=it.Projecao[di];
+      if(!proj){cellsHTML+='<td class="tl-cell"><div class="tl-cell-inner"><div class="tl-saldo">--</div></div></td>';return;}
+      var cls=proj.ruptura?'ruptura':proj.abaixoSeg?'abaixo':proj.excesso?'excesso':'ok';
+      if(!proj.ruptura&&!proj.abaixoSeg&&proj.saldoFim<it.EstoqueSeguranca*1.5&&proj.saldoFim>0) cls='critico';
+      var dispVal=proj.saldoFim<=0?'0':proj.saldoFim>9999?fN(Math.round(proj.saldoFim/1000))+'K':fN(Math.round(proj.saldoFim));
+      var icon=proj.ruptura?'🔴':proj.abaixoSeg?'⚠️':proj.entradaOFA>0?'📦':'';
+      cellsHTML+='<td class="tl-cell '+cls+'" onclick="openProjModal(\''+it.Codigo+'\')" title="'+it.Codigo+' · '+fmtDate(d)+' · Saldo: '+fN(Math.round(proj.saldoFim))+'sc">'
+        +'<div class="tl-cell-inner"><div class="tl-saldo">'+dispVal+'</div><div class="tl-label">'+icon+'</div></div></td>';
+    });
+    tr.innerHTML=cellsHTML;
+    tbody.appendChild(tr);
+  });
+  if(!its.length) tbody.innerHTML='<tr><td colspan="'+(3+HORIZONTE_PROJ)+'" class="empty">Nenhum item encontrado</td></tr>';
+  tbl.appendChild(tbody);
+
+  // Heatmap de linhas
+  rLinhaForecast('lf-table',14);
+}
+
+function sparklineSVG(proj,w,h){
+  if(!proj||!proj.length) return '';
+  var vals=proj.map(p=>Math.max(p.saldoFim,0));
+  var maxV=Math.max(...vals,1);
+  var pts=vals.map(function(v,i){return((i/(vals.length-1||1))*w)+','+(h-((v/maxV)*(h-2))+1);}).join(' ');
+  var hasRupt=proj.some(p=>p.ruptura);
+  var col=hasRupt?'#B83232':proj.some(p=>p.abaixoSeg)?'#D4A017':'#2D7D46';
+  return '<svg class="spark" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'"><polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+}
+
+function rLinhaForecast(tableId,dias){
+  var HOJE=hoje0();
+  var tbl=el(tableId);if(!tbl||!G.linhaForecast) return;tbl.innerHTML='';
+  var thead=document.createElement('thead');var tr0=document.createElement('tr');
+  tr0.innerHTML='<th style="text-align:left;min-width:120px">Linha / Cap.</th>';
+  for(var d=0;d<dias;d++){
+    var date=addDias(HOJE,d);var isHoje=(d===0);
+    tr0.innerHTML+='<th class="'+(isHoje?'hoje':'')+'" style="min-width:52px">'+DIAS_PT[date.getDay()]+' '+date.getDate()+'/'+(date.getMonth()+1)+'</th>';
+  }
+  thead.appendChild(tr0);tbl.appendChild(thead);
   var tbody=document.createElement('tbody');
   LINHAS_KEYS.forEach(lk=>{
-    var tr=document.createElement('tr');tr.innerHTML='<td><strong>'+LINHAS_NOMES[lk]+'</strong></td>';
-    dias.forEach(d=>{
-      var dk=isoDate(d),c=grade[lk][dk],tot=c.ofaProg+c.sugestao,pct=c.cap>0?Math.round(tot/c.cap*100):0;
-      var cor=pct>90?'var(--red-dim)':pct>70?'var(--yellow-dim)':'var(--green-dim)';
-      tr.innerHTML+='<td style="background:'+cor+';text-align:center"><div style="font-size:10px;font-weight:700">'+Math.round(tot)+'</div><div style="font-size:8px">'+pct+'%</div></td>';
-    });
-    tbody.appendChild(tr);
+    var li=G.linhasInfo.find(l=>l.id===lk);if(!li||li.capDia<=0) return;
+    var tr=document.createElement('tr');
+    var cells='<td class="lf-label">'+li.nome+'<div style="font-size:9px;color:var(--text3);font-family:var(--font)">'+(li.capDia>0?fN(li.capDia)+' sc/d':'')+'</div></td>';
+    var fc=G.linhaForecast[lk]||[];
+    for(var di=0;di<dias;di++){
+      var entry=fc[di]||{util:0,ofa:0,cap:0};
+      var bg=entry.util<=0?'':entry.util<=70?'#E8F5ED':entry.util<=90?'#FFF8E1':'#FDEAEA';
+      var col=entry.util<=0?'var(--text4)':entry.util<=70?'var(--green)':entry.util<=90?'var(--yellow)':'var(--red)';
+      cells+='<td class="sat-cell" style="background:'+bg+';color:'+col+'">'+(entry.util>0?entry.util+'%':'–')+'</td>';
+    }
+    tr.innerHTML=cells;tbody.appendChild(tr);
   });
   tbl.appendChild(tbody);
 }
 
-function rProdReal(){
-  var q=v('prod-q').toLowerCase();var its=G.epp.filter(r=>!q||r.Codigo.toLowerCase().includes(q)||r.Produto.toLowerCase().includes(q));
-  txt('prod-cnt',its.length);var b=el('prod-body');if(!b) return;b.innerHTML='';
-  its.slice(0,100).forEach(r=>b.innerHTML+='<tr><td>'+r.Data+'</td><td>'+r.Codigo+'</td><td>'+r.Produto+'</td><td class="nr">'+fN(r.Quantidade)+'</td></tr>');
+/* ==============================================================
+   MODAL DE PROJEÇÃO INDIVIDUAL
+   ============================================================== */
+function openProjModal(cod){
+  var it=G.itens.find(x=>x.Codigo===cod);if(!it) return;
+  el('proj-modal-title').textContent=it.Codigo+' · '+it.Produto;
+  el('proj-modal').classList.add('open');
+  // Gera gráfico
+  var proj=it.Projecao;
+  var labels=proj.map(p=>DIAS_PT[p.date.getDay()]+' '+p.date.getDate()+'/'+(p.date.getMonth()+1));
+  var saldos=proj.map(p=>Math.max(p.saldoFim,0));
+  var ofa=proj.map(p=>p.entradaOFA);
+  var dc=proj.map(p=>p.saidaDC);
+  var seg=proj.map(()=>it.EstoqueSeguranca);
+  var ctx=el('proj-chart');
+  if(G.charts['proj-chart']) G.charts['proj-chart'].destroy();
+  G.charts['proj-chart']=new Chart(ctx,{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Saldo Projetado',data:saldos,borderColor:'#1B5C7A',backgroundColor:'rgba(27,92,122,.08)',fill:true,tension:.3,borderWidth:2.5,pointRadius:3},
+      {label:'Est. Segurança',data:seg,borderColor:'#B83232',borderDash:[4,4],borderWidth:1.5,pointRadius:0,fill:false},
+      {label:'Entrada OFA',data:ofa,borderColor:'#5B3FA6',backgroundColor:'rgba(91,63,166,.12)',fill:true,tension:.2,borderWidth:1.5,pointRadius:2,type:'bar'},
+      {label:'Saída DC',data:dc,borderColor:'#A0470A',backgroundColor:'rgba(160,71,10,.1)',fill:false,tension:.2,borderWidth:1,pointRadius:1,borderDash:[3,3]},
+    ]},
+    options:{plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}}},responsive:true,maintainAspectRatio:false}
+  });
+  // Detalhe textual
+  var rupt=it.RuptInfo;
+  var detail='';
+  if(rupt) detail+='<div style="background:var(--red-dim);color:var(--red);border:1px solid var(--red-mid);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:11px"><strong>'+(rupt.tipo==='RUPTURA'?'🔴 Ruptura prevista':'⚠️ Abaixo do mínimo')+' em '+rupt.dias+' dias</strong> ('+fmtDate(rupt.data)+')</div>';
+  detail+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;font-size:10px">'
+    +'<div style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 8px"><div style="color:var(--text3)">Saldo Hoje</div><strong>'+fN(it.DispTotal)+'sc</strong></div>'
+    +'<div style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 8px"><div style="color:var(--text3)">Cons./Dia</div><strong>'+(it.DemandaDiaria>0?it.DemandaDiaria.toFixed(1)+'sc':'--')+'</strong></div>'
+    +'<div style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 8px"><div style="color:var(--text3)">OFA Prevista</div><strong>'+fN(Math.round(it.OFAHorizonte))+'sc</strong></div>'
+    +'<div style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 8px"><div style="color:var(--text3)">Nec. Produzir</div><strong>'+fN(Math.round(it.NecessidadeProd))+'sc</strong></div>'
+    +'</div>';
+  el('proj-modal-detail').innerHTML=detail;
 }
+function closeProjModal(){el('proj-modal').classList.remove('open');}
+
+/* ==============================================================
+   PCP DECISÓRIO
+   ============================================================== */
+function rPCP(){
+  var q=v('pcp-q').toLowerCase(),st=v('pcp-st'),risco=v('pcp-risco'),linha=v('pcp-linha'),ord=v('pcp-ord')||'prioridade';
+  var its=G.itens.filter(it=>{
+    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
+    if(st&&it.StatusCap!==st) return false;
+    if(risco&&it.RiscoRuptura!==risco) return false;
+    if(linha&&!it.LinhasKeys.includes(linha)) return false;
+    return true;
+  });
+  if(ord==='prioridade') its.sort((a,b)=>b.Prioridade-a.Prioridade);
+  else if(ord==='ruptura') its.sort((a,b)=>(a.DiasAteRuptura===null?999:a.DiasAteRuptura)-(b.DiasAteRuptura===null?999:b.DiasAteRuptura));
+  else if(ord==='cobertura') its.sort((a,b)=>a.CoberturasDias-b.CoberturasDias);
+  else if(ord==='necessidade') its.sort((a,b)=>b.NecessidadeProd-a.NecessidadeProd);
+  else its.sort((a,b)=>a.Codigo.localeCompare(b.Codigo));
+  txt('pcp-cnt',its.length);
+  var metEl=el('pcp-met');
+  if(metEl){
+    var tN=its.reduce((a,x)=>a+x.NecessidadeProd,0);
+    var tC=its.reduce((a,x)=>a+x.NecComercial,0);
+    var r7=its.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura<=7).length;
+    var nConfl=its.filter(x=>x.ConflitoDCOFA).length;
+    metEl.innerHTML='<div class="mbox"><div class="mbox-l">Nec. Total</div><div class="mbox-v">'+fN(Math.round(tN))+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Nec. Comercial</div><div class="mbox-v r">'+fN(Math.round(tC))+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Ruptura ≤7d</div><div class="mbox-v r">'+r7+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Conflitos</div><div class="mbox-v o">'+nConfl+'</div></div>';
+  }
+  var body=el('pcp-body-dec');body.innerHTML='';
+  its.forEach((it,idx)=>{
+    var priCls=it.Prioridade>=70?'p0':it.Prioridade>=50?'p1':it.Prioridade>=30?'p2':it.Prioridade>=10?'p3':'p4';
+    var itemCls=it.RowCls==='rc'?'c':it.RowCls==='rw'?'w':it.RowCls==='rp'?'p':'g';
+    var ruptChip=it.DiasAteRuptura!==null?'<span class="rupt-chip '+(it.DiasAteRuptura<=3?'c':it.DiasAteRuptura<=7?'w':'n')+'">⏰ '+it.DiasAteRuptura+'d</span>':'';
+    var div=document.createElement('div');div.className='pcp-item '+itemCls;div.onclick=function(){openDetail(it);};
+    div.innerHTML=
+      '<div class="pcp-row1">'
+        +'<span class="pcp-pri '+priCls+'">'+(idx+1)+'</span>'
+        +'<span class="pcp-code">'+it.Codigo+'</span>'
+        +'<span class="pcp-nome">'+it.Produto+'</span>'
+        +'<div style="display:flex;align-items:center;gap:5px;flex-shrink:0">'+ruptChip+bdgRisco(it.RiscoRuptura)+bdgCap(it.StatusCap)+'</div>'
+        +'<div class="pcp-qty-block"><div class="pcp-qty '+(it.NecessidadeProd>0?'r':'')+'">'+fN(Math.round(it.NecessidadeProd))+'<span style="font-size:9px;font-weight:400;margin-left:2px">sc</span></div><div style="font-size:9px;color:var(--text3)">Nec. (≤'+HORIZONTE_OFA+'d)</div></div>'
+      +'</div>'
+      +'<div class="pcp-row2">'
+        +sparklineSVG(it.Projecao,50,16)
+        +'<span style="width:6px"></span>'
+        +covChip(it.CoberturasDias)
+        +'<span class="pcp-meta" style="margin:0 3px;color:var(--text4)">·</span>'
+        +ofaChip(it)
+        +'<span class="pcp-meta" style="margin:0 3px;color:var(--text4)">·</span>'
+        +'<span class="pcp-meta">📦 DC:<strong>'+fN(it.PedidoComercial)+'</strong></span>'
+        +'<span class="pcp-meta" style="margin:0 3px;color:var(--text4)">·</span>'
+        +'<span class="pcp-meta">🏭 '+it.LinhaRec+'</span>'
+        +'<span class="pcp-meta" style="margin:0 3px;color:var(--text4)">·</span>'
+        +'<span class="pcp-meta">📅 '+it.DataIdeal+'</span>'
+        +(it.TempoEstimado>0?'<span class="pcp-meta" style="margin:0 3px;color:var(--text4)">·</span><span class="pcp-meta">⏱ '+it.TempoEstimado+'d</span>':'')
+      +'</div>';
+    body.appendChild(div);
+  });
+  if(!its.length) body.innerHTML='<div class="empty">Nenhum item com os filtros selecionados.</div>';
+}
+
+/* ==============================================================
+   PROGRAMAÇÃO SEMANAL
+   ============================================================== */
+function rProg(){
+  if(!G.schedule) return;
+  var {grade,dias,naoProgramados}=G.schedule;var HOJE=hoje0();var hojeStr=isoDate(HOJE);
+  var tOFA=0,tSug=0,tCap=0,diasSat=0;
+  LINHAS_KEYS.forEach(lk=>dias.forEach(d=>{var c=grade[lk]&&grade[lk][isoDate(d)];if(!c) return;tOFA+=c.ofaProg;tSug+=c.sugestao;tCap+=c.cap;if(c.cap>0&&(c.ofaProg+c.sugestao)/c.cap>0.9) diasSat++;}));
+  var sem=el('prog-stats');
+  if(sem){
+    var lbl=dias[0].toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})+' – '+dias[dias.length-1].toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+    var ocup=tCap>0?Math.round((tOFA+tSug)/tCap*100):0;
+    sem.innerHTML='<div class="semana-stat"><div class="semana-stat-v" style="font-size:12px">'+lbl+'</div><div class="semana-stat-l">Semana</div></div>'
+      +'<div class="semana-stat"><div class="semana-stat-v" style="color:var(--purple)">'+fN(Math.round(tOFA))+'</div><div class="semana-stat-l">sc OFA ERP</div></div>'
+      +'<div class="semana-stat"><div class="semana-stat-v" style="color:var(--green)">'+fN(Math.round(tSug))+'</div><div class="semana-stat-l">sc Sugestão PCP</div></div>'
+      +'<div class="semana-stat"><div class="semana-stat-v" style="color:var(--text3)">'+fN(Math.round(tCap))+'</div><div class="semana-stat-l">Cap. Total</div></div>'
+      +'<div class="semana-stat"><div class="semana-stat-v" style="color:'+(ocup>90?'var(--red)':ocup>70?'var(--yellow)':'var(--green)')+'">'+ocup+'%</div><div class="semana-stat-l">Ocupação</div></div>'
+      +'<div class="semana-stat"><div class="semana-stat-v" style="color:var(--red)">'+naoProgramados.length+'</div><div class="semana-stat-l">Backlog</div></div>';
+  }
+  var gt=el('gantt-table');gt.innerHTML='';
+  var thead=document.createElement('thead');var tr0=document.createElement('tr');
+  tr0.innerHTML='<th style="text-align:left;min-width:130px">Linha</th>';
+  dias.forEach(d=>{var dk=isoDate(d),isH=(dk===hojeStr);tr0.innerHTML+='<th style="'+(isH?'background:var(--accent-dim);color:var(--accent)':'')+' min-width:115px;text-align:center">'+DIAS_PT[d.getDay()]+' '+d.getDate()+'/'+(d.getMonth()+1)+(isH?' ◀':'')+'</th>';});
+  thead.appendChild(tr0);gt.appendChild(thead);
+  var tbody=document.createElement('tbody');
+  LINHAS_KEYS.forEach(lk=>{
+    var li=G.linhasInfo.find(l=>l.id===lk);var cap=li?li.capDia:0;
+    var tr=document.createElement('tr');
+    var tdL=document.createElement('td');tdL.className='gantt-linha-label';
+    tdL.innerHTML='<div class="gantt-linha-name">'+LINHAS_NOMES[lk]+'</div>'+(cap>0?'<div class="gantt-linha-cap">'+fN(cap)+' sc/dia</div>':'<div class="gantt-linha-cap" style="color:var(--text4)">sem cap.</div>');
+    tr.appendChild(tdL);
+    dias.forEach(d=>{
+      var dk=isoDate(d),isH=(dk===hojeStr);
+      var c=grade[lk]&&grade[lk][dk]?grade[lk][dk]:{cap,ofaProg:0,sugestao:0,itensOFA:[],itensSug:[]};
+      var tot=c.ofaProg+c.sugestao;var pOFA=cap>0?Math.min(c.ofaProg/cap*100,100):0;
+      var pSug=cap>0?Math.min(c.sugestao/cap*(100-pOFA),100-pOFA):0;var pTot=Math.min(pOFA+pSug,100);
+      var corSug=pTot<=70?'g':pTot<=90?'a':'r';
+      var td=document.createElement('td');td.style.background=isH?'rgba(27,92,122,.03)':'';
+      var oHtml=c.itensOFA.slice(0,2).map(e=>'<span class="gantt-chip ofa">📋 '+e.cod+' '+fN(e.qty)+'sc</span>').join('');
+      var sHtml=c.itensSug.slice(0,2).map(e=>{
+        var rupt=e.it.DiasAteRuptura!==null&&e.it.DiasAteRuptura<=7?'⏰ ':'';
+        return '<span class="gantt-chip '+(e.it.RowCls||'ro')+'" title="'+e.it.Produto+'">'+rupt+e.it.Codigo+' '+fN(e.qty)+'sc</span>';
+      }).join('');
+      td.innerHTML='<div class="gantt-cell"><div class="cap-bar-wrap"><div class="cap-bar-ofa" style="width:'+pOFA+'%"></div><div class="cap-bar-sug '+corSug+'" style="width:'+pSug+'%"></div></div>'
+        +oHtml+sHtml+'<div class="gantt-cell-rem">Livre: '+fN(Math.round(Math.max(cap-tot,0)))+'sc</div></div>';
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  gt.appendChild(tbody);
+  var bl=el('backlog-list');bl.innerHTML='';txt('backlog-cnt',naoProgramados.length);
+  if(!naoProgramados.length) bl.innerHTML='<div class="empty">✅ Todos os itens foram alocados</div>';
+  else naoProgramados.forEach(e=>{
+    bl.innerHTML+='<div class="backlog-item"><div class="backlog-code">'+e.it.Codigo+'</div><div style="font-size:11px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+e.it.Produto+'</div>'
+      +(e.it.DiasAteRuptura!==null?'<span class="rupt-chip '+(e.it.DiasAteRuptura<=7?'c':'w')+'">⏰ '+e.it.DiasAteRuptura+'d</span>':'')
+      +bdgRisco(e.it.RiscoRuptura)
+      +'<div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--red);margin-left:auto">'+fN(e.restante)+'sc</div></div>';
+  });
+}
+
+/* ==============================================================
+   LINHAS + FORECAST
+   ============================================================== */
+function rLinhas(){
+  var li=G.linhasInfo;
+  txt('lin-kpi-ok',li.filter(l=>l.cor==='verde').length);
+  txt('lin-kpi-med',(li.length?Math.round(li.reduce((a,l)=>a+l.util,0)/li.length):0)+'%');
+  txt('lin-kpi-sob',li.filter(l=>l.cor==='vermelho').length);
+  txt('lin-kpi-total',fN(li.reduce((a,l)=>a+l.capDia,0))+' sc');
+  var ce=el('linhas-cards');ce.innerHTML='';
+  li.forEach(l=>{
+    if(l.capDia<=0&&l.itensAlocados<=0) return;
+    var sat7=G.linhaForecast&&G.linhaForecast[l.id]?G.linhaForecast[l.id].slice(0,7).filter(d=>d.util>90).length:0;
+    var card=document.createElement('div');card.className='linha-card';
+    card.innerHTML='<div class="linha-card-header"><div><div class="linha-nome">'+l.nome+'</div><div class="linha-cap">'+fN(l.capDia)+' sc/dia</div></div>'
+      +'<div class="linha-status '+l.cor+'"><div class="linha-status-dot"></div>'+l.util+'%</div></div>'
+      +'<div class="linha-body"><div class="linha-stats">'
+      +'<div class="linha-stat"><div class="linha-stat-v">'+fN(Math.round(l.prog))+'</div><div class="linha-stat-l">OFA Prog.</div></div>'
+      +'<div class="linha-stat"><div class="linha-stat-v '+(sat7>0?'num-o':'')+'">'+sat7+'d</div><div class="linha-stat-l">Sat. próx. 7d</div></div>'
+      +'<div class="linha-stat"><div class="linha-stat-v">'+l.itensAlocados+'</div><div class="linha-stat-l">Itens</div></div>'
+      +'</div><div class="linha-progress-bar"><div class="linha-progress-fill '+l.cor+'" style="width:'+Math.min(l.util,100)+'%"></div></div></div>';
+    ce.appendChild(card);
+  });
+  var lb=el('linhas-body');lb.innerHTML='';
+  li.forEach(l=>{var tr=document.createElement('tr');tr.innerHTML='<td><strong>'+l.nome+'</strong></td><td class="nr">'+fN(l.capDia)+'</td><td class="nr">'+fN(Math.round(l.prog))+'</td><td class="nr '+(l.atrasada>0?'num-o':'')+'">'+fN(Math.round(l.atrasada))+'</td><td class="nr"><span class="'+(l.util>90?'num-r':l.util>70?'num-a':'num-g')+'">'+l.util+'%</span></td><td class="nr">'+fN(Math.round(l.livre))+'</td><td><span class="linha-status '+l.cor+'" style="display:inline-flex"><span class="linha-status-dot"></span>'+l.cor.toUpperCase()+'</span></td><td>'+l.itensAlocados+'</td>';lb.appendChild(tr);});
+  // Forecast table na aba linhas
+  rLinhaForecast('linhas-forecast-table',14);
+}
+
+/* ==============================================================
+   PREVISÃO
+   ============================================================== */
+function rPrevisao(){
+  var q=v('prev-q').toLowerCase(),st=v('prev-st');
+  var its=G.prevItens.filter(it=>{if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;if(st&&it.Status!==st) return false;return true;});
+  var tP=its.reduce((a,x)=>a+x.Previsto,0),tR=its.reduce((a,x)=>a+x.Realizado,0);
+  var ag=tP>0?Math.round(tR/tP*100):0;
+  txt('prev-kpi-prev',fN(Math.round(tP)));txt('prev-kpi-real',fN(Math.round(tR)));txt('prev-kpi-ader',ag+'%');txt('prev-kpi-abaixo',its.filter(x=>x.Status==='ABAIXO').length);txt('prev-cnt',its.length);
+  var b=el('prev-body');b.innerHTML='';
+  its.forEach(it=>{var pct=Math.min(it.Aderencia,100);var barCor=it.Aderencia>=100?'var(--green)':it.Aderencia>=80?'var(--yellow-mid)':'var(--red)';var tr=document.createElement('tr');tr.className=it.RowCls;tr.innerHTML='<td><code>'+it.Codigo+'</code></td><td>'+it.Produto+'</td><td>'+it.UM+'</td><td class="nr">'+fN(it.Previsto)+'</td><td class="nr">'+fN(it.Realizado)+'</td><td class="nr '+(it.Diferenca>=0?'num-g':'num-r')+'">'+fN(it.Diferenca)+'</td><td class="nr">'+it.Aderencia+'%</td><td>'+bdgPrev(it.Status)+'</td><td><div class="ader-bar"><div class="ader-fill" style="width:'+pct+'%;background:'+barCor+'"></div></div></td>';b.appendChild(tr);});
+  if(!its.length) b.innerHTML='<tr><td colspan="9" class="empty">Nenhum item</td></tr>';
+}
+
+/* ==============================================================
+   ESTOQUE — ANÁLISE PCP SÊNIOR (com DP do Perfil)
+   ============================================================== */
+var _estSortCol='risco',_estSortDir=1;
+
+function popularSelectLinhasEst(){
+  var sel=el('est-linha');if(!sel) return;
+  sel.innerHTML='<option value="">Todas Linhas</option>';
+  LINHAS_KEYS.forEach(k=>{var op=document.createElement('option');op.value=k;op.textContent=LINHAS_NOMES[k]||k;sel.appendChild(op);});
+}
+
+function resetFiltrosEst(){
+  ['est-q','est-st','est-risco','est-cob','est-dp','est-linha'].forEach(id=>{var e=el(id);if(e) e.value='';});
+  el('est-ord').value='risco';
+  rEstoque();
+}
+
+function sortEst(col){
+  if(_estSortCol===col) _estSortDir*=-1; else{_estSortCol=col;_estSortDir=1;}
+  rEstoque();
+}
+
+function rEstoque(){
+  var q=v('est-q').toLowerCase();
+  var st=v('est-st');
+  var risco=v('est-risco');
+  var cobFiltro=v('est-cob');
+  var dpFiltro=v('est-dp');
+  var linhaFiltro=v('est-linha');
+  var ord=v('est-ord')||'risco';
+
+  var its=G.itens.filter(it=>{
+    if(q&&!it.Codigo.toLowerCase().includes(q)&&!it.Produto.toLowerCase().includes(q)) return false;
+    if(st==='SEM_EST'&&it.DispTotal>0) return false;
+    if(st==='ABAIXO_SEG'&&(it.DispTotal>=it.EstoqueSeguranca||it.DispTotal<=0)) return false;
+    if(st==='OK'&&it.DispTotal<it.EstoqueSeguranca) return false;
+    if(risco&&it.RiscoRuptura!==risco) return false;
+    if(cobFiltro==='0'&&it.CoberturasDias>0) return false;
+    if(cobFiltro==='3'&&!(it.CoberturasDias>=0&&it.CoberturasDias<=3)) return false;
+    if(cobFiltro==='7'&&!(it.CoberturasDias>=0&&it.CoberturasDias<=7)) return false;
+    if(cobFiltro==='15'&&!(it.CoberturasDias>=0&&it.CoberturasDias<=15)) return false;
+    if(cobFiltro==='30'&&!(it.CoberturasDias>=0&&it.CoberturasDias<=30)) return false;
+    if(cobFiltro==='30+'&&it.CoberturasDias<=30) return false;
+    if(dpFiltro==='com_dp'&&it.DemandaDiaria<=0) return false;
+    if(dpFiltro==='sem_dp'&&it.DemandaDiaria>0) return false;
+    if(dpFiltro==='dp_risco'&&!(it.PedidoComercial>0&&it.CoberturasDias<22)) return false;
+    if(linhaFiltro&&!it.LinhasKeys.includes(linhaFiltro)) return false;
+    return true;
+  });
+
+  // Ordenação
+  its.sort((a,b)=>{
+    var va,vb;
+    switch(ord){
+      case 'risco': var rm={'CRITICO':5,'URGENTE':4,'MODERADO':3,'BAIXO':2,'OK':1}; va=rm[a.RiscoRuptura]||0; vb=rm[b.RiscoRuptura]||0; return vb-va||(a.CoberturasDias-b.CoberturasDias);
+      case 'cobertura_asc': va=a.CoberturasDias>=999?9999:a.CoberturasDias; vb=b.CoberturasDias>=999?9999:b.CoberturasDias; return va-vb;
+      case 'cobertura_desc': va=a.CoberturasDias>=999?9999:a.CoberturasDias; vb=b.CoberturasDias>=999?9999:b.CoberturasDias; return vb-va;
+      case 'estoque_desc': return b.DispTotal-a.DispTotal;
+      case 'giro_desc': va=a.DemandaDiaria*30/(a.DispTotal||1); vb=b.DemandaDiaria*30/(b.DispTotal||1); return vb-va;
+      case 'dp_desc': return b.PedidoComercial-a.PedidoComercial;
+      case 'codigo': return a.Codigo.localeCompare(b.Codigo);
+      default: return b.Prioridade-a.Prioridade;
+    }
+  });
+
+  txt('est-cnt',its.length);
+
+  // KPIs analíticos globais
+  var kpiEl=el('est-kpis');
+  if(kpiEl){
+    var tot=G.itens.length;
+    var sE=G.itens.filter(x=>x.DispTotal<=0).length;
+    var aS=G.itens.filter(x=>x.DispTotal>0&&x.DispTotal<x.EstoqueSeguranca).length;
+    var okE=G.itens.filter(x=>x.DispTotal>=x.EstoqueSeguranca).length;
+    var comDp=G.itens.filter(x=>x.DemandaDiaria>0).length;
+    var semDp=G.itens.filter(x=>x.DemandaDiaria<=0).length;
+    var emRisco=G.itens.filter(x=>x.PedidoComercial>0&&x.CoberturasDias<22).length;
+    var cobMedia=G.itens.filter(x=>x.DemandaDiaria>0).reduce((a,x)=>a+(x.CoberturasDias>=999?30:x.CoberturasDias),0)/(comDp||1);
+    kpiEl.innerHTML=
+      '<div class="kpi red"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="kpi-val">'+sE+'</div><div class="kpi-label">Zerados</div><div class="kpi-sub">de '+tot+' itens</div></div>'
+      +'<div class="kpi yellow"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg></div><div class="kpi-val">'+aS+'</div><div class="kpi-label">Abaixo Seg.</div><div class="kpi-sub">estoque insuficiente</div></div>'
+      +'<div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kpi-val">'+okE+'</div><div class="kpi-label">Adequados</div><div class="kpi-sub">≥ estoque segurança</div></div>'
+      +'<div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div><div class="kpi-val">'+cobMedia.toFixed(1)+'d</div><div class="kpi-label">Cobertura Média</div><div class="kpi-sub">itens com DC</div></div>'
+      +'<div class="kpi orange"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/></svg></div><div class="kpi-val">'+emRisco+'</div><div class="kpi-label">DC em Risco</div><div class="kpi-sub">cob &lt; 22d com pedido</div></div>'
+      +'<div class="kpi purple"><div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/></svg></div><div class="kpi-val">'+comDp+' / '+semDp+'</div><div class="kpi-label">Com / Sem DC</div><div class="kpi-sub">demanda do perfil</div></div>';
+  }
+
+  // Métricas resumo
+  var metEl=el('est-met');
+  if(metEl){
+    var tE=its.reduce((a,x)=>a+x.DispTotal,0);
+    var tDp=its.reduce((a,x)=>a+x.PedidoComercial,0);
+    var tNec=its.reduce((a,x)=>a+x.NecessidadeProd,0);
+    var tA3=its.reduce((a,x)=>a+x.Almox3,0);
+    var tA30=its.reduce((a,x)=>a+x.Almox30,0);
+    metEl.innerHTML=
+      '<div class="mbox"><div class="mbox-l">Itens filtrados</div><div class="mbox-v">'+its.length+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Almox 3</div><div class="mbox-v">'+fN(Math.round(tA3))+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Almox 30</div><div class="mbox-v">'+fN(Math.round(tA30))+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Total Estoque</div><div class="mbox-v" style="color:var(--accent)">'+fN(Math.round(tE))+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Total DC (DP)</div><div class="mbox-v o">'+fN(Math.round(tDp))+'</div></div>'
+      +'<div class="mbox"><div class="mbox-l">Nec. Produzir</div><div class="mbox-v '+(tNec>0?'r':'g')+'">'+fN(Math.round(tNec))+'</div></div>';
+  }
+
+  // Tabela principal
+  var b=el('est-body');b.innerHTML='';
+  its.forEach(it=>{
+    // Status badge
+    var sit=it.DispTotal<=0
+      ?'<span class="bdg bdg-d">ZERADO</span>'
+      :it.DispTotal<it.EstoqueSeguranca
+        ?'<span class="bdg bdg-w">ABAIXO SEG</span>'
+        :'<span class="bdg bdg-s">OK</span>';
+
+    // Ruptura
+    var ruptLabel=it.DiasAteRuptura!==null
+      ?'<span class="rupt-chip '+(it.DiasAteRuptura<=3?'c':it.DiasAteRuptura<=7?'c':'w')+'">⏰ '+it.DiasAteRuptura+'d · '+fmtDate(it.DataRuptura)+'</span>'
+      :'<span class="rupt-chip s">OK</span>';
+
+    // Cobertura bar
+    var cobDias=it.CoberturasDias>=999?999:it.CoberturasDias;
+    var cobPct=Math.min(cobDias/30*100,100);
+    var cobCor=cobDias<=3?'var(--red)':cobDias<=7?'var(--yellow-mid)':cobDias<=15?'var(--orange)':'var(--green)';
+    var cobStr=cobDias>=999?'∞':cobDias.toFixed(1)+'d';
+    var cobHtml='<div class="cob-bar-wrap"><div class="cob-bar"><div class="cob-bar-fill" style="width:'+cobPct+'%;background:'+cobCor+'"></div></div><div class="cov-val" style="color:'+cobCor+'">'+cobStr+'</div></div>';
+
+    // Giro mensal = (DC mensal / estoque) — quantas vezes o estoque gira por mês
+    var giroMes=it.DispTotal>0&&it.DemandaDiaria>0?(it.DemandaDiaria*22/it.DispTotal).toFixed(2):'--';
+    var giroCls=giroMes==='--'?'zero':parseFloat(giroMes)>=1.5?'alto':parseFloat(giroMes)>=0.8?'med':'baixo';
+    var giroHtml='<span class="giro-chip '+giroCls+'">'+(giroMes==='--'?'—':giroMes+'x')+'</span>';
+
+    // DC (DP) — comparativo com cobertura
+    var dpHtml='';
+    if(it.PedidoComercial>0){
+      var dpRisco=it.CoberturasDias<22&&it.PedidoComercial>0;
+      dpHtml='<div class="dp-compare"><div class="dp-compare-val '+(dpRisco?'num-r':'')+'" title="Pedido DC do Perfil">'+fN(it.PedidoComercial)+'sc</div><div class="dp-compare-sub">'+(it.DemandaDiaria>0?it.DemandaDiaria.toFixed(1)+'sc/d':'')+'</div></div>';
+    } else {
+      dpHtml='<span style="color:var(--text4);font-size:10px">—</span>';
+    }
+
+    // OFA
+    var ofaHtml='<span class="nr '+(it.OFAAtrasada>0?'num-o':'')+'">'
+      +fN(Math.round(it.OFAHorizonte))
+      +(it.OFAAtrasada>0?' <span title="OFA Atrasada" style="color:var(--orange)">⏰</span>':'')
+      +'</span>';
+
+    var tr=document.createElement('tr');
+    tr.className=it.RowCls;
+    tr.onclick=function(){openDetail(it);};
+    tr.innerHTML=
+      '<td><code style="font-size:10px">'+it.Codigo+'</code></td>'
+      +'<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+it.Produto+'">'+it.Produto+'</td>'
+      +'<td class="nr">'+fN(it.Almox3)+'</td>'
+      +'<td class="nr">'+fN(it.Almox30)+'</td>'
+      +'<td class="nr"><strong style="color:var(--accent)">'+fN(it.DispTotal)+'</strong></td>'
+      +'<td class="nr" style="color:var(--text3)">'+fN(it.EstoqueSeguranca)+'</td>'
+      +'<td class="nr">'+dpHtml+'</td>'
+      +'<td>'+cobHtml+'</td>'
+      +'<td class="nr">'+giroHtml+'</td>'
+      +'<td>'+ofaHtml+'</td>'
+      +'<td class="nr '+(it.NecessidadeProd>0?'num-r':'num-g')+'">'+fN(Math.round(it.NecessidadeProd))+'</td>'
+      +'<td>'+ruptLabel+'</td>'
+      +'<td>'+sit+'</td>';
+    b.appendChild(tr);
+  });
+  if(!its.length) b.innerHTML='<tr><td colspan="13" class="empty">Nenhum item com os filtros selecionados.</td></tr>';
+
+  // Distribuição por cobertura
+  var distEl=el('est-dist-cob');
+  if(distEl){
+    var faixas=[
+      {label:'Zerado (0d)',min:-1,max:0,cor:'var(--red)'},
+      {label:'1–3 dias',min:0,max:3,cor:'var(--red)'},
+      {label:'4–7 dias',min:3,max:7,cor:'var(--orange)'},
+      {label:'8–15 dias',min:7,max:15,cor:'var(--yellow-mid)'},
+      {label:'16–30 dias',min:15,max:30,cor:'var(--green)'},
+      {label:'> 30 dias',min:30,max:99999,cor:'var(--accent)'},
+    ];
+    var maxQ=1;
+    var counts=faixas.map(f=>{
+      var c=G.itens.filter(it=>{
+        if(f.min===-1) return it.DispTotal<=0;
+        return it.CoberturasDias>f.min&&it.CoberturasDias<=f.max&&it.DispTotal>0;
+      }).length;
+      if(c>maxQ) maxQ=c;
+      return c;
+    });
+    distEl.innerHTML=faixas.map((f,i)=>{
+      var pct=maxQ>0?Math.round(counts[i]/maxQ*100):0;
+      return '<div class="dist-bar-row">'
+        +'<div class="dist-bar-label">'+f.label+'</div>'
+        +'<div class="dist-bar-outer"><div class="dist-bar-inner" style="width:'+pct+'%;background:'+f.cor+'">'+( pct>15?counts[i]:'')+'</div></div>'
+        +'<div class="dist-bar-count" style="color:'+f.cor+'">'+counts[i]+'</div>'
+        +'</div>';
+    }).join('');
+  }
+
+  // Distribuição por linha
+  var distLEl=el('est-dist-linha');
+  if(distLEl){
+    var linhasData=LINHAS_KEYS.map(lk=>{
+      var itensLinha=G.itens.filter(it=>it.LinhasKeys.includes(lk));
+      var emRiscoL=itensLinha.filter(it=>it.RiscoRuptura==='CRITICO'||it.RiscoRuptura==='URGENTE').length;
+      return{nome:LINHAS_NOMES[lk]||lk,total:itensLinha.length,risco:emRiscoL};
+    }).filter(x=>x.total>0);
+    var maxL=Math.max(...linhasData.map(x=>x.total),1);
+    distLEl.innerHTML=linhasData.map(l=>{
+      var pct=Math.round(l.total/maxL*100);
+      var pctR=l.total>0?Math.round(l.risco/l.total*100):0;
+      var cor=pctR>30?'var(--red)':pctR>10?'var(--orange)':'var(--green)';
+      return '<div class="dist-bar-row">'
+        +'<div class="dist-bar-label" style="font-size:9px">'+l.nome+'</div>'
+        +'<div class="dist-bar-outer"><div class="dist-bar-inner" style="width:'+pct+'%;background:'+cor+'">'+( pct>15?l.total:'')+'</div></div>'
+        +'<div class="dist-bar-count" style="color:var(--text2)">'+l.total+' <span style="font-size:9px;color:'+cor+'">'+( l.risco>0?'⚠'+l.risco:'')+'</span></div>'
+        +'</div>';
+    }).join('')||'<div style="color:var(--text4);font-size:11px">Nenhuma linha mapeada</div>';
+  }
+
+  // Top riscos (DC × Estoque)
+  var topEl=el('est-top-risk');
+  if(topEl){
+    var topRisk=G.itens
+      .filter(it=>it.PedidoComercial>0)
+      .sort((a,b)=>{
+        var ra={'CRITICO':4,'URGENTE':3,'MODERADO':2,'BAIXO':1,'OK':0};
+        return (ra[b.RiscoRuptura]||0)-(ra[a.RiscoRuptura]||0)||(a.CoberturasDias-b.CoberturasDias);
+      }).slice(0,10);
+
+    if(!topRisk.length){topEl.innerHTML='<div class="empty">✅ Sem itens com DC em risco</div>';return;}
+    topEl.innerHTML=topRisk.map((it,i)=>{
+      var cobDp=it.DemandaDiaria>0?it.CoberturasDias:0;
+      var cobPctBar=Math.min(cobDp/30*100,100);
+      var estPctBar=it.EstoqueSeguranca>0?Math.min(it.DispTotal/it.EstoqueSeguranca*100,200):0;
+      var cobCor=cobDp<=3?'var(--red)':cobDp<=7?'var(--orange)':cobDp<=15?'var(--yellow-mid)':'var(--green)';
+      return '<div class="risk-item" onclick="openDetail(G.itens.find(x=>x.Codigo===\''+it.Codigo+'\'))">'
+        +'<div class="risk-rank">#'+(i+1)+'</div>'
+        +'<div class="risk-info">'
+          +'<div style="display:flex;align-items:center;gap:6px"><div class="risk-code">'+it.Codigo+'</div>'+bdgRisco(it.RiscoRuptura)+'</div>'
+          +'<div class="risk-name">'+it.Produto+'</div>'
+          +'<div class="risk-detail">DC: <strong>'+fN(it.PedidoComercial)+'sc</strong> · Cob: <strong style="color:'+cobCor+'">'+(cobDp>=999?'∞':cobDp.toFixed(1)+'d')+'</strong> · '+it.LinhaRec+'</div>'
+        +'</div>'
+        +'<div class="risk-meters">'
+          +'<div class="risk-meter-row"><div class="risk-meter-label">Cobertura</div><div class="risk-meter-bar"><div class="risk-meter-fill" style="width:'+cobPctBar+'%;background:'+cobCor+'"></div></div></div>'
+          +'<div class="risk-meter-row"><div class="risk-meter-label">vs Seg.</div><div class="risk-meter-bar"><div class="risk-meter-fill" style="width:'+Math.min(estPctBar,100)+'%;background:'+(estPctBar<100?'var(--red)':'var(--green)')+'"></div></div></div>'
+        +'</div>'
+        +(it.DiasAteRuptura!==null?'<span class="rupt-chip '+(it.DiasAteRuptura<=7?'c':'w')+'" style="flex-shrink:0">⏰ '+it.DiasAteRuptura+'d</span>':'')
+        +'</div>';
+    }).join('');
+  }
+}
+
+function expCSVEstoque(){
+  var its=G.itens.sort((a,b)=>b.Prioridade-a.Prioridade);
+  var hdr=['Codigo','Produto','Almox3','Almox30','DispTotal','EstoqueSeguranca','PedidoComercial','DemandaDiaria','CoberturasDias','GiroMensal','OFAHorizonte','OFAFora','OFAAtrasada','NecessidadeProd','RiscoRuptura','DiasAteRuptura','DataRuptura','TipoRuptura','LinhaProducao','StatusCap','Prioridade'];
+  var rows=[hdr.join(',')];
+  its.forEach(it=>{
+    var giro=it.DispTotal>0&&it.DemandaDiaria>0?(it.DemandaDiaria*22/it.DispTotal).toFixed(2):'0';
+    rows.push([csvEsc(it.Codigo),csvEsc(it.Produto),csvEsc(it.Almox3),csvEsc(it.Almox30),csvEsc(it.DispTotal),csvEsc(it.EstoqueSeguranca),csvEsc(it.PedidoComercial),csvEsc(it.DemandaDiaria.toFixed(2)),csvEsc(it.CoberturasDias>=999?'INF':it.CoberturasDias.toFixed(1)),csvEsc(giro),csvEsc(Math.round(it.OFAHorizonte)),csvEsc(Math.round(it.OFAFora)),csvEsc(Math.round(it.OFAAtrasada)),csvEsc(Math.round(it.NecessidadeProd)),csvEsc(it.RiscoRuptura),csvEsc(it.DiasAteRuptura||''),csvEsc(fmtDate(it.DataRuptura)),csvEsc(it.TipoRuptura||'OK'),csvEsc(it.LinhaProducao),csvEsc(it.StatusCap),csvEsc(it.Prioridade)].join(','));
+  });
+  dlCSV('estoque_analise_pcp.csv',rows.join('\n'));
+}
+
+/* ==============================================================
+   PRODUÇÃO EPP / ORDENS / PERFIL
+   ============================================================== */
+function rProdReal(){var q=v('prod-q').toLowerCase();var rows=G.epp.filter(r=>!q||r.Codigo.toLowerCase().includes(q)||r.Produto.toLowerCase().includes(q));txt('prod-cnt',rows.length);var b=el('prod-body');b.innerHTML='';rows.forEach(r=>{var tr=document.createElement('tr');tr.innerHTML='<td>'+r.Data+'</td><td><code>'+r.Codigo+'</code></td><td>'+r.Produto+'</td><td class="nr">'+fN(r.Quantidade)+'</td>';b.appendChild(tr);});}
 
 function rOrdens(){
-  var q=v('ord-q').toLowerCase();var its=G.ordens.filter(r=>!q||s(r['Cod. Item']||r['_col3']||'').toLowerCase().includes(q));
-  txt('ord-cnt',its.length);var b=el('ord-body');if(!b) return;b.innerHTML='';
-  its.slice(0,100).forEach(r=>b.innerHTML+='<tr><td>'+s(r['Ordem']||'')+'</td><td>'+s(r['Tipo']||'')+'</td><td>'+s(r['Cod. Item']||'')+'</td><td>--</td><td>'+s(r['Dt. Inicio']||'')+'</td><td>'+s(r['Dt. Fim']||'')+'</td><td>'+s(r['Situacao']||'')+'</td><td>--</td><td class="nr">'+fN(n(r['Qtde']||0))+'</td><td class="nr">'+fN(n(r['Qtde. Pendente']||0))+'</td><td class="nr">--</td></tr>');
+  var q=v('ord-q').toLowerCase(),filtSit=v('ord-sit');
+  var HOJE=hoje0(),hz2=addDias(HOJE,HORIZONTE_OFA);
+  var rows=G.ordens.filter(r=>{
+    var cod=s(r['Cod. Item']||r['_col3']||''),sit=s(r['Situacao']||r['_col8']||'').toLowerCase();
+    var tipo=s(r['Tipo']||r['_col2']||'').toUpperCase();
+    var aberta=(sit==='liberada'||sit==='aberta'||sit==='em aberto'||sit==='parcial'||sit==='');
+    if(!aberta||(tipo!=='OFA'&&tipo!=='OFP')) return false;
+    if(q&&!cod.toLowerCase().includes(q)&&!s(r['Descricao']||r['_col4']||'').toLowerCase().includes(q)) return false;
+    var dtFim=parseDate(s(r['Dt. Fim']||r['_col7']||''));
+    if(filtSit==='atrasada'&&!(dtFim&&dtFim<HOJE)) return false;
+    if(filtSit==='semana'){var em7=addDias(HOJE,7);if(!(dtFim&&dtFim>=HOJE&&dtFim<=em7)) return false;}
+    if(filtSit==='horizonte'&&!(dtFim&&dtFim>=HOJE&&dtFim<=hz2)) return false;
+    if(filtSit==='fora'&&!(dtFim&&dtFim>hz2)) return false;
+    return true;
+  });
+  txt('ord-cnt',rows.length);var b=el('ord-body');b.innerHTML='';
+  rows.forEach(r=>{
+    var dtFim=parseDate(s(r['Dt. Fim']||r['_col7']||'')),dtIni=parseDate(s(r['Dt. Inicio']||r['_col6']||''));
+    var dias=dtFim?difDias(HOJE,dtFim):null;
+    var hz2=addDias(HOJE,HORIZONTE_OFA),em7=addDias(HOJE,7);
+    var situDt='semdata',situDtHtml='<span class="ofa-chip semdata">sem data</span>';
+    if(dtFim){if(dtFim<HOJE){situDt='atrasada';situDtHtml='<span class="ofa-chip atrasada">⏰ '+Math.abs(dias)+'d atraso</span>';}else if(dtFim<=em7){situDt='semana';situDtHtml='<span class="ofa-chip semana">Esta sem. ('+dias+'d)</span>';}else if(dtFim<=hz2){situDt='horizonte';situDtHtml='<span class="ofa-chip horizonte">'+dias+'d</span>';}else{situDt='fora';situDtHtml='<span class="ofa-chip fora">'+dias+'d (fora)</span>';}}
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+s(r['Ordem']||r['_col0'])+'</td><td>'+s(r['Tipo']||r['_col2'])+'</td><td><code>'+s(r['Cod. Item']||r['_col3'])+'</code></td><td>'+s(r['Descricao']||r['_col4'])+'</td><td>'+fmtDate(dtIni)+'</td><td>'+fmtDate(dtFim)+'</td><td>'+s(r['Situacao']||r['_col8'])+'</td><td>'+situDtHtml+'</td><td class="nr">'+fN(n(r['Qtde']||r['_col9']))+'</td><td class="nr">'+fN(n(r['Qtde. Pendente']||r['_col10']))+'</td><td class="nr '+(dias!==null&&dias<0?'num-r':dias!==null&&dias<=7?'num-a':'')+'">'+( dias!==null?dias+'d':'--')+'</td>';
+    b.appendChild(tr);
+  });
+  if(!rows.length) b.innerHTML='<tr><td colspan="11" class="empty">Nenhuma OFA</td></tr>';
 }
 
-function rPerfil(){
-  var q=v('perf-q').toLowerCase();var its=G.perfil.filter(r=>!q||s(r['Item']||'').toLowerCase().includes(q));
-  txt('perf-cnt',its.length);var b=el('perf-body');if(!b) return;b.innerHTML='';
-  its.slice(0,100).forEach(r=>b.innerHTML+='<tr><td>'+s(r['Data']||'')+'</td><td>'+s(r['Item']||'')+'</td><td>'+s(r['Tipo']||'')+'</td><td>'+s(r['Referencia']||'')+'</td><td>--</td><td>--</td><td class="nr">'+fN(n(r['Quantidade']||0))+'</td></tr>');
-}
+function rPerfil(){var q=v('perf-q').toLowerCase();var rows=G.perfil.filter(r=>!q||s(r['Item']||r['_col1']||'').toLowerCase().includes(q));txt('perf-cnt',rows.length);var b=el('perf-body');b.innerHTML='';rows.slice(0,120).forEach(r=>{var tr=document.createElement('tr');tr.innerHTML='<td>'+s(r['Data Relatorio']||r['_col0'])+'</td><td>'+s(r['Item']||r['_col1'])+'</td><td>'+s(r['Tipo']||r['_col2'])+'</td><td>'+s(r['Referencia']||r['_col3'])+'</td><td>'+s(r['Data Inicio']||r['_col4'])+'</td><td>'+s(r['Data Fim']||r['_col5'])+'</td><td class="nr">'+fN(n(r['Quantidade']||r['_col6']))+'</td>';b.appendChild(tr);});}
 
-function renderAll(){rDash();rPCP();rProg();rLinhas();rPrevisao();rEstoque();rProdReal();rOrdens();rPerfil();updateKPIs();}
-function goPage(navEl){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));el('page-'+navEl.dataset.page).classList.add('active');navEl.classList.add('active');}
+/* ==============================================================
+   CHARTS
+   ============================================================== */
+function renderCharts(){
+  var pd=G.prodDiaria.slice(-14);
+  mkChart('chart-prod-real',{type:'bar',data:{labels:pd.map(x=>x.data.substring(5)),datasets:[{label:'EPP (sc)',data:pd.map(x=>x.qty),backgroundColor:'rgba(27,92,122,.55)',borderColor:'rgba(27,92,122,.8)',borderWidth:1,borderRadius:3}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.04)'}},x:{grid:{display:false}}},maintainAspectRatio:false}});
+}
+function mkChart(id,cfg){var ctx=document.getElementById(id);if(!ctx) return;if(G.charts[id]) G.charts[id].destroy();G.charts[id]=new Chart(ctx,cfg);}
+
+/* ==============================================================
+   DETAIL PANEL
+   ============================================================== */
 function openDetail(it){
-  el('dp-title').textContent=it.Codigo+' · '+it.Produto;el('dp-sub').textContent='Risco: '+it.RiscoRuptura+' · Pri: '+it.Prioridade+'/100';
-  el('dp-body').innerHTML='<div class="dp-section"><div class="dp-sec-title">Posição</div><div class="dp-grid"><div class="dp-stat"><div class="dp-stat-l">Total Disp.</div><div class="dp-stat-v">'+fN(it.DispTotal)+'</div></div><div class="dp-stat"><div class="dp-stat-l">Nec. Produzir</div><div class="dp-stat-v r">'+fN(it.NecessidadeProd)+'</div></div></div></div>';
+  if(!it) return;
+  el('dp-title').textContent=it.Codigo+' · '+it.Produto;
+  el('dp-sub').textContent='Risco: '+it.RiscoRuptura+' · Pri: '+it.Prioridade+'/100 · '+it.StatusCap;
+  var cobPct=Math.min(it.CoberturasDias>=999?100:it.CoberturasDias/30*100,100);
+  var cobCor=it.CoberturasDias<=2?'var(--red)':it.CoberturasDias<=7?'var(--yellow-mid)':'var(--green)';
+  var cobLabel=it.CoberturasDias>=999?'∞':it.CoberturasDias.toFixed(1)+'d';
+  var acoes='';
+  if(it.RuptInfo){var rt=it.RuptInfo;acoes+='<div class="dp-action '+(rt.dias<=3?'critico':'urgente')+'"><div class="dp-action-icon">'+(rt.tipo==='RUPTURA'?'🔴':'⚠️')+'</div><div><div class="dp-action-text">'+(rt.tipo==='RUPTURA'?'RUPTURA':'ABAIXO DO MÍNIMO')+' em '+rt.dias+' dias ('+fmtDate(rt.data)+')</div><span class="dp-action-sub">Saldo projetado cai '+(rt.tipo==='RUPTURA'?'a zero':'abaixo do estoque de segurança')+' em '+rt.dias+' dia(s). Produzir antes de '+fmtDate(rt.data)+'.</span></div></div>';}
+  if(it.ConflitoDCOFA) acoes+='<div class="dp-action critico"><div class="dp-action-icon">🚨</div><div><div class="dp-action-text">CONFLITO DC × OFA — OFA entrega em '+it.DiasAteOFA+'d</div><span class="dp-action-sub">DC sem cobertura de estoque. OFA entrega depois da necessidade.</span></div></div>';
+  if(it.OFAAtrasada>0) acoes+='<div class="dp-action urgente"><div class="dp-action-icon">⏰</div><div><div class="dp-action-text">OFA ATRASADA — '+fN(Math.round(it.OFAAtrasada))+'sc</div><span class="dp-action-sub">Verificar andamento no Focco.</span></div></div>';
+  if(it.OFAFora>0) acoes+='<div class="dp-action info"><div class="dp-action-icon">📅</div><div><div class="dp-action-text">OFA FORA DO HORIZONTE — '+fN(Math.round(it.OFAFora))+'sc</div><span class="dp-action-sub">NÃO abateu NecProd. Dt.Fim > '+HORIZONTE_OFA+'d. Avaliar antecipação.</span></div></div>';
+  if(!it.RuptInfo&&it.RiscoRuptura==='OK') acoes+='<div class="dp-action ok"><div class="dp-action-icon">✅</div><div><div class="dp-action-text">COBERTO — sem ruptura prevista em '+HORIZONTE_PROJ+' dias</div><span class="dp-action-sub">'+it.Motivo+'</span></div></div>';
+  // Projeção resumida (próximos 7 dias)
+  var projHtml='<div class="dp-sec-title">Projeção de Estoque — próximos 7 dias</div><div style="display:flex;gap:4px;margin-bottom:8px">';
+  (it.Projecao||[]).slice(0,7).forEach(p=>{
+    var bg=p.ruptura?'var(--red-dim)':p.abaixoSeg?'var(--yellow-dim)':'var(--green-dim)';
+    var col=p.ruptura?'var(--red)':p.abaixoSeg?'var(--yellow)':'var(--green)';
+    projHtml+='<div style="flex:1;text-align:center;padding:5px 3px;background:'+bg+';border-radius:5px;font-family:var(--mono);font-size:9px;font-weight:700;color:'+col+'">'
+      +'<div>'+DIAS_PT[p.date.getDay()]+'</div>'
+      +'<div style="font-size:11px">'+( p.saldoFim<0?'0':p.saldoFim>9999?Math.round(p.saldoFim/1000)+'K':Math.round(p.saldoFim))+'</div>'
+      +(p.entradaOFA>0?'<div>📦</div>':'')
+      +'</div>';
+  });
+  projHtml+='</div>';
+  // OFAs individuais
+  var ofaDetHtml='';
+  if(it.OFADetalhes&&it.OFADetalhes.length>0){
+    ofaDetHtml='<div class="dp-sec-title" style="margin-top:12px">OFAs em Aberto</div>';
+    it.OFADetalhes.forEach(det=>{
+      var cc=det.situDt==='atrasada'?'atrasada':det.situDt==='fora'?'fora':det.situDt==='horizonte'?'horizonte':'semana';
+      ofaDetHtml+='<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:10px">'
+        +'<span style="font-family:var(--mono);color:var(--accent)">#'+det.ordem+'</span>'
+        +'<strong>'+fN(Math.round(det.pend))+'sc</strong>'
+        +'<span class="ofa-chip '+cc+'">'+det.situDt+'</span>'
+        +(det.dtIni?'<span style="color:var(--text3)">Ini: '+fmtDate(det.dtIni)+'</span>':'')
+        +(det.dtFim?'<span style="color:var(--text3)">Fim: '+fmtDate(det.dtFim)+(det.diasRest!==null?' ('+det.diasRest+'d)':'')+'</span>':'')
+        +'</div>';
+    });
+  }
+  el('dp-body').innerHTML=
+    '<div class="dp-section"><div class="dp-sec-title">Recomendação PCP</div>'+acoes+'</div>'
+    +'<div class="dp-section">'+projHtml+ofaDetHtml+'</div>'
+    +'<div class="dp-section"><div class="dp-sec-title">Posição de Estoque</div>'
+      +'<div class="dp-grid">'
+        +'<div class="dp-stat"><div class="dp-stat-l">Almox 3</div><div class="dp-stat-v '+(it.Almox3<=0?'r':'g')+'">'+fN(it.Almox3)+'sc</div></div>'
+        +'<div class="dp-stat"><div class="dp-stat-l">Almox 30</div><div class="dp-stat-v">'+fN(it.Almox30)+'sc</div></div>'
+        +'<div class="dp-stat"><div class="dp-stat-l">Total Disp.</div><div class="dp-stat-v '+(it.DispTotal<=0?'r':it.DispTotal<it.EstoqueSeguranca?'a':'g')+'">'+fN(it.DispTotal)+'sc</div></div>'
+        +'<div class="dp-stat"><div class="dp-stat-l">Est. Segurança</div><div class="dp-stat-v">'+fN(it.EstoqueSeguranca)+'sc</div></div>'
+      +'</div>'
+      +'<div style="margin-top:8px"><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Cobertura atual: <strong>'+cobLabel+'</strong> · Consumo: <strong>'+(it.DemandaDiaria>0?it.DemandaDiaria.toFixed(1)+'sc/d':'sem DC')+'</strong></div>'
+      +'<div style="height:8px;border-radius:4px;background:var(--bg4);overflow:hidden"><div style="height:100%;width:'+cobPct+'%;background:'+cobCor+'"></div></div></div>'
+    +'</div>'
+    +'<div class="dp-section"><div class="dp-sec-title">Necessidade de Produção</div>'
+      +'<div class="dp-grid">'
+        +'<div class="dp-stat"><div class="dp-stat-l">Pedido DC</div><div class="dp-stat-v '+(it.PedidoComercial>0?'o':'')+'">'+fN(it.PedidoComercial)+'sc</div></div>'
+        +'<div class="dp-stat"><div class="dp-stat-l">Nec. Comercial</div><div class="dp-stat-v '+(it.NecComercial>0?'r':'')+'">'+fN(it.NecComercial)+'sc</div></div>'
+        +'<div class="dp-stat"><div class="dp-stat-l">OFA ≤'+HORIZONTE_OFA+'d</div><div class="dp-stat-v p">'+fN(Math.round(it.OFAHorizonte))+'sc</div></div>'
+        +'<div class="dp-stat"><div class="dp-stat-l">OFA >'+HORIZONTE_OFA+'d</div><div class="dp-stat-v" style="color:var(--purple)">'+fN(Math.round(it.OFAFora))+'sc</div></div>'
+        +'<div class="dp-stat"><div class="dp-stat-l">Nec. Produzir</div><div class="dp-stat-v '+(it.NecessidadeProd>0?'r':'g')+'">'+fN(Math.round(it.NecessidadeProd))+'sc</div></div>'
+        +'<div class="dp-stat"><div class="dp-stat-l">Cap./Dia · Linha</div><div class="dp-stat-v" style="font-size:12px">'+fN(it.CapacidadeDia)+'sc · '+it.LinhaRec+'</div></div>'
+      +'</div>'
+    +'</div>';
   el('detail-panel').classList.add('open');el('detail-overlay').classList.add('open');
 }
 function closeDetail(){el('detail-panel').classList.remove('open');el('detail-overlay').classList.remove('open');}
-function popularSelectLinhas(){var sel=el('pcp-linha');if(sel){sel.innerHTML='<option value="">Todas Linhas</option>';LINHAS_KEYS.forEach(k=>sel.innerHTML+='<option value="'+k+'">'+LINHAS_NOMES[k]+'</option>');}}
-function popularSelectLinhasEst(){var sel=el('est-linha');if(sel){sel.innerHTML='<option value="">Todas Linhas</option>';LINHAS_KEYS.forEach(k=>sel.innerHTML+='<option value="'+k+'">'+LINHAS_NOMES[k]+'</option>');}}
-function updateKPIs(){
-  var r7=G.itens.filter(x=>x.DiasAteRuptura!==null&&x.DiasAteRuptura<=7).length;
-  txt('badge-ruptura',r7);el('badge-ruptura').style.display=r7?'':'none';
-  txt('badge-prog',G.schedule?G.schedule.naoProgramados.length:0);
-  txt('badge-ofa',G.ordens.length);
+
+/* ==============================================================
+   NAVEGAÇÃO
+   ============================================================== */
+function goPage(navEl){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));el('page-'+navEl.dataset.page).classList.add('active');navEl.classList.add('active');}
+function filterStatus(st){var pcpNav=document.querySelector('[data-page="pcp"]');goPage(pcpNav);if(el('pcp-st')) el('pcp-st').value=st;rPCP();}
+
+/* ==============================================================
+   CSV EXPORTS
+   ============================================================== */
+function csvEsc(v){var sv=String(v===null||v===undefined?'':v);if(sv.includes(',')||sv.includes('"')||sv.includes('\n')) return '"'+sv.replace(/"/g,'""')+'"';return sv;}
+function dlCSV(nome,c){var blob=new Blob(['\uFEFF'+c],{type:'text/csv;charset=utf-8;'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=nome;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
+
+function expCSVMain(){
+  var hdr=['Codigo','Produto','Almox3','Almox30','DispTotal','PedidoComercial','NecComercial','EstoqueSeguranca','OFAHorizonte','OFAFora','OFAAtrasada','NecessidadeProd','CapacidadeDia','CoberturasDias','DemandaDiaria','DiasAteRuptura','DataRuptura','TipoRuptura','ConflitoDCOFA','LinhaProducao','StatusCap','RiscoRuptura','Prioridade','DataIdeal'];
+  var rows=[hdr.join(',')];
+  G.itens.forEach(it=>rows.push(hdr.map(h=>{var v=it[h];if(v instanceof Date) return csvEsc(fmtDate(v));if(typeof v==='boolean') return csvEsc(String(v));if(typeof v==='number') return csvEsc(v.toFixed(2));return csvEsc(v);}).join(',')));
+  dlCSV('pcp_v11_preditivo.csv',rows.join('\n'));
 }
+
+function expCSVProjecao(){
+  var its=G.itens.filter(x=>x.DiasAteRuptura!==null||x.NecessidadeProd>0).sort((a,b)=>(a.DiasAteRuptura||999)-(b.DiasAteRuptura||999));
+  var dias=gerarDias(HORIZONTE_PROJ);
+  var hdr=['Codigo','Produto','SaldoHoje','EstSeg','CoberturasDias','DiasAteRuptura','DataRuptura','TipoRuptura','ConsumoDiario','OFAHorizonte','NecProd',...dias.map(d=>isoDate(d))];
+  var rows=[hdr.join(',')];
+  its.forEach(it=>{
+    var projs=(it.Projecao||[]).map(p=>csvEsc(Math.round(p.saldoFim)));
+    rows.push([csvEsc(it.Codigo),csvEsc(it.Produto),csvEsc(it.DispTotal),csvEsc(it.EstoqueSeguranca),csvEsc(it.CoberturasDias.toFixed(1)),csvEsc(it.DiasAteRuptura||''),csvEsc(fmtDate(it.DataRuptura)),csvEsc(it.TipoRuptura||'OK'),csvEsc(it.DemandaDiaria.toFixed(2)),csvEsc(Math.round(it.OFAHorizonte)),csvEsc(Math.round(it.NecessidadeProd)),...projs].join(','));
+  });
+  dlCSV('projecao_temporal_v11.csv',rows.join('\n'));
+}
+
+function expCSVPrev(){var hdr=['Codigo','Produto','UM','Previsto','Realizado','Diferenca','Aderencia','Status'];var rows=[hdr.join(',')];G.prevItens.forEach(it=>rows.push(hdr.map(h=>csvEsc(it[h])).join(',')));dlCSV('previsao_realizado.csv',rows.join('\n'));}
+
+function expCSVOrdens(){
+  var hdr=['Ordem','Tipo','CodItem','Descricao','DtInicio','DtFim','Situacao','SituacaoDt','DiasRestantes','QtdePlan','QtdePend'];
+  var rows=[hdr.join(',')];var HOJE=hoje0();
+  G.ordens.forEach(r=>{var dtFim=parseDate(s(r['Dt. Fim']||r['_col7']||'')),dtIni=parseDate(s(r['Dt. Inicio']||r['_col6']||''));var dias=dtFim?difDias(HOJE,dtFim):null;var hz2=addDias(HOJE,HORIZONTE_OFA);var situDt=!dtFim?'semdata':dtFim<HOJE?'atrasada':dtFim<=hz2?'horizonte':'fora';rows.push([csvEsc(s(r['Ordem']||r['_col0'])),csvEsc(s(r['Tipo']||r['_col2'])),csvEsc(s(r['Cod. Item']||r['_col3'])),csvEsc(s(r['Descricao']||r['_col4'])),csvEsc(fmtDate(dtIni)),csvEsc(fmtDate(dtFim)),csvEsc(s(r['Situacao']||r['_col8'])),csvEsc(situDt),csvEsc(dias!==null?dias:''),csvEsc(n(r['Qtde']||r['_col9'])),csvEsc(n(r['Qtde. Pendente']||r['_col10']))].join(','));});
+  dlCSV('ordens_v11.csv',rows.join('\n'));
+}
+
+function expCSVProg(){if(!G.schedule) return;var {grade,dias}=G.schedule;var hdr=['Linha','Data','CapDia','OFA_ERP','Sugestao_PCP','Total','Pct'];var rows=[hdr.join(',')];LINHAS_KEYS.forEach(lk=>dias.forEach(d=>{var dk=isoDate(d),c=grade[lk]&&grade[lk][dk]?grade[lk][dk]:{cap:0,ofaProg:0,sugestao:0};var tot=c.ofaProg+c.sugestao,pct=c.cap>0?Math.round(tot/c.cap*100):0;rows.push([csvEsc(LINHAS_NOMES[lk]),csvEsc(dk),csvEsc(c.cap),csvEsc(Math.round(c.ofaProg)),csvEsc(Math.round(c.sugestao)),csvEsc(Math.round(tot)),csvEsc(pct)].join(','));}));dlCSV('programacao_v11.csv',rows.join('\n'));}
+
+/* ==============================================================
+   HELPERS
+   ============================================================== */
 function el(id){return document.getElementById(id);}
 function txt(id,v){var e=el(id);if(e) e.textContent=v;}
 function v(id){var e=el(id);return e?e.value:'';}
 function s(val){return val===null||val===undefined?'':String(val).trim();}
-function n(val){if(typeof val==='number') return val;var str=s(val).replace(/\./g,'').replace(',','.');var f=parseFloat(str);return isNaN(f)?0:f;}
+function n(val){if(typeof val==='number') return val;var str=s(val);if(str.includes(',')&&str.includes('.')){str=str.replace(/\./g,'').replace(',','.');}else if(str.includes(',')) str=str.replace(',','.');if(!str.includes(',')&&str.includes('.')){var pts=str.split('.');if(pts.length===2&&pts[1].length===3) str=str.replace('.','');}var f=parseFloat(str);return isNaN(f)?0:f;}
 function fN(val){return(typeof val==='number'?val:n(val)).toLocaleString('pt-BR');}
-function bdgRisco(r){var m={'CRITICO':'bdg-d','URGENTE':'bdg-o','MODERADO':'bdg-w','BAIXO':'bdg-i','OK':'bdg-s'};return '<span class="bdg '+(m[r]||'bdg-m')+'">'+r+'</span>';}
-function bdgCap(st){var m={'PRODUZIR URGENTE':'bdg-d','NORMAL':'bdg-m','CAP LIMITADA':'bdg-w','SEM CAPACIDADE':'bdg-p','OFA ATENDE':'bdg-s'};return '<span class="bdg '+(m[st]||'bdg-m')+'">'+st+'</span>';}
+function bdgCap(st){var m={'OFA ATENDE':'bdg-s','NORMAL':'bdg-m','CAP LIMITADA':'bdg-w','SEM CAPACIDADE':'bdg-p','PRODUZIR URGENTE':'bdg-d'};return '<span class="bdg '+(m[st]||'bdg-m')+'">'+st+'</span>';}
 function bdgPrev(st){var m={'ACIMA':'bdg-s','DENTRO':'bdg-w','ABAIXO':'bdg-d'};return '<span class="bdg '+(m[st]||'bdg-m')+'">'+st+'</span>';}
-function ofaChip(it){if(it.OFAAtrasada>0) return '<span class="ofa-chip atrasada">⏰ Atr.</span>';if(it.OFAHorizonte>0) return '<span class="ofa-chip semana">OFA</span>';return '';}
-function covChip(d){if(d>=999) return '<span class="cov-chip s">∞</span>';return '<span class="cov-chip '+(d<=7?'c':'s')+'">'+d.toFixed(1)+'d</span>';}
-function mudarHorizonte(){HORIZONTE_OFA=parseInt(el('cfg-horizonte').value);txt('horizonte-label',HORIZONTE_OFA+'d');if(G.rawData)processar(G.rawData);}
-function expCSVMain(){alert('Exportando...');}
-function expCSVProjecao(){alert('Exportando...');}
-function expCSVPrev(){alert('Exportando...');}
-function expCSVEstoque(){alert('Exportando...');}
-function expCSVOrdens(){alert('Exportando...');}
-function expCSVProg(){alert('Exportando...');}
-
-function executarTestes() {
-  console.log('--- INICIANDO TESTES AUTOMATIZADOS ---');
-  var erros = [];
-  var comp = G.mesFiltro;
-  
-  // 1. Competências carregadas
-  var sel = el('prev-mes-filtro');
-  if(!sel || sel.options.length === 0) erros.push({f:'popularSelectMes', m:'Nenhuma competência carregada no seletor'});
-  
-  // 2. Quantidade de registros
-  if(G.previsao.length === 0) erros.push({f:'processar', m:'Base de Previsão vazia'});
-  if(G.extrato.length === 0) erros.push({f:'processar', m:'Base de Extrato (Produção/NFS) vazia'});
-  
-  // 3. Filtro aplicado
-  var itensFiltrados = G.prevItens.length;
-  console.log('Itens na Previsão para ' + comp + ': ' + itensFiltrados);
-  
-  // 4. Validação de consistência
-  if(itensFiltrados === 0 && G.previsao.some(r => s(r['Competência']||r['COMPETENCIA']) === comp)) {
-    erros.push({f:'processar', m:'Existem registros na base para a competência, mas a tabela ficou vazia', c:'Verificar mapeamento de colunas'});
-  }
-
-  if(erros.length > 0) {
-    console.error('RELATÓRIO DE INCONSISTÊNCIAS:');
-    erros.forEach(e => console.table(e));
-  } else {
-    console.log('✅ Todos os testes aprovados!');
-  }
-}
+function bdgRisco(r){var m={'CRITICO':'bdg-d','URGENTE':'bdg-o','MODERADO':'bdg-w','BAIXO':'bdg-i','OK':'bdg-s'};var l={'CRITICO':'🔴 CRÍTICO','URGENTE':'🟠 URGENTE','MODERADO':'🟡 MODERADO','BAIXO':'🔵 BAIXO','OK':'✅ OK'};return '<span class="bdg '+(m[r]||'bdg-m')+'">'+(l[r]||r)+'</span>';}
+function covChip(d){if(d>=999) return '<span class="cov-chip s">∞</span>';if(d<=2) return '<span class="cov-chip c">'+d.toFixed(1)+'d ⚠</span>';if(d<=7) return '<span class="cov-chip w">'+d.toFixed(1)+'d</span>';return '<span class="cov-chip s">'+d.toFixed(1)+'d</span>';}
+function ofaChip(it){if(!it) return '';if(it.OFAAtrasada>0) return '<span class="ofa-chip atrasada">⏰ Atr. '+fN(Math.round(it.OFAAtrasada))+'sc</span>';if(it.OFAFora>0&&it.OFAHorizonte<=0) return '<span class="ofa-chip fora">Fora '+fN(Math.round(it.OFAFora))+'sc</span>';if(it.OFAHorizonte>0) return '<span class="ofa-chip semana">OFA '+fN(Math.round(it.OFAHorizonte))+'sc</span>';return '<span class="ofa-chip semdata">Sem OFA</span>';}
 </script>
 </body>
 </html>
