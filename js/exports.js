@@ -28,7 +28,14 @@ function expCSVProjecao(){
   dlCSV('projecao_temporal_v11.csv',rows.join('\n'));
 }
 
-function expCSVPrev(){var hdr=['Codigo','Produto','UM','Previsto','Realizado','Diferenca','Aderencia','Status'];var rows=[hdr.join(',')];G.prevItens.forEach(it=>rows.push(hdr.map(h=>csvEsc(it[h])).join(',')));dlCSV('previsao_realizado.csv',rows.join('\n'));}
+function expCSVPrev(){
+  // Usa a mesma lista filtrada exibida na tabela da página Previsão (getPrevisaoFiltrada, em previsao.js)
+  var hdr=['Codigo','Produto','UM','Competencia','EstoqueInicial','Previsto','Faturado','Produzido','NecessidadeProducao','SaldoFaturar','AtendimentoPct','ProducaoPct','CoberturaStatus','Status'];
+  var rows=[hdr.join(',')];
+  var its=(typeof getPrevisaoFiltrada==='function')?getPrevisaoFiltrada():(G.prevMensal||[]);
+  its.forEach(it=>rows.push(hdr.map(h=>{var val=it[h];if(typeof val==='number') return csvEsc(Math.round(val*100)/100);return csvEsc(val);}).join(',')));
+  dlCSV('previsao_mensal_v11.csv',rows.join('\n'));
+}
 
 function expCSVOrdens(){
   var hdr=['Ordem','Tipo','CodItem','Descricao','DtInicio','DtFim','Situacao','SituacaoDt','DiasRestantes','QtdePlan','QtdePend'];
