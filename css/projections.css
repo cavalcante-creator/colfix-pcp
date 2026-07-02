@@ -1,0 +1,60 @@
+/* ============================================================
+   projections.css
+   Estilos da Projeção Temporal: timeline heatmap, forecast de linhas, modal de projeção, sparkline, chips de ruptura
+   ============================================================ */
+
+/* ============================================================
+   ESTILOS PROJEÇÃO TEMPORAL — novos
+   ============================================================ */
+/* Timeline heatmap table */
+.timeline-wrap{overflow-x:auto;border-radius:var(--rlg);border:1px solid var(--border);background:var(--bg2);box-shadow:var(--shadow);margin-bottom:14px}
+.timeline-table{border-collapse:collapse;font-size:10px;min-width:900px}
+.timeline-table th{padding:6px 8px;background:var(--bg4);border:1px solid var(--border2);font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;white-space:nowrap;text-align:center}
+.timeline-table th.hoje{background:var(--accent-dim);color:var(--accent)}
+.timeline-table td{border:1px solid var(--border);padding:0;vertical-align:middle}
+.timeline-table tr:hover .tl-item-cell{background:var(--bg3)}
+.tl-item-cell{padding:6px 10px;white-space:nowrap;min-width:130px;cursor:pointer}
+.tl-item-cell:hover{background:var(--bg3)}
+.tl-cod{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent)}
+.tl-nome{font-size:9px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;max-width:110px}
+.tl-cell{width:62px;height:44px;text-align:center;cursor:pointer;transition:filter .1s}
+.tl-cell:hover{filter:brightness(.92)}
+.tl-cell-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:2px}
+.tl-saldo{font-family:var(--mono);font-size:10px;font-weight:700;line-height:1.2}
+.tl-label{font-size:8px;opacity:.75;margin-top:1px}
+/* Cell color states */
+.tl-cell.ruptura{background:#FDEAEA}
+.tl-cell.critico{background:#FDE8D0}
+.tl-cell.abaixo{background:#FFF8E1}
+.tl-cell.ok{background:#F0FAF4}
+.tl-cell.excesso{background:#E8F2F7}
+.tl-cell.ruptura .tl-saldo{color:var(--red)}
+.tl-cell.critico .tl-saldo{color:var(--orange)}
+.tl-cell.abaixo .tl-saldo{color:var(--yellow)}
+.tl-cell.ok .tl-saldo{color:var(--green)}
+.tl-cell.excesso .tl-saldo{color:var(--accent)}
+/* Ruptura badge na timeline */
+.rupt-badge{display:inline-flex;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--red);color:#fff;margin-top:2px}
+/* Linha forecast heatmap */
+.lf-table{border-collapse:collapse;font-size:10px;min-width:800px;width:100%}
+.lf-table th{padding:5px 6px;background:var(--bg4);border:1px solid var(--border2);font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;white-space:nowrap;text-align:center}
+.lf-table th.hoje{background:var(--accent-dim);color:var(--accent)}
+.lf-table td{border:1px solid var(--border);padding:4px 6px;text-align:center;font-family:var(--mono);font-size:10px;font-weight:600}
+.lf-label{padding:6px 10px;background:var(--bg3);text-align:left;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap;border:1px solid var(--border)}
+/* Projection chart modal */
+.proj-modal{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.45);backdrop-filter:blur(3px);align-items:center;justify-content:center}
+.proj-modal.open{display:flex}
+.proj-modal-box{background:var(--bg2);border-radius:var(--rlg);box-shadow:var(--shadow-md);padding:20px;width:700px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.proj-modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px}
+.proj-modal-title{font-size:15px;font-weight:700;color:var(--accent)}
+/* Sparkline */
+.spark{display:inline-block;vertical-align:middle}
+/* Ruptura countdown chips */
+.rupt-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid}
+.rupt-chip.c{background:var(--red-dim);color:var(--red);border-color:var(--red-mid)}
+.rupt-chip.w{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-mid)}
+.rupt-chip.s{background:var(--green-dim);color:var(--green);border-color:var(--green-mid)}
+.rupt-chip.n{background:var(--bg3);color:var(--text3);border-color:var(--border)}
+/* Sat chip */
+.sat-cell{font-family:var(--mono);font-size:10px;font-weight:600}
+

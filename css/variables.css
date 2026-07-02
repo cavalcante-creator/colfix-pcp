@@ -1,0 +1,25 @@
+/* ============================================================
+   variables.css
+   Design tokens: cores, fontes, raios, sombras, dimensões do layout
+   ============================================================ */
+
+
+:root{
+  --bg:#F7F5F0;--bg2:#FFFFFF;--bg3:#F2EFE9;--bg4:#EAE6DF;
+  --border:#DDD9D0;--border2:#C8C3B8;
+  --text:#1C1C1A;--text2:#5A574F;--text3:#9C9888;--text4:#C4C0B4;
+  --accent:#1B5C7A;--accent2:#236E93;--accent-dim:#E8F2F7;--accent-mid:#B8D6E5;
+  --green:#2D7D46;--green-dim:#E8F5ED;--green-mid:#A8D5B5;
+  --yellow:#8A6A00;--yellow-dim:#FFF8E1;--yellow-mid:#FFD966;
+  --red:#B83232;--red-dim:#FDEAEA;--red-mid:#F0A8A8;
+  --purple:#5B3FA6;--purple-dim:#EEE9FA;--purple-mid:#C4B0F0;
+  --orange:#A0470A;--orange-dim:#FFF0E6;--orange-mid:#F5C4A0;
+  --font:'DM Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+  --r:10px;--rsm:6px;--rlg:14px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.04);
+  --shadow-md:0 2px 8px rgba(0,0,0,.09),0 8px 24px rgba(0,0,0,.06);
+  --sidebar:228px;--topbar:52px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;line-height:1.5;overflow:hidden}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg3)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}

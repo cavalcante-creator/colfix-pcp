@@ -1,0 +1,48 @@
+/* ============================================================
+   layout.css
+   Estrutura macro: topbar, sidebar, navegação, área principal, cabeçalho de página
+   ============================================================ */
+
+/* TOPBAR */
+.topbar{height:var(--topbar);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--accent);box-shadow:0 2px 8px rgba(27,92,122,.35);z-index:50}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{font-family:var(--mono);font-size:15px;font-weight:700;color:#fff;letter-spacing:1px}
+.brand-sep{width:1px;height:16px;background:rgba(255,255,255,.25)}
+.brand-tag{font-size:10px;font-weight:600;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:2px}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.ts-chip{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.65);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:var(--rsm);padding:4px 10px}
+.status-pill{display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(255,255,255,.65);padding:4px 10px;border:1px solid rgba(255,255,255,.15);border-radius:var(--rsm);background:rgba(255,255,255,.08)}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#6EE7B7;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.tbtn{display:flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid rgba(255,255,255,.2);border-radius:var(--rsm);background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
+.tbtn:hover{background:rgba(255,255,255,.22);color:#fff}
+/* LAYOUT */
+#app{display:flex;flex-direction:column;height:100vh}
+.app-body{flex:1;display:flex;overflow:hidden}
+.sidebar{width:var(--sidebar);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.sb-brand{padding:14px 16px 12px;border-bottom:1px solid var(--border)}
+.sb-logo{width:32px;height:32px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:6px}
+.sb-logo svg{color:#fff;width:16px;height:16px}
+.sb-name{font-size:12px;font-weight:700;color:var(--accent)}
+.sb-sub{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
+.nav-sec{padding:14px 14px 4px;font-size:9px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:.1em}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;border-radius:var(--rsm);margin:1px 7px;color:var(--text2);font-size:12px;font-weight:500;border:1px solid transparent;transition:all .12s}
+.nav-item svg{width:15px;height:15px;flex-shrink:0;opacity:.7}
+.nav-item:hover{background:var(--bg3);color:var(--text);border-color:var(--border)}
+.nav-item.active{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-mid);font-weight:600}
+.nav-item.active svg{opacity:1}
+.nav-badge{margin-left:auto;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;background:var(--red-dim);color:var(--red);border:1px solid var(--red-mid)}
+.nav-badge.w{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-mid)}
+.nav-badge.p{background:var(--purple-dim);color:var(--purple);border-color:var(--purple-mid)}
+.nav-badge.o{background:var(--orange-dim);color:var(--orange);border-color:var(--orange-mid)}
+.nav-badge.g{background:var(--green-dim);color:var(--green);border-color:var(--green-mid)}
+.sb-footer{margin-top:auto;padding:12px 14px;border-top:1px solid var(--border);font-size:9px;color:var(--text3);font-family:var(--mono)}
+.main-content{flex:1;overflow-y:auto;background:var(--bg)}
+.page{display:none;padding:20px;animation:fi .18s ease}
+.page.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+/* PAGE HEADER */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.ph-title{font-size:18px;font-weight:700;color:var(--text)}
+.ph-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.ph-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}

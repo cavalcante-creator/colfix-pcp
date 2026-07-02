@@ -1,0 +1,267 @@
+{
+  "SALDO": [
+    {
+      "Código": "AB0001",
+      "Descrição": "ARGAMASSA BRANCA AC3 EMB PLASTICA 20 KG",
+      "Almox 3": 156,
+      "Almox 30": 1760,
+      "Almox 4": 105,
+      "Atualizado: 01/07/2026 15:00": 0,
+      "Unnamed: 6": 1841
+    },
+    {
+      "Código": "AB0002",
+      "Descrição": "ARGAMASSA BRANCA PIB EMB PLASTICA 20 KG",
+      "Almox 3": 420,
+      "Almox 30": 0,
+      "Almox 4": 0,
+      "Atualizado: 01/07/2026 15:00": 0,
+      "Unnamed: 6": 420
+    },
+    {
+      "Código": "AB0003",
+      "Descrição": "ARGAMASSA BRANCA AC3 GR FORMATOS PLASTICA 20 KG",
+      "Almox 3": 627,
+      "Almox 30": 440,
+      "Almox 4": 23,
+      "Atualizado: 01/07/2026 15:00": 0,
+      "Unnamed: 6": 2311
+    },
+    {
+      "Código": "AB0005",
+      "Descrição": "ARGAMASSA BRANCA MASSA LISA EMB PLASTICA 15 KG",
+      "Almox 3": 56,
+      "Almox 30": 0,
+      "Almox 4": 327,
+      "Atualizado: 01/07/2026 15:00": 0,
+      "Unnamed: 6": 845
+    },
+    {
+      "Código": "AB0006",
+      "Descrição": "ARGAMASSA BRANCA SECAGEM RAPIDA EMB PLASTICA 20 KG",
+      "Almox 3": 93,
+      "Almox 30": 0,
+      "Almox 4": 0,
+      "Atualizado: 01/07/2026 15:00": 0,
+      "Unnamed: 6": 209
+    }
+  ],
+  "PARAMETROS": [
+    {
+      "Cod. Item": "M00336",
+      "Desc. Tecnica": "AC3 BRANCO BLENDA",
+      "UM": "UN",
+      "Lote Min": 30,
+      "Lote Max": 60,
+      "Lote Mult": 0.0001,
+      "Estq. Seg": 0,
+      "Temp. Rep": 1,
+      "Temp. Seg": 0,
+      "Agrup.": 30,
+      "Planejador": "P01 - PLANEJADOR ARGAMASSA",
+      "Atualizado: 15/05/2026 16:25": 0.0
+    },
+    {
+      "Cod. Item": "FAC001",
+      "Desc. Tecnica": "ARG AC I NORMATIZADA 20 KG",
+      "UM": "SC",
+      "Lote Min": 1000,
+      "Lote Max": 6000,
+      "Lote Mult": 500.0,
+      "Estq. Seg": 0,
+      "Temp. Rep": 1,
+      "Temp. Seg": 0,
+      "Agrup.": 30,
+      "Planejador": "P01 - PLANEJADOR ARGAMASSA",
+      "Atualizado: 15/05/2026 16:25": 0.0
+    },
+    {
+      "Cod. Item": "FAC003",
+      "Desc. Tecnica": "ARG AC2 NORMATIZADA 20 KG",
+      "UM": "SC",
+      "Lote Min": 1000,
+      "Lote Max": 6000,
+      "Lote Mult": 500.0,
+      "Estq. Seg": 0,
+      "Temp. Rep": 1,
+      "Temp. Seg": 0,
+      "Agrup.": 30,
+      "Planejador": "P01 - PLANEJADOR ARGAMASSA",
+      "Atualizado: 15/05/2026 16:25": 0.0
+    },
+    {
+      "Cod. Item": "AB0010",
+      "Desc. Tecnica": "ARG AC3 SUPER FORMATOS 24 KG",
+      "UM": "CX",
+      "Lote Min": 0,
+      "Lote Max": 1000,
+      "Lote Mult": 25.0,
+      "Estq. Seg": 25,
+      "Temp. Rep": 0,
+      "Temp. Seg": 0,
+      "Agrup.": 15,
+      "Planejador": "P01 - PLANEJADOR ARGAMASSA",
+      "Atualizado: 15/05/2026 16:25": 0.75
+    },
+    {
+      "Cod. Item": "FAC005",
+      "Desc. Tecnica": "ARG NORMATIZADA AC3  20 KG",
+      "UM": "SC",
+      "Lote Min": 1000,
+      "Lote Max": 6000,
+      "Lote Mult": 500.0,
+      "Estq. Seg": 0,
+      "Temp. Rep": 1,
+      "Temp. Seg": 0,
+      "Agrup.": 30,
+      "Planejador": "P01 - PLANEJADOR ARGAMASSA",
+      "Atualizado: 15/05/2026 16:25": 0.0
+    }
+  ],
+  "PERFIL": [
+    {
+      "Data Relatorio": "2026-07-01T00:00:00.000",
+      "Item": "M00093",
+      "Tipo": "DD",
+      "Referencia": "OFA.346899",
+      "Data Inicio": "2026-06-29T00:00:00.000",
+      "Data Fim": "2026-06-30T00:00:00.000",
+      "Quantidade": -600,
+      "Atualizado: 01/07/2026 15:02": 2078.0
+    },
+    {
+      "Data Relatorio": "2026-07-01T00:00:00.000",
+      "Item": "M00093",
+      "Tipo": "DD",
+      "Referencia": "OFP.347318",
+      "Data Inicio": null,
+      "Data Fim": "2026-06-30T00:00:00.000",
+      "Quantidade": -2000,
+      "Atualizado: 01/07/2026 15:02": 78.0
+    },
+    {
+      "Data Relatorio": "2026-07-01T00:00:00.000",
+      "Item": "M00093",
+      "Tipo": "OFP",
+      "Referencia": 347416,
+      "Data Inicio": null,
+      "Data Fim": "2026-06-30T00:00:00.000",
+      "Quantidade": 400,
+      "Atualizado: 01/07/2026 15:02": 478.0
+    },
+    {
+      "Data Relatorio": "2026-07-01T00:00:00.000",
+      "Item": "AC0001",
+      "Tipo": "DP",
+      "Referencia": 272026,
+      "Data Inicio": "2026-07-02T00:00:00.000",
+      "Data Fim": "2026-06-29T00:00:00.000",
+      "Quantidade": -767,
+      "Atualizado: 01/07/2026 15:02": 2939.0
+    },
+    {
+      "Data Relatorio": "2026-07-01T00:00:00.000",
+      "Item": "AC0001",
+      "Tipo": "DC",
+      "Referencia": "1688.142280.",
+      "Data Inicio": null,
+      "Data Fim": "2026-06-30T00:00:00.000",
+      "Quantidade": -1,
+      "Atualizado: 01/07/2026 15:02": 2938.0
+    }
+  ],
+  "CAPACIDADE": [
+    {
+      "CODIGO": "AB0001",
+      "DESCRIÇÃO": "ARGAMASSA BRANCA AC3 EMB PLASTICA 20 KG",
+      "Capacidade almox 30": 1584,
+      "Capacidade Almox 3": 1056
+    },
+    {
+      "CODIGO": "AB0002",
+      "DESCRIÇÃO": "ARGAMASSA BRANCA PIB EMB PLASTICA 20 KG",
+      "Capacidade almox 30": 0,
+      "Capacidade Almox 3": 528
+    },
+    {
+      "CODIGO": "AB0003",
+      "DESCRIÇÃO": "ARGAMASSA BRANCA AC3 GR FORMATOS PLASTICA 20 KG",
+      "Capacidade almox 30": 1056,
+      "Capacidade Almox 3": 1056
+    },
+    {
+      "CODIGO": "AB0005",
+      "DESCRIÇÃO": "ARGAMASSA BRANCA MASSA LISA EMB PLASTICA 15 KG",
+      "Capacidade almox 30": 0,
+      "Capacidade Almox 3": 264
+    },
+    {
+      "CODIGO": "AB0006",
+      "DESCRIÇÃO": "ARGAMASSA BRANCA SECAGEM RAPIDA EMB PLASTICA 20 KG",
+      "Capacidade almox 30": 0,
+      "Capacidade Almox 3": 264
+    }
+  ],
+  "LINHAS": [
+    {
+      "CODIGO": "AB0001",
+      "DESCRIÇÃO": "ARGAMASSA BRANCA AC3 EMB PLASTICA 20 KG",
+      "PESO": 20,
+      "L1": false,
+      "L2": true,
+      "L3": true,
+      "AREA LIQUIDA": false,
+      "MQ 1": false,
+      "MAQ 2": false,
+      "FIXCOL": false
+    },
+    {
+      "CODIGO": "AB0002",
+      "DESCRIÇÃO": "ARGAMASSA BRANCA PIB EMB PLASTICA 20 KG",
+      "PESO": 20,
+      "L1": false,
+      "L2": false,
+      "L3": true,
+      "AREA LIQUIDA": false,
+      "MQ 1": false,
+      "MAQ 2": false,
+      "FIXCOL": false
+    },
+    {
+      "CODIGO": "AB0003",
+      "DESCRIÇÃO": "ARGAMASSA BRANCA AC3 GR FORMATOS PLASTICA 20 KG",
+      "PESO": 20,
+      "L1": false,
+      "L2": true,
+      "L3": false,
+      "AREA LIQUIDA": false,
+      "MQ 1": false,
+      "MAQ 2": false,
+      "FIXCOL": false
+    },
+    {
+      "CODIGO": "AB0005",
+      "DESCRIÇÃO": "ARGAMASSA BRANCA MASSA LISA EMB PLASTICA 15 KG",
+      "PESO": 15,
+      "L1": false,
+      "L2": false,
+      "L3": true,
+      "AREA LIQUIDA": false,
+      "MQ 1": false,
+      "MAQ 2": false,
+      "FIXCOL": false
+    },
+    {
+      "CODIGO": "AB0006",
+      "DESCRIÇÃO": "ARGAMASSA BRANCA SECAGEM RAPIDA EMB PLASTICA 20 KG",
+      "PESO": 20,
+      "L1": false,
+      "L2": false,
+      "L3": true,
+      "AREA LIQUIDA": false,
+      "MQ 1": false,
+      "MAQ 2": false,
+      "FIXCOL": false
+    }
+  ]
+}
